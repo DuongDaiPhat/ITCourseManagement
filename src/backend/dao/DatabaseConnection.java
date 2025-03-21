@@ -3,10 +3,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import utils.ConfigReader;
+
 public class DatabaseConnection {
-	private static final String URL = "jdbc:mysql://localhost:3306/it_course_management";
-    private static final String USER = "root";
-    private static final String PASSWORD = "Phatdaiduong521@";
     private static Connection connection = null;
 
     // Phương thức lấy kết nối
@@ -15,9 +14,11 @@ public class DatabaseConnection {
             try {
                 // Đăng ký MySQL Driver 
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                
+                String url = ConfigReader.get("db.url");
+                String user = ConfigReader.get("db.user");
+                String password = ConfigReader.get("db.password");
                 // Thiết lập kết nối
-                connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                connection = DriverManager.getConnection(url, user, password);
                 System.out.println("Kết nối MySQL thành công!");
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
