@@ -6,7 +6,7 @@ CREATE TABLE MyCart (
     CourseID INT NOT NULL,
     IsBuy BIT DEFAULT 0,
     AddedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (UserID, CourseID)  -- Đảm bảo mỗi User không thêm cùng một Course nhiều lần
+    PRIMARY KEY (UserID, CourseID) 
 );
 
 
