@@ -25,3 +25,4 @@ replay_pid*
 
 #khong day file config.properties len
 resources/config.properties
+/bin/

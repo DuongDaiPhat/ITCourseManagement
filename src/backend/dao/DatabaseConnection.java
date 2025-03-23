@@ -1,4 +1,5 @@
 package backend.dao;
+import java.security.DomainCombiner;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -41,4 +42,8 @@ public class DatabaseConnection {
             }
         }
     }
+    
+    public static void main(String[] args) {
+		getConnection();
+	}
 }
