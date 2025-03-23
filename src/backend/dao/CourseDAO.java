@@ -68,10 +68,19 @@ public class CourseDAO implements DAOInterface<Courses>{
 
 	@Override
 	public int Delete(Courses t) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	    int result = 0;
+	    String sql = "DELETE FROM COURSES WHERE COURSEID = ?";
+	    try (Connection con = DatabaseConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
 
+	        ps.setString(1, t.getCourseID() + "");
+	        result = ps.executeUpdate();
+	        System.out.println("Delete executed. " + result + " row(s) affected");
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return result;
+	}
 	@Override
 	public ArrayList<Courses> SelectAll() throws SQLException {
 		// TODO Auto-generated method stub
