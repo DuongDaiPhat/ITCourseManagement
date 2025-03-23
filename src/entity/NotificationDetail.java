@@ -1,0 +1,28 @@
+package entity;
+
+public class NotificationDetail {
+	private int notificationID;
+    private int userID;
+    private NotificationStatus status = NotificationStatus.UNREAD;
+    
+	public int getNotificationID() {
+		return notificationID;
+	}
+	public void setNotificationID(int notificationID) {
+		this.notificationID = notificationID;
+	}
+	public int getUserID() {
+		return userID;
+	}
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	public NotificationStatus getStatus() {
+		return status;
+	}
+	public void setStatus(NotificationStatus status) {
+		this.status = status;
+	}
+    
+    
+}
