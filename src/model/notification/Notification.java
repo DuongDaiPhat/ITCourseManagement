@@ -1,4 +1,4 @@
-package entity;
+package model.notification;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

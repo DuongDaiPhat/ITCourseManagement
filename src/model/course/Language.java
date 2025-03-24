@@ -1,4 +1,4 @@
-package entity;
+package model.course;
 
 public enum Language {
 	English, Vietnamese, Spanish, French, German, Chinese, Japanese, Korean,

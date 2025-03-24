@@ -1,4 +1,4 @@
-package entity;
+package model.lecture;
 
 public class Lecture {
 	private int lectureId;

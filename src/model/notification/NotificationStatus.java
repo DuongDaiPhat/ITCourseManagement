@@ -1,4 +1,4 @@
-package entity;
+package model.notification;
 
 public enum NotificationStatus {
 	UNREAD,

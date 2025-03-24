@@ -1,4 +1,4 @@
-package entity;
+package model.user;
 
 public class UserPayment {
 	private int paymentID;

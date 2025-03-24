@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import entity.Users;
+import model.user.Users;
 
 public class UsersDAO implements DAOInterface<Users>{
 	public static UsersDAO getInstance() {

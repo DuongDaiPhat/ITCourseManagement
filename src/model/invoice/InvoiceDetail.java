@@ -1,4 +1,4 @@
-package entity;
+package model.invoice;
 
 public class InvoiceDetail {
 	private int invoiceID;

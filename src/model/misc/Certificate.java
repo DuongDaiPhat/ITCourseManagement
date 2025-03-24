@@ -1,4 +1,4 @@
-package entity;
+package model.misc;
 
 public class Certificate {
     private int certificateId;     

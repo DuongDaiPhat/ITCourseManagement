@@ -1,4 +1,4 @@
-package entity;
+package model.course;
 
 public enum ProgrammingLanguage {
 	Java, C, Cpp, CSharp, Python, JavaScript, TypeScript,

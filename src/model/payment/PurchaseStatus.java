@@ -1,4 +1,4 @@
-package entity;
+package model.payment;
 
 public enum PurchaseStatus {
 	NOT_BOUGHT(0),

@@ -1,4 +1,4 @@
-package entity;
+package model.user;
 
 public class Roles {
 	int roleID;

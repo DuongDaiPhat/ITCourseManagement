@@ -1,4 +1,4 @@
-package entity;
+package model.course;
 
 public class CourseCategories {
 	private int courseId;

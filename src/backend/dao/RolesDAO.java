@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import entity.Roles;
+import model.user.Roles;
 
 public class RolesDAO implements DAOInterface<Roles>{
 	

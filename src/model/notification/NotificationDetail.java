@@ -1,4 +1,4 @@
-package entity;
+package model.notification;
 
 public class NotificationDetail {
 	private int notificationID;

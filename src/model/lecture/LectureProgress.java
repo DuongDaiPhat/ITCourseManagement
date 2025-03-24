@@ -1,4 +1,4 @@
-package entity;
+package model.lecture;
 
 public class LectureProgress {
     private int userId;              

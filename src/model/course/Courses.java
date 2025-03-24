@@ -1,4 +1,4 @@
-package entity;
+package model.course;
 import java.time.LocalDateTime;
 
 public class Courses {
