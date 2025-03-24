@@ -19,10 +19,10 @@ public class DatabaseConnection {
                 String password = ConfigReader.get("db.password");
                 // Thiết lập kết nối
                 connection = DriverManager.getConnection(url, user, password);
-                System.out.println("Kết nối MySQL thành công!");
+                System.out.println("Connect to MySQL successfully!");
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
-                System.out.println("Lỗi kết nối MySQL!");
+                System.out.println("Error: Can't connect to MySQL!");
             }
         }
         return connection;
