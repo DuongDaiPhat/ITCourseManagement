@@ -3,14 +3,9 @@ package backend.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import entity.Courses;
-import entity.Language;
-import entity.Level;
-import entity.ProgrammingLanguage;
+import model.course.Courses;
 
 public class CourseDAO implements DAOInterface<Courses>{
 

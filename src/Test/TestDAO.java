@@ -1,14 +1,10 @@
 package Test;
 
-import entity.Courses;
-import entity.Language;
-import entity.Level;
-import entity.ProgrammingLanguage;
-
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import backend.dao.CourseDAO;
+import model.course.*;
 
 //private int courseID;
 //private String courseName;
