@@ -1,5 +1,6 @@
 package backend.dao;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -13,29 +14,28 @@ public class UsersDAO implements DAOInterface<Users>{
 	@Override
 	public int Insert(Users t) throws SQLException {
 		int result = 0;
-		try {
-			Connection con = DatabaseConnection.getConnection();
-			Statement st = con.createStatement();
-			String sql = "INSERT INTO USERS(USERID, ROLEID, USERFULLNAME, USERNAME, PASSWORD, PHONENUMBER, EMAIL, DESCRIPTION, STATUS, CREATEDAT) VALUES"
-					+ "('"+t.getUserID()
-					+"','"+t.getRoleID()
-					+"',N'"+t.getUserFullName()
-					+"',N'"+t.getUserName()
-					+"','"+t.getPassword()
-					+"','"+t.getPhoneNumber()
-					+"','"+t.getEmail()
-					+"','"+t.getDescription()
-					+"','"+t.getStatus()
-					+"','"+t.getCreatedAt()
-					+"');";
-			System.out.println(sql);
-			result = st.executeUpdate(sql);
-			System.out.println(sql + " executed");
-			System.out.println(result + " row(s) affected");
-			DatabaseConnection.closeConnection();
-		} catch (SQLException e) {
+		String sql = "INSERT INTO USERS(ROLEID, USERFULLNAME,USERNAME,PASSWORD, PHONENUMBER, EMAIL, DESCRIPTION, STATUS, CREATEDAT)"
+				+ "VALUES (?,?,?,?,?,?,?,?,?);";
+		try(Connection con = DatabaseConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)){
+			ps.setString(1, t.getRoleID() + "");
+			ps.setString(2, t.getUserFullName());
+			ps.setString(3, t.getUserName());
+			ps.setString(4, t.getPassword());
+			ps.setString(5, t.getPhoneNumber());
+			ps.setString(6, t.getEmail());
+			ps.setString(7, t.getDescription());
+			ps.setString(8, t.getStatus() + "");
+			ps.setString(9,t.getCreatedAt() + "");
+			result = ps.executeUpdate();
+			System.out.println(result + " row(s) afffected");
+		}
+		catch(SQLException e) {
 			e.printStackTrace();
 		}
+		finally {
+	    	DatabaseConnection.closeConnection();
+	    }
 		return result;
 	}
 
@@ -58,7 +58,7 @@ public class UsersDAO implements DAOInterface<Users>{
 	}
 
 	@Override
-	public Users SelectByID(Users t) {
+	public Users SelectByID(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

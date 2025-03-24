@@ -122,6 +122,17 @@ public class Courses {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	@Override
+	public String toString() {
+		return "Courses [courseID=" + courseID + ", courseName=" + courseName + ", language=" + language
+				+ ", programmingLanguage=" + programmingLanguage + ", level=" + level + ", userID=" + userID
+				+ ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription=" + CourseDescription
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	}
 	
+	public void print() {
+		System.out.println(this.toString());
+	}
 	
 }
