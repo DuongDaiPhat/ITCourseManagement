@@ -1,10 +1,16 @@
 package Test;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import backend.dao.CourseDAO;
+import backend.dao.UsersDAO;
 import model.course.*;
+import model.user.UserStatus;
+import model.user.Users;
 
 //private int courseID;
 //private String courseName;
@@ -20,7 +26,11 @@ import model.course.*;
 
 public class TestDAO {
 	public static void main(String[] args) throws SQLException {
-		Courses c1 = new Courses(1, "Lập trình Java", Language.Vietnamese, ProgrammingLanguage.Java, Level.BEGINNER, 1, "thumbnailURL", 399000f,"Khóa học cơ bản dành cho lập trình Java", LocalDateTime.now(), LocalDateTime.now());
-		CourseDAO.getInstance().Insert(c1);
+		//EXAMPLE:
+		List<Courses> coursesList = new ArrayList<Courses>();
+		coursesList = CourseDAO.getInstance().SelectByCondition("PRICE > 400000");
+		for(Courses i : coursesList) {
+			i.print();
+		}
 	}
 }
