@@ -1,8 +1,8 @@
 package backend.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.user.Roles;
@@ -15,59 +15,57 @@ public class RolesDAO implements DAOInterface<Roles>{
 	@Override
 	public int Insert(Roles t) throws SQLException {
 		int result = 0;
-		try {
-			Connection con = DatabaseConnection.getConnection();
-			Statement st = con.createStatement();
-			String sql = "INSERT INTO ROLES(ROLEID, ROLENAME)" + 
-						  "VALUES('"+t.getRoleID()+ "',N'" +t.getRoleName() + "');";
-			result = st.executeUpdate(sql);
-			System.out.println(sql + " executed");
+		String sql = "INSERT INTO ROLE(ROLENAME) VALUES(?);";
+		try (Connection con = DatabaseConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)){
+			result = ps.executeUpdate();
 			System.out.println(result + " row(s) affected");
 			DatabaseConnection.closeConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+	    	DatabaseConnection.closeConnection();
+	    }
 		return result;
 	}
 
 	@Override
 	public int Update(Roles t) throws SQLException {
 		int result = 0;
-		try {
-			Connection con = DatabaseConnection.getConnection();
-			Statement st = con.createStatement();
-			String sql = "UPDATE ROLES "
-						+ "SET "
-						+ "ROLENAME = N'" + t.getRoleName() + "' "
-						+ "WHERE ROLEID = '" + t.getRoleID() + "';";
-			result = st.executeUpdate(sql);
-			System.out.println(sql + " executed");
+		String sql = "UPDATE ROLES SET ROLENAME = ? WHERE ROLEID = ?;";
+		try(Connection con = DatabaseConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setString(1,t.getRoleName());
+			ps.setInt(2, t.getRoleID());
+			result = ps.executeUpdate();
 			System.out.println(result + " row(s) affected");
 			DatabaseConnection.closeConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+	    	DatabaseConnection.closeConnection();
+	    }
 		return result;
 	}
 
 	@Override
 	public int Delete(Roles t) throws SQLException {
 		int result = 0;
-		try {
-			Connection con = DatabaseConnection.getConnection();
-			Statement st = con.createStatement();
-			String sql = "DELETE FROM ROLES "
-					+ "WHERE ROLEID = '" + t.getRoleID()+  "';";
-			result = st.executeUpdate(sql);
-			System.out.println(sql + " executed");
+		String sql = "DELETE FROM ROLES WHERE ROLEID = ?;";
+		try(Connection con = DatabaseConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, t.getRoleID());
+			result = ps.executeUpdate();
 			System.out.println(result + " row(s) affected");
 			DatabaseConnection.closeConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		finally {
+	    	DatabaseConnection.closeConnection();
+	    }
 		return result;
 	}
 
@@ -78,7 +76,7 @@ public class RolesDAO implements DAOInterface<Roles>{
 	}
 
 	@Override
-	public Roles SelectByID(Roles t) {
+	public Roles SelectByID(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -13,7 +13,7 @@ public interface DAOInterface <T>{
 	
 	public ArrayList<T> SelectAll() throws SQLException;
 	
-	public T SelectByID(T t) throws SQLException;
+	public T SelectByID(int id) throws SQLException;
 	
 	public ArrayList<T> SelectByCondition(String condition) throws SQLException;
 }
