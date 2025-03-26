@@ -1,37 +1,39 @@
 package entity;
 
-import java.util.Date;
+import model.user.CourseStatus;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class MyLearning {
-	private int userId;
-	private int courseId;
+	private int userID;
+	private int courseID;
 	private CourseStatus courseStatus;
-	private Date lastAccessedAt;
+	private LocalDateTime lastAccessedAt;
 
 	public MyLearning() {
 	}
 
-	public MyLearning(int userId, int courseId, CourseStatus courseStatus, Date lastAccessedAt) {
-		this.userId = userId;
-		this.courseId = courseId;
+	public MyLearning(int userID, int courseID, CourseStatus courseStatus, LocalDateTime lastAccessedAt) {
+		this.userID = userID;
+		this.courseID = courseID;
 		this.courseStatus = courseStatus;
 		this.lastAccessedAt = lastAccessedAt;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
-	public int getCourseId() {
-		return courseId;
+	public int getCourseID() {
+		return courseID;
 	}
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
+	public void setCourseID(int courseID) {
+		this.courseID = courseID;
 	}
 
 	public CourseStatus getCourseStatus() {
@@ -42,11 +44,36 @@ public class MyLearning {
 		this.courseStatus = courseStatus;
 	}
 
-	public Date getLastAccessedAt() {
+	public LocalDateTime getLastAccessedAt() {
 		return lastAccessedAt;
 	}
 
-	public void setLastAccessedAt(Date lastAccessedAt) {
+	public void setLastAccessedAt(LocalDateTime lastAccessedAt) {
 		this.lastAccessedAt = lastAccessedAt;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		MyLearning that = (MyLearning) o;
+		return userID == that.userID && courseID == that.courseID;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(userID, courseID);
+	}
+
+	@Override
+	public String toString() {
+		return "MyLearning{" + "userID=" + userID + ", courseID=" + courseID + ", courseStatus=" + courseStatus
+				+ ", lastAccessedAt=" + lastAccessedAt + '}';
+	}
+
+	public void print() {
+		System.out.println(this.toString());
 	}
 }

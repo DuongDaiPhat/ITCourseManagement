@@ -1,40 +1,67 @@
 package entity;
 
+import java.util.Objects;
+
 public class Certificate {
-    private int certificateId;     
-    private String certificateName; 
-    private int courseId;        
-    
-    public Certificate() {
-    }
+	private int certificateID;
+	private String certificateName;
+	private int courseID;
 
-    public Certificate(int certificateId, String certificateName, int courseId) {
-        this.certificateId = certificateId;
-        this.certificateName = certificateName;
-        this.courseId = courseId;
-    }
+	public Certificate() {
+	}
 
-    public int getCertificateId() {
-        return certificateId;
-    }
+	public Certificate(int certificateID, String certificateName, int courseID) {
+		this.certificateID = certificateID;
+		this.certificateName = certificateName;
+		this.courseID = courseID;
+	}
 
-    public void setCertificateId(int certificateId) {
-        this.certificateId = certificateId;
-    }
+	public int getCertificateID() {
+		return certificateID;
+	}
 
-    public String getCertificateName() {
-        return certificateName;
-    }
+	public void setCertificateID(int certificateID) {
+		this.certificateID = certificateID;
+	}
 
-    public void setCertificateName(String certificateName) {
-        this.certificateName = certificateName;
-    }
+	public String getCertificateName() {
+		return certificateName;
+	}
 
-    public int getCourseId() {
-        return courseId;
-    }
+	public void setCertificateName(String certificateName) {
+		this.certificateName = certificateName;
+	}
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
+	public int getCourseID() {
+		return courseID;
+	}
+
+	public void setCourseID(int courseID) {
+		this.courseID = courseID;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Certificate that = (Certificate) o;
+		return certificateID == that.certificateID;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(certificateID);
+	}
+
+	@Override
+	public String toString() {
+		return "Certificate{" + "certificateID=" + certificateID + ", certificateName='" + certificateName + '\''
+				+ ", courseID=" + courseID + '}';
+	}
+
+	public void print() {
+		System.out.println(this.toString());
+	}
 }

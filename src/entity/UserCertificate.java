@@ -1,42 +1,68 @@
 package entity;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Objects;
 
 public class UserCertificate {
-	private int certificateId;
-	private int userId;
-	private Date issueDate;
+	private int certificateID;
+	private int userID;
+	private LocalDate issueDate;
 
 	public UserCertificate() {
 	}
 
-	public UserCertificate(int certificateId, int userId, Date issueDate) {
-		this.certificateId = certificateId;
-		this.userId = userId;
+	public UserCertificate(int certificateID, int userID, LocalDate issueDate) {
+		this.certificateID = certificateID;
+		this.userID = userID;
 		this.issueDate = issueDate;
 	}
 
-	public int getCertificateId() {
-		return certificateId;
+	public int getCertificateID() {
+		return certificateID;
 	}
 
-	public void setCertificateId(int certificateId) {
-		this.certificateId = certificateId;
+	public void setCertificateID(int certificateID) {
+		this.certificateID = certificateID;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
-	public Date getIssueDate() {
+	public LocalDate getIssueDate() {
 		return issueDate;
 	}
 
-	public void setIssueDate(Date issueDate) {
+	public void setIssueDate(LocalDate issueDate) {
 		this.issueDate = issueDate;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		UserCertificate that = (UserCertificate) o;
+		return certificateID == that.certificateID && userID == that.userID;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(certificateID, userID);
+	}
+
+	@Override
+	public String toString() {
+		return "UserCertificate{" + "certificateID=" + certificateID + ", userID=" + userID + ", issueDate=" + issueDate
+				+ '}';
+	}
+
+	public void print() {
+		System.out.println(this.toString());
 	}
 }
