@@ -1,30 +1,56 @@
 package model.course;
 
+import java.util.Objects;
+
 public class Categories {
-    private int categoryId;         
-    private String categoryName;  
-    
-    public Categories() {
-    }
+	private int categoryID;
+	private String categoryName;
 
-    public Categories(int categoryId, String categoryName) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-    }
+	public Categories() {
+	}
 
-    public int getCategoryId() {
-        return categoryId;
-    }
+	public Categories(int categoryID, String categoryName) {
+		this.categoryID = categoryID;
+		this.categoryName = categoryName;
+	}
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
+	public int getCategoryID() {
+		return categoryID;
+	}
 
-    public String getCategoryName() {
-        return categoryName;
-    }
+	public void setCategoryID(int categoryID) {
+		this.categoryID = categoryID;
+	}
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Categories that = (Categories) o;
+		return categoryID == that.categoryID;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(categoryID);
+	}
+
+	@Override
+	public String toString() {
+		return "Categories{" + "categoryID=" + categoryID + ", categoryName='" + categoryName + '\'' + '}';
+	}
+
+	public void print() {
+		System.out.println(this.toString());
+	}
 }
