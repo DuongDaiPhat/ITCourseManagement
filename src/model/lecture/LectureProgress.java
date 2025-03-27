@@ -1,40 +1,67 @@
 package model.lecture;
 
+import model.lecture.LectureStatus;
+import java.util.Objects;
+
 public class LectureProgress {
-    private int userId;              
-    private int lectureId;         
-    private LectureProgressStatus status; 
+	private int userID;
+	private int lectureID;
+	private LectureStatus status;
 
-    public LectureProgress() {
-    }
-    
-    public LectureProgress(int userId, int lectureId, LectureProgressStatus status) {
-        this.userId = userId;
-        this.lectureId = lectureId;
-        this.status = status;
-    }
+	public LectureProgress() {
+	}
 
-    public int getUserId() {
-        return userId;
-    }
+	public LectureProgress(int userID, int lectureID, LectureStatus status) {
+		this.userID = userID;
+		this.lectureID = lectureID;
+		this.status = status;
+	}
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+	public int getUserID() {
+		return userID;
+	}
 
-    public int getLectureId() {
-        return lectureId;
-    }
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
 
-    public void setLectureId(int lectureId) {
-        this.lectureId = lectureId;
-    }
+	public int getLectureID() {
+		return lectureID;
+	}
 
-    public LectureProgressStatus getStatus() {
-        return status;
-    }
+	public void setLectureID(int lectureID) {
+		this.lectureID = lectureID;
+	}
 
-    public void setStatus(LectureProgressStatus status) {
-        this.status = status;
-    }
+	public LectureStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(LectureStatus status) {
+		this.status = status;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		LectureProgress that = (LectureProgress) o;
+		return userID == that.userID && lectureID == that.lectureID;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(userID, lectureID);
+	}
+
+	@Override
+	public String toString() {
+		return "LectureProgress{" + "userID=" + userID + ", lectureID=" + lectureID + ", status=" + status + '}';
+	}
+
+	public void print() {
+		System.out.println(this.toString());
+	}
 }

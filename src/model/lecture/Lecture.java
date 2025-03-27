@@ -1,71 +1,86 @@
 package model.lecture;
 
+import java.time.LocalDateTime;
+
 public class Lecture {
-	private int lectureId;
-	private String lectureName;
-	private int courseId;
-	private String videoUrl;
-	private int duration;
-	private String lectureDescription;
+    private int lectureID;
+    private String lectureName;
+    private int courseID;
+    private String videoURL;
+    private short duration;
+    private String lectureDescription;
+    
+    public Lecture() {
+        super();
+    }
 
-	public Lecture() {
-	}
+    public Lecture(int lectureID, String lectureName, int courseID, String videoURL, short duration,
+            String lectureDescription) {
+        super();
+        this.lectureID = lectureID;
+        this.lectureName = lectureName;
+        this.courseID = courseID;
+        this.videoURL = videoURL;
+        this.duration = duration;
+        this.lectureDescription = lectureDescription;
+    }
 
-	public Lecture(int lectureId, String lectureName, int courseId, String videoUrl, int duration,
-			String lectureDescription) {
-		this.lectureId = lectureId;
-		this.lectureName = lectureName;
-		this.courseId = courseId;
-		this.videoUrl = videoUrl;
-		this.duration = duration;
-		this.lectureDescription = lectureDescription;
-	}
+    public int getLectureID() {
+        return lectureID;
+    }
 
-	public int getLectureId() {
-		return lectureId;
-	}
+    public void setLectureID(int lectureID) {
+        this.lectureID = lectureID;
+    }
 
-	public void setLectureId(int lectureId) {
-		this.lectureId = lectureId;
-	}
+    public String getLectureName() {
+        return lectureName;
+    }
 
-	public String getLectureName() {
-		return lectureName;
-	}
+    public void setLectureName(String lectureName) {
+        this.lectureName = lectureName;
+    }
 
-	public void setLectureName(String lectureName) {
-		this.lectureName = lectureName;
-	}
+    public int getCourseID() {
+        return courseID;
+    }
 
-	public int getCourseId() {
-		return courseId;
-	}
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
+    }
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
-	}
+    public String getVideoURL() {
+        return videoURL;
+    }
 
-	public String getVideoUrl() {
-		return videoUrl;
-	}
+    public void setVideoURL(String videoURL) {
+        this.videoURL = videoURL;
+    }
 
-	public void setVideoUrl(String videoUrl) {
-		this.videoUrl = videoUrl;
-	}
+    public short getDuration() {
+        return duration;
+    }
 
-	public int getDuration() {
-		return duration;
-	}
+    public void setDuration(short duration) {
+        this.duration = duration;
+    }
 
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
+    public String getLectureDescription() {
+        return lectureDescription;
+    }
 
-	public String getLectureDescription() {
-		return lectureDescription;
-	}
+    public void setLectureDescription(String lectureDescription) {
+        this.lectureDescription = lectureDescription;
+    }
 
-	public void setLectureDescription(String lectureDescription) {
-		this.lectureDescription = lectureDescription;
-	}
+    @Override
+    public String toString() {
+        return "Lecture [lectureID=" + lectureID + ", lectureName=" + lectureName + ", courseID=" + courseID
+                + ", videoURL=" + videoURL + ", duration=" + duration + ", lectureDescription=" + lectureDescription
+                + "]";
+    }
+    
+    public void print() {
+        System.out.println(this.toString());
+    }
 }
