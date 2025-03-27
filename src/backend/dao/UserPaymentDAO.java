@@ -3,7 +3,6 @@ package backend.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import model.user.UserPayment;
-import backend.dao.DatabaseConnection;
 
 public class UserPaymentDAO implements DAOInterface<UserPayment> {
     

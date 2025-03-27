@@ -26,11 +26,13 @@ import model.user.Users;
 
 public class TestDAO {
 	public static void main(String[] args) throws SQLException {
-		//EXAMPLE:
+		//SELECT BY CONDITION EXAMPLE:
 		List<Courses> coursesList = new ArrayList<Courses>();
 		coursesList = CourseDAO.getInstance().SelectByCondition("PRICE > 400000");
 		for(Courses i : coursesList) {
 			i.print();
 		}
+		//SELECT BY ID EXAMPLE:
+		
 	}
 }

@@ -3,7 +3,6 @@ package backend.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import model.notification.Notification;
-import backend.dao.DatabaseConnection;
 
 public class NotificationDAO implements DAOInterface<Notification> {
     

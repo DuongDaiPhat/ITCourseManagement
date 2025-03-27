@@ -3,7 +3,6 @@ package backend.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import model.invoice.Invoice;
-import backend.dao.DatabaseConnection;
 
 public class InvoiceDAO implements DAOInterface<Invoice> {
     

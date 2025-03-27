@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import model.notification.NotificationDetail;
 import model.notification.NotificationStatus;
-import backend.dao.DatabaseConnection;
 
 public class NotificationDetailDao implements DAOInterface<NotificationDetail> {
     

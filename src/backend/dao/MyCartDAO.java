@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import backend.dao.DatabaseConnection;
 
 import model.user.MyCart;
 
