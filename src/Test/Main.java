@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import backend.dao.InvoiceDAO;
 import backend.dao.MyCartDAO;
 import backend.dao.NotificationDAO;
-import backend.dao.NotificationDetailDao;
+import backend.dao.UserNotificationDAO;
 import backend.dao.PaymentDAO;
 import model.invoice.Invoice;
 import model.notification.Notification;
-import model.notification.NotificationDetail;
+import model.notification.UserNotification;
 import model.notification.NotificationStatus;
 import model.payment.Payment;
 /*

@@ -2,19 +2,19 @@ package backend.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
-import model.notification.NotificationDetail;
+import model.notification.UserNotification;
 import model.notification.NotificationStatus;
 
-public class NotificationDetailDao implements DAOInterface<NotificationDetail> {
+public class UserNotificationDAO implements DAOInterface<UserNotification> {
     
     private Connection connection;
 
-    public NotificationDetailDao() {
+    public UserNotificationDAO() {
         this.connection = DatabaseConnection.getConnection();
     }
 
     @Override
-    public int Insert(NotificationDetail notificationDetail) throws SQLException {
+    public int Insert(UserNotification notificationDetail) throws SQLException {
         String sql = "INSERT INTO notificationdetail (notificationID, userID, status) VALUES (?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         statement.setInt(1, notificationDetail.getNotificationID());
@@ -34,7 +34,7 @@ public class NotificationDetailDao implements DAOInterface<NotificationDetail> {
     }
 
     @Override
-    public int Update(NotificationDetail notificationDetail) throws SQLException {
+    public int Update(UserNotification notificationDetail) throws SQLException {
         String sql = "UPDATE notificationdetail SET status = ? WHERE notificationID = ? AND userID = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, notificationDetail.getStatus().name());
@@ -45,7 +45,7 @@ public class NotificationDetailDao implements DAOInterface<NotificationDetail> {
     }
 
     @Override
-    public int Delete(NotificationDetail notificationDetail) throws SQLException {
+    public int Delete(UserNotification notificationDetail) throws SQLException {
         String sql = "DELETE FROM notificationdetail WHERE notificationID = ? AND userID = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, notificationDetail.getNotificationID());
@@ -55,14 +55,14 @@ public class NotificationDetailDao implements DAOInterface<NotificationDetail> {
     }
 
     @Override
-    public ArrayList<NotificationDetail> SelectAll() throws SQLException {
-        ArrayList<NotificationDetail> notificationDetails = new ArrayList<>();
+    public ArrayList<UserNotification> SelectAll() throws SQLException {
+        ArrayList<UserNotification> notificationDetails = new ArrayList<>();
         String sql = "SELECT * FROM notificationdetail";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
 
         while (resultSet.next()) {
-            NotificationDetail notificationDetail = new NotificationDetail(
+            UserNotification notificationDetail = new UserNotification(
                 resultSet.getInt("notificationID"),
                 resultSet.getInt("userID"),
                 NotificationStatus.valueOf(resultSet.getString("status").toUpperCase())
@@ -73,14 +73,14 @@ public class NotificationDetailDao implements DAOInterface<NotificationDetail> {
     }
 
     @Override
-    public NotificationDetail SelectByID(int id) throws SQLException {
+    public UserNotification SelectByID(int id) throws SQLException {
         String sql = "SELECT * FROM notificationdetail WHERE notificationID = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
-            return new NotificationDetail(
+            return new UserNotification(
                 resultSet.getInt("notificationID"),
                 resultSet.getInt("userID"),
                 NotificationStatus.valueOf(resultSet.getString("status"))
@@ -90,14 +90,14 @@ public class NotificationDetailDao implements DAOInterface<NotificationDetail> {
     }
 
     @Override
-    public ArrayList<NotificationDetail> SelectByCondition(String condition) throws SQLException {
-        ArrayList<NotificationDetail> notificationDetails = new ArrayList<>();
+    public ArrayList<UserNotification> SelectByCondition(String condition) throws SQLException {
+        ArrayList<UserNotification> notificationDetails = new ArrayList<>();
         String sql = "SELECT * FROM notificationdetail WHERE " + condition;
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
 
         while (resultSet.next()) {
-            NotificationDetail notificationDetail = new NotificationDetail(
+            UserNotification notificationDetail = new UserNotification(
                 resultSet.getInt("notificationID"),
                 resultSet.getInt("userID"),
                 NotificationStatus.valueOf(resultSet.getString("status"))
