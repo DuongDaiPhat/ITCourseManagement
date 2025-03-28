@@ -9,10 +9,10 @@ public class Notification {
     private String notificationName;
     private String content;
     private LocalDateTime notifiedAt = LocalDateTime.now();
-    private List<NotificationDetail> notificationDetails = new ArrayList<>();
+    private List<UserNotification> notificationDetails = new ArrayList<>();
     
 	public Notification(int notificationID, String notificationName, String content, LocalDateTime notifiedAt,
-			List<NotificationDetail> notificationDetails) {
+			List<UserNotification> notificationDetails) {
 		super();
 		this.notificationID = notificationID;
 		this.notificationName = notificationName;
@@ -45,10 +45,10 @@ public class Notification {
 	public void setNotifiedAt(LocalDateTime notifiedAt) {
 		this.notifiedAt = notifiedAt;
 	}
-	public List<NotificationDetail> getNotificationDetails() {
+	public List<UserNotification> getNotificationDetails() {
 		return notificationDetails;
 	}
-	public void setNotificationDetails(List<NotificationDetail> notificationDetails) {
+	public void setNotificationDetails(List<UserNotification> notificationDetails) {
 		this.notificationDetails = notificationDetails;
 	}  
 }

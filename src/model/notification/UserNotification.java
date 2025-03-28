@@ -1,11 +1,11 @@
 package model.notification;
 
-public class NotificationDetail {
+public class UserNotification {
 	private int notificationID;
     private int userID;
     private NotificationStatus status = NotificationStatus.UNREAD;
     
-	public NotificationDetail(int notificationID, int userID, NotificationStatus status) {
+	public UserNotification(int notificationID, int userID, NotificationStatus status) {
 		super();
 		this.notificationID = notificationID;
 		this.userID = userID;
