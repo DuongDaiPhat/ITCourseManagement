@@ -5,7 +5,8 @@ import java.time.LocalDate;
 public class Users {
 	private int userID;
 	private int roleID;
-	private String userFullName;
+	private String userFirstName;
+	private String userLastName;
 	private String userName;
 	private String password;
 	private String phoneNumber;
@@ -13,17 +14,18 @@ public class Users {
 	private String description;
 	private UserStatus status;
 	private LocalDate createdAt;
-	
+
 	public Users() {
 		super();
 	}
-	
-	public Users(int userID, int roleID, String userFullName, String userName, String password, String phoneNumber,
-			String email, String description, UserStatus status, LocalDate createdAt) {
+
+	public Users(int userID, int roleID, String userFirstName, String userLastName, String userName, String password,
+			String phoneNumber, String email, String description, UserStatus status, LocalDate createdAt) {
 		super();
 		this.userID = userID;
 		this.roleID = roleID;
-		this.userFullName = userFullName;
+		this.userFirstName = userFirstName;
+		this.userLastName = userLastName;
 		this.userName = userName;
 		this.password = password;
 		this.phoneNumber = phoneNumber;
@@ -33,12 +35,10 @@ public class Users {
 		this.createdAt = createdAt;
 	}
 
-
-
 	public int getUserID() {
 		return userID;
 	}
-	
+
 	public int getRoleID() {
 		return roleID;
 	}
@@ -51,12 +51,20 @@ public class Users {
 		this.userID = userID;
 	}
 
-	public String getUserFullName() {
-		return userFullName;
+	public String getUserFirstName() {
+		return userFirstName;
 	}
 
-	public void setUserFullName(String userFullName) {
-		this.userFullName = userFullName;
+	public void setUserFirstName(String userFirstName) {
+		this.userFirstName = userFirstName;
+	}
+
+	public String getUserLastName() {
+		return userLastName;
+	}
+
+	public void setUserLastName(String userLastName) {
+		this.userLastName = userLastName;
 	}
 
 	public String getUserName() {
