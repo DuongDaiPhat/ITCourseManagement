@@ -1,4 +1,5 @@
 package backend.dao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -6,35 +7,34 @@ import java.util.ArrayList;
 
 import model.user.Users;
 
-public class UsersDAO implements DAOInterface<Users>{
+public class UsersDAO implements DAOInterface<Users> {
 	public static UsersDAO getInstance() {
 		return new UsersDAO();
 	}
+
 	@Override
 	public int Insert(Users t) throws SQLException {
 		int result = 0;
-		String sql = "INSERT INTO USERS(ROLEID, USERFULLNAME,USERNAME,PASSWORD, PHONENUMBER, EMAIL, DESCRIPTION, STATUS, CREATEDAT)"
-				+ "VALUES (?,?,?,?,?,?,?,?,?);";
-		try(Connection con = DatabaseConnection.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql)){
+		String sql = "INSERT INTO USERS(ROLEID, USERFIRSTNAME, USERLASTNAME, USERNAME, PASSWORD, PHONENUMBER, EMAIL, DESCRIPTION, STATUS, CREATEDAT)"
+				+ "VALUES (?,?,?,?,?,?,?,?,?,?);";
+		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setString(1, t.getRoleID() + "");
-			ps.setString(2, t.getUserFullName());
-			ps.setString(3, t.getUserName());
-			ps.setString(4, t.getPassword());
-			ps.setString(5, t.getPhoneNumber());
-			ps.setString(6, t.getEmail());
-			ps.setString(7, t.getDescription());
-			ps.setString(8, t.getStatus() + "");
-			ps.setString(9,t.getCreatedAt() + "");
+			ps.setString(2, t.getUserFirstName());
+			ps.setString(3, t.getUserLastName());
+			ps.setString(4, t.getUserName());
+			ps.setString(5, t.getPassword());
+			ps.setString(6, t.getPhoneNumber());
+			ps.setString(7, t.getEmail());
+			ps.setString(8, t.getDescription());
+			ps.setString(9, t.getStatus() + "");
+			ps.setString(10, t.getCreatedAt() + "");
 			result = ps.executeUpdate();
 			System.out.println(result + " row(s) afffected");
-		}
-		catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			DatabaseConnection.closeConnection();
 		}
-		finally {
-	    	DatabaseConnection.closeConnection();
-	    }
 		return result;
 	}
 
@@ -67,5 +67,4 @@ public class UsersDAO implements DAOInterface<Users>{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 }
