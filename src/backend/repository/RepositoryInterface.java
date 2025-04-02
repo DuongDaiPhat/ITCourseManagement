@@ -1,9 +1,9 @@
-package backend.dao;
+package backend.repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface DAOInterface <T>{
+public interface RepositoryInterface <T>{
 	
 	public int Insert(T t) throws SQLException;
 	

@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.course;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.course.CourseCategories;
 
-public class CourseCategoriesDAO implements DAOInterface<CourseCategories> {
+public class CourseCategoriesRepository implements RepositoryInterface<CourseCategories> {
 
-	public static CourseCategoriesDAO getInstance() {
-		return new CourseCategoriesDAO();
+	public static CourseCategoriesRepository getInstance() {
+		return new CourseCategoriesRepository();
 	}
 
 	@Override

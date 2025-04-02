@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.misc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.misc.Certificate;
 
-public class CertificateDAO implements DAOInterface<Certificate> {
+public class CertificateRepository implements RepositoryInterface<Certificate> {
 
-	public static CertificateDAO getInstance() {
-		return new CertificateDAO();
+	public static CertificateRepository getInstance() {
+		return new CertificateRepository();
 	}
 
 	@Override

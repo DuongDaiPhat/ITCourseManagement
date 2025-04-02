@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import backend.dao.CourseDAO;
-import backend.dao.UsersDAO;
+import backend.repository.course.CourseRepository;
+import backend.repository.user.UsersRepository;
 import model.course.*;
 import model.user.UserStatus;
 import model.user.Users;
@@ -28,7 +28,7 @@ public class TestDAO {
 	public static void main(String[] args) throws SQLException {
 		//SELECT BY CONDITION EXAMPLE:
 		List<Courses> coursesList = new ArrayList<Courses>();
-		coursesList = CourseDAO.getInstance().SelectByCondition("PRICE > 400000");
+		coursesList = CourseRepository.getInstance().SelectByCondition("PRICE > 400000");
 		for(Courses i : coursesList) {
 			i.print();
 		}

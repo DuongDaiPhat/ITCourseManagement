@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,9 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.user.Permissions;
 
-public class PermissionDAO implements DAOInterface<Permissions>{
+public class PermissionRepository implements RepositoryInterface<Permissions>{
 	@Override
 	public int Insert(Permissions t) throws SQLException {
 		int result = 0;

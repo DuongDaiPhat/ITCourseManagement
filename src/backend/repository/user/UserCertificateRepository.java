@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.user.UserCertificate;
 
-public class UserCertificateDAO implements DAOInterface<UserCertificate> {
+public class UserCertificateRepository implements RepositoryInterface<UserCertificate> {
 
-    public static UserCertificateDAO getInstance() {
-        return new UserCertificateDAO();
+    public static UserCertificateRepository getInstance() {
+        return new UserCertificateRepository();
     }
 
     @Override

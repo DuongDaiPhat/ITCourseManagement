@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.user.CourseStatus;
 import model.user.MyLearning;
 
-public class MyLearningDAO implements DAOInterface<MyLearning> {
+public class MyLearningRepository implements RepositoryInterface<MyLearning> {
 
-    public static MyLearningDAO getInstance() {
-        return new MyLearningDAO();
+    public static MyLearningRepository getInstance() {
+        return new MyLearningRepository();
     }
 
     @Override

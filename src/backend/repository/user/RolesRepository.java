@@ -1,16 +1,18 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.user.Roles;
 
-public class RolesDAO implements DAOInterface<Roles>{
+public class RolesRepository implements RepositoryInterface<Roles>{
 	
-	public static RolesDAO getInstance() {
-		return new RolesDAO();
+	public static RolesRepository getInstance() {
+		return new RolesRepository();
 	}
 	@Override
 	public int Insert(Roles t) throws SQLException {
