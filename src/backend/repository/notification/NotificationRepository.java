@@ -1,14 +1,17 @@
-package backend.dao;
+package backend.repository.notification;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.notification.Notification;
 
-public class NotificationDAO implements DAOInterface<Notification> {
+public class NotificationRepository implements RepositoryInterface<Notification> {
     
     private Connection connection;
 
-    public NotificationDAO() {
+    public NotificationRepository() {
         this.connection = DatabaseConnection.getConnection();
     }
 

@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,13 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.user.Permissions;
 import model.user.RolePermissions;
 import model.user.Roles;
 
-public class RolePermissionsDAO implements DAOInterface<RolePermissions>{
-	public static RolePermissionsDAO getInstance() {
-		return new RolePermissionsDAO();
+public class RolePermissionsRepository implements RepositoryInterface<RolePermissions>{
+	public static RolePermissionsRepository getInstance() {
+		return new RolePermissionsRepository();
 	}
 	@Override
 	public int Insert(RolePermissions t) throws SQLException {

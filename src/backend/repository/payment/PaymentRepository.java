@@ -1,14 +1,17 @@
-package backend.dao;
+package backend.repository.payment;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.payment.Payment;
 
-public class PaymentDAO implements DAOInterface<Payment> {
+public class PaymentRepository implements RepositoryInterface<Payment> {
     
     private Connection connection;
 
-    public PaymentDAO() {
+    public PaymentRepository() {
         this.connection = DatabaseConnection.getConnection();
     }
 

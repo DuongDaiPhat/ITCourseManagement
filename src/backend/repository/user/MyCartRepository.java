@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,13 +8,15 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.user.MyCart;
 
-public class MyCartDAO implements DAOInterface<MyCart> {
+public class MyCartRepository implements RepositoryInterface<MyCart> {
 	
 	private Connection connection;
 
-    public MyCartDAO() {
+    public MyCartRepository() {
         this.connection = DatabaseConnection.getConnection();
     }
 

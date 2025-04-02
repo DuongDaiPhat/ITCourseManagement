@@ -1,15 +1,17 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.user.Users;
 
-public class UsersDAO implements DAOInterface<Users> {
-	public static UsersDAO getInstance() {
-		return new UsersDAO();
+public class UsersRepository implements RepositoryInterface<Users> {
+	public static UsersRepository getInstance() {
+		return new UsersRepository();
 	}
 
 	@Override

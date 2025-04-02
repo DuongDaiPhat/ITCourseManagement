@@ -4,11 +4,11 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import backend.dao.InvoiceDAO;
-import backend.dao.MyCartDAO;
-import backend.dao.NotificationDAO;
-import backend.dao.UserNotificationDAO;
-import backend.dao.PaymentDAO;
+import backend.repository.invoice.InvoiceRepository;
+import backend.repository.notification.NotificationRepository;
+import backend.repository.payment.PaymentRepository;
+import backend.repository.user.MyCartRepository;
+import backend.repository.user.UserNotificationRepository;
 import model.invoice.Invoice;
 import model.notification.Notification;
 import model.notification.UserNotification;
@@ -67,7 +67,7 @@ public class Main {
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        MyCartDAO cartDAO = new MyCartDAO();
+        MyCartRepository cartDAO = new MyCartRepository();
 
         // Thêm sản phẩm vào giỏ
         MyCart newCart = new MyCart(1, 101, false, LocalDateTime.now());

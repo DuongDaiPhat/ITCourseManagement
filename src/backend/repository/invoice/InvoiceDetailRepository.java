@@ -1,14 +1,17 @@
-package backend.dao;
+package backend.repository.invoice;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.invoice.InvoiceDetail;
 
-public class InvoiceDetailDAO implements DAOInterface<InvoiceDetail> {
+public class InvoiceDetailRepository implements RepositoryInterface<InvoiceDetail> {
     
     private Connection connection;
 
-    public InvoiceDetailDAO() {
+    public InvoiceDetailRepository() {
         this.connection = DatabaseConnection.getConnection();
     }
 

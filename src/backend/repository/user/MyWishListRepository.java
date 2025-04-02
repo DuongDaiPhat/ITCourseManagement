@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,12 +8,14 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.user.MyWishList;
 
-public class MyWishListDAO implements DAOInterface<MyWishList> {
+public class MyWishListRepository implements RepositoryInterface<MyWishList> {
 
-    public static MyWishListDAO getInstance() {
-        return new MyWishListDAO();
+    public static MyWishListRepository getInstance() {
+        return new MyWishListRepository();
     }
 
     @Override

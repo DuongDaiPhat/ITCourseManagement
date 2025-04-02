@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.lecture;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.lecture.Lecture;
 
-public class LectureDAO implements DAOInterface<Lecture> {
+public class LectureRepository implements RepositoryInterface<Lecture> {
 
-	public static LectureDAO getInstance() {
-		return new LectureDAO();
+	public static LectureRepository getInstance() {
+		return new LectureRepository();
 	}
 
 	@Override

@@ -1,15 +1,18 @@
-package backend.dao;
+package backend.repository.user;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.notification.UserNotification;
 import model.notification.NotificationStatus;
 
-public class UserNotificationDAO implements DAOInterface<UserNotification> {
+public class UserNotificationRepository implements RepositoryInterface<UserNotification> {
     
     private Connection connection;
 
-    public UserNotificationDAO() {
+    public UserNotificationRepository() {
         this.connection = DatabaseConnection.getConnection();
     }
 

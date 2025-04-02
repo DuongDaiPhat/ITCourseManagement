@@ -1,4 +1,4 @@
-package backend.dao;
+package backend.repository.lecture;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,13 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import backend.repository.RepositoryInterface;
+import backend.repository.DatabaseConnection;
 import model.lecture.LectureProgress;
 import model.lecture.LectureStatus;
 
-public class LectureProgressDAO implements DAOInterface<LectureProgress> {
+public class LectureProgressRepository implements RepositoryInterface<LectureProgress> {
 
-	public static LectureProgressDAO getInstance() {
-		return new LectureProgressDAO();
+	public static LectureProgressRepository getInstance() {
+		return new LectureProgressRepository();
 	}
 
 	@Override
