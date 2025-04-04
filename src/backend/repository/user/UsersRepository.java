@@ -2,6 +2,7 @@ package backend.repository.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -9,7 +10,8 @@ import backend.repository.RepositoryInterface;
 import backend.repository.DatabaseConnection;
 import model.user.Users;
 
-public class UsersRepository implements RepositoryInterface<Users> {
+public class UsersRepository implements RepositoryInterface<Users>, IUserRepository {
+	private Connection con = DatabaseConnection.getConnection();
 	public static UsersRepository getInstance() {
 		return new UsersRepository();
 	}
@@ -19,7 +21,7 @@ public class UsersRepository implements RepositoryInterface<Users> {
 		int result = 0;
 		String sql = "INSERT INTO USERS(ROLEID, USERFIRSTNAME, USERLASTNAME, USERNAME, PASSWORD, PHONENUMBER, EMAIL, DESCRIPTION, STATUS, CREATEDAT)"
 				+ "VALUES (?,?,?,?,?,?,?,?,?,?);";
-		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setString(1, t.getRoleID() + "");
 			ps.setString(2, t.getUserFirstName());
 			ps.setString(3, t.getUserLastName());
@@ -34,8 +36,6 @@ public class UsersRepository implements RepositoryInterface<Users> {
 			System.out.println(result + " row(s) afffected");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			DatabaseConnection.closeConnection();
 		}
 		return result;
 	}
@@ -68,5 +68,46 @@ public class UsersRepository implements RepositoryInterface<Users> {
 	public ArrayList<Users> SelectByCondition(String condition) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public String GetUserPasswordByName(String username) throws SQLException {
+		String password = "";
+		String sql = "SELECT PASSWORD FROM USERS WHERE USERNAME = ?";
+		try(PreparedStatement ps = con.prepareStatement(sql)){
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				password = rs.getString("PASSWORD");
+			}
+			if(!password.isEmpty()) {
+				return password;
+			}
+			else {
+				return "";
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return password;
+	}
+
+	@Override
+	public boolean isExistUser(String username) throws SQLException {
+		String sql = "SELECT USERNAME FROM USERS WHERE USERNAME = ?";
+		try(PreparedStatement ps = con.prepareStatement(sql)){
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				String str_username = rs.getString("USERNAME");
+				if(!str_username.isEmpty()) {
+					return true;
+				}
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
