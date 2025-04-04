@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="778.0" prefWidth="1000.0" styleClass="main-background" stylesheets="@register.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.register.RegisterController">
+      <VBox alignment="CENTER" maxWidth="400" spacing="20" styleClass="register-card">
+          <padding>
+              <Insets bottom="30" left="30" right="30" top="30" />
+          </padding>
+      <AnchorPane prefHeight="95.0" prefWidth="339.0">
+         <children>
+            <Hyperlink layoutY="2.0" text="Back to login" onAction = "#BackToLogin" styleClass = "return"/>
+            <ImageView fitHeight="70.0" fitWidth="78.0" layoutX="131.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+            	<Image url="@/images/logo/logo.png"/>
+            </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+          
+                <Label styleClass="register-title" text="Register" />
+          
+                <HBox spacing="10">
+              <TextField fx:id = "firstName" promptText="First name" styleClass="input-field" HBox.hgrow="ALWAYS" />
+              <TextField fx:id = "lastName" promptText="Last name" styleClass="input-field" HBox.hgrow="ALWAYS" />
+          </HBox>
+          
+                <TextField fx:id = "username" promptText="Username" styleClass="input-field" />
+          <TextField fx:id = "email"  promptText="Email" styleClass="input-field" />
+          <TextField fx:id = "phoneNumber"  promptText="Phone number" styleClass="input-field" />
+          <PasswordField fx:id = "password" promptText="Password" styleClass="input-field" />
+          <PasswordField fx:id = "confirmPassword" promptText="Confirm password" styleClass="input-field" />
+          
+                <HBox alignment="CENTER_LEFT" spacing="10">
+              <CheckBox fx:id = "checkBox" styleClass="terms-checkbox" />
+              <Label styleClass="terms-text" text="I do accept " />
+              <Hyperlink styleClass="terms-link" text="Terms &amp; Conditions" />
+              <Label styleClass="terms-text" text="of AiTeeCo" />
+          </HBox>
+                <Button styleClass="signup-button" text="Sign up" onAction = "#SignIn"/>
+      </VBox>
+</StackPane>
