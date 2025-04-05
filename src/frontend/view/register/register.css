@@ -1,6 +1,6 @@
 .main-background {
     -fx-background-color: linear-gradient(to right, #4ED8E5, #004AAD);
-	-fx-padding: 30px;
+    -fx-padding: 30px;
 }
 
 .register-card {
@@ -8,13 +8,15 @@
     -fx-background-radius: 20;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
 }
+
 .return{
-	-fx-underline:false;
-	-fx-focus-color: transparent;
+    -fx-underline:false;
+    -fx-focus-color: transparent;
 }
 .return:hover{
-	-fx-text-fill: #0066cc;
+    -fx-text-fill: #0066cc;
 }
+
 .register-title {
     -fx-font-size: 32;
     -fx-font-weight: bold;
@@ -22,7 +24,7 @@
 }
 
 .input-field {
-	-fx-background-color: #e6f2f2;
+    -fx-background-color: #e6f2f2;
     -fx-background-radius: 10px;
     -fx-padding: 10px;
     -fx-font-size: 14px;
@@ -35,8 +37,8 @@
 
 .terms-checkbox {
     -fx-padding: 5;
-	-fx-font-size: 10px;
-	-fx-text-fill: #333;
+    -fx-font-size: 10px;
+    -fx-text-fill: #333;
 }
 
 .terms-checkbox .box {
@@ -60,7 +62,7 @@
 }
 
 .signup-button {
-	-fx-background-color: linear-gradient(to right, #0066cc, #40e0d0);
+    -fx-background-color: linear-gradient(to right, #0066cc, #40e0d0);
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 16px;
@@ -70,4 +72,23 @@
 
 .signup-button:hover {
    -fx-background-color: linear-gradient(to right, #0055b3, #33d6c6);
+}
+
+.error-label {
+    -fx-text-fill: #e74c3c;
+    -fx-font-size: 12px;
+    -fx-padding: 5px 0 0 5px;
+}
+
+.error-border {
+    -fx-border-color: #e74c3c;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+}
+
+.success-message {
+    -fx-text-fill: #2ecc71;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 0;
 }
