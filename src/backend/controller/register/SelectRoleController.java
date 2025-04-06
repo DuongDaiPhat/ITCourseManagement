@@ -23,6 +23,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -122,10 +124,16 @@ public class SelectRoleController implements Initializable {
 	}
 
 	public void BackToLogin() throws Exception {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/login/Login.fxml"));
-		Parent root = loader.load();
-		Stage stage = (Stage) nextButton.getScene().getWindow();
-		stage.setScene(new Scene(root));
-		stage.show();
+	    FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/login/Login.fxml"));
+	    Parent root = loader.load();
+	    Stage stage = (Stage) nextButton.getScene().getWindow();
+	    stage.setScene(new Scene(root));
+	    
+	    // Thêm code căn giữa màn hình
+	    Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+	    stage.setX((rec.getWidth() - stage.getWidth())/2);
+	    stage.setY((rec.getHeight() - stage.getHeight())/2);
+	    
+	    stage.show();
 	}
 }
