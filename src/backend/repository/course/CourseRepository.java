@@ -13,7 +13,7 @@ import model.course.Language;
 import model.course.Level;
 import model.course.ProgrammingLanguage;
 
-public class CourseRepository implements RepositoryInterface<Courses>{
+public class CourseRepository implements RepositoryInterface<Courses>, ICourseRepository{
 
 	public static CourseRepository getInstance() {
 		return new CourseRepository();
@@ -164,6 +164,39 @@ public class CourseRepository implements RepositoryInterface<Courses>{
 		try(Connection con = DatabaseConnection.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);
 				ResultSet rs = ps.executeQuery();){
+			while(rs.next()) {
+				Courses course = new Courses();
+				course.setCourseID(rs.getInt("COURSEID"));
+				course.setCourseName(rs.getString("COURSENAME"));
+				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
+				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
+				course.setUserID(rs.getInt("USERID"));
+				course.setThumbnailURL(rs.getString("THUMBNAILURL"));
+				course.setPrice(rs.getFloat("PRICE"));
+				course.setCourseDescription(rs.getString("COURSEDESCRIPTION"));
+				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
+				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
+				courseList.add(course);
+			}
+			System.out.println(courseList.size() + " row(s) found");
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.closeConnection();
+		}
+		return courseList;
+	}
+	@Override
+	public ArrayList<Courses> GetCoursesByUserID(int id) throws SQLException {
+		ArrayList<Courses> courseList = new ArrayList<Courses>();
+		String sql = "SELECT * FROM COURSES WHERE USERID = ?";
+		try(Connection con = DatabaseConnection.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);){
+			ps.setInt(1, id);
+			ResultSet rs =ps.executeQuery();
 			while(rs.next()) {
 				Courses course = new Courses();
 				course.setCourseID(rs.getInt("COURSEID"));

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" prefHeight="158.0" prefWidth="816.0" styleClass="course-item" stylesheets="@CourseItem.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+      
+    <!-- Course Thumbnail -->
+    <ImageView fx:id="courseThumbnail" fitHeight="110.0" fitWidth="150.0" preserveRatio="true" styleClass="thumbnail">
+        <Image url="@/images/default_image.png" />
+    </ImageView>
+    
+    <!-- Course Details -->
+    <VBox prefHeight="142.0" prefWidth="556.0" spacing="5" HBox.hgrow="ALWAYS">
+        <padding>
+            <Insets bottom="10" left="15" right="10" top="10" />
+        </padding>
+        
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label fx:id="courseNameLabel" prefHeight="27.0" prefWidth="579.0" styleClass="course-name" text="Course Name">
+                <font>
+                    <Font name="System Bold" size="18" />
+                </font>
+            </Label>
+        </HBox>
+      <HBox prefHeight="14.0" prefWidth="574.0">
+         <children>
+               
+                  <Label fx:id="languageLabel" styleClass="course-language" text="Language" />
+         </children>
+      </HBox>
+      <HBox prefHeight="0.0" prefWidth="574.0">
+         <children>
+               <Label fx:id="programmingLanguageLabel" styleClass="course-prog-language" text="ProgrammingLang" />
+               <Label fx:id="levelLabel" styleClass="course-level" text="Level" />
+         </children>
+      </HBox>
+      <VBox prefHeight="0.0" prefWidth="574.0" />
+        
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label fx:id="priceLabel" styleClass="course-price" text="Price" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="createdDateLabel" styleClass="course-date" text="CreateDate" />
+        </HBox>
+    </VBox>
+    
+    <!-- Course Actions -->
+    <VBox alignment="TOP_RIGHT" prefHeight="138.0" prefWidth="137.0" spacing="5">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+      <children>
+         <Hyperlink prefHeight="24.0" prefWidth="79.0" styleClass="option-link" text="View ratings" textAlignment="RIGHT" />
+         <Hyperlink prefHeight="24.0" prefWidth="50.0" styleClass="option-link" text="Update" textAlignment="RIGHT" />
+         <Hyperlink prefHeight="24.0" prefWidth="54.0" styleClass="option-link" text="Remove" textAlignment="RIGHT" />
+      </children>
+    </VBox>
+</HBox>

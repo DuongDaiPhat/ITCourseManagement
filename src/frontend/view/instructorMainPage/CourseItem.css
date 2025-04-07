@@ -1,0 +1,65 @@
+/* Course Items */
+.course-item {
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 4);
+    -fx-padding: 10px;
+    -fx-spacing: 15px;
+	-fx-border: 1px;
+}
+.course-name {
+    -fx-text-fill: #333;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.course-language, .course-prog-language, .course-level {
+    -fx-text-fill: white;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 3px;
+    -fx-font-size: 12px;
+}
+
+.course-language {
+    -fx-background-color: #2ac5b9;
+}
+
+.course-prog-language {
+    -fx-background-color: #2196F3;
+}
+
+.course-level {
+    -fx-background-color: #1ca3b6;
+}
+
+.course-description {
+    -fx-text-fill: #666;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.course-price {
+    -fx-text-fill: #4CAF50;
+    -fx-font-weight: bold;
+}
+
+.course-date {
+    -fx-text-fill: #999;
+    -fx-font-size: 12px;
+}
+
+.option-link{
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+	-fx-underline: false;
+	-fx-allignment: right;
+}
+
+/* Empty Course Message */
+.empty-course-message {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-alignment: center;
+    -fx-padding: 30px 0;
+	-fx-font-weight: bold;
+}
