@@ -122,4 +122,15 @@ public class Users {
 	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 	}
+
+	@Override
+	public String toString() {
+		return "Users [userID=" + userID + ", roleID=" + roleID + ", userFirstName=" + userFirstName + ", userLastName="
+				+ userLastName + ", userName=" + userName + ", password=" + password + ", phoneNumber=" + phoneNumber
+				+ ", email=" + email + ", description=" + description + ", status=" + status + ", createdAt="
+				+ createdAt + "]";
+	}
+	public void print() {
+		System.out.println(this.toString());
+	}
 }

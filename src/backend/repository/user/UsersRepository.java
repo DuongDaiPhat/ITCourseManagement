@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import backend.repository.RepositoryInterface;
 import backend.repository.DatabaseConnection;
+import model.user.UserStatus;
 import model.user.Users;
 
 public class UsersRepository implements RepositoryInterface<Users>, IUserRepository {
@@ -60,7 +62,29 @@ public class UsersRepository implements RepositoryInterface<Users>, IUserReposit
 
 	@Override
 	public Users SelectByID(int id) {
-		// TODO Auto-generated method stub
+		Users user = new Users();
+		String sql = "SELECT * FROM USERS WHERE USERID = ?";
+		try(PreparedStatement ps = con.prepareStatement(sql)){
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				user.setUserFirstName(rs.getString("USERFIRSTNAME"));
+				user.setUserLastName(rs.getString("USERLASTNAME"));
+				user.setUserID(rs.getInt("USERID"));
+				user.setUserName(rs.getString("USERNAME"));
+				user.setEmail(rs.getString("EMAIL"));
+				user.setPhoneNumber(rs.getString("PHONENUMBER"));
+				user.setPassword(rs.getString("PASSWORD"));
+				user.setDescription(rs.getString("DESCRIPTION"));
+				user.setCreatedAt(rs.getDate("CREATEDAT").toLocalDate());
+				user.setStatus(UserStatus.valueOf(rs.getString("STATUS")));
+				user.setRoleID(rs.getInt("ROLEID"));
+			}
+			return user;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
