@@ -1,8 +1,332 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1173.0" prefWidth="920.0" stylesheets="@mainPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.MainPageController">
+   <children>
+      <HBox alignment="CENTER_LEFT" layoutX="-2.0" prefHeight="72.0" prefWidth="922.0" spacing="10.0" styleClass="header-bar">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <children>
+            <Label fx:id="labelLogo" text="AiTeeCo" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="categoryCombo" text="Category">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="43.0" prefWidth="478.0" styleClass="search-box">
+               <children>
+                  <ImageView fx:id="searchIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="search-icon">
+                     <image>
+                        <Image url="@../../../../resources/images/main_page/icon/Magnifier.png" />
+                     </image>
+                  </ImageView>
+                  <TextField fx:id="searchField" prefHeight="28.0" prefWidth="398.0" promptText="Search" />
+               </children>
+            </HBox>
+            <Label fx:id="myLearningLabel" text="My Learning">
+               <textFill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </textFill>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="bellIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/images/main_page/icon/MyCart.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="heartIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/images/main_page/icon/MyWishList.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="cartIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/images/main_page/icon/Notification.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="user" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../resources/images/main_page/icon/MyProfile.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <VBox layoutX="2.0" layoutY="72.0" prefHeight="230.0" prefWidth="920.0" spacing="20.0">
+         <children>
+            <Label fx:id="helloName" text="Hello, name">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <AnchorPane styleClass="slider">
+               <children>
+                  <ImageView fx:id="sliderPane" fitHeight="150.0" fitWidth="859.0" layoutX="-2.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                     <image>
+                        <Image url="@../../../../resources/images/main_page/images/IT1-1.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="leftButton" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true" styleClass="slider-button">
+                     <image>
+                        <Image url="@../../../../resources/images/main_page/icon/ArrowLeft.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="rightButton" fitHeight="25.0" fitWidth="25.0" layoutX="820.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" styleClass="slider-button">
+                     <image>
+                        <Image url="@../../../../resources/images/main_page/icon/ArowRight.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+         </padding>
+      </VBox>
+      <VBox layoutX="29.0" layoutY="317.0" prefHeight="284.0" prefWidth="859.0" spacing="20.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <children>
+            <Label fx:id="titleLabel" text="What to learn next!">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="203.0" prefWidth="836.0" spacing="20.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <VBox prefHeight="182.0" prefWidth="182.0">
+                     <children>
+                        <ImageView fx:id="courseImage" fitHeight="116.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="courseName" text="Name" />
+                        <Label fx:id="courseAuthor" text="Author" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <Label fx:id="courseRating" text="Rating" />
+                              <Label fx:id="coursePrice" text="Price" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="182.0" prefWidth="182.0">
+                     <children>
+                        <ImageView fx:id="courseImage1" fitHeight="116.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="courseName1" text="Name" />
+                        <Label fx:id="courseAuthor1" text="Author" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <Label fx:id="courseRating1" text="Rating" />
+                              <Label fx:id="coursePrice1" text="Price" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="182.0" prefWidth="182.0">
+                     <children>
+                        <ImageView fx:id="courseImage2" fitHeight="116.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="courseName2" text="Name" />
+                        <Label fx:id="courseAuthor2" text="Author" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <Label fx:id="courseRating2" text="Rating" />
+                              <Label fx:id="coursePrice2" text="Price" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="182.0" prefWidth="192.0">
+                     <children>
+                        <ImageView fx:id="courseImage3" fitHeight="116.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="courseName3" text="Name" />
+                        <Label fx:id="courseAuthor3" text="Author" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <Label fx:id="courseRating3" text="Rating" />
+                              <Label fx:id="coursePrice3" text="Price" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox layoutX="29.0" layoutY="601.0" prefHeight="284.0" prefWidth="859.0" spacing="20.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+         <children>
+            <Label fx:id="titleLabel1" text="Because you like Python">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="203.0" prefWidth="836.0" spacing="20.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <VBox prefHeight="182.0" prefWidth="182.0">
+                     <children>
+                        <ImageView fx:id="courseImage4" fitHeight="116.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="courseName14" text="Name" />
+                        <Label fx:id="courseAuthor4" text="Author" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <Label fx:id="courseRating4" text="Rating" />
+                              <Label fx:id="coursePrice4" text="Price" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="182.0" prefWidth="182.0">
+                     <children>
+                        <ImageView fx:id="courseImage5" fitHeight="116.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="courseName5" text="Name" />
+                        <Label fx:id="courseAuthor5" text="Author" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <Label fx:id="courseRating5" text="Rating" />
+                              <Label fx:id="coursePrice5" text="Price" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="182.0" prefWidth="182.0">
+                     <children>
+                        <ImageView fx:id="courseImage6" fitHeight="116.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="courseName6" text="Name" />
+                        <Label fx:id="courseAuthor6" text="Author" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <Label fx:id="courseRating6" text="Rating" />
+                              <Label fx:id="coursePrice6" text="Price" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="182.0" prefWidth="192.0">
+                     <children>
+                        <ImageView fx:id="courseImage7" fitHeight="116.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="courseName7" text="Name" />
+                        <Label fx:id="courseAuthor7" text="Author" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                           <children>
+                              <Label fx:id="courseRating7" text="Rating" />
+                              <Label fx:id="coursePrice7" text="Price" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox layoutY="975.0" prefHeight="203.0" prefWidth="920.0" spacing="20.0" styleClass="footer">
+         <children>
+            <Label text="About us">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
 </AnchorPane>
-
