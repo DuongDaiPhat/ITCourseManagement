@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="700.0" prefWidth="1000" stylesheets="@instructorMainPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.InstructorMainPage.InstructorMainPageController">
+<VBox prefHeight="700.0" prefWidth="1000" stylesheets="@instructorMainPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.InstructorMainPage.InstructorMainPageController">
     <children>
         <!-- Navigation Bar -->
         <VBox styleClass="navigation">
