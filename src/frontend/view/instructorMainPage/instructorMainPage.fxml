@@ -28,7 +28,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
                     <Label styleClass="nav-link" text="Explore" />
                     <Label styleClass="nav-link" text="MyCourse" />
-                    <Label styleClass="nav-link" text="Create Course" />
+                    <Label styleClass="nav-link" text="Create Course" fx:id = "createCourse"/>
                 </HBox>
                 
                 <!-- Search Bar -->
@@ -92,7 +92,7 @@
                 <!-- Courses Section -->
                 <HBox alignment="CENTER_LEFT" styleClass="section-header">
                     <Label styleClass="section-title" text="Your Courses" />
-                    <Button maxHeight="30.0" maxWidth="30.0" prefWidth="30.0" styleClass="create-course-button">
+                    <Button maxHeight="30.0" maxWidth="30.0" prefWidth="30.0" styleClass="create-course-button" onAction ="#CreateCoursePage">
                         <graphic>
                             <ImageView fitHeight="26.0" fitWidth="24.0">
                                 <Image url="@/images/instructor_main_page/create_course_icon.png" />

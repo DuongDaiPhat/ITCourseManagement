@@ -7,6 +7,7 @@ public class Courses {
 	private Language language;
 	private ProgrammingLanguage programmingLanguage;
 	private Level level;
+	private Category category;
 	private int userID;
 	private String thumbnailURL;
 	private float price;
@@ -19,7 +20,7 @@ public class Courses {
 	}
 
 	public Courses(int courseID, String courseName, Language language, ProgrammingLanguage programmingLanguage,
-			Level level, int userID, String thumbnailURL, float price, String courseDescription,
+			Level level, Category category, int userID, String thumbnailURL, float price, String courseDescription,
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.courseID = courseID;
@@ -27,6 +28,7 @@ public class Courses {
 		this.language = language;
 		this.programmingLanguage = programmingLanguage;
 		this.level = level;
+		this.category = category;
 		this.userID = userID;
 		this.thumbnailURL = thumbnailURL;
 		this.price = price;
@@ -73,6 +75,14 @@ public class Courses {
 
 	public void setLevel(Level level) {
 		this.level = level;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public int getUserID() {
@@ -126,11 +136,11 @@ public class Courses {
 	@Override
 	public String toString() {
 		return "Courses [courseID=" + courseID + ", courseName=" + courseName + ", language=" + language
-				+ ", programmingLanguage=" + programmingLanguage + ", level=" + level + ", userID=" + userID
-				+ ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription=" + CourseDescription
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ ", programmingLanguage=" + programmingLanguage + ", level=" + level + ", category=" + category
+				+ ", userID=" + userID + ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription="
+				+ CourseDescription + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
-	
+
 	public void print() {
 		System.out.println(this.toString());
 	}
