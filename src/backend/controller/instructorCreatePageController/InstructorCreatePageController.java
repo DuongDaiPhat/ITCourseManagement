@@ -212,7 +212,6 @@ public class InstructorCreatePageController {
 		Parent root = Loader.load();
 		InstructorMainPageController controller = Loader.getController();
 		controller.initialize();
-		controller.loadUser(Session.getCurrentUser().getUserID());
 		
 		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
 		stage =  (Stage) courseName.getScene().getWindow();

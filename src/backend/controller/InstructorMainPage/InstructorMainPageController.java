@@ -61,10 +61,10 @@ public class InstructorMainPageController {
 		});
         courseService = new CourseService();
         userService = new UserService();
+        loadUser();
     }
-    public void loadUser(int userID) throws SQLException {
-    	this.currentUser = userService.GetUserByID(userID);
-    	Session.setCurrentUser(currentUser);
+    public void loadUser() throws SQLException {
+    	this.currentUser = Session.getCurrentUser();
     	this.loadUserInfo();
     	this.loadCourses();
     }
