@@ -145,6 +145,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.2), 5.0, 0.0, 0.0, 0.0);
 }
 
+
 .success-alert .button-bar .button:hover {
     -fx-effect: dropshadow(three-pass-box, rgba(0.0,0.0,0.0,0.4), 8.0, 0.0, 0.0, 0.0);
     -fx-background-color: linear-gradient(to right, #3EC8D5, #003A9D);

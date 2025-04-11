@@ -129,7 +129,6 @@ public class SelectRoleController implements Initializable {
 	    Stage stage = (Stage) nextButton.getScene().getWindow();
 	    stage.setScene(new Scene(root));
 	    
-	    // Thêm code căn giữa màn hình
 	    Rectangle2D rec = Screen.getPrimary().getVisualBounds();
 	    stage.setX((rec.getWidth() - stage.getWidth())/2);
 	    stage.setY((rec.getHeight() - stage.getHeight())/2);
