@@ -41,9 +41,30 @@ CREATE TABLE COURSES(
 		'Pascal', 'Prolog', 'Scheme', 'Lisp', 'Julia', 'Solidity',
 		'VHDL', 'Ada', 'Tcl', 'Crystal', 'OCaml', 'ABAP',
 		'SAS', 'Hack', 'Nim', 'Delphi', 'PL_SQL', 'Bash', 'VietnamesePseudoCode'
-
     ) NOT NULL,
     LEVEL ENUM('BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'ALLLEVEL') NOT NULL,
+    CATEGORY ENUM(
+    'Artificial_Intelligence',
+    'Business_Analysis',
+    'Cloud_Computing',
+    'Computer_Architecture',
+    'Computer_Networks',
+    'Cryptography',
+    'Data_Science',
+    'Data_structures_and_Algorithms',
+    'Databases',
+    'Deep_Learning',
+    'Desktop_Applications',
+    'DevOps',
+    'Game_Development',
+    'Machine_Learning',
+    'Mobile_Development',
+    'Project_Management',
+    'Testing_and_QA',
+    'UI_UX',
+    'Web_Development',
+    'Cybersecurity'
+	) NOT NULL,
     USERID INT NOT NULL,
     FOREIGN KEY(USERID) REFERENCES USERS(USERID),
     THUMBNAILURL VARCHAR(255),
@@ -82,19 +103,6 @@ CREATE TABLE LECTUREPROGRESS (
     PRIMARY KEY (USERID, LECTUREID),
     FOREIGN KEY (USERID) REFERENCES USERS(USERID) ON DELETE CASCADE,
     FOREIGN KEY (LECTUREID) REFERENCES LECTURE(LECTUREID) ON DELETE CASCADE
-);
-
-CREATE TABLE CATEGORIES (
-    CATEGORYID INT PRIMARY KEY AUTO_INCREMENT,
-    CATEGORYNAME NVARCHAR(512) NOT NULL UNIQUE
-);
-
-CREATE TABLE COURSECATEGORIES (
-    COURSEID INT NOT NULL,
-    CATEGORYID INT NOT NULL,
-    PRIMARY KEY (COURSEID, CATEGORYID),
-    FOREIGN KEY (COURSEID) REFERENCES COURSES(COURSEID) ON DELETE CASCADE,
-    FOREIGN KEY (CATEGORYID) REFERENCES CATEGORIES(CATEGORYID) ON DELETE CASCADE
 );
 
 CREATE TABLE MYLEARNING (

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import backend.repository.RepositoryInterface;
 import backend.repository.DatabaseConnection;
+import model.course.Category;
 import model.course.Courses;
 import model.course.Language;
 import model.course.Level;
@@ -21,8 +22,8 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public int Insert(Courses t) throws SQLException {
 	    int result = 0;
-	    String sql = "INSERT INTO COURSES(COURSENAME, LANGUAGE, PROGRAMMINGLANGUAGE, LEVEL, USERID, THUMBNAILURL, PRICE, COURSEDESCRIPTION, CREATEDAT, UPDATEDAT) "
-	               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	    String sql = "INSERT INTO COURSES(COURSENAME, LANGUAGE, PROGRAMMINGLANGUAGE, LEVEL,CATEGORY, USERID, THUMBNAILURL, PRICE, COURSEDESCRIPTION, CREATEDAT, UPDATEDAT) "
+	               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    try (Connection con = DatabaseConnection.getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -30,12 +31,13 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	        ps.setString(2, t.getLanguage()+"");
 	        ps.setString(3, t.getProgrammingLanguage()+"");
 	        ps.setString(4, t.getLevel()+"");
-	        ps.setString(5, t.getUserID()+"");
-	        ps.setString(6, t.getThumbnailURL());
-	        ps.setDouble(7, t.getPrice());
-	        ps.setString(8, t.getCourseDescription()+"");
-	        ps.setString(9, t.getCreatedAt()+"");
-	        ps.setString(10, t.getUpdatedAt()+"");
+	        ps.setString(5, t.getCategory() + "");
+	        ps.setString(6, t.getUserID()+"");
+	        ps.setString(7, t.getThumbnailURL());
+	        ps.setDouble(8, t.getPrice());
+	        ps.setString(9, t.getCourseDescription()+"");
+	        ps.setString(10, t.getCreatedAt()+"");
+	        ps.setString(11, t.getUpdatedAt()+"");
 
 	        result = ps.executeUpdate();
 	        System.out.println("Insert executed. " + result + " row(s) affected");
@@ -51,20 +53,20 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public int Update(Courses t) throws SQLException {
 		int result = 0;
-		String sql = "UPDATE COURSES SET COURSENAME = ?, LANGUAGE = ?, PROGRAMMINGLANGUAGE = ?, LEVEL = ?, USERID = ?, THUMBNAILURL = ?, PRICE = ?, COURSEDESCRIPTION = ?, CREATEDAT = ?, UPDATEDAT = ? WHERE COURSESID = ?;";
+		String sql = "UPDATE COURSES SET COURSENAME = ?, LANGUAGE = ?, PROGRAMMINGLANGUAGE = ?, LEVEL = ?, CATEGORY = ?,USERID = ?, THUMBNAILURL = ?, PRICE = ?, COURSEDESCRIPTION = ?, CREATEDAT = ?, UPDATEDAT = ? WHERE COURSESID = ?;";
 		try(Connection con = DatabaseConnection.getConnection();
 			PreparedStatement ps = con.prepareStatement(sql)){
 			ps.setString(1, t.getCourseName());
 			ps.setString(2, t.getLanguage() + "");
 			ps.setString(3, t.getProgrammingLanguage() + "");
 			ps.setString(4, t.getLevel() + "");
-			ps.setString(5, t.getUserID() + "");
-			ps.setString(6, t.getThumbnailURL() + "");
-			ps.setString(7, t.getPrice() + "");
-			ps.setString(8, t.getCourseDescription() + "");
-			ps.setString(9, t.getUpdatedAt() + "");
-			ps.setString(10, t.getLanguage() + "");
-			ps.setString(11, t.getLanguage() + "");
+			ps.setString(5, t.getCategory() + "");
+			ps.setString(6, t.getUserID() + "");
+			ps.setString(7, t.getThumbnailURL() + "");
+			ps.setString(8, t.getPrice() + "");
+			ps.setString(9, t.getCourseDescription() + "");
+			ps.setString(10, t.getUpdatedAt() + "");
+			ps.setString(11, t.getCourseID() + "");
 		}
 	 	catch (SQLException e) {
 	        e.printStackTrace();
@@ -107,6 +109,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
 				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
+				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
 				course.setThumbnailURL(rs.getString("THUMBNAILURL"));
 				course.setPrice(rs.getFloat("PRICE"));
@@ -139,6 +142,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
 				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
+				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
 				course.setThumbnailURL(rs.getString("THUMBNAILURL"));
 				course.setPrice(rs.getFloat("PRICE"));
@@ -171,6 +175,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
 				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
+				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
 				course.setThumbnailURL(rs.getString("THUMBNAILURL"));
 				course.setPrice(rs.getFloat("PRICE"));
@@ -204,6 +209,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
 				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
+				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
 				course.setThumbnailURL(rs.getString("THUMBNAILURL"));
 				course.setPrice(rs.getFloat("PRICE"));
