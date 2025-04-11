@@ -1,18 +1,26 @@
 package backend.controller.InstructorMainPage;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import model.course.Courses;
+import model.user.Session;
 import model.user.Users;
 import javafx.scene.control.Button;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -32,26 +40,53 @@ public class InstructorMainPageController {
 
     @FXML
     private Label emptyCourseLabel;
+    
+    @FXML
+    private Label createCourse;
 
+    private Stage stage;
+    private Scene scene;
     private CourseService courseService; // Service to fetch course data
     private UserService userService; // Service to fetch user data
 
     @FXML
     public void initialize() throws SQLException {
-        // Initialize services
+    	createCourse.setOnMouseClicked(event-> {
+			try {
+				ToCreateCoursePage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
         courseService = new CourseService();
         userService = new UserService();
     }
     public void loadUser(int userID) throws SQLException {
     	this.currentUser = userService.GetUserByID(userID);
+    	Session.setCurrentUser(currentUser);
     	this.loadUserInfo();
     	this.loadCourses();
+    }
+    public void CreateCoursePage(ActionEvent e) throws IOException {
+    	this.ToCreateCoursePage();
+    }
+    private void ToCreateCoursePage() throws IOException {
+    	Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorCreatePage.fxml"));
+		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+		stage =  (Stage) usernameLabel.getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setX((rec.getWidth() - stage.getWidth())/2);
+		stage.setY((rec.getHeight() - stage.getHeight())/2);
+		stage.show();
     }
     private void loadUserInfo() {
         if (currentUser != null) {
             usernameLabel.setText(currentUser.getUserFirstName() +" "+ currentUser.getUserLastName());
         }
     }
+    
 
     private void loadCourses() throws SQLException {
         // Clear existing items
@@ -91,6 +126,9 @@ public class InstructorMainPageController {
 
     private void configureCourseItem(HBox courseItem, Courses course) {
         // Find all components in the loaded FXML
+//    	String imagePath = course.getThumbnailURL();
+//    	Image image = new Image(new File(imagePath).toURI().toString());
+//      ImageView courseThumbnail = new ImageView(image);
         ImageView courseThumbnail = (ImageView) findNodeById(courseItem, "courseThumbnail");
         Label courseNameLabel = (Label) findNodeById(courseItem, "courseNameLabel");
         Label languageLabel = (Label) findNodeById(courseItem, "languageLabel");
@@ -102,7 +140,8 @@ public class InstructorMainPageController {
         // Set course data
         if (courseThumbnail != null) {
             try {
-                courseThumbnail.setImage(new Image(course.getThumbnailURL()));
+            	courseThumbnail.setImage(new Image(new File(course.getThumbnailURL()).toURI().toString()));
+          
             } catch (Exception e) {
                 // Use default image if thumbnail URL is invalid
             	System.out.println("bad image");
@@ -153,31 +192,6 @@ public class InstructorMainPageController {
                 }
             }
         }
-
         return null;
-    }
-
-    @FXML
-    private void goToHomePage() {
-        System.out.println("Navigating to Home Page");
-        // Implement navigation logic
-    }
-
-    @FXML
-    private void goToExplorePage() {
-        System.out.println("Navigating to Explore Page");
-        // Implement navigation logic
-    }
-
-    @FXML
-    private void goToMyCoursePage() {
-        System.out.println("Navigating to My Course Page");
-        // Implement navigation logic
-    }
-
-    @FXML
-    private void goToCreateCoursePage() {
-        System.out.println("Navigating to Create Course Page");
-        // Implement navigation logic
     }
 }

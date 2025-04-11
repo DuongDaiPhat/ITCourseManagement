@@ -14,7 +14,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="700" prefWidth="1000" stylesheets="@instructorCreatePage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="700" prefWidth="1000"
+ stylesheets="@instructorCreatePage.css"
+  xmlns="http://javafx.com/javafx/21"
+   xmlns:fx="http://javafx.com/fxml/1" 
+   fx:controller = "backend.controller.instructorCreatePageController.InstructorCreatePageController">
 	<children>
 		<VBox styleClass="navigation">
             <!-- Top Navigation Bar -->
@@ -29,8 +33,8 @@
                 <!-- Navigation Links -->
                 <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
                     <Label styleClass="nav-link" text="Explore" />
-                    <Label styleClass="nav-link" text="MyCourse" />
-                    <Label styleClass="nav-link" text="Create Course" />
+                    <Label styleClass="nav-link" text="MyCourse" fx:id = "myCourse"/>
+                    <Label styleClass="nav-link" text="Create Course"/>
                 </HBox>
                 
                 <!-- Search Bar -->
@@ -87,7 +91,7 @@
        						<Label styleClass="form-label" text="Category" />
        					</VBox>
        					<VBox styleClass="option-col">
-       						<ChoiceBox prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
+       						<ChoiceBox fx:id= "programmingLanguage" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
 	       								<!-- A -->
@@ -179,7 +183,7 @@
        								</FXCollections>
        							</items>
        						</ChoiceBox>
-       						<ChoiceBox prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
+       						<ChoiceBox fx:id= "language" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
        									<String fx:value="Arabic" />
@@ -235,11 +239,7 @@
        								</FXCollections>
        							</items>
        						</ChoiceBox>
-       						<ChoiceBox prefHeight="30.0" prefWidth="150.0">
-       							<items>
-       								<FXCollections fx:factory="observableArrayList">
-       								</FXCollections>
-       							</items>
+       						<ChoiceBox  fx:id= "category" prefHeight="30.0" prefWidth="150.0">
        						</ChoiceBox>
        					</VBox>
        					<VBox styleClass="label-col">
@@ -247,7 +247,7 @@
        						<Label styleClass="form-label" text="Price" />
        					</VBox>
        					<VBox styleClass="option-col">
-       						<ChoiceBox prefHeight="30.0" prefWidth="138.0">
+       						<ChoiceBox fx:id= "level" prefHeight="30.0" prefWidth="138.0">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
        									<String fx:value="Beginner" />
@@ -257,16 +257,16 @@
        								</FXCollections>
        							</items>
        						</ChoiceBox>
-       						<TextField fx:id="numberField" prefHeight="23.0" prefWidth="20.0" styleClass="price-input-field" />
+       						<TextField fx:id="price" prefHeight="23.0" prefWidth="20.0" styleClass="price-input-field" />
        					</VBox>
        					<VBox styleClass="label-col">
        						<Label styleClass="form-label" text="Course thumbnail" />
        					</VBox>
        					<VBox alignment="CENTER" styleClass="option-col">
-       						<ImageView fitHeight="110" fitWidth="150" preserveRatio="true">
+       						<ImageView fitHeight="110" fitWidth="150" preserveRatio="true" fx:id = "thumbnail">
        								<Image url="@/images/default_image.png" />
        						</ImageView>
-       						<Button styleClass="image-button" text="Choose Image" />
+       						<Button styleClass="image-button" text="Choose Image" onAction = "#SelectImage" />
        					</VBox>
        			</HBox>
        			<HBox styleClass="row-card">
@@ -274,12 +274,12 @@
        					<Label styleClass="form-label" text="Description" />
        				</VBox>
        				<VBox>
-       					<TextArea prefHeight="182.0" prefWidth="800.0" styleClass="description-field" />
+       					<TextArea prefHeight="182.0" prefWidth="800.0" styleClass="description-field" fx:id="description"/>
        				</VBox>
        			</HBox>
        			<HBox alignment="CENTER" styleClass="button-bar">
-       				<Button prefHeight="30.0" prefWidth="132.0" styleClass="create-button" text="Create" />
-       				<Button prefHeight="30.0" prefWidth="132.0" styleClass="cancle-button" text="Cancle" />
+       				<Button prefHeight="30.0" prefWidth="132.0" styleClass="create-button" text="Create" onAction = "#CreateCourse"/>
+       				<Button prefHeight="30.0" prefWidth="132.0" styleClass="cancle-button" text="Cancle" onAction = "#ReturnToMyCourse" />
        			</HBox>
        		</VBox>
        	</children>
