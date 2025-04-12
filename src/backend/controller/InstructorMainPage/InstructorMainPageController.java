@@ -132,7 +132,7 @@ public class InstructorMainPageController {
         ImageView courseThumbnail = (ImageView) findNodeById(courseItem, "courseThumbnail");
         Label courseNameLabel = (Label) findNodeById(courseItem, "courseNameLabel");
         Label languageLabel = (Label) findNodeById(courseItem, "languageLabel");
-        Label programmingLanguageLabel = (Label) findNodeById(courseItem, "programmingLanguageLabel");
+        Label technologyLabel = (Label) findNodeById(courseItem, "technologyLabel");
         Label levelLabel = (Label) findNodeById(courseItem, "levelLabel");
         Label priceLabel = (Label) findNodeById(courseItem, "priceLabel");
         Label createdDateLabel = (Label) findNodeById(courseItem, "createdDateLabel");
@@ -157,8 +157,8 @@ public class InstructorMainPageController {
             languageLabel.setText(String.valueOf(course.getLanguage()));
         }
 
-        if (programmingLanguageLabel != null) {
-            programmingLanguageLabel.setText(String.valueOf(course.getProgrammingLanguage()));
+        if (technologyLabel != null) {
+        	technologyLabel.setText(String.valueOf(course.getTechnology()));
         }
 
         if (levelLabel != null) {

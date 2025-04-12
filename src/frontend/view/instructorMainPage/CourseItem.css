@@ -13,7 +13,7 @@
     -fx-font-weight: bold;
 }
 
-.course-language, .course-prog-language, .course-level {
+.course-language, .course-technology, .course-level {
     -fx-text-fill: white;
     -fx-padding: 3px 8px;
     -fx-background-radius: 3px;

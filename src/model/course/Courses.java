@@ -5,7 +5,7 @@ public class Courses {
 	private int courseID;
 	private String courseName;
 	private Language language;
-	private ProgrammingLanguage programmingLanguage;
+	private Technology technology;	
 	private Level level;
 	private Category category;
 	private int userID;
@@ -19,14 +19,14 @@ public class Courses {
 		super();
 	}
 
-	public Courses(int courseID, String courseName, Language language, ProgrammingLanguage programmingLanguage,
+	public Courses(int courseID, String courseName, Language language, Technology technology,
 			Level level, Category category, int userID, String thumbnailURL, float price, String courseDescription,
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.courseID = courseID;
 		this.courseName = courseName;
 		this.language = language;
-		this.programmingLanguage = programmingLanguage;
+		this.technology = technology;
 		this.level = level;
 		this.category = category;
 		this.userID = userID;
@@ -61,12 +61,12 @@ public class Courses {
 		this.language = language;
 	}
 
-	public ProgrammingLanguage getProgrammingLanguage() {
-		return programmingLanguage;
+	public Technology getTechnology() {
+		return technology;
 	}
 
-	public void setProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
-		this.programmingLanguage = programmingLanguage;
+	public void setTechnology(Technology technology) {
+		this.technology = technology;
 	}
 
 	public Level getLevel() {
@@ -136,7 +136,7 @@ public class Courses {
 	@Override
 	public String toString() {
 		return "Courses [courseID=" + courseID + ", courseName=" + courseName + ", language=" + language
-				+ ", programmingLanguage=" + programmingLanguage + ", level=" + level + ", category=" + category
+				+ ", technology=" + technology + ", level=" + level + ", category=" + category
 				+ ", userID=" + userID + ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription="
 				+ CourseDescription + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}

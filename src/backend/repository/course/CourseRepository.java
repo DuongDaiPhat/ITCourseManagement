@@ -12,7 +12,7 @@ import model.course.Category;
 import model.course.Courses;
 import model.course.Language;
 import model.course.Level;
-import model.course.ProgrammingLanguage;
+import model.course.Technology;
 
 public class CourseRepository implements RepositoryInterface<Courses>, ICourseRepository{
 
@@ -22,14 +22,14 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public int Insert(Courses t) throws SQLException {
 	    int result = 0;
-	    String sql = "INSERT INTO COURSES(COURSENAME, LANGUAGE, PROGRAMMINGLANGUAGE, LEVEL,CATEGORY, USERID, THUMBNAILURL, PRICE, COURSEDESCRIPTION, CREATEDAT, UPDATEDAT) "
+	    String sql = "INSERT INTO COURSES(COURSENAME, LANGUAGE, TECHNOLOGY, LEVEL,CATEGORY, USERID, THUMBNAILURL, PRICE, COURSEDESCRIPTION, CREATEDAT, UPDATEDAT) "
 	               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    try (Connection con = DatabaseConnection.getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 
 	        ps.setString(1, t.getCourseName());
 	        ps.setString(2, t.getLanguage()+"");
-	        ps.setString(3, t.getProgrammingLanguage()+"");
+	        ps.setString(3, t.getTechnology()+"");
 	        ps.setString(4, t.getLevel()+"");
 	        ps.setString(5, t.getCategory() + "");
 	        ps.setString(6, t.getUserID()+"");
@@ -58,7 +58,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 			PreparedStatement ps = con.prepareStatement(sql)){
 			ps.setString(1, t.getCourseName());
 			ps.setString(2, t.getLanguage() + "");
-			ps.setString(3, t.getProgrammingLanguage() + "");
+			ps.setString(3, t.getTechnology() + "");
 			ps.setString(4, t.getLevel() + "");
 			ps.setString(5, t.getCategory() + "");
 			ps.setString(6, t.getUserID() + "");
@@ -107,7 +107,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
-				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setTechnology(Technology.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
 				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
@@ -140,7 +140,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
-				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setTechnology(Technology.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
 				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
@@ -173,7 +173,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
-				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setTechnology(Technology.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
 				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
@@ -207,7 +207,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
-				course.setProgrammingLanguage(ProgrammingLanguage.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setTechnology(Technology.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
 				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));

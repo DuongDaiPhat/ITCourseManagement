@@ -111,16 +111,39 @@
 .option-col{
 	-fx-spacing: 20px;
 }
-.choice-box, .price-input-field{
+.combo-box, .price-input-field{
 	-fx-background-color: #e6f2f2;
 	-fx-background-radius: 10px;
 	-fx-font-size: 16px;
 }
-.choice-box:focus, .price-input-field:focus{
+.combo-box:focus, .price-input-field:focus{
 	-fx-background-color: #d1eaea;
     -fx-border-color: #40e0d0;
     -fx-border-radius: 10px;
 }
+.combo-box-popup .scroll-bar:vertical{
+	-fx-pref-width: 10px;
+	-fx-background-color:transparent;
+}
+.combo-box-popup .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+.combo-box-popup .scroll-bar:vertical .thumb {
+    -fx-background-color: #b4cfdb;
+    -fx-background-radius: 10px;
+}
+.combo-box-popup .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #AAC3CF;
+}
+.combo-box-popup .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #C5E3F0;
+}
+.combo-box-popup .scroll-bar .increment-button,
+.combo-box-popup .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
 .image-button{
 	-fx-background-color:#a1e5e5; 
 	-fx-font-style: italic;

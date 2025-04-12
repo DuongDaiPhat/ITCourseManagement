@@ -38,7 +38,7 @@
       </HBox>
       <HBox prefHeight="0.0" prefWidth="574.0">
          <children>
-               <Label fx:id="programmingLanguageLabel" styleClass="course-prog-language" text="ProgrammingLang" />
+               <Label fx:id="technologyLabel" styleClass="course-technology" text="Technology" />
                <Label fx:id="levelLabel" styleClass="course-level" text="Level" />
          </children>
       </HBox>
