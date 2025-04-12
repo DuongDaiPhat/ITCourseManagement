@@ -35,7 +35,7 @@
 }
 
 .nav-link:hover {
-    -fx-text-fill: #e0e0e0;
+    -fx-text-fill: white;
 }
 
 /* Search Bar */

@@ -77,7 +77,7 @@ public class SelectRoleController implements Initializable {
 
 	public void Next(ActionEvent e) throws SQLException {
 		if (instructorCheckbox.isSelected()) {
-			this.user.setRoleID(3);
+			this.user.setRoleID(1);
 		} else if (studentCheckbox.isSelected()) {
 			this.user.setRoleID(2);
 		}

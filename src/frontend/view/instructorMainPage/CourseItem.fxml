@@ -13,7 +13,7 @@
 <HBox alignment="CENTER" prefHeight="158.0" prefWidth="816.0" styleClass="course-item" stylesheets="@CourseItem.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
       
     <!-- Course Thumbnail -->
-    <ImageView fx:id="courseThumbnail" fitHeight="110.0" fitWidth="150.0" preserveRatio="true" styleClass="thumbnail">
+    <ImageView fx:id="courseThumbnail" fitHeight="110.0" fitWidth="178" preserveRatio="false" styleClass="thumbnail">
         <Image url="@/images/default_image.png" />
     </ImageView>
     
@@ -34,11 +34,12 @@
          <children>
                
                   <Label fx:id="languageLabel" styleClass="course-language" text="Language" />
+                  <Label fx:id="technologyLabel" styleClass="course-technology" text="Technology" />
          </children>
       </HBox>
       <HBox prefHeight="0.0" prefWidth="574.0">
          <children>
-               <Label fx:id="technologyLabel" styleClass="course-technology" text="Technology" />
+               <Label fx:id="categoryLabel" styleClass="course-category" text="Category" />
                <Label fx:id="levelLabel" styleClass="course-level" text="Level" />
          </children>
       </HBox>

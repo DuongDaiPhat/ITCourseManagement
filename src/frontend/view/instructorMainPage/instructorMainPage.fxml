@@ -37,7 +37,7 @@
                     <Button styleClass="search-button">
                         <graphic>
                             <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/images/main_page/icon/Magnifier.png" />
+                                <Image url="@/images/main_page/icon/WhiteMagnifier.png" />
                             </ImageView>
                         </graphic>
                     </Button>

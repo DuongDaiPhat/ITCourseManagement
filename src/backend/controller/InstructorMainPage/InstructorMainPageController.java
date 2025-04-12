@@ -125,15 +125,12 @@ public class InstructorMainPageController {
     }
 
     private void configureCourseItem(HBox courseItem, Courses course) {
-        // Find all components in the loaded FXML
-//    	String imagePath = course.getThumbnailURL();
-//    	Image image = new Image(new File(imagePath).toURI().toString());
-//      ImageView courseThumbnail = new ImageView(image);
         ImageView courseThumbnail = (ImageView) findNodeById(courseItem, "courseThumbnail");
         Label courseNameLabel = (Label) findNodeById(courseItem, "courseNameLabel");
         Label languageLabel = (Label) findNodeById(courseItem, "languageLabel");
         Label technologyLabel = (Label) findNodeById(courseItem, "technologyLabel");
         Label levelLabel = (Label) findNodeById(courseItem, "levelLabel");
+        Label categoryLabel = (Label) findNodeById(courseItem, "categoryLabel");
         Label priceLabel = (Label) findNodeById(courseItem, "priceLabel");
         Label createdDateLabel = (Label) findNodeById(courseItem, "createdDateLabel");
 
@@ -160,7 +157,10 @@ public class InstructorMainPageController {
         if (technologyLabel != null) {
         	technologyLabel.setText(String.valueOf(course.getTechnology()));
         }
-
+        
+        if(categoryLabel != null) {
+        	categoryLabel.setText(String.valueOf(course.getCategory()).replace("_", " "));
+        }
         if (levelLabel != null) {
             levelLabel.setText(String.valueOf(course.getLevel()));
         }

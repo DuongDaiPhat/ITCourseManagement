@@ -13,7 +13,7 @@
     -fx-font-weight: bold;
 }
 
-.course-language, .course-technology, .course-level {
+.course-language, .course-technology, .course-level,.course-category {
     -fx-text-fill: white;
     -fx-padding: 3px 8px;
     -fx-background-radius: 3px;
@@ -24,12 +24,15 @@
     -fx-background-color: #2ac5b9;
 }
 
-.course-prog-language {
+.course-technology {
     -fx-background-color: #2196F3;
 }
 
 .course-level {
     -fx-background-color: #1ca3b6;
+}
+.course-category{
+	-fx-background-color: #0a557a;
 }
 
 .course-description {
