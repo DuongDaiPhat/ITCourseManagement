@@ -1,6 +1,6 @@
 package model.course;
 
-public enum ProgrammingLanguage {
+public enum Technology {
 	Java, C, Cpp, CSharp, Python, JavaScript, TypeScript,
     GoLang, Rust, Kotlin, Swift, Ruby, PHP, Perl,
     Scala, Objective_C, Haskell, Lua, RLang, Dart,
@@ -8,5 +8,5 @@ public enum ProgrammingLanguage {
     Elixir, Erlang, Fortran, COBOL, VB_NET,
     Pascal, Prolog, Scheme, Lisp, Julia, Solidity,
     VHDL, Ada, Tcl, Crystal, OCaml, ABAP,
-    SAS, Hack, Nim, Delphi, PL_SQL, Bash, VietnamesePseudoCode
+    SAS, Hack, Nim, Delphi, PL_SQL, Bash, HTML,CSS
 }

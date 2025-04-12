@@ -35,33 +35,33 @@
         
         <!-- Rest of the FXML remains exactly the same -->
         <HBox alignment="CENTER" spacing="10">
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <VBox spacing="2" HBox.hgrow="ALWAYS">
                 <TextField fx:id="firstName" promptText="First name" styleClass="input-field" />
                 <Label fx:id="firstNameError" styleClass="error-label" text="" visible="false" />
             </VBox>
-            <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <VBox spacing="2" HBox.hgrow="ALWAYS">
                 <TextField fx:id="lastName" promptText="Last name" styleClass="input-field" />
                 <Label fx:id="lastNameError" styleClass="error-label" text="" visible="false" />
             </VBox>
         </HBox>
         
-        <VBox fillWidth="true" spacing="4">
+        <VBox fillWidth="true" spacing="2">
             <TextField fx:id="username" promptText="Username" styleClass="input-field" />
             <Label fx:id="usernameError" styleClass="error-label" text="" visible="false" />
         </VBox>
-        <VBox fillWidth="true" spacing="4">
+        <VBox fillWidth="true" spacing="2">
             <TextField fx:id="email" promptText="Email" styleClass="input-field" />
             <Label fx:id="emailError" styleClass="error-label" text="" visible="false" />
         </VBox>
-        <VBox fillWidth="true" spacing="4">
+        <VBox fillWidth="true" spacing="2">
             <TextField fx:id="phoneNumber" promptText="Phone number" styleClass="input-field" />
             <Label fx:id="phoneNumberError" styleClass="error-label" text="" visible="false" />
         </VBox>
-        <VBox fillWidth="true" spacing="4">
+        <VBox fillWidth="true" spacing="2">
             <PasswordField fx:id="password" promptText="Password" styleClass="input-field" />
             <Label fx:id="passwordError" styleClass="error-label" text="" visible="false" />
         </VBox>
-        <VBox fillWidth="true" spacing="4">
+        <VBox fillWidth="true" spacing="2">
             <PasswordField fx:id="confirmPassword" promptText="Confirm password" styleClass="input-field" />
             <Label fx:id="confirmPasswordError" styleClass="error-label" text="" visible="false" />
         </VBox>

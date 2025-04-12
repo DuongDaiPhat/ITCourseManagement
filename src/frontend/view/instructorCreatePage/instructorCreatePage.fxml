@@ -5,6 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
@@ -86,12 +87,12 @@
        		<VBox styleClass="form-card">
        			<HBox styleClass="row-card">
        					<VBox styleClass="label-col">
-       						<Label styleClass="form-label" text="Programming Language" />
+       						<Label styleClass="form-label" text="Technology" />
        						<Label styleClass="form-label" text="Language" />
        						<Label styleClass="form-label" text="Category" />
        					</VBox>
        					<VBox styleClass="option-col">
-       						<ChoiceBox fx:id= "programmingLanguage" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
+       						<ComboBox fx:id= "technology" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
 	       								<!-- A -->
@@ -104,7 +105,8 @@
 									    
 									    <!-- C -->
 									    <String fx:value="C" />
-									    <String fx:value="CSharp" />    
+									    <String fx:value="CSharp" /> 
+									    <String fx:value ="CSS"/>   
 									    <String fx:value="Cpp" />    
 									    <String fx:value="COBOL" />
 									    <String fx:value="Crystal" />
@@ -128,6 +130,7 @@
 									    <!-- H -->
 									    <String fx:value="Hack" />
 									    <String fx:value="Haskell" />
+									    <String fx:value="HTML" />
 									    
 									    <!-- J -->
 									    <String fx:value="Java" />
@@ -179,11 +182,10 @@
 
 									    <String fx:value="VB_NET" />
 									    <String fx:value="VHDL" />
-									    <String fx:value="VietnamesePseudoCode" />
        								</FXCollections>
        							</items>
-       						</ChoiceBox>
-       						<ChoiceBox fx:id= "language" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
+       						</ComboBox>
+       						<ComboBox fx:id= "language" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
        									<String fx:value="Arabic" />
@@ -238,16 +240,16 @@
 										<String fx:value="Zulu" />
        								</FXCollections>
        							</items>
-       						</ChoiceBox>
-       						<ChoiceBox  fx:id= "category" prefHeight="30.0" prefWidth="150.0">
-       						</ChoiceBox>
+       						</ComboBox>
+       						<ComboBox  fx:id= "category" prefHeight="30.0" prefWidth="150.0">
+       						</ComboBox>
        					</VBox>
        					<VBox styleClass="label-col">
        						<Label styleClass="form-label" text="Level" />
        						<Label styleClass="form-label" text="Price" />
        					</VBox>
        					<VBox styleClass="option-col">
-       						<ChoiceBox fx:id= "level" prefHeight="30.0" prefWidth="138.0">
+       						<ComboBox fx:id= "level" prefHeight="30.0" prefWidth="138.0">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
        									<String fx:value="Beginner" />
@@ -256,7 +258,7 @@
        									<String fx:value="All Level" />
        								</FXCollections>
        							</items>
-       						</ChoiceBox>
+       						</ComboBox>
        						<TextField fx:id="price" prefHeight="23.0" prefWidth="20.0" styleClass="price-input-field" />
        					</VBox>
        					<VBox styleClass="label-col">

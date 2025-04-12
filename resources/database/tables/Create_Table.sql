@@ -32,7 +32,7 @@ CREATE TABLE COURSES(
         'Estonian', 'Persian', 'Swahili', 'Zulu', 'Amharic', 'Punjabi', 'Sinhala', 'Nepali',
         'Burmese', 'Mongolian', 'Khmer'
     ) NOT NULL,
-    PROGRAMMINGLANGUAGE ENUM(
+    TECHNOLOGY ENUM(
         'Java', 'C', 'Cpp', 'CSharp', 'Python', 'JavaScript', 'TypeScript',
 		'GoLang', 'Rust', 'Kotlin', 'Swift', 'Ruby', 'PHP', 'Perl',
 		'Scala', 'Objective_C', 'Haskell', 'Lua', 'RLang', 'Dart',
@@ -40,7 +40,7 @@ CREATE TABLE COURSES(
 		'Elixir', 'Erlang', 'Fortran', 'COBOL', 'VB_NET',
 		'Pascal', 'Prolog', 'Scheme', 'Lisp', 'Julia', 'Solidity',
 		'VHDL', 'Ada', 'Tcl', 'Crystal', 'OCaml', 'ABAP',
-		'SAS', 'Hack', 'Nim', 'Delphi', 'PL_SQL', 'Bash', 'VietnamesePseudoCode'
+		'SAS', 'Hack', 'Nim', 'Delphi', 'PL_SQL', 'Bash', 'HTML', 'CSS'
     ) NOT NULL,
     LEVEL ENUM('BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'ALLLEVEL') NOT NULL,
     CATEGORY ENUM(

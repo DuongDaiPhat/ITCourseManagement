@@ -20,10 +20,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -38,20 +37,20 @@ import model.course.Category;
 import model.course.Courses;
 import model.course.Language;
 import model.course.Level;
-import model.course.ProgrammingLanguage;
+import model.course.Technology;
 import model.user.Session;
 
 public class InstructorCreatePageController {
 	@FXML
 	private TextField courseName;
 	@FXML
-	private ChoiceBox<String> programmingLanguage;
+	private ComboBox<String> technology;
 	@FXML
-	private ChoiceBox<String> language;
+	private ComboBox<String> language;
 	@FXML
-	private ChoiceBox<String> category;
+	private ComboBox<String> category;
 	@FXML
-	private ChoiceBox<String> level;
+	private ComboBox<String> level;
 	@FXML
 	private TextField price;
 	@FXML
@@ -93,6 +92,16 @@ public class InstructorCreatePageController {
 			}
 		});
 		
+		technology.setVisibleRowCount(5);
+		technology.setEditable(false);
+		
+		language.setVisibleRowCount(5);
+		language.setEditable(false);
+		
+		category.setVisibleRowCount(5);
+		category.setEditable(false);
+		
+		level.setEditable(false);
 		userService = new UserService();
 		courseService = new CourseService();
 		userID = Session.getCurrentUser().getUserID();
@@ -117,7 +126,7 @@ public class InstructorCreatePageController {
 		String str_courseName = courseName.getText().trim();
 		String str_price = price.getText().trim();
 		String str_description = description.getText().trim();
-		String str_programmingLanguage;
+		String str_technology;
 		String str_language;
 		String str_category;
 		String str_level;
@@ -130,7 +139,7 @@ public class InstructorCreatePageController {
 			System.out.println("Invalid Course name"); 
 			return;
 		}
-		else if(programmingLanguage.getValue() == null) {
+		else if(technology.getValue() == null) {
 			System.out.println("You haven't chose programming language for your course yet");
 			return;
 		}
@@ -159,7 +168,7 @@ public class InstructorCreatePageController {
 			return;
 		}
 		
-		str_programmingLanguage = programmingLanguage.getValue();
+		str_technology = technology.getValue();
 		str_language = language.getValue();
 		str_level = level.getValue().toUpperCase();
 		str_category = category.getValue();
@@ -169,7 +178,7 @@ public class InstructorCreatePageController {
 		Courses course = new Courses();
 		course.setCourseName(str_courseName);
 		course.setCourseDescription(str_description);
-		course.setProgrammingLanguage(ProgrammingLanguage.valueOf(str_programmingLanguage));
+		course.setTechnology(Technology.valueOf(str_technology));
 		course.setLanguage(Language.valueOf(str_language));
 		course.setLevel(Level.valueOf(str_level));
 		course.setCategory(Category.valueOf(str_category.replace(' ', '_')));
