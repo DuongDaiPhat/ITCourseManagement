@@ -5,13 +5,6 @@
     -fx-alignment: center-left;
 }
 
-
-#searchField {
-    -fx-pref-width: 250;
-    -fx-background-radius: 15;
-    -fx-padding: 5 10 5 10;
-}
-
 .image-icon {
     -fx-fit-width: 24;
     -fx-fit-height: 24;
@@ -42,19 +35,30 @@
     -fx-fit-width: 18;
     -fx-fit-height: 18;
 }
-
-.slider {
-    -fx-background-color: linear-gradient(to right, #0d47a1, #00bcd4);
-    
-    -fx-background-radius: 10;
-    
-}
-
-.slider-button {
+.separator {
     -fx-background-color: transparent;
-    -fx-font-size: 24px;
-    -fx-text-fill: white;
+    -fx-padding: 10 0 10 0;
 }
+
+.separator .line {
+    -fx-border-color: black;
+    -fx-border-width: 0 0 1 0; /* chỉ kẻ dưới */
+}
+
+.checkbox {
+    -fx-padding: 10 0 0 0;  /* top right bottom left */
+}
+
+.cart-button {
+    -fx-background-color: #00b894;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+.cart-button:hover {
+    -fx-background-color: #019875;
+}
+
 
 .footer {
     -fx-background-color: linear-gradient(to right, #0d47a1, #00bcd4);
