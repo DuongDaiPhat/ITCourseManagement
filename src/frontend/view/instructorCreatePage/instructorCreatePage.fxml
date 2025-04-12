@@ -4,7 +4,6 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -15,11 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="700" prefWidth="1000"
- stylesheets="@instructorCreatePage.css"
-  xmlns="http://javafx.com/javafx/21"
-   xmlns:fx="http://javafx.com/fxml/1" 
-   fx:controller = "backend.controller.instructorCreatePageController.InstructorCreatePageController">
+<VBox prefHeight="700" prefWidth="1000" stylesheets="@instructorCreatePage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.instructorCreatePageController.InstructorCreatePageController">
 	<children>
 		<VBox styleClass="navigation">
             <!-- Top Navigation Bar -->
@@ -34,8 +29,8 @@
                 <!-- Navigation Links -->
                 <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
                     <Label styleClass="nav-link" text="Explore" />
-                    <Label styleClass="nav-link" text="MyCourse" fx:id = "myCourse"/>
-                    <Label styleClass="nav-link" text="Create Course"/>
+                    <Label fx:id="myCourse" styleClass="nav-link" text="MyCourse" />
+                    <Label styleClass="nav-link" text="Create Course" />
                 </HBox>
                 
                 <!-- Search Bar -->
@@ -44,7 +39,7 @@
                     <Button styleClass="search-button">
                         <graphic>
                             <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/images/main_page/icon/Magnifier.png" />
+                                <Image url="@/images/main_page/icon/WhiteMagnifier.png" />
                             </ImageView>
                         </graphic>
                     </Button>
@@ -84,15 +79,15 @@
        		</HBox>
        		<Separator styleClass="separator" />
        		<!--Form-->
-       		<VBox styleClass="form-card">
-       			<HBox styleClass="row-card">
+       		<VBox prefHeight="418.0" prefWidth="972.0" styleClass="form-card">
+       			<HBox prefHeight="165.0" prefWidth="960.0" styleClass="row-card">
        					<VBox styleClass="label-col">
        						<Label styleClass="form-label" text="Technology" />
        						<Label styleClass="form-label" text="Language" />
        						<Label styleClass="form-label" text="Category" />
        					</VBox>
        					<VBox styleClass="option-col">
-       						<ComboBox fx:id= "technology" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
+       						<ComboBox fx:id="technology" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
 	       								<!-- A -->
@@ -106,7 +101,7 @@
 									    <!-- C -->
 									    <String fx:value="C" />
 									    <String fx:value="CSharp" /> 
-									    <String fx:value ="CSS"/>   
+									    <String fx:value="CSS" />   
 									    <String fx:value="Cpp" />    
 									    <String fx:value="COBOL" />
 									    <String fx:value="Crystal" />
@@ -185,7 +180,7 @@
        								</FXCollections>
        							</items>
        						</ComboBox>
-       						<ComboBox fx:id= "language" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
+       						<ComboBox fx:id="language" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
        									<String fx:value="Arabic" />
@@ -241,7 +236,7 @@
        								</FXCollections>
        							</items>
        						</ComboBox>
-       						<ComboBox  fx:id= "category" prefHeight="30.0" prefWidth="150.0">
+       						<ComboBox fx:id="category" prefHeight="30.0" prefWidth="150.0">
        						</ComboBox>
        					</VBox>
        					<VBox styleClass="label-col">
@@ -249,7 +244,7 @@
        						<Label styleClass="form-label" text="Price" />
        					</VBox>
        					<VBox styleClass="option-col">
-       						<ComboBox fx:id= "level" prefHeight="30.0" prefWidth="138.0">
+       						<ComboBox fx:id="level" prefHeight="30.0" prefWidth="138.0">
        							<items>
        								<FXCollections fx:factory="observableArrayList">
        									<String fx:value="Beginner" />
@@ -265,10 +260,10 @@
        						<Label styleClass="form-label" text="Course thumbnail" />
        					</VBox>
        					<VBox alignment="CENTER" styleClass="option-col">
-       						<ImageView fitHeight="110" fitWidth="150" preserveRatio="true" fx:id = "thumbnail">
+       						<ImageView fx:id="thumbnail" fitHeight="110" fitWidth="178" preserveRatio="true">
        								<Image url="@/images/default_image.png" />
        						</ImageView>
-       						<Button styleClass="image-button" text="Choose Image" onAction = "#SelectImage" />
+       						<Button onAction="#SelectImage" styleClass="image-button" text="Choose Image" />
        					</VBox>
        			</HBox>
        			<HBox styleClass="row-card">
@@ -276,12 +271,12 @@
        					<Label styleClass="form-label" text="Description" />
        				</VBox>
        				<VBox>
-       					<TextArea prefHeight="182.0" prefWidth="800.0" styleClass="description-field" fx:id="description"/>
+       					<TextArea fx:id="description" prefHeight="174.0" prefWidth="850.0" styleClass="description-field" />
        				</VBox>
        			</HBox>
        			<HBox alignment="CENTER" styleClass="button-bar">
-       				<Button prefHeight="30.0" prefWidth="132.0" styleClass="create-button" text="Create" onAction = "#CreateCourse"/>
-       				<Button prefHeight="30.0" prefWidth="132.0" styleClass="cancle-button" text="Cancle" onAction = "#ReturnToMyCourse" />
+       				<Button onAction="#CreateCourse" prefHeight="30.0" prefWidth="132.0" styleClass="create-button" text="Create" />
+       				<Button onAction="#ReturnToMyCourse" prefHeight="30.0" prefWidth="132.0" styleClass="cancle-button" text="Cancle" />
        			</HBox>
        		</VBox>
        	</children>

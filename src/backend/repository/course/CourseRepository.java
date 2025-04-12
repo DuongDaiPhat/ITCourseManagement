@@ -53,7 +53,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public int Update(Courses t) throws SQLException {
 		int result = 0;
-		String sql = "UPDATE COURSES SET COURSENAME = ?, LANGUAGE = ?, PROGRAMMINGLANGUAGE = ?, LEVEL = ?, CATEGORY = ?,USERID = ?, THUMBNAILURL = ?, PRICE = ?, COURSEDESCRIPTION = ?, CREATEDAT = ?, UPDATEDAT = ? WHERE COURSESID = ?;";
+		String sql = "UPDATE COURSES SET COURSENAME = ?, LANGUAGE = ?, TECHNOLOGY = ?, LEVEL = ?, CATEGORY = ?,USERID = ?, THUMBNAILURL = ?, PRICE = ?, COURSEDESCRIPTION = ?, CREATEDAT = ?, UPDATEDAT = ? WHERE COURSESID = ?;";
 		try(Connection con = DatabaseConnection.getConnection();
 			PreparedStatement ps = con.prepareStatement(sql)){
 			ps.setString(1, t.getCourseName());
@@ -107,7 +107,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
-				course.setTechnology(Technology.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setTechnology(Technology.valueOf(rs.getString("TECHNOLOGY")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
 				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
@@ -140,7 +140,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
-				course.setTechnology(Technology.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setTechnology(Technology.valueOf(rs.getString("TECHNOLOGY")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
 				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
@@ -173,7 +173,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
-				course.setTechnology(Technology.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setTechnology(Technology.valueOf(rs.getString("TECHNOLOGY")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
 				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
@@ -207,7 +207,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
 				course.setLanguage(Language.valueOf(rs.getString("LANGUAGE")));
-				course.setTechnology(Technology.valueOf(rs.getString("PROGRAMMINGLANGUAGE")));
+				course.setTechnology(Technology.valueOf(rs.getString("TECHNOLOGY")));
 				course.setLevel(Level.valueOf(rs.getString("LEVEL")));
 				course.setCategory(Category.valueOf(rs.getString("CATEGORY")));
 				course.setUserID(rs.getInt("USERID"));
