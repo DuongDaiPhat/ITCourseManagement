@@ -59,31 +59,31 @@ public class InstructorCreatePageController {
 	private ImageView thumbnail;
 	@FXML
 	private Label myCourse;
-	
+
 	private UserService userService;
 	private CourseService courseService;
 	private int userID;
 	private File selectedImageFile;
-	
+
 	private Stage stage;
 	private Scene scene;
-	
+
 	@FXML
 	public void initialize() {
 		UnaryOperator<TextFormatter.Change> filter = change -> {
-		    String newText = change.getControlNewText();
-		    if (newText.matches("\\d*(\\.\\d{0,2})?")) {
-		        return change;
-		    } else {
-		        return null;
-		    }
+			String newText = change.getControlNewText();
+			if (newText.matches("\\d*(\\.\\d{0,2})?")) {
+				return change;
+			} else {
+				return null;
+			}
 		};
 		System.out.println("Formatter set for price!");
 		TextFormatter<Double> formatter = new TextFormatter<>(new DoubleStringConverter(), 0.0, filter);
 		price.setTextFormatter(formatter);
-		
+
 		category.getItems().addAll(getCategoryDisplayNames());
-		
+
 		myCourse.setOnMouseClicked(event -> {
 			try {
 				ReturnToInstructorMainPage();
@@ -91,37 +91,36 @@ public class InstructorCreatePageController {
 				e.printStackTrace();
 			}
 		});
-		
+
 		technology.setVisibleRowCount(5);
 		technology.setEditable(false);
-		
+
 		language.setVisibleRowCount(5);
 		language.setEditable(false);
-		
+
 		category.setVisibleRowCount(5);
 		category.setEditable(false);
-		
+
 		level.setEditable(false);
 		userService = new UserService();
 		courseService = new CourseService();
 		userID = Session.getCurrentUser().getUserID();
 	}
-	
+
 	public void SelectImage(ActionEvent e) {
-		 FileChooser fileChooser = new FileChooser();
-	        fileChooser.setTitle("Chọn ảnh");
-	        fileChooser.getExtensionFilters().addAll(
-	            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
-	        );
-	        
-	        File file = fileChooser.showOpenDialog(null);
-	        if (file != null) {
-	            selectedImageFile = file;
-	            Image image = new Image(file.toURI().toString());
-	            thumbnail.setImage(image);
-	        }
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Chọn ảnh");
+		fileChooser.getExtensionFilters()
+				.addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+
+		File file = fileChooser.showOpenDialog(null);
+		if (file != null) {
+			selectedImageFile = file;
+			Image image = new Image(file.toURI().toString());
+			thumbnail.setImage(image);
+		}
 	}
-	
+
 	public void CreateCourse(ActionEvent e) throws IOException, SQLException {
 		String str_courseName = courseName.getText().trim();
 		String str_price = price.getText().trim();
@@ -130,49 +129,41 @@ public class InstructorCreatePageController {
 		String str_language;
 		String str_category;
 		String str_level;
-		
-		if(str_courseName.isEmpty()) {
+
+		if (str_courseName.isEmpty()) {
 			System.out.println("Course name is empty");
 			return;
-		}
-		else if(!IsValidCourseName(str_courseName)) {
-			System.out.println("Invalid Course name"); 
+		} else if (!IsValidCourseName(str_courseName)) {
+			System.out.println("Invalid Course name");
 			return;
-		}
-		else if(technology.getValue() == null) {
+		} else if (technology.getValue() == null) {
 			System.out.println("You haven't chose programming language for your course yet");
 			return;
-		}
-		else if(language.getValue() == null) {
+		} else if (language.getValue() == null) {
 			System.out.println("You haven't chose language for your course yet");
 			return;
-		}
-		else if(category.getValue() == null) {
+		} else if (category.getValue() == null) {
 			System.out.println("You haven't chose category for your course yet");
 			return;
-		}
-		else if(level.getValue() == null) {
+		} else if (level.getValue() == null) {
 			System.out.println("You haven't chose level for your course yet");
 			return;
-		}
-		else if(str_price.isEmpty()) {
+		} else if (str_price.isEmpty()) {
 			System.out.println("Please enter the course's price");
 			return;
-		}
-		else if(str_description.isEmpty()) {
+		} else if (str_description.isEmpty()) {
 			System.out.println("Please enter the course's description");
 			return;
-		}
-		else if(selectedImageFile == null) {
+		} else if (selectedImageFile == null) {
 			System.out.println("You haven't chosen the thumbnail image yet");
 			return;
 		}
-		
+
 		str_technology = technology.getValue();
 		str_language = language.getValue();
 		str_level = level.getValue().toUpperCase();
 		str_category = category.getValue();
-		
+
 		Float f_price = Float.parseFloat(str_price);
 		String imagePath = saveImageToLocalDir(selectedImageFile);
 		Courses course = new Courses();
@@ -187,47 +178,52 @@ public class InstructorCreatePageController {
 		course.setThumbnailURL(imagePath);
 		course.setCreatedAt(LocalDateTime.now());
 		course.setUpdatedAt(LocalDateTime.now());
-		
+
 		courseService.AddCourse(course);
 		this.ReturnToInstructorMainPage();
 	}
-	
+
 	public void ReturnToMyCourse(ActionEvent e) throws IOException, SQLException {
 		this.ReturnToInstructorMainPage();
 	}
+
 	private static boolean IsValidCourseName(String name) {
 		return name.matches("[\\p{L}\\p{Zs}]+");
 	}
+
 	private String saveImageToLocalDir(File sourceFile) throws IOException {
-	    String fileName = UUID.randomUUID().toString() + "_" + sourceFile.getName(); 
-	    File destDir = new File("user_data/images"); // thư mục lưu ảnh trong project
-	    if (!destDir.exists()) destDir.mkdirs(); 
+		String fileName = UUID.randomUUID().toString() + "_" + sourceFile.getName();
+		File destDir = new File("user_data/images"); // thư mục lưu ảnh trong project
+		if (!destDir.exists())
+			destDir.mkdirs();
 
-	    Path destPath = Paths.get(destDir.getAbsolutePath(), fileName);
-	    Files.copy(sourceFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
+		Path destPath = Paths.get(destDir.getAbsolutePath(), fileName);
+		Files.copy(sourceFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
 
-	    return "user_data/images/" + fileName; 
+		return "user_data/images/" + fileName;
 	}
+
 	private List<String> getCategoryDisplayNames() {
-	    List<String> displayNames = new ArrayList<>();
-	    for (Category cat : Category.values()) {
-	        displayNames.add(cat.name().replace('_', ' '));
-	    }
-	    return displayNames;
+		List<String> displayNames = new ArrayList<>();
+		for (Category cat : Category.values()) {
+			displayNames.add(cat.name().replace('_', ' '));
+		}
+		return displayNames;
 	}
-	
+
 	private void ReturnToInstructorMainPage() throws IOException, SQLException {
-		FXMLLoader Loader = new FXMLLoader(getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
+		FXMLLoader Loader = new FXMLLoader(
+				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
 		Parent root = Loader.load();
 		InstructorMainPageController controller = Loader.getController();
 		controller.initialize();
-		
+
 		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage =  (Stage) courseName.getScene().getWindow();
+		stage = (Stage) courseName.getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth())/2);
-		stage.setY((rec.getHeight() - stage.getHeight())/2);
+		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
+		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
 		stage.show();
 	}
 
