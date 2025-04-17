@@ -1,23 +1,23 @@
 /* Course Items */
 .course-item {
     -fx-background-color: white;
-    -fx-background-radius: 5px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 4);
-    -fx-padding: 10px;
-    -fx-spacing: 15px;
-	-fx-border: 1px;
+    -fx-background-radius: 5.0px;
+    -fx-effect: dropshadow(gaussian, rgba(0.0, 0.0, 0.0, 0.1), 10.0, 0.0, 0.0, 4.0);
+    -fx-padding: 10.0px;
+    -fx-spacing: 15.0px;
+	-fx-border: 1.0px;
 }
 .course-name {
     -fx-text-fill: #333;
-    -fx-font-size: 18px;
+    -fx-font-size: 18.0px;
     -fx-font-weight: bold;
 }
 
 .course-language, .course-technology, .course-level,.course-category {
     -fx-text-fill: white;
-    -fx-padding: 3px 8px;
-    -fx-background-radius: 3px;
-    -fx-font-size: 12px;
+    -fx-padding: 3.0px 8.0px;
+    -fx-background-radius: 3.0px;
+    -fx-font-size: 12.0px;
 }
 
 .course-language {
@@ -37,7 +37,7 @@
 
 .course-description {
     -fx-text-fill: #666;
-    -fx-font-size: 14px;
+    -fx-font-size: 14.0px;
     -fx-wrap-text: true;
 }
 
@@ -48,7 +48,7 @@
 
 .course-date {
     -fx-text-fill: #999;
-    -fx-font-size: 12px;
+    -fx-font-size: 12.0px;
 }
 
 .option-link{
@@ -61,8 +61,57 @@
 /* Empty Course Message */
 .empty-course-message {
     -fx-text-fill: white;
-    -fx-font-size: 16px;
+    -fx-font-size: 16.0px;
     -fx-alignment: center;
-    -fx-padding: 30px 0;
+    -fx-padding: 30.0px 0.0;
 	-fx-font-weight: bold;
+}
+
+/* Option Links Styling */
+.option-link {
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+    -fx-underline: false;
+    -fx-border-radius: 5.0px;
+    -fx-background-radius: 5.0px;
+    -fx-padding: 5.0px 10.0px;
+    -fx-border-width: 0.0;
+    -fx-cursor: hand;
+    -fx-alignment: center-right;
+}
+
+.option-link:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #0a557a;
+    -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.2), 5.0, 0.0, 0.0, 2.0);
+}
+
+/* Remove link specific styling */
+.option-link.remove-link {
+    -fx-text-fill: #e74c3c;
+}
+
+.option-link.remove-link:hover {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+
+/* Update link specific styling */
+.option-link.update-link {
+    -fx-text-fill: #3498db;
+}
+
+.option-link.update-link:hover {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+/* View ratings link specific styling */
+.option-link.ratings-link {
+    -fx-text-fill: #2ecc71;
+}
+
+.option-link.ratings-link:hover {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
 }
