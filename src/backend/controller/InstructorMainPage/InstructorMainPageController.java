@@ -7,6 +7,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
@@ -19,6 +21,11 @@ import model.course.Courses;
 import model.user.Session;
 import model.user.Users;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.DialogPane;
+import javafx.geometry.Pos;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,172 +33,257 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
+import backend.controller.course.CourseItemController;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
 
 public class InstructorMainPageController {
 	private Users currentUser;
- 	@FXML
-    private Label usernameLabel;
+	@FXML
+	private Label usernameLabel;
 
-    @FXML
-    private VBox courseListContainer;
+	@FXML
+	private VBox courseListContainer;
 
-    @FXML
-    private Label emptyCourseLabel;
-    
-    @FXML
-    private Label createCourse;
+	@FXML
+	private Label emptyCourseLabel;
 
-    private Stage stage;
-    private Scene scene;
-    private CourseService courseService; // Service to fetch course data
-    private UserService userService; // Service to fetch user data
+	@FXML
+	private Label createCourse;
 
-    @FXML
-    public void initialize() throws SQLException {
-    	createCourse.setOnMouseClicked(event-> {
+	private Stage stage;
+	private Scene scene;
+	private CourseService courseService;
+	private UserService userService;
+
+	@FXML
+	public void initialize() throws SQLException {
+		createCourse.setOnMouseClicked(event -> {
 			try {
 				ToCreateCoursePage();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
-        courseService = new CourseService();
-        userService = new UserService();
-        loadUser();
-    }
-    public void loadUser() throws SQLException {
-    	this.currentUser = Session.getCurrentUser();
-    	this.loadUserInfo();
-    	this.loadCourses();
-    }
-    public void CreateCoursePage(ActionEvent e) throws IOException {
-    	this.ToCreateCoursePage();
-    }
-    private void ToCreateCoursePage() throws IOException {
-    	Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorCreatePage.fxml"));
+		courseService = new CourseService();
+		userService = new UserService();
+		loadUser();
+	}
+
+	public void loadUser() throws SQLException {
+		this.currentUser = Session.getCurrentUser();
+		this.loadUserInfo();
+		this.loadCourses();
+	}
+
+	public void CreateCoursePage(ActionEvent e) throws IOException {
+		this.ToCreateCoursePage();
+	}
+
+	private void ToCreateCoursePage() throws IOException {
+		Parent root = FXMLLoader
+				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorCreatePage.fxml"));
 		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage =  (Stage) usernameLabel.getScene().getWindow();
+		stage = (Stage) usernameLabel.getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth())/2);
-		stage.setY((rec.getHeight() - stage.getHeight())/2);
+		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
+		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
 		stage.show();
-    }
-    private void loadUserInfo() {
-        if (currentUser != null) {
-            usernameLabel.setText(currentUser.getUserFirstName() +" "+ currentUser.getUserLastName());
-        }
-    }
-    
+	}
 
-    private void loadCourses() throws SQLException {
-        // Clear existing items
-        courseListContainer.getChildren().clear();
+	private void loadUserInfo() {
+		if (currentUser != null) {
+			usernameLabel.setText(currentUser.getUserFirstName() + " " + currentUser.getUserLastName());
+		}
+	}
 
-        // Get courses for current user
-        List<Courses> courses = courseService.GetCourseByUserID(currentUser.getUserID());
+	private void loadCourses() throws SQLException {
+		courseListContainer.getChildren().clear();
+		List<Courses> courses = courseService.GetCourseByUserID(currentUser.getUserID());
 
-        if (courses == null || courses.isEmpty()) {
-            // Show empty state message
-            emptyCourseLabel.setVisible(true);
-            courseListContainer.getChildren().add(emptyCourseLabel);
-        } else {
-            // Hide empty state message
-            emptyCourseLabel.setVisible(false);
+		if (courses == null || courses.isEmpty()) {
+			emptyCourseLabel.setVisible(true);
+			courseListContainer.getChildren().add(emptyCourseLabel);
+		} else {
+			emptyCourseLabel.setVisible(false);
 
-            // Add courses to the container
-            for (Courses course : courses) {
-                try {
-                    // Load the course item FXML
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/instructorMainPage/CourseItem.fxml"));
-                    HBox courseItem = loader.load();
-                    Separator sp = new Separator();
+			for (Courses course : courses) {
+				try {
+					FXMLLoader loader = new FXMLLoader(
+							getClass().getResource("/frontend/view/instructorMainPage/CourseItem.fxml"));
+					HBox courseItem = loader.load();
+					Separator sp = new Separator();
 
-                    // Configure course item
-                    configureCourseItem(courseItem, course);
-                    
-                    // Add to container
-                    courseListContainer.getChildren().add(sp);
-                    courseListContainer.getChildren().add(courseItem);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+					CourseItemController controller = loader.getController();
+					controller.setCourseData(course);
 
-    private void configureCourseItem(HBox courseItem, Courses course) {
-        ImageView courseThumbnail = (ImageView) findNodeById(courseItem, "courseThumbnail");
-        Label courseNameLabel = (Label) findNodeById(courseItem, "courseNameLabel");
-        Label languageLabel = (Label) findNodeById(courseItem, "languageLabel");
-        Label technologyLabel = (Label) findNodeById(courseItem, "technologyLabel");
-        Label levelLabel = (Label) findNodeById(courseItem, "levelLabel");
-        Label categoryLabel = (Label) findNodeById(courseItem, "categoryLabel");
-        Label priceLabel = (Label) findNodeById(courseItem, "priceLabel");
-        Label createdDateLabel = (Label) findNodeById(courseItem, "createdDateLabel");
+					Hyperlink removeLink = (Hyperlink) findNodeById(courseItem, "removeLink");
+					if (removeLink != null) {
+						removeLink.setOnAction(event -> {
+							try {
+								handleRemoveCourse(course);
+							} catch (SQLException e) {
+								e.printStackTrace();
+								showStyledAlert("Error", "Failed to delete course: " + e.getMessage(),
+										Alert.AlertType.ERROR);
+							}
+						});
+					}
 
-        // Set course data
-        if (courseThumbnail != null) {
-            try {
-            	courseThumbnail.setImage(new Image(new File(course.getThumbnailURL()).toURI().toString()));
-          
-            } catch (Exception e) {
-                // Use default image if thumbnail URL is invalid
-            	System.out.println("bad image");
-                courseThumbnail.setImage(new Image(getClass().getResourceAsStream("/images/default_image.png")));
-            }
-        }
+					Hyperlink updateLink = (Hyperlink) findNodeById(courseItem, "updateLink");
+					if (updateLink != null) {
+						updateLink.setOnAction(event -> {
+							controller.handleUpdateCourse(event);
+						});
+					}
 
-        if (courseNameLabel != null) {
-            courseNameLabel.setText(course.getCourseName());
-        }
+					courseListContainer.getChildren().add(sp);
+					courseListContainer.getChildren().add(courseItem);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
-        if (languageLabel != null) {
-            languageLabel.setText(String.valueOf(course.getLanguage()));
-        }
+	private void handleRemoveCourse(Courses course) throws SQLException {
 
-        if (technologyLabel != null) {
-        	technologyLabel.setText(String.valueOf(course.getTechnology()));
-        }
-        
-        if(categoryLabel != null) {
-        	categoryLabel.setText(String.valueOf(course.getCategory()).replace("_", " "));
-        }
-        if (levelLabel != null) {
-            levelLabel.setText(String.valueOf(course.getLevel()));
-        }
+		Label messageLabel = new Label("Are you sure you want to delete the course: " + course.getCourseName() + "?");
+		messageLabel.setStyle("-fx-text-fill: #004AAD; -fx-font-size: 16px; -fx-font-weight: bold;");
+		messageLabel.setAlignment(Pos.CENTER);
+		messageLabel.setWrapText(true);
+		messageLabel.setMaxWidth(300);
 
-        if (priceLabel != null) {
-            if (course.getPrice() <= 0) {
-                priceLabel.setText("Free");
-            } else {
-                priceLabel.setText(String.format("$%.2f", course.getPrice()));
-            }
-        }
+		VBox contentBox = new VBox(15, messageLabel);
+		contentBox.setAlignment(Pos.CENTER);
 
-        if (createdDateLabel != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-            createdDateLabel.setText("Created: " + course.getCreatedAt().format(formatter));
-        }
-    }
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Confirm Deletion");
+		alert.setHeaderText(null);
 
-    private Node findNodeById(Node parent, String id) {
-        if (parent.getId() != null && parent.getId().equals(id)) {
-            return parent;
-        }
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.setContent(contentBox);
+		dialogPane.getStylesheets().add(
+				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.css").toExternalForm());
+		dialogPane.getStyleClass().add("confirmation-alert");
+		dialogPane.setPrefWidth(400);
 
-        if (parent instanceof javafx.scene.Parent) {
-            for (Node child : ((javafx.scene.Parent) parent).getChildrenUnmodifiable()) {
-                Node result = findNodeById(child, id);
-                if (result != null) {
-                    return result;
-                }
-            }
-        }
-        return null;
-    }
+		// Custom buttons
+		ButtonType deleteButton = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+		ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+		alert.getButtonTypes().setAll(deleteButton, cancelButton);
+
+		Optional<ButtonType> result = alert.showAndWait();
+
+		if (result.isPresent() && result.get() == deleteButton) {
+
+			if (course.getThumbnailURL() != null && !course.getThumbnailURL().isEmpty()) {
+				try {
+					File imageFile = new File(course.getThumbnailURL());
+					if (imageFile.exists()) {
+						if (!imageFile.delete()) {
+							System.err.println("Failed to delete course image file");
+						}
+					}
+				} catch (Exception e) {
+					System.err.println("Error deleting course image: " + e.getMessage());
+				}
+			}
+
+			int deleteResult = courseService.deleteCourse(course.getCourseID());
+			if (deleteResult > 0) {
+				showSuccessAlert("Course '" + course.getCourseName() + "' was deleted successfully!");
+
+				loadCourses();
+			} else {
+				showStyledAlert("Error", "Failed to delete course from database. Please try again.",
+						Alert.AlertType.ERROR);
+			}
+		}
+	}
+
+	private void showSuccessAlert(String message) {
+		try {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Success message");
+			alert.setHeaderText(null);
+
+			Label messageLabel = new Label(message);
+			messageLabel.setStyle("-fx-text-fill: #004AAD; -fx-font-size: 16px; -fx-font-weight: bold;");
+			messageLabel.setAlignment(Pos.CENTER);
+			messageLabel.setWrapText(true);
+			messageLabel.setMaxWidth(300);
+
+			VBox contentBox = new VBox(15, messageLabel);
+			contentBox.setAlignment(Pos.CENTER);
+
+			DialogPane dialogPane = alert.getDialogPane();
+			dialogPane.getStylesheets().add(getClass()
+					.getResource("/frontend/view/instructorMainPage/instructorMainPage.css").toExternalForm());
+			dialogPane.getStyleClass().add("success-alert");
+			dialogPane.setContent(contentBox);
+			dialogPane.setPrefWidth(400);
+
+			alert.showAndWait();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Alert simpleAlert = new Alert(Alert.AlertType.INFORMATION, message);
+			simpleAlert.showAndWait();
+		}
+	}
+
+	private Optional<ButtonType> showStyledAlert(String title, String message, Alert.AlertType type) {
+		Alert alert = new Alert(type);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+
+		String stylesheet = getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.css")
+				.toExternalForm();
+		alert.getDialogPane().getStylesheets().add(stylesheet);
+
+		switch (type) {
+		case CONFIRMATION:
+			alert.getDialogPane().getStyleClass().add("confirmation-alert");
+			break;
+		case ERROR:
+			alert.getDialogPane().getStyleClass().add("error-alert");
+			break;
+		case INFORMATION:
+			alert.getDialogPane().getStyleClass().add("success-alert");
+			break;
+		default:
+			alert.getDialogPane().getStyleClass().add("dialog-pane");
+		}
+
+		if (type == Alert.AlertType.CONFIRMATION) {
+			ButtonType okButton = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+			ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+			alert.getButtonTypes().setAll(okButton, cancelButton);
+		} else {
+			ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+			alert.getButtonTypes().setAll(okButton);
+		}
+
+		return alert.showAndWait();
+	}
+
+	private Node findNodeById(Node parent, String id) {
+		if (parent.getId() != null && parent.getId().equals(id)) {
+			return parent;
+		}
+
+		if (parent instanceof javafx.scene.Parent) {
+			for (Node child : ((javafx.scene.Parent) parent).getChildrenUnmodifiable()) {
+				Node result = findNodeById(child, id);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
+		return null;
+	}
 }
