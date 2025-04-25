@@ -40,7 +40,7 @@ import model.course.Level;
 import model.course.Technology;
 import model.user.Session;
 
-public class InstructorCreatePageController {
+public class InstructorUpdatePageController {
 	@FXML
 	private TextField courseName;
 	@FXML
@@ -59,11 +59,15 @@ public class InstructorCreatePageController {
 	private ImageView thumbnail;
 	@FXML
 	private Label myCourse;
+	@FXML
+	private Label pageTitle;
 
 	private UserService userService;
 	private CourseService courseService;
 	private int userID;
 	private File selectedImageFile;
+	private Courses currentCourse;
+	private String originalImagePath;
 
 	private Stage stage;
 	private Scene scene;
@@ -112,6 +116,40 @@ public class InstructorCreatePageController {
 		userID = Session.getCurrentUser().getUserID();
 	}
 
+	public void setCourseData(Courses course) {
+		if (course == null) {
+			throw new IllegalArgumentException("Course cannot be null");
+		}
+		this.currentCourse = course;
+		this.originalImagePath = course.getThumbnailURL();
+
+		courseName.setText(course.getCourseName());
+		technology.setValue(course.getTechnology().toString());
+		language.setValue(course.getLanguage().toString());
+		category.setValue(course.getCategory().toString().replace('_', ' '));
+
+		String levelDisplay = course.getLevel().toString();
+		level.setValue(convertLevelForDisplay(levelDisplay));
+
+		price.setText(String.valueOf(course.getPrice()));
+		description.setText(course.getCourseDescription());
+
+		if (course.getThumbnailURL() != null && !course.getThumbnailURL().isEmpty()) {
+			File imageFile = new File(course.getThumbnailURL());
+			if (imageFile.exists()) {
+				Image image = new Image(imageFile.toURI().toString());
+				thumbnail.setImage(image);
+			}
+		}
+	}
+
+	private String convertLevelForDisplay(String level) {
+		if ("ALLLEVEL".equals(level)) {
+			return "All Level";
+		}
+		return level;
+	}
+
 	private String convertDisplayToLevel(String displayLevel) {
 		if ("All Level".equals(displayLevel)) {
 			return "ALLLEVEL";
@@ -133,7 +171,7 @@ public class InstructorCreatePageController {
 		}
 	}
 
-	public void CreateCourse(ActionEvent e) throws IOException, SQLException {
+	public void UpdateCourse(ActionEvent e) throws IOException, SQLException {
 		String str_courseName = courseName.getText().trim();
 		String str_price = price.getText().trim();
 		String str_description = description.getText().trim();
@@ -166,9 +204,6 @@ public class InstructorCreatePageController {
 		} else if (str_description.isEmpty()) {
 			System.out.println("Please enter the course's description");
 			return;
-		} else if (selectedImageFile == null) {
-			System.out.println("You haven't chosen the thumbnail image yet");
-			return;
 		}
 
 		str_technology = technology.getValue();
@@ -177,21 +212,35 @@ public class InstructorCreatePageController {
 		str_category = category.getValue();
 
 		Float f_price = Float.parseFloat(str_price);
-		String imagePath = saveImageToLocalDir(selectedImageFile);
-		Courses course = new Courses();
-		course.setCourseName(str_courseName);
-		course.setCourseDescription(str_description);
-		course.setTechnology(Technology.valueOf(str_technology));
-		course.setLanguage(Language.valueOf(str_language));
-		course.setLevel(Level.valueOf(str_level));
-		course.setCategory(Category.valueOf(str_category.replace(' ', '_')));
-		course.setUserID(userID);
-		course.setPrice(f_price);
-		course.setThumbnailURL(imagePath);
-		course.setCreatedAt(LocalDateTime.now());
-		course.setUpdatedAt(LocalDateTime.now());
+		String imagePath = originalImagePath;
 
-		courseService.AddCourse(course);
+		if (selectedImageFile != null) {
+
+			if (originalImagePath != null && !originalImagePath.isEmpty()) {
+				try {
+					File oldImage = new File(originalImagePath);
+					if (oldImage.exists()) {
+						oldImage.delete();
+					}
+				} catch (Exception ex) {
+					System.err.println("Error deleting old image: " + ex.getMessage());
+				}
+			}
+
+			imagePath = saveImageToLocalDir(selectedImageFile);
+		}
+
+		currentCourse.setCourseName(str_courseName);
+		currentCourse.setCourseDescription(str_description);
+		currentCourse.setTechnology(Technology.valueOf(str_technology));
+		currentCourse.setLanguage(Language.valueOf(str_language));
+		currentCourse.setLevel(Level.valueOf(str_level));
+		currentCourse.setCategory(Category.valueOf(str_category.replace(' ', '_')));
+		currentCourse.setPrice(f_price);
+		currentCourse.setThumbnailURL(imagePath);
+		currentCourse.setUpdatedAt(LocalDateTime.now());
+
+		courseService.updateCourse(currentCourse);
 		this.ReturnToInstructorMainPage();
 	}
 
