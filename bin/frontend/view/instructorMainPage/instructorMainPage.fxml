@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="700.0" prefWidth="1000" stylesheets="@instructorMainPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.InstructorMainPage.InstructorMainPageController">
+    <children>
+        <!-- Navigation Bar -->
+        <VBox styleClass="navigation">
+            <!-- Top Navigation Bar -->
+            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav">
+                <padding>
+                    <Insets bottom="10" left="20" right="20" top="10" />
+                </padding>
+                
+                <!-- Company Logo and Name -->
+                <Label styleClass="company-name" text="AiTeeCo" />
+                
+                <!-- Navigation Links -->
+                <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
+                    <Label styleClass="nav-link" text="Explore" />
+                    <Label styleClass="nav-link" text="MyCourse" />
+                    <Label styleClass="nav-link" text="Create Course" fx:id = "createCourse"/>
+                </HBox>
+                
+                <!-- Search Bar -->
+                <HBox styleClass="search-container">
+                    <TextField promptText="Search..." styleClass="search-input" />
+                    <Button styleClass="search-button">
+                        <graphic>
+                            <ImageView fitHeight="16" fitWidth="16">
+                                <Image url="@/images/main_page/icon/WhiteMagnifier.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+                
+                <!-- Icons -->
+                <Button styleClass="icon-button">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <Image url="@/images/main_page/icon/Notification.png" />
+                     
+                        </ImageView>
+                    </graphic>
+                </Button>
+                
+                <Button styleClass="icon-button">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <Image url="@/images/main_page/icon/MyProfile.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+            
+            <!-- Bottom Decoration Bar -->
+            <HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0" styleClass="bottom-nav" />
+        </VBox>
+        
+        <!-- Main Content Area -->
+        <ScrollPane id="myScrollPane" fx:id="myScrollPane" fitToWidth="true" prefHeight="725.0" prefWidth="1000.0" styleClass="content-scroll-pane">
+            <VBox styleClass="main-content">
+                <padding>
+                    <Insets bottom="30" left="30" right="30" top="20" />
+                </padding>
+                
+                <!-- Welcome Section -->
+                <HBox alignment="CENTER_LEFT" styleClass="welcome-section">
+                    <Label styleClass="welcome-text">
+                        <text>Hello </text>
+                        <font>
+                            <Font name="System Bold" size="24" />
+                        </font>
+                    </Label>
+                    <Label fx:id="usernameLabel" styleClass="welcome-name">
+                        <text>User</text>
+                        <font>
+                            <Font name="System Bold" size="24" />
+                        </font>
+                    </Label>
+                </HBox>
+                
+                <!-- Courses Section -->
+                <HBox alignment="CENTER_LEFT" styleClass="section-header">
+                    <Label styleClass="section-title" text="Your Courses" />
+                    <Button maxHeight="30.0" maxWidth="30.0" prefWidth="30.0" styleClass="create-course-button" onAction ="#CreateCoursePage">
+                        <graphic>
+                            <ImageView fitHeight="26.0" fitWidth="24.0">
+                                <Image url="@/images/instructor_main_page/create_course_icon.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+                
+                <!-- Course List -->
+                <VBox fx:id="courseListContainer" spacing="20">
+                    <!-- Empty state message - shown if no courses -->
+                    <Label fx:id="emptyCourseLabel" prefHeight="80.0" prefWidth="966.0" styleClass="empty-course-message" text="You have no course, feel free to create one!" visible="true" />
+                    <!-- Courses will be added here dynamically -->
+                </VBox>
+            </VBox>
+        </ScrollPane>
+        
+        <!-- Footer -->
+        <HBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0" styleClass="footer">
+            <padding>
+                <Insets bottom="20" left="30" right="30" top="20" />
+            </padding>
+            
+            <HBox alignment="CENTER" spacing="15">
+               
+               <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                   <Label styleClass="footer-text" text="AiTeeCo © 2025" />
+                   <Label styleClass="footer-text" text="All rights reserved" />
+               </VBox>
+            </HBox>
+        </HBox>
+    </children>
+</VBox>

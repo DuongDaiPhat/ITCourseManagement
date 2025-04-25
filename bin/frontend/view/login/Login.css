@@ -1,0 +1,83 @@
+/* General styles */
+/*@font-face {
+    font-family: 'Noto Serif Display';
+     src: url('/frontend/font/NotoSerifDisplay-CondensedMedium.ttf'));
+}*/
+.root {
+    -fx-font-family: 'Arial';
+}
+
+/* Left panel with gradient background */
+.left-panel {
+    -fx-background-color: linear-gradient(to right, #40e0d0, #0066cc);
+}
+
+/* Right panel with login form */
+.right-panel {
+    -fx-background-color: white;
+}
+
+/* Company name styling */
+.company-name {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Logo container styling */
+.logo-container {
+    -fx-spacing: 0;
+}
+
+/* Login text styling */
+.login-text {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+.login-warning{
+	-fx-alignment: center;
+	-fx-font-size: 12px;
+	-fx-text-fill: #EB3324;
+	-fx-padding: 0px 0px 0px 10px;
+}
+
+/* Input field styling */
+.input-field {
+    -fx-background-color: #e6f2f2;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-pref-height: 45px;
+    -fx-font-size: 14px;
+}
+
+.input-field:focused {
+    -fx-background-color: #d1eaea;
+    -fx-border-color: #40e0d0;
+    -fx-border-radius: 10px;
+}
+
+/* Login button styling */
+.login-button {
+    -fx-background-color: linear-gradient(to right, #0066cc, #40e0d0);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-background-radius: 10px;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: linear-gradient(to right, #0055b3, #33d6c6);
+}
+
+/* Create account link styling */
+.create-account-link {
+    -fx-text-fill: #c0c0c0;
+    -fx-underline: false;
+    -fx-font-size: 14px;
+}
+
+.create-account-link:hover {
+    -fx-text-fill: #0066cc;
+}
