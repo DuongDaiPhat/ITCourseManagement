@@ -9,6 +9,8 @@ import backend.service.course.CourseService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
@@ -16,7 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import model.course.CourseSession;
 import model.course.Courses;
 
 public class CourseItemController {
@@ -47,6 +51,8 @@ public class CourseItemController {
 
 	private Courses course;
 	private CourseService courseService;
+	private Stage stage;
+	private Scene scene;
 
 	@FXML
 	public void initialize() {
@@ -126,4 +132,25 @@ public class CourseItemController {
 			System.err.println("Error deleting course: " + e.getMessage());
 		}
 	}
+	@FXML
+	public void AddLecture(ActionEvent event) throws IOException {
+		if (course == null) {
+			System.err.println("No course data available to remove");
+			return;
+		}
+		CourseSession.setCurrentCourse(course);	
+		this.ToAddLecturePage();
+	}
+	private void ToAddLecturePage() throws IOException {
+		Parent root = FXMLLoader
+				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml"));
+		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+		stage = (Stage) courseNameLabel.getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
+		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
+		stage.show();
+	}
+	
 }

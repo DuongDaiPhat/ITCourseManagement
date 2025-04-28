@@ -131,7 +131,6 @@ public class LectureRepository implements RepositoryInterface<Lecture> {
 		}
 		return lecture;
 	}
-
 	@Override
 	public ArrayList<Lecture> SelectByCondition(String condition) throws SQLException {
 		ArrayList<Lecture> lectureList = new ArrayList<>();
@@ -157,6 +156,17 @@ public class LectureRepository implements RepositoryInterface<Lecture> {
 			DatabaseConnection.closeConnection();
 		}
 		return lectureList;
+	}
+	
+	public void DeleteByCondition(String condition) throws SQLException {
+		String sql = "DELETE FROM LECTURE WHERE " + condition;
+		try (Connection con = DatabaseConnection.getConnection()) {
+			PreparedStatement ps = con.prepareStatement(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.closeConnection();
+		}
 	}
 
 }
