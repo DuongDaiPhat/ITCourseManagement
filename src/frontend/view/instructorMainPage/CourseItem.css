@@ -20,18 +20,18 @@
 }
 
 .course-language {
-    -fx-background-color: #2ac5b9;
+    -fx-background-color: #26b0a5;
 }
 
 .course-technology {
-    -fx-background-color: #2196F3;
+    -fx-background-color: #1ca3b6;
 }
 
 .course-level {
-    -fx-background-color: #1ca3b6;
+    -fx-background-color:#0a557a;
 }
 .course-category{
-	-fx-background-color: #0a557a;
+	-fx-background-color: #01363e;
 }
 
 .course-description {
@@ -39,7 +39,19 @@
     -fx-font-size: 14.0px;
     -fx-wrap-text: true;
 }
-
+.add-lecture-button, .publish-button{
+	-fx-background-color: #2ac5b9;
+	-fx-text-fill: white;
+	-fx-padding: 5 20 5 20;
+	-fx-background-radius: 5.0px;
+	-fx-pref-width: 134px;
+	-fx-pref-height: 25px;
+	-fx-border: 1.0px;
+	-fx-font-weight: bold;
+}
+.add-lecture-button: hover, .publish-button:hover{
+	-fx-background-color: #03a598;
+}
 .course-price {
     -fx-text-fill: #4CAF50;
     -fx-font-weight: bold;

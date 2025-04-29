@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="700" prefWidth="1000" stylesheets="@instructorCreatePage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.instructorCreatePageController.InstructorCreatePageController">
+<VBox prefHeight="700" prefWidth="1000" stylesheets="@instructorCreatePage.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.instructorCreatePageController.InstructorCreatePageController">
 	<children>
 		<VBox styleClass="navigation">
             <!-- Top Navigation Bar -->
