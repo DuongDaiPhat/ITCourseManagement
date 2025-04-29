@@ -7,6 +7,3 @@
 Thumbs.db
 *.log
 *.class
-/frontend/
-/backend/
-/model/
