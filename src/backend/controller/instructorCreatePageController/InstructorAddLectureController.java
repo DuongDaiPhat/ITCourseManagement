@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import backend.controller.InstructorMainPage.InstructorMainPageController;
 import backend.controller.course.CourseItemController;
 import backend.controller.course.LectureItemController;
 import backend.repository.DatabaseConnection;
@@ -52,6 +53,9 @@ public class InstructorAddLectureController {
     @FXML private TextField duration;
     @FXML private TextArea lectureDescription;
     @FXML private MediaView mediaView;
+    @FXML private Label courseLabel;
+    @FXML private Label myCourse;
+    @FXML private Label createCourse;
 
     private MediaPlayer mediaPlayer;
     private boolean isAddLectureFormVisible = false;
@@ -64,9 +68,26 @@ public class InstructorAddLectureController {
     
     @FXML
     public void initialize() throws SQLException {
+    	courseLabel.setText(CourseSession.getCurrentCourse().getCourseName());
         loadExistingLectures();
         videoUrl.textProperty().addListener((obs, oldText, newText) -> {
             loadVideo(newText);
+        });
+        myCourse.setOnMouseClicked(event->{
+        	try {
+        		this.ReturnToInstructorMainPage();
+        	} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        });
+        createCourse.setOnMouseClicked(event->{
+        	try {
+        		this.ToCreateCoursePage();
+        	}	catch (IOException e) {
+				e.printStackTrace();
+			}
         });
     }
     
@@ -250,6 +271,22 @@ public class InstructorAddLectureController {
         return true;
     }
     
+    private void ReturnToInstructorMainPage() throws IOException, SQLException {
+		FXMLLoader Loader = new FXMLLoader(
+				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
+		Parent root = Loader.load();
+		InstructorMainPageController controller = Loader.getController();
+		controller.initialize();
+
+		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+		stage = (Stage) mainContainer.getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
+		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
+		stage.show();
+	}
+    
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -257,4 +294,6 @@ public class InstructorAddLectureController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    
+    
 }

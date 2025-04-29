@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" prefHeight="180.0" prefWidth="850.0" styleClass="course-item" stylesheets="@CourseItem.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.course.CourseItemController">
+<HBox alignment="CENTER" prefHeight="180.0" prefWidth="850.0" styleClass="course-item" stylesheets="@CourseItem.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.course.CourseItemController">
 	<padding>
 		<Insets bottom="10" left="15" right="15" top="10" />
 	</padding>

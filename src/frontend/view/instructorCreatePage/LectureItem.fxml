@@ -1,78 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.media.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<VBox fx:id="lectureItemContainer" spacing="10" styleClass="lecture-item-container" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.course.LectureItemController">
+<VBox fx:id="lectureItemContainer" spacing="10" styleClass="lecture-item-container" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.course.LectureItemController">
     <!-- Lecture Title -->
     <HBox alignment="CENTER_LEFT" styleClass="lecture-title-container">
-        <Label fx:id="lectureTitleLabel" styleClass="lecture-title" wrapText="true" text="Lecture Title">
+        <Label fx:id="lectureTitleLabel" styleClass="lecture-title" text="Lecture Title" wrapText="true">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
         <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
+            <Insets bottom="5" left="10" right="10" top="5" />
         </padding>
     </HBox>
     
     <!-- Video Player Container -->
-    <VBox fx:id="videoContainer" styleClass="video-container">
-        <!-- MediaView for video playback -->
-        <StackPane fx:id="mediaViewContainer" styleClass="media-view-container">
-            <MediaView fx:id="mediaView" preserveRatio="true" />
-            <Button fx:id="playButton" styleClass="play-button" text="▶" onAction="#togglePlayPause" />
-        </StackPane>
-        
-        <!-- Video Controls -->
-        <HBox spacing="10" alignment="CENTER" styleClass="video-controls">
-            <!-- Current Time -->
-            <Label fx:id="currentTimeLabel" text="00:00" styleClass="time-label" />
-            
-            <!-- Progress Slider -->
-            <Slider fx:id="progressSlider" HBox.hgrow="ALWAYS" styleClass="progress-slider" />
-            
-            <!-- Total Duration -->
-            <Label fx:id="totalDurationLabel" text="00:00" styleClass="time-label" />
-            
-            <!-- Volume Control -->
-            <Button fx:id="muteButton" text="🔊" styleClass="control-button" onAction="#toggleMute" />
-            <Slider fx:id="volumeSlider" prefWidth="80" styleClass="volume-slider" />
-            
-            <!-- Playback Rate -->
-            <ComboBox fx:id="playbackRateComboBox" prefWidth="80" promptText="1.0x" styleClass="playback-rate-combo" />
-        </HBox>
-        <padding>
-            <Insets top="5" right="10" bottom="10" left="10" />
-        </padding>
-    </VBox>
+    <VBox fx:id="videoContainer" prefWidth="582.0" styleClass="video-container">
+
+	    <!-- Video Area -->
+	    <StackPane fx:id="mediaViewContainer" prefHeight="374.0" prefWidth="562.0" styleClass="media-view-container">
+	        <MediaView fx:id="mediaView" preserveRatio="true" />
+	    </StackPane>
+	
+	    <!-- Video Controls Area -->
+	    <HBox alignment="CENTER" spacing="10" styleClass="video-controls">
+	    	<Button fx:id="playButton" onAction="#togglePlayPause" styleClass="play-button" text="▶" />
+	        <!-- Current Time -->
+	        <Label fx:id="currentTimeLabel" styleClass="time-label" text="00:00" />
+	        
+	        <!-- Progress Slider -->
+	        <Slider fx:id="progressSlider" styleClass="progress-slider" HBox.hgrow="ALWAYS" />
+	        
+	        <!-- Total Duration -->
+	        <Label fx:id="totalDurationLabel" styleClass="time-label" text="00:00" />
+	        
+	        <!-- Volume Control -->
+	        <Button fx:id="muteButton" onAction="#toggleMute" styleClass="control-button" text="🔊" />
+	        <Slider fx:id="volumeSlider" prefWidth="80" styleClass="volume-slider" />
+	        
+	        <!-- Playback Rate -->
+	        <ComboBox fx:id="playbackRateComboBox" prefWidth="80" promptText="1.0x" styleClass="playback-rate-combo" />
+	    </HBox>
+	
+	    <padding>
+	        <Insets bottom="10" left="10" right="10" top="5" />
+	    </padding>
+	</VBox>
     
     <!-- Description Section -->
     <VBox styleClass="description-section">
         <!-- Description Header -->
-        <HBox alignment="CENTER_LEFT" styleClass="description-header" onMouseClicked="#toggleDescription">
-            <Label text="Mô tả bài giảng" styleClass="description-title">
+        <HBox alignment="CENTER_LEFT" onMouseClicked="#toggleDescription" styleClass="description-header">
+            <Label styleClass="description-title" text="Mô tả bài giảng">
                 <font>
                     <Font name="System Bold" size="14.0" />
                 </font>
             </Label>
             <Region HBox.hgrow="ALWAYS" />
-            <Label fx:id="descriptionArrow" text="▼" styleClass="arrow-icon" />
+            <Label fx:id="descriptionArrow" styleClass="arrow-icon" text="▼" />
             <padding>
-                <Insets top="5" right="10" bottom="5" left="10" />
+                <Insets bottom="5" left="10" right="10" top="5" />
             </padding>
         </HBox>
         
         <!-- Description Content -->
         <VBox fx:id="descriptionContent" styleClass="description-content">
-            <TextFlow fx:id="lectureDescriptionText" styleClass="lecture-description" prefWidth="200">
+            <TextFlow fx:id="lectureDescriptionText" prefWidth="200" styleClass="lecture-description">
                 <Text fx:id="descriptionText" text="Mô tả chi tiết của bài giảng sẽ được hiển thị ở đây." wrappingWidth="500" />
             </TextFlow>
             <padding>
-                <Insets top="5" right="10" bottom="10" left="10" />
+                <Insets bottom="10" left="10" right="10" top="5" />
             </padding>
         </VBox>
     </VBox>
