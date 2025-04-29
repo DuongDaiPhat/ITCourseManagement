@@ -113,21 +113,6 @@ public class InstructorAddLectureController {
 			}
 		}
     }
-//    private Node findNodeById(Node parent, String id) {
-//		if (parent.getId() != null && parent.getId().equals(id)) {
-//			return parent;
-//		}
-//
-//		if (parent instanceof javafx.scene.Parent) {
-//			for (Node child : ((javafx.scene.Parent) parent).getChildrenUnmodifiable()) {
-//				Node result = findNodeById(child, id);
-//				if (result != null) {
-//					return result;
-//				}
-//			}
-//		}
-//		return null;
-//	}
     @FXML
     private void toggleAddLectureForm() {
         isAddLectureFormVisible = !isAddLectureFormVisible;
@@ -173,7 +158,7 @@ public class InstructorAddLectureController {
 
             mediaPlayer.setOnReady(() -> {
                 Duration d = media.getDuration();
-                int minutes = (int)d.toMinutes();
+                int minutes = (int) Math.ceil(d.toMinutes());
                 duration.setText(String.valueOf(minutes)); // set duration
                 mediaPlayer.play(); 
             });
@@ -192,7 +177,7 @@ public class InstructorAddLectureController {
         int courseId = CourseSession.getCurrentCourse().getCourseID();
         String name = lectureName.getText().trim();
         String url = videoUrl.getText().trim();
-        short durationVal = Short.parseShort(duration.getText().trim());
+        short durationVal = (short) Math.ceil(Short.parseShort(duration.getText().trim()));
         String description = lectureDescription.getText().trim();
         
         Lecture lecture = new Lecture();
@@ -203,8 +188,19 @@ public class InstructorAddLectureController {
         lecture.setLectureName(name);
         
         courseService.addLecture(lecture);
-        this.ToCreateCoursePage();
+        this.ToAddLecturePage();;
     }
+    private void ToAddLecturePage() throws IOException {
+		Parent root = FXMLLoader
+				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml"));
+		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+		stage = (Stage) mainScrollPane.getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
+		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
+		stage.show();
+	}
     
     private void ToCreateCoursePage() throws IOException {
 		Parent root = FXMLLoader
