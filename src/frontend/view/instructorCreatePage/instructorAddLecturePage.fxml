@@ -24,7 +24,7 @@
                 <!-- Navigation Links -->
                 <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
                     <Label styleClass="nav-link" text="Explore" />
-                    <Label styleClass="nav-link" text="MyCourse" />
+                    <Label styleClass="nav-link" text="MyCourse" fx:id = "myCourse" />
                     <Label styleClass="nav-link" text="Create Course" fx:id = "createCourse"/>
                 </HBox>
                 
@@ -65,55 +65,60 @@
        </top>
        <center>
        <!--Main-->
-       <ScrollPane fx:id="mainScrollPane" fitToWidth="true" id = "myScrollPane">
-	    <content>
-	        <VBox fx:id="mainContainer" spacing="10" styleClass="main-container">
-	            <!-- Add Lecture Bar -->
-	            <VBox styleClass="lecture-bar-container">
-	                <HBox fx:id="addLectureBar" styleClass="add-lecture-bar" onMouseClicked="#toggleAddLectureForm">
-	                    <Label text="Add Lecture" styleClass="bar-title"/>
-	                    <Region HBox.hgrow="ALWAYS" />
-	                    <Label fx:id="addLectureArrow" text="▲" styleClass="arrow"/>
-	                    <padding>
-	                        <Insets top="10" right="15" bottom="10" left="15" />
-	                    </padding>
-	                </HBox>
-	                
-	                <!-- Create Lecture Form (Hidden by default) -->
-	                <VBox fx:id="createLectureForm" styleClass="lecture-form" visible="false" managed="false">
-	                    <padding>
-	                        <Insets top="15" right="15" bottom="15" left="15" />
-	                    </padding>
-	                    
-	                    <Label text="Lecture Name:" styleClass="form-label"/>
-	                    <TextField fx:id="lectureName" promptText="Enter lecture name" styleClass="form-field"/>
-	                    
-	                    <Label text="Video URL:" styleClass="form-label"/>
-	                    <HBox spacing="10">
-	                        <TextField fx:id="videoUrl" promptText="Enter video URL" styleClass="form-field" HBox.hgrow="ALWAYS"/>
-	                        <Button text="Browse" onAction="#browseVideo" styleClass="browse-button"/>
-	                    </HBox>
-	                    <MediaView fx:id="mediaView" fitWidth="600" preserveRatio="true" />
-	                    <Label text="Duration (minutes):" styleClass="form-label"/>
-	                    <TextField fx:id="duration" promptText="Duration will be calculated automatically" styleClass="form-field" disable="true"/>
-	                    
-	                    <Label text="Lecture Description:" styleClass="form-label"/>
-	                    <TextArea fx:id="lectureDescription" promptText="Enter lecture description" styleClass="form-field" wrapText="true" prefRowCount="4"/>
-	                    
-	                    <HBox spacing="10" alignment="CENTER_RIGHT">
-	                        <Button text="Cancel" onAction="#cancelAddLecture" styleClass="cancel-button"/>
-	                        <Button text="Add Lecture" onAction="#addLecture" styleClass="add-button"/>
-	                    </HBox>
-	                </VBox>
-	            </VBox>
-	            
-		            <!-- Existing Lectures Container -->
-		            <VBox fx:id="lecturesContainer" spacing="10">
-		                <!-- Lecture cards will be added here dynamically -->
+       <VBox styleClass = "main-card">
+	       <HBox styleClass ="title-card">
+	       		<Label fx:id = "courseLabel" styleClass = "course-label" text = "null"/>
+	       </HBox>
+	       <ScrollPane fx:id="mainScrollPane" fitToWidth="true" id = "myScrollPane">
+		    <content>
+		        <VBox fx:id="mainContainer" spacing="10" styleClass="main-container">
+		            <!-- Add Lecture Bar -->
+		            <VBox styleClass="lecture-bar-container">
+		                <HBox fx:id="addLectureBar" styleClass="add-lecture-bar" onMouseClicked="#toggleAddLectureForm">
+		                    <Label text="Add Lecture" styleClass="bar-title"/>
+		                    <Region HBox.hgrow="ALWAYS" />
+		                    <Label fx:id="addLectureArrow" text="▲" styleClass="arrow"/>
+		                    <padding>
+		                        <Insets top="10" right="15" bottom="10" left="15" />
+		                    </padding>
+		                </HBox>
+		                
+		                <!-- Create Lecture Form (Hidden by default) -->
+		                <VBox fx:id="createLectureForm" styleClass="lecture-form" visible="false" managed="false">
+		                    <padding>
+		                        <Insets top="15" right="15" bottom="15" left="15" />
+		                    </padding>
+		                    
+		                    <Label text="Lecture Name:" styleClass="form-label"/>
+		                    <TextField fx:id="lectureName" promptText="Enter lecture name" styleClass="form-field"/>
+		                    
+		                    <Label text="Video URL:" styleClass="form-label"/>
+		                    <HBox spacing="10">
+		                        <TextField fx:id="videoUrl" promptText="Enter video URL" styleClass="form-field" HBox.hgrow="ALWAYS"/>
+		                        <Button text="Browse" onAction="#browseVideo" styleClass="browse-button"/>
+		                    </HBox>
+		                    <MediaView fx:id="mediaView" fitWidth="600" preserveRatio="true" />
+		                    <Label text="Duration (minutes):" styleClass="form-label"/>
+		                    <TextField fx:id="duration" promptText="Duration will be calculated automatically" styleClass="form-field" disable="true"/>
+		                    
+		                    <Label text="Lecture Description:" styleClass="form-label"/>
+		                    <TextArea fx:id="lectureDescription" promptText="Enter lecture description" styleClass="form-field" wrapText="true" prefRowCount="4"/>
+		                    
+		                    <HBox spacing="10" alignment="CENTER_RIGHT">
+		                        <Button text="Cancel" onAction="#cancelAddLecture" styleClass="cancel-button"/>
+		                        <Button text="Add Lecture" onAction="#addLecture" styleClass="add-button"/>
+		                    </HBox>
+		                </VBox>
 		            </VBox>
-	       		</VBox>
-	   		 </content>
-		</ScrollPane>
+		            
+			            <!-- Existing Lectures Container -->
+			            <VBox fx:id="lecturesContainer" spacing="10">
+			                <!-- Lecture cards will be added here dynamically -->
+			            </VBox>
+		       		</VBox>
+		   		 </content>
+			</ScrollPane>
+		</VBox>
 	</center> 
 	<bottom>
         <!-- Footer -->
