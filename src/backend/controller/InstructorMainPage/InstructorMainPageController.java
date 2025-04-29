@@ -109,42 +109,54 @@ public class InstructorMainPageController {
 			courseListContainer.getChildren().add(emptyCourseLabel);
 		} else {
 			emptyCourseLabel.setVisible(false);
+			boolean hasApprovedCourses = false;
 
 			for (Courses course : courses) {
-				try {
-					FXMLLoader loader = new FXMLLoader(
-							getClass().getResource("/frontend/view/instructorMainPage/CourseItem.fxml"));
-					HBox courseItem = loader.load();
-					Separator sp = new Separator();
+				// Chỉ hiển thị khóa học đã được phê duyệt
+				if (course.isApproved()) {
+					try {
+						FXMLLoader loader = new FXMLLoader(
+								getClass().getResource("/frontend/view/instructorMainPage/CourseItem.fxml"));
+						HBox courseItem = loader.load();
+						Separator sp = new Separator();
 
-					CourseItemController controller = loader.getController();
-					controller.setCourseData(course);
+						CourseItemController controller = loader.getController();
+						controller.setCourseData(course);
 
-					Hyperlink removeLink = (Hyperlink) findNodeById(courseItem, "removeLink");
-					if (removeLink != null) {
-						removeLink.setOnAction(event -> {
-							try {
-								handleRemoveCourse(course);
-							} catch (SQLException e) {
-								e.printStackTrace();
-								showStyledAlert("Error", "Failed to delete course: " + e.getMessage(),
-										Alert.AlertType.ERROR);
-							}
-						});
+						Hyperlink removeLink = (Hyperlink) findNodeById(courseItem, "removeLink");
+						if (removeLink != null) {
+							removeLink.setOnAction(event -> {
+								try {
+									handleRemoveCourse(course);
+								} catch (SQLException e) {
+									e.printStackTrace();
+									showStyledAlert("Error", "Failed to delete course: " + e.getMessage(),
+											Alert.AlertType.ERROR);
+								}
+							});
+						}
+
+						Hyperlink updateLink = (Hyperlink) findNodeById(courseItem, "updateLink");
+						if (updateLink != null) {
+							updateLink.setOnAction(event -> {
+								controller.handleUpdateCourse(event);
+							});
+						}
+
+						courseListContainer.getChildren().add(sp);
+						courseListContainer.getChildren().add(courseItem);
+						hasApprovedCourses = true;
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-
-					Hyperlink updateLink = (Hyperlink) findNodeById(courseItem, "updateLink");
-					if (updateLink != null) {
-						updateLink.setOnAction(event -> {
-							controller.handleUpdateCourse(event);
-						});
-					}
-
-					courseListContainer.getChildren().add(sp);
-					courseListContainer.getChildren().add(courseItem);
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+			}
+
+			// Hiển thị thông báo nếu không có khóa học nào được phê duyệt
+			if (!hasApprovedCourses) {
+				emptyCourseLabel.setText("No approved courses found.");
+				emptyCourseLabel.setVisible(true);
+				courseListContainer.getChildren().add(emptyCourseLabel);
 			}
 		}
 	}
