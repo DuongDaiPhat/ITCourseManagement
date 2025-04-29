@@ -190,6 +190,7 @@ public class InstructorCreatePageController {
 		course.setThumbnailURL(imagePath);
 		course.setCreatedAt(LocalDateTime.now());
 		course.setUpdatedAt(LocalDateTime.now());
+		course.setApproved(false);
 
 		courseService.AddCourse(course);
 		this.ReturnToInstructorMainPage();
