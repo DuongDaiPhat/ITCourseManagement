@@ -1,0 +1,143 @@
+/* Styles for LectureItem.fxml */
+
+/* Container chính */
+.lecture-item-container {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+/* Container tiêu đề bài giảng */
+.lecture-title-container {
+    -fx-background-color: #3498db;
+    -fx-background-radius: 5px 5px 0 0;
+}
+
+/* Tiêu đề bài giảng */
+.lecture-title {
+    -fx-text-fill: white;
+    -fx-padding: 5 0;
+}
+
+/* Container video */
+.video-container {
+    -fx-background-color: #004a55;
+    -fx-padding: 5;
+}
+
+/* Container cho Media View */
+.media-view-container {
+    -fx-min-height: 360px;
+    -fx-background-color: black;
+    -fx-alignment: center;
+}
+
+/* Nút play */
+.play-button {
+    -fx-background-color: black;
+    -fx-background-radius: 50%;
+    -fx-min-width: 20px;
+    -fx-min-height: 20px;
+    -fx-font-size: 18px;
+    -fx-cursor: hand;
+}
+
+.play-button:hover {
+    -fx-background-color: black;
+}
+
+/* Controls video */
+.video-controls {
+    -fx-background-color: #222;
+    -fx-padding: 5 10 5 10;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+}
+
+/* Labels thời gian */
+.time-label {
+    -fx-min-width: 50px;
+    -fx-text-alignment: center;
+    -fx-text-fill: #555;
+}
+
+/* Progress slider */
+.progress-slider .track {
+    -fx-background-color: #ddd;
+    -fx-background-radius: 2px;
+    -fx-pref-height: 8px;
+}
+
+.progress-slider .thumb {
+    -fx-background-color: #3498db;
+    -fx-pref-width: 15px;
+    -fx-pref-height: 15px;
+    -fx-background-radius: 7.5px;
+}
+
+/* Volume slider */
+.volume-slider .track {
+    -fx-background-color: #ddd;
+    -fx-background-radius: 2px;
+    -fx-pref-height: 6px;
+}
+
+.volume-slider .thumb {
+    -fx-background-color: #3498db;
+    -fx-pref-width: 12px;
+    -fx-pref-height: 12px;
+    -fx-background-radius: 6px;
+}
+
+/* Nút điều khiển */
+.control-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #555;
+    -fx-cursor: hand;
+}
+
+.control-button:hover {
+    -fx-text-fill: #3498db;
+}
+
+/* Combo box tốc độ phát */
+.playback-rate-combo {
+    -fx-font-size: 12px;
+    -fx-background-color: #f0f0f0;
+}
+
+/* Section mô tả */
+.description-section {
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px 0 0 0;
+}
+
+/* Tiêu đề mô tả */
+.description-header {
+    -fx-background-color: #f8f8f8;
+    -fx-cursor: hand;
+}
+
+.description-title {
+    -fx-text-fill: #333;
+}
+
+/* Biểu tượng mũi tên */
+.arrow-icon {
+    -fx-text-fill: #555;
+    -fx-font-size: 14px;
+}
+
+/* Nội dung mô tả */
+.description-content {
+    -fx-background-color: white;
+    -fx-padding: 10;
+}
+
+/* Text mô tả */
+.lecture-description {
+    -fx-line-spacing: 1.5;
+}
