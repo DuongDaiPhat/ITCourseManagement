@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import backend.controller.InstructorMainPage.InstructorMainPageController;
 import backend.controller.course.CourseItemController;
 import backend.controller.course.LectureItemController;
 import backend.repository.DatabaseConnection;
@@ -52,6 +53,9 @@ public class InstructorAddLectureController {
     @FXML private TextField duration;
     @FXML private TextArea lectureDescription;
     @FXML private MediaView mediaView;
+    @FXML private Label courseLabel;
+    @FXML private Label myCourse;
+    @FXML private Label createCourse;
 
     private MediaPlayer mediaPlayer;
     private boolean isAddLectureFormVisible = false;
@@ -64,9 +68,26 @@ public class InstructorAddLectureController {
     
     @FXML
     public void initialize() throws SQLException {
+    	courseLabel.setText(CourseSession.getCurrentCourse().getCourseName());
         loadExistingLectures();
         videoUrl.textProperty().addListener((obs, oldText, newText) -> {
             loadVideo(newText);
+        });
+        myCourse.setOnMouseClicked(event->{
+        	try {
+        		this.ReturnToInstructorMainPage();
+        	} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        });
+        createCourse.setOnMouseClicked(event->{
+        	try {
+        		this.ToCreateCoursePage();
+        	}	catch (IOException e) {
+				e.printStackTrace();
+			}
         });
     }
     
@@ -92,21 +113,6 @@ public class InstructorAddLectureController {
 			}
 		}
     }
-//    private Node findNodeById(Node parent, String id) {
-//		if (parent.getId() != null && parent.getId().equals(id)) {
-//			return parent;
-//		}
-//
-//		if (parent instanceof javafx.scene.Parent) {
-//			for (Node child : ((javafx.scene.Parent) parent).getChildrenUnmodifiable()) {
-//				Node result = findNodeById(child, id);
-//				if (result != null) {
-//					return result;
-//				}
-//			}
-//		}
-//		return null;
-//	}
     @FXML
     private void toggleAddLectureForm() {
         isAddLectureFormVisible = !isAddLectureFormVisible;
@@ -152,7 +158,7 @@ public class InstructorAddLectureController {
 
             mediaPlayer.setOnReady(() -> {
                 Duration d = media.getDuration();
-                int minutes = (int)d.toMinutes();
+                int minutes = (int) Math.ceil(d.toMinutes());
                 duration.setText(String.valueOf(minutes)); // set duration
                 mediaPlayer.play(); 
             });
@@ -171,7 +177,7 @@ public class InstructorAddLectureController {
         int courseId = CourseSession.getCurrentCourse().getCourseID();
         String name = lectureName.getText().trim();
         String url = videoUrl.getText().trim();
-        short durationVal = Short.parseShort(duration.getText().trim());
+        short durationVal = (short) Math.ceil(Short.parseShort(duration.getText().trim()));
         String description = lectureDescription.getText().trim();
         
         Lecture lecture = new Lecture();
@@ -182,8 +188,19 @@ public class InstructorAddLectureController {
         lecture.setLectureName(name);
         
         courseService.addLecture(lecture);
-        this.ToCreateCoursePage();
+        this.ToAddLecturePage();;
     }
+    private void ToAddLecturePage() throws IOException {
+		Parent root = FXMLLoader
+				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml"));
+		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+		stage = (Stage) mainScrollPane.getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
+		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
+		stage.show();
+	}
     
     private void ToCreateCoursePage() throws IOException {
 		Parent root = FXMLLoader
@@ -250,6 +267,22 @@ public class InstructorAddLectureController {
         return true;
     }
     
+    private void ReturnToInstructorMainPage() throws IOException, SQLException {
+		FXMLLoader Loader = new FXMLLoader(
+				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
+		Parent root = Loader.load();
+		InstructorMainPageController controller = Loader.getController();
+		controller.initialize();
+
+		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+		stage = (Stage) mainContainer.getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
+		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
+		stage.show();
+	}
+    
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -257,4 +290,6 @@ public class InstructorAddLectureController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    
+    
 }

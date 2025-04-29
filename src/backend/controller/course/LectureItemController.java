@@ -57,8 +57,6 @@ public class LectureItemController {
         descriptionArrow.setText("▼");
         
         // Gắn MediaView vào container
-        DoubleProperty mvw = mediaView.fitWidthProperty();
-        DoubleProperty mvh = mediaView.fitHeightProperty();   
         mediaView.fitWidthProperty().bind(mediaViewContainer.widthProperty());
         mediaView.fitHeightProperty().bind(mediaViewContainer.heightProperty());
         mediaView.setPreserveRatio(true);

@@ -16,7 +16,7 @@
 
 <VBox prefHeight="700" prefWidth="1000"
 	stylesheets="@instructorCreatePage.css"
-	xmlns="http://javafx.com/javafx/23.0.1"
+	xmlns="http://javafx.com/javafx/21.0.6"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="backend.controller.instructorCreatePageController.InstructorUpdatePageController">
 	<children>
