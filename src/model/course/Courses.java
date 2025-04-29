@@ -1,11 +1,12 @@
 package model.course;
+
 import java.time.LocalDateTime;
 
 public class Courses {
 	private int courseID;
 	private String courseName;
 	private Language language;
-	private Technology technology;	
+	private Technology technology;
 	private Level level;
 	private Category category;
 	private int userID;
@@ -14,13 +15,14 @@ public class Courses {
 	private String CourseDescription;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	
+	private boolean isApproved;
+
 	public Courses() {
 		super();
 	}
 
-	public Courses(int courseID, String courseName, Language language, Technology technology,
-			Level level, Category category, int userID, String thumbnailURL, float price, String courseDescription,
+	public Courses(int courseID, String courseName, Language language, Technology technology, Level level,
+			Category category, int userID, String thumbnailURL, float price, String courseDescription,
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.courseID = courseID;
@@ -136,13 +138,21 @@ public class Courses {
 	@Override
 	public String toString() {
 		return "Courses [courseID=" + courseID + ", courseName=" + courseName + ", language=" + language
-				+ ", technology=" + technology + ", level=" + level + ", category=" + category
-				+ ", userID=" + userID + ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription="
-				+ CourseDescription + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ ", technology=" + technology + ", level=" + level + ", category=" + category + ", userID=" + userID
+				+ ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription=" + CourseDescription
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	}
+
+	public boolean isApproved() {
+		return isApproved;
+	}
+
+	public void setApproved(boolean approved) {
+		isApproved = approved;
 	}
 
 	public void print() {
 		System.out.println(this.toString());
 	}
-	
+
 }
