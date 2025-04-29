@@ -14,7 +14,13 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox fx:id="lectureItemContainer" spacing="10" styleClass="lecture-item-container" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.course.LectureItemController">
+<VBox stylesheets = "@LectureItem.css" 
+fx:id="lectureItemContainer"
+ spacing="10"
+  styleClass="lecture-item-container" 
+  xmlns="http://javafx.com/javafx/21.0.6"
+   xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="backend.controller.course.LectureItemController">
     <!-- Lecture Title -->
     <HBox alignment="CENTER_LEFT" styleClass="lecture-title-container">
         <Label fx:id="lectureTitleLabel" styleClass="lecture-title" text="Lecture Title" wrapText="true">

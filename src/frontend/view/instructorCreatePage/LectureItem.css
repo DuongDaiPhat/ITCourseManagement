@@ -62,11 +62,12 @@
     -fx-min-width: 50px;
     -fx-text-alignment: center;
     -fx-text-fill: #555;
+    -fx-font-weight: bold;
 }
 
 /* Progress slider */
 .progress-slider .track {
-    -fx-background-color: #ddd;
+    -fx-background-color: #2ac5b9;
     -fx-background-radius: 2px;
     -fx-pref-height: 8px;
 }
@@ -80,7 +81,7 @@
 
 /* Volume slider */
 .volume-slider .track {
-    -fx-background-color: #ddd;
+    -fx-background-color: #2ac5b9;
     -fx-background-radius: 2px;
     -fx-pref-height: 6px;
 }
