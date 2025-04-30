@@ -39,7 +39,17 @@
     -fx-font-size: 14.0px;
     -fx-wrap-text: true;
 }
-.add-lecture-button, .publish-button{
+.add-lecture-button{
+	-fx-background-color: #2ac5b9;
+	-fx-text-fill: white;
+	-fx-padding: 5 20 5 20;
+	-fx-background-radius: 5.0px;
+	-fx-pref-width: 134px;
+	-fx-pref-height: 25px;
+	-fx-border: 1.0px;
+	-fx-font-weight: bold;
+}
+.publish-button{
 	-fx-background-color: #2ac5b9;
 	-fx-text-fill: white;
 	-fx-padding: 5 20 5 20;
@@ -76,7 +86,15 @@
     -fx-padding: 30.0px 0.0;
 	-fx-font-weight: bold;
 }
-
+.disabled-button{
+    -fx-text-fill: gray;
+    -fx-cursor: default;
+}
+.disabled-link {
+    -fx-text-fill: gray;
+    -fx-underline: false;
+    -fx-cursor: default;
+}
 .option-link {
     -fx-text-fill: #333;
     -fx-font-weight: bold;

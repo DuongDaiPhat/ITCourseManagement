@@ -133,6 +133,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
 				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
 				course.setApproved(rs.getBoolean("ISAPPROVED"));
+				course.setPublish(rs.getBoolean("ISPUBLISHED"));
 				courseList.add(course);
 			}
 			System.out.println(courseList.size() + " row(s) found");
@@ -165,6 +166,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
 				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
 				course.setApproved(rs.getBoolean("ISAPPROVED"));
+				course.setPublish(rs.getBoolean("ISPUBLISHED"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -197,6 +199,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
 				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
 				course.setApproved(rs.getBoolean("ISAPPROVED"));
+				course.setPublish(rs.getBoolean("ISPUBLISHED"));
 				courseList.add(course);
 			}
 			System.out.println(courseList.size() + " row(s) found");
@@ -230,6 +233,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
 				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
 				course.setApproved(rs.getBoolean("ISAPPROVED"));
+				course.setPublish(rs.getBoolean("ISPUBLISHED"));
 				courseList.add(course);
 			}
 			System.out.println(courseList.size() + " row(s) found");
@@ -240,4 +244,45 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 		}
 		return courseList;
 	}
+
+	@Override
+	public void ApproveByCourseId(int id, boolean status) throws SQLException {
+		String sql;
+		if(status == true) {
+			sql = "UPDATE COURSES SET ISAPPROVED = TRUE WHERE COURSEID = ?";
+		}
+		else {
+			sql = "UPDATE COURSES SET ISAPPROVED = FALSE WHERE COURSEID = ?";
+		}
+		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, id);
+			int result = ps.executeUpdate();
+			System.out.println("Update executed. " + result + " row(s) affected");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.closeConnection();
+		}
+	}
+
+	@Override
+	public void PublishByCourseId(int id, boolean status) throws SQLException {
+		String sql;
+		if(status == true) {
+			sql = "UPDATE COURSES SET ISPUBLISHED = TRUE WHERE COURSEID = ?";
+		}
+		else {
+			sql = "UPDATE COURSES SET ISPUBLISHED = FALSE WHERE COURSEID = ?";
+		}
+		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, id);
+			int result = ps.executeUpdate();
+			System.out.println("Update executed. " + result + " row(s) affected");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.closeConnection();
+		}
+	}
+	
 }

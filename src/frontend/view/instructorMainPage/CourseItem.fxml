@@ -44,7 +44,7 @@
 		<!-- Add lecture and publish -->
 		<HBox alignment="CENTER_LEFT" spacing="8">
 			<Button fx:id="addLectureButton" text="Add lecture" styleClass = "add-lecture-button" onAction = "#AddLecture"/>
-			<Button fx:id="publishButton" text="Publish" styleClass = "publish-button"/>
+			<Button fx:id="publishButton" text="Publish" styleClass = "publish-button" onAction = "#PublishCourse"/>
 		</HBox>
 
 		<!-- Bottom Row -->

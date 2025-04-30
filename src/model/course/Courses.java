@@ -16,14 +16,17 @@ public class Courses {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private boolean isApproved;
+	private boolean isPublished;
 
 	public Courses() {
 		super();
 	}
 
+	
+
 	public Courses(int courseID, String courseName, Language language, Technology technology, Level level,
 			Category category, int userID, String thumbnailURL, float price, String courseDescription,
-			LocalDateTime createdAt, LocalDateTime updatedAt) {
+			LocalDateTime createdAt, LocalDateTime updatedAt, boolean isApproved, boolean isPublished) {
 		super();
 		this.courseID = courseID;
 		this.courseName = courseName;
@@ -37,7 +40,11 @@ public class Courses {
 		CourseDescription = courseDescription;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.isApproved = isApproved;
+		this.isPublished = isPublished;
 	}
+
+
 
 	public int getCourseID() {
 		return courseID;
@@ -134,13 +141,27 @@ public class Courses {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+
+	public boolean isPublished() {
+		return isPublished;
+	}
+
+
+
+	public void setPublish(boolean isPublished) {
+		this.isPublished = isPublished;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "Courses [courseID=" + courseID + ", courseName=" + courseName + ", language=" + language
 				+ ", technology=" + technology + ", level=" + level + ", category=" + category + ", userID=" + userID
 				+ ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription=" + CourseDescription
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", isApproved=" + isApproved
+				+ ", isPublished=" + isPublished + "]";
 	}
 
 	public boolean isApproved() {
