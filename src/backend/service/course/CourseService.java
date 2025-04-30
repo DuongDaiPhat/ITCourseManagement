@@ -9,7 +9,11 @@ import backend.repository.lecture.LectureRepository;
 import model.course.Courses;
 import model.lecture.Lecture;
 
-public class CourseService {
+public class CourseService implements ICourseService{
+	@Override
+	public Courses GetCourseByID(int id) throws SQLException {
+		return CourseRepository.getInstance().SelectByID(id);
+	}
 	public ArrayList<Courses> GetCourseByUserID(int id) throws SQLException {
 		return CourseRepository.getInstance().GetCoursesByUserID(id);
 	}
@@ -25,13 +29,28 @@ public class CourseService {
 	public void updateCourse(Courses course) throws SQLException {
 		CourseRepository.getInstance().Update(course);
 	}
+	
 	public void addLecture(Lecture lecture) throws SQLException {
 		LectureRepository.getInstance().Insert(lecture);
 	}
+	
 	public ArrayList<Lecture> getLectureByCourseID(int CourseID) throws SQLException {
 		return LectureRepository.getInstance().SelectByCondition("COURSEID = " + String.valueOf(CourseID));
 	}
+	
 	public void DeleteLectureByID(int id) throws SQLException {
 		LectureRepository.getInstance().DeleteByCondition("LECTUREID = " + String.valueOf(id));
 	}
+
+	@Override
+	public void ApproveByID(int id, boolean status) throws SQLException {
+		CourseRepository.getInstance().ApproveByCourseId(id, status);
+	}
+
+	@Override
+	public void PublishByID(int id, boolean status) throws SQLException {
+		CourseRepository.getInstance().PublishByCourseId(id, status);
+	}
+
+	
 }
