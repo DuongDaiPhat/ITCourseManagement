@@ -51,6 +51,15 @@ public class CourseService implements ICourseService{
 	public void PublishByID(int id, boolean status) throws SQLException {
 		CourseRepository.getInstance().PublishByCourseId(id, status);
 	}
+	@Override
+	public void UpdateLecture(Lecture lecture) throws SQLException {
+		LectureRepository.getInstance().Update(lecture);
+		
+	}
+	@Override
+	public void DeleteLecture(Lecture lecture) throws SQLException {
+		LectureRepository.getInstance().Delete(lecture);
+	}
 
 	
 }

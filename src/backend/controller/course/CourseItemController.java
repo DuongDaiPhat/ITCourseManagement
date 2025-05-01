@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 import model.course.CourseSession;
 import model.course.Courses;
 
-public class CourseItemController {
+public class CourseItemController implements ICourseItemController{
 	@FXML
 	private HBox courseItemContainer;
 	@FXML

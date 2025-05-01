@@ -22,7 +22,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.user.Session;
 
-public class LoginController {
+public class LoginController implements ILoginController {
 	@FXML
 	private TextField username;
 	@FXML

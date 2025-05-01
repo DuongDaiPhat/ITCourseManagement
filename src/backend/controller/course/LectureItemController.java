@@ -1,8 +1,14 @@
 package backend.controller.course;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -10,13 +16,24 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.FileChooser;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.course.CourseSession;
 import model.lecture.Lecture;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Optional;
 
-public class LectureItemController {
+import backend.controller.instructorCreatePageController.IOnChildRemovedListener;
+import backend.controller.instructorCreatePageController.InstructorAddLectureController;
+import backend.service.course.CourseService;
+
+public class LectureItemController implements ILectureItemController{
 
     @FXML private VBox lectureItemContainer;
     @FXML private Label lectureTitleLabel;
@@ -34,16 +51,32 @@ public class LectureItemController {
     @FXML private TextFlow lectureDescriptionText;
     @FXML private Text descriptionText;
     
+    private InstructorAddLectureController parentController;
     private MediaPlayer mediaPlayer;
     private boolean isPlaying = false;
     private boolean isMuted = false;
     private boolean isDescriptionExpanded = true;
+    private CourseService courseService = new CourseService();
+    private IOnChildRemovedListener listener;
     
     // Mô hình dữ liệu cho bài giảng
     private Lecture lecture;
+    // Callback interface for lecture operations
+    private LectureOperationsCallback lectureCallback;
+    
+    // Interface for lecture operations callback
+    public interface LectureOperationsCallback {
+        void onLectureUpdated(Lecture updatedLecture);
+        void onLectureDeleted(Lecture lecture);
+    }
     
     @FXML
     public void initialize() {
+    	// Gắn MediaView vào container
+        mediaView.fitWidthProperty().bind(mediaViewContainer.widthProperty());
+        mediaView.fitHeightProperty().bind(mediaViewContainer.heightProperty());
+        mediaView.setPreserveRatio(true);
+        
         // Khởi tạo ComboBox tốc độ phát
         playbackRateComboBox.setItems(FXCollections.observableArrayList(
             "0.5x", "0.75x", "1.0x", "1.25x", "1.5x", "2.0x"
@@ -55,11 +88,7 @@ public class LectureItemController {
         descriptionContent.setVisible(true);
         descriptionContent.setManaged(true);
         descriptionArrow.setText("▼");
-        
-        // Gắn MediaView vào container
-        mediaView.fitWidthProperty().bind(mediaViewContainer.widthProperty());
-        mediaView.fitHeightProperty().bind(mediaViewContainer.heightProperty());
-        mediaView.setPreserveRatio(true);
+        	
         // Thiết lập volumeSlider
         volumeSlider.setValue(100);
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -77,29 +106,40 @@ public class LectureItemController {
             }
         });
     }
+    public void setOnChildRemovedListener(IOnChildRemovedListener listener) {
+        this.listener = listener;
+    }
+    public void setParentController(InstructorAddLectureController parentController) {
+        this.parentController = parentController;
+    }
     
     // Phương thức để thiết lập dữ liệu bài giảng
     public void setLecture(Lecture lecture) {
         this.lecture = lecture;
-        
-        // Cập nhật UI với dữ liệu bài giảng
+        this.UpdateUI();
+    }
+    private void UpdateUI() {
+    	// Cập nhật UI với dữ liệu bài giảng
         lectureTitleLabel.setText(lecture.getLectureName());
         descriptionText.setText(lecture.getLectureDescription());
         
         // Tải video
         loadVideo(lecture.getVideoURL());
     }
-    
     private void loadVideo(String videoUrl) {
         try {
-            // Giải phóng tài nguyên nếu đã có mediaPlayer trước đó
-            if (mediaPlayer != null) {
-                mediaPlayer.dispose();
-            }
-            
+        	if (mediaPlayer != null) {
+        	    mediaPlayer.dispose();
+        	}
+        	String source;
+        	if (videoUrl.startsWith("http") || videoUrl.startsWith("file:/")) {
+		       source = videoUrl;
+        	} else {
+		       // Convert local file to URI
+		       source = new File(videoUrl).toURI().toString();
+        	}
             // Tạo Media object từ URL
-            File videoFile = new File(videoUrl);
-            Media media = new Media(videoFile.toURI().toString());
+            Media media = new Media(source);
             
             // Tạo MediaPlayer
             mediaPlayer = new MediaPlayer(media);
@@ -126,6 +166,12 @@ public class LectureItemController {
                 mediaPlayer.pause();
                 isPlaying = false;
                 playButton.setText("▶");
+            });
+            mediaPlayer.setOnError(() -> {
+                System.out.println("MediaPlayer error: " + mediaPlayer.getError());
+            });
+            media.setOnError(() -> {
+                System.out.println("Media error: " + media.getError());
             });
             
         } catch (Exception e) {
@@ -195,11 +241,147 @@ public class LectureItemController {
             return String.format("%02d:%02d", minutes, seconds);
         }
     }
+    @FXML
+    private void handleEditLecture() {
+        // Create a dialog for editing lecture
+        Dialog<Lecture> dialog = new Dialog<>();
+        dialog.setTitle("Edit Lecture");
+        dialog.setHeaderText("Edit Lecture Details");
+        
+        // Set the button types
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+        
+        // Create the form content
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+        
+        TextField titleField = new TextField(lecture.getLectureName());
+        titleField.setPromptText("Lecture Title");
+        
+        TextField videoUrlField = new TextField(lecture.getVideoURL());
+        videoUrlField.setPromptText("Video URL");  
+        
+        Button browseButton = new Button("Browse...");
+        browseButton.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select Video File");
+            fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Video Files", "*.mp4", "*.avi", "*.mov", "*.wmv", "*.mkv")
+            );
+            File selectedFile = fileChooser.showOpenDialog(dialog.getOwner());
+            if (selectedFile != null) {
+                videoUrlField.setText(selectedFile.getAbsolutePath());
+            }
+        });
+        String updatedVideoURL = videoUrlField.getText();
+        String source;
+        if (updatedVideoURL.startsWith("http") || updatedVideoURL.startsWith("file:/")) {
+            source = updatedVideoURL;
+        } else {
+            // Convert local file to URI
+            source = new File(updatedVideoURL).toURI().toString();
+        }
+        Media media = new Media(source);
+        MediaPlayer updatedMediaPlayer = new MediaPlayer(media);
+        MediaView updatedMediaView = new MediaView();
+        updatedMediaView.setMediaPlayer(updatedMediaPlayer);
+ 
+        HBox videoUrlBox = new HBox(10, videoUrlField, browseButton);
+        videoUrlBox.setHgrow(videoUrlField, Priority.ALWAYS);
+        
+        TextArea descriptionArea = new TextArea(lecture.getLectureDescription());
+        descriptionArea.setPromptText("Lecture Description");
+        descriptionArea.setPrefRowCount(5);
+        
+        grid.add(new Label("Title:"), 0, 0);
+        grid.add(titleField, 1, 0);
+        grid.add(new Label("Video URL:"), 0, 1);
+        grid.add(videoUrlBox, 1, 1);
+        grid.add(new Label("Description:"), 0, 2);
+        grid.add(descriptionArea, 1, 2);
+        
+        dialog.getDialogPane().setContent(grid);
+        
+        // Request focus on the title field by default
+        Platform.runLater(() -> titleField.requestFocus());
+        
+        // Convert the result to lecture object when the save button is clicked
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+            	Lecture updatedLecture = new Lecture();
+                updatedLecture.setLectureID(lecture.getLectureID());
+                updatedLecture.setLectureName(titleField.getText());
+                updatedLecture.setCourseID(CourseSession.getCurrentCourse().getCourseID());
+                updatedLecture.setVideoURL(videoUrlField.getText());
+                updatedLecture.setLectureDescription(descriptionArea.getText());
+                Duration d = media.getDuration();
+                int minutes = (int) Math.ceil(d.toMinutes());
+                short durationVal = (short) minutes;
+                updatedLecture.setDuration(durationVal);
+                return updatedLecture;
+            }
+            return null;
+        });
+        
+        Optional<Lecture> result = dialog.showAndWait();
+        
+        result.ifPresent(updatedLecture -> {
+            try {
+				courseService.UpdateLecture(updatedLecture);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+            
+            // Update the model
+            this.lecture = updatedLecture;
+            
+            // Update the UI
+            UpdateUI();
+            
+            // Notify listener about the update
+            if (lectureCallback != null) {
+                lectureCallback.onLectureUpdated(updatedLecture);
+            }
+        });
+    }
     
+    @FXML
+    private void handleDeleteLecture() {
+        // Show confirmation dialog
+        Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmDialog.setTitle("Delete Lecture");
+        confirmDialog.setHeaderText("Are you sure you want to delete this lecture?");
+        confirmDialog.setContentText("Lecture: " + lecture.getLectureName());
+        
+        Optional<ButtonType> result = confirmDialog.showAndWait();
+        
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+				courseService.DeleteLecture(lecture);
+				this.dispose();
+				if (listener != null) {
+		            listener.onChildRemoved();
+		        }
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
+            // Notify listener about the deletion
+            if (lectureCallback != null) {
+                lectureCallback.onLectureDeleted(lecture);
+            }
+        }
+    }
     // Giải phóng tài nguyên khi controller không được sử dụng nữa
     public void dispose() {
-        if (mediaPlayer != null) {
-            mediaPlayer.dispose();
-        }
+    	if (mediaPlayer != null) {
+    	    mediaPlayer.stop();
+    	    mediaPlayer.dispose();
+    	    mediaView.setMediaPlayer(null);
+    	}
     }
 }

@@ -40,7 +40,7 @@ import model.course.Level;
 import model.course.Technology;
 import model.user.Session;
 
-public class InstructorUpdatePageController {
+public class InstructorUpdatePageController implements IInstructorUpdatePageController{
 	@FXML
 	private TextField courseName;
 	@FXML
