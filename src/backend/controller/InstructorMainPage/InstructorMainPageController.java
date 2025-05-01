@@ -39,7 +39,7 @@ import backend.controller.course.CourseItemController;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
 
-public class InstructorMainPageController {
+public class InstructorMainPageController implements IInstructorMainPageController {
 	private Users currentUser;
 	@FXML
 	private Label usernameLabel;

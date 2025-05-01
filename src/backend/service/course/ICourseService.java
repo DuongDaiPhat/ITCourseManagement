@@ -22,7 +22,12 @@ public interface ICourseService {
 	
 	public void DeleteLectureByID(int id) throws SQLException;
 	
+	public void DeleteLecture(Lecture lecture) throws SQLException;
+	
 	public void ApproveByID(int id, boolean status) throws SQLException;
 	
 	public void PublishByID(int id, boolean status) throws SQLException;
+	
+	public void UpdateLecture(Lecture lecture) throws SQLException;
+	
 }

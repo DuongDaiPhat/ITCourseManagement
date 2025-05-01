@@ -79,13 +79,12 @@
     -fx-padding: 15px;
 }
 .title-card{
-	padding: 0 0 30 0;
+	-fx-padding: 10 30 10 20;
 }
 .course-label{
 	-fx-text-fill: #333;
-	-fx-font-size: 24px;
+	-fx-font-size: 35px;
 	-fx-font-weight: bold;
-	-fx-padding: 10 30 10 30;
 }
 
 .scroll-pane {
@@ -104,7 +103,7 @@
 }
 
 .add-lecture-bar {
-    -fx-background-color: #3498db;
+    -fx-background-color: linear-gradient(to left, #fdd535,#0cc0df);
     -fx-background-radius: 5px 5px 0 0;
     -fx-cursor: hand;
     -fx-alignment: center-left;
@@ -129,45 +128,66 @@
 }
 
 .form-label {
+	-fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-padding: 5 0 0 0;
 }
 
 .form-field {
     -fx-background-radius: 3px;
-    -fx-border-color: #ddd;
+    -fx-background-color: #e6f2f2;
     -fx-border-radius: 3px;
-    -fx-padding: 8px;
+    -fx-padding: 10px;
 }
 
 .form-field:focused {
-    -fx-border-color: #3498db;
+    -fx-background-color: #d1eaea;
+    -fx-border-color: #40e0d0;
+    -fx-border-width: 1.0px;
 }
-
+.description-field{
+	-fx-background-radius: 3px;
+    -fx-control-inner-background: #e6f2f2;
+    -fx-background-color: #d1eaea;
+    -fx-border-radius: 3px;
+}
+.description-field:focused{
+	-fx-control-inner-background: white;
+    -fx-background-color: white;
+    -fx-border-color: linear-gradient(to right, #0066cc, #40e0d0);
+}
 .browse-button {
-    -fx-background-color: #7f8c8d;
+    -fx-background-color: linear-gradient(to right, #0066cc, #40e0d0);
     -fx-text-fill: white;
-    -fx-background-radius: 3px;
+    -fx-font-weight: bold;
+    -fx-font-size: 12.0px;
+    -fx-padding: 9.5px;
+    -fx-pref-width: 80px;
+    -fx-transition: all 0.5s ease-in-out;
 }
 
 .browse-button:hover {
-    -fx-background-color: #95a5a6;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 
 .cancel-button {
-    -fx-background-color: #7f8c8d;
+    -fx-background-color: #ff5757;
     -fx-text-fill: white;
+    -fx-font-weight: bold;
     -fx-background-radius: 3px;
     -fx-padding: 8px 15px;
+    -fx-pref-width: 90px;
 }
 
 .cancel-button:hover {
-    -fx-background-color: #95a5a6;
+    -fx-background-color: #cc2d2d;
 }
 
 .add-button {
     -fx-background-color: #2ecc71;
     -fx-text-fill: white;
+    -fx-font-weight: bold;
     -fx-background-radius: 3px;
     -fx-padding: 8px 15px;
 }

@@ -40,7 +40,7 @@ import backend.controller.course.LectureItemController;
 import backend.repository.DatabaseConnection;
 import backend.service.course.CourseService;
 
-public class InstructorAddLectureController {
+public class InstructorAddLectureController implements IInstructorAddLectureController, IOnChildRemovedListener {
 
     @FXML private ScrollPane mainScrollPane;
     @FXML private VBox mainContainer;
@@ -62,16 +62,20 @@ public class InstructorAddLectureController {
     
     private CourseService courseService = new CourseService();
     private List<Lecture> lectures = new ArrayList<>();
+    List<LectureItemController> lectureControllers = new ArrayList<>();
     
     private Stage stage;
     private Scene scene;
+    
     
     @FXML
     public void initialize() throws SQLException {
     	courseLabel.setText(CourseSession.getCurrentCourse().getCourseName());
         loadExistingLectures();
         videoUrl.textProperty().addListener((obs, oldText, newText) -> {
-            loadVideo(newText);
+            if (newText != null && !newText.trim().isEmpty()) {
+                Platform.runLater(() -> loadVideo(newText));
+            }
         });
         myCourse.setOnMouseClicked(event->{
         	try {
@@ -101,10 +105,20 @@ public class InstructorAddLectureController {
 					FXMLLoader loader = new FXMLLoader(
 							getClass().getResource("/frontend/view/instructorCreatePage/LectureItem.fxml"));
 					VBox lectureItem = loader.load();
-					Separator sp = new Separator();
-
 					LectureItemController controller = loader.getController();
 					controller.setLecture(lecture);
+		            controller.setOnChildRemovedListener(() -> {
+		                // Khi con bị xóa, reload lại danh sách
+		            	try {
+							loadExistingLectures();
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+		            });
+					Separator sp = new Separator();
+
+					lectureControllers.add(controller);
 					lecturesContainer.getChildren().add(sp);
 					lecturesContainer.getChildren().add(lectureItem);
 				} catch (IOException e) {
@@ -160,7 +174,6 @@ public class InstructorAddLectureController {
                 Duration d = media.getDuration();
                 int minutes = (int) Math.ceil(d.toMinutes());
                 duration.setText(String.valueOf(minutes)); // set duration
-                mediaPlayer.play(); 
             });
 
         } catch (Exception e) {
@@ -191,6 +204,7 @@ public class InstructorAddLectureController {
         this.ToAddLecturePage();;
     }
     private void ToAddLecturePage() throws IOException {
+    	this.dispose();
 		Parent root = FXMLLoader
 				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml"));
 		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
@@ -203,6 +217,7 @@ public class InstructorAddLectureController {
 	}
     
     private void ToCreateCoursePage() throws IOException {
+    	this.dispose();
 		Parent root = FXMLLoader
 				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorCreatePage.fxml"));
 		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
@@ -214,23 +229,6 @@ public class InstructorAddLectureController {
 		stage.show();
 	}
 
-    private void deleteLecture(int lectureId, VBox lectureCard) {
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirm Deletion");
-        confirmAlert.setHeaderText("Delete Lecture");
-        confirmAlert.setContentText("Are you sure you want to delete this lecture? This action cannot be undone.");
-        
-        confirmAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                try {
-					courseService.DeleteLectureByID(lectureId);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-            }
-        });
-    }
-    
     @FXML
     private void cancelAddLecture() {
         clearLectureForm();
@@ -268,6 +266,7 @@ public class InstructorAddLectureController {
     }
     
     private void ReturnToInstructorMainPage() throws IOException, SQLException {
+    	this.dispose();
 		FXMLLoader Loader = new FXMLLoader(
 				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
 		Parent root = Loader.load();
@@ -290,6 +289,18 @@ public class InstructorAddLectureController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    private void dispose() {
+    	for(LectureItemController l : lectureControllers) {
+    		l.dispose();
+    	}
+    }
+
+	@Override
+	public void onChildRemoved() {
+		// TODO Auto-generated method stub
+		
+	}
     
     
 }
