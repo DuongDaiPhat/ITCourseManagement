@@ -102,7 +102,7 @@
 		                    <TextField fx:id="duration" promptText="Duration will be calculated automatically" styleClass="form-field" disable="true"/>
 		                    
 		                    <Label text="Lecture Description:" styleClass="form-label"/>
-		                    <TextArea fx:id="lectureDescription" promptText="Enter lecture description" styleClass="form-field" wrapText="true" prefRowCount="4"/>
+		                    <TextArea fx:id="lectureDescription" promptText="Enter lecture description" styleClass="description-field" wrapText="true" prefRowCount="4"/>
 		                    
 		                    <HBox spacing="10" alignment="CENTER_RIGHT">
 		                        <Button text="Cancel" onAction="#cancelAddLecture" styleClass="cancel-button"/>

@@ -12,14 +12,34 @@
 
 /* Container tiêu đề bài giảng */
 .lecture-title-container {
-    -fx-background-color: #3498db;
+    -fx-background-color: #0097b2;
     -fx-background-radius: 5px 5px 0 0;
 }
 
 /* Tiêu đề bài giảng */
 .lecture-title {
+	-fx-font-size: 20px;
     -fx-text-fill: white;
     -fx-padding: 5 0;
+}
+
+.icon-button {
+-fx-background-color: transparent;
+-fx-text-fill: white;
+-fx-font-size: 25px;
+-fx-text-weight: bold;
+-fx-padding: 5 5;
+-fx-cursor: hand;
+-fx-min-width: 30px;
+-fx-min-height: 30px;
+-fx-alignment: center;
+}	
+
+#config-icon:hover{
+	-fx-text-fill: grey;
+}
+#trash-bin-icon:hover{
+	-fx-text-fill: red;
 }
 
 /* Container video */
@@ -118,7 +138,8 @@
 
 /* Tiêu đề mô tả */
 .description-header {
-    -fx-background-color: #f8f8f8;
+    -fx-background-color: #3fe7d9;
+    -fx-padding: 10px;
     -fx-cursor: hand;
 }
 

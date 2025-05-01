@@ -14,13 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox stylesheets = "@LectureItem.css" 
-fx:id="lectureItemContainer"
- spacing="10"
-  styleClass="lecture-item-container" 
-  xmlns="http://javafx.com/javafx/21.0.6"
-   xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="backend.controller.course.LectureItemController">
+<VBox fx:id="lectureItemContainer" spacing="10" styleClass="lecture-item-container" stylesheets="@LectureItem.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.course.LectureItemController">
     <!-- Lecture Title -->
     <HBox alignment="CENTER_LEFT" styleClass="lecture-title-container">
         <Label fx:id="lectureTitleLabel" styleClass="lecture-title" text="Lecture Title" wrapText="true">
@@ -28,6 +22,9 @@ fx:id="lectureItemContainer"
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
+         <Region HBox.hgrow="ALWAYS" />
+		    <Button fx:id="editButton" onAction="#handleEditLecture" id = "config-icon" styleClass="icon-button" text="⚙" />
+		    <Button fx:id="deleteButton" onAction="#handleDeleteLecture" id = "trash-bin-icon" styleClass="icon-button" text="🗑" />
         <padding>
             <Insets bottom="5" left="10" right="10" top="5" />
         </padding>
@@ -70,7 +67,7 @@ fx:id="lectureItemContainer"
     <VBox styleClass="description-section">
         <!-- Description Header -->
         <HBox alignment="CENTER_LEFT" onMouseClicked="#toggleDescription" styleClass="description-header">
-            <Label styleClass="description-title" text="Mô tả bài giảng">
+            <Label styleClass="description-title" text="Lecture description">
                 <font>
                     <Font name="System Bold" size="14.0" />
                 </font>
