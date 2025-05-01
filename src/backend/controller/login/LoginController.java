@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import backend.controller.InstructorMainPage.InstructorMainPageController;
 import backend.controller.register.SelectRoleController;
+import backend.controller.scene.SceneManager;
 import backend.service.user.LoginService;
 import backend.service.user.UserService;
 import javafx.event.ActionEvent;
@@ -69,13 +70,6 @@ public class LoginController implements ILoginController {
 		}
 	}
 	public void Register(ActionEvent e) throws SQLException, IOException{
-		Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/register/register.fxml"));
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth())/2);
-		stage.setY((rec.getHeight() - stage.getHeight())/2);
-		stage.show();
+		SceneManager.switchScene("Register", "/frontend/view/register/register.fxml");
 	}
 }

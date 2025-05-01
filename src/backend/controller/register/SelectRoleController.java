@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.user.UserStatus;
 import model.user.Users;
+import backend.controller.scene.SceneManager;
 import backend.repository.user.UsersRepository;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -89,7 +90,8 @@ public class SelectRoleController implements Initializable, ISelectRoleControlle
 		Platform.runLater(() -> {
 			showSuccessAlert();
 			try {
-				BackToLogin();
+				SceneManager.goBack();
+				SceneManager.goBack();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
@@ -121,18 +123,5 @@ public class SelectRoleController implements Initializable, ISelectRoleControlle
 			Alert simpleAlert = new Alert(AlertType.INFORMATION, "Account created successfully!");
 			simpleAlert.showAndWait();
 		}
-	}
-
-	public void BackToLogin() throws Exception {
-	    FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/login/Login.fxml"));
-	    Parent root = loader.load();
-	    Stage stage = (Stage) nextButton.getScene().getWindow();
-	    stage.setScene(new Scene(root));
-	    
-	    Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-	    stage.setX((rec.getWidth() - stage.getWidth())/2);
-	    stage.setY((rec.getHeight() - stage.getHeight())/2);
-	    
-	    stage.show();
 	}
 }

@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.controller.scene.SceneManager;
 import backend.service.user.UserService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,18 +20,9 @@ public class Program extends Application{
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		Parent root = FXMLLoader.load(this.getClass().getResource("/frontend/view/login/Login.fxml"));
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setResizable(false);
-		Image icon = new Image(this.getClass().getResource("/images/logo/logoIcon.png").toExternalForm(), 80,30, false, false);
+		SceneManager.setPrimaryStage(stage);
+		Image icon = new Image(getClass().getResource("/images/logo/logoIcon.png").toExternalForm());
 		stage.getIcons().add(icon);
-		stage.setTitle("AiTeeCo");
-		stage.setOnShown(e->{
-			Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-			stage.setX((rec.getWidth() - stage.getWidth())/2);
-			stage.setY((rec.getHeight() - stage.getHeight())/2);
-		});
-		stage.show();
+	    SceneManager.switchScene("AiTeeCo", "/frontend/view/login/Login.fxml");
 	}
 }
