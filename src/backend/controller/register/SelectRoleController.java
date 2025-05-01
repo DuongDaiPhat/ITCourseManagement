@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.user.UserStatus;
 import model.user.Users;
-import backend.repository.user.UsersRepository;
+import backend.service.user.RegisterService; // Thêm import này
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -32,107 +32,119 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class SelectRoleController implements Initializable {
-	private Users user;
-	@FXML
-	private Label userFullName;
-	@FXML
-	private CheckBox instructorCheckbox;
-	@FXML
-	private CheckBox studentCheckbox;
-	@FXML
-	private Button nextButton;
+    private Users user;
+    @FXML
+    private Label userFullName;
+    @FXML
+    private CheckBox instructorCheckbox;
+    @FXML
+    private CheckBox studentCheckbox;
+    @FXML
+    private Button nextButton;
 
-	// Nếu bạn sử dụng ToggleButton thay thế
-	// @FXML
-	// private ToggleGroup roleToggleGroup;
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// Thiết lập nút NEXT ở trạng thái vô hiệu hóa ban đầu
-		nextButton.setDisable(true);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Thiết lập nút NEXT ở trạng thái vô hiệu hóa ban đầu
+        nextButton.setDisable(true);
 
-		// Với CheckBox
-		instructorCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue) {
-				studentCheckbox.setSelected(false);
-				nextButton.setDisable(false);
-			} else if (!studentCheckbox.isSelected()) {
-				nextButton.setDisable(true);
-			}
-		});
+        // Với CheckBox
+        instructorCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                studentCheckbox.setSelected(false);
+                nextButton.setDisable(false);
+            } else if (!studentCheckbox.isSelected()) {
+                nextButton.setDisable(true);
+            }
+        });
 
-		studentCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue) {
-				instructorCheckbox.setSelected(false);
-				nextButton.setDisable(false);
-			} else if (!instructorCheckbox.isSelected()) {
-				nextButton.setDisable(true);
-			}
-		});
-	}
+        studentCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                instructorCheckbox.setSelected(false);
+                nextButton.setDisable(false);
+            } else if (!instructorCheckbox.isSelected()) {
+                nextButton.setDisable(true);
+            }
+        });
+    }
 
-	public void SelectRoleForUser(Users user) {
-		this.user = user;
-		userFullName.setText(this.user.getUserFirstName() + " " + this.user.getUserLastName());
-	}
+    public void SelectRoleForUser(Users user) {
+        this.user = user;
+        userFullName.setText(this.user.getUserFirstName() + " " + this.user.getUserLastName());
+    }
 
-	public void Next(ActionEvent e) throws SQLException {
-		if (instructorCheckbox.isSelected()) {
-			this.user.setRoleID(1);
-		} else if (studentCheckbox.isSelected()) {
-			this.user.setRoleID(2);
-		}
-		this.user.setCreatedAt(LocalDate.now());
-		this.user.setStatus(UserStatus.online);
-		this.user.setDescription("No bio yet");
-		UsersRepository.getInstance().Insert(user);
+    public void Next(ActionEvent e) throws SQLException {
+        if (instructorCheckbox.isSelected()) {
+            this.user.setRoleID(1);
+        } else if (studentCheckbox.isSelected()) {
+            this.user.setRoleID(2);
+        }
+        this.user.setCreatedAt(LocalDate.now());
+        this.user.setStatus(UserStatus.online);
+        this.user.setDescription("No bio yet");
 
-		Platform.runLater(() -> {
-			showSuccessAlert();
-			try {
-				BackToLogin();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		});
-	}
+        // Gọi RegisterService để mã hóa mật khẩu và lưu vào cơ sở dữ liệu
+        RegisterService registerService = RegisterService.getInstance();
+        boolean success = registerService.registerUser(user);
 
-	private void showSuccessAlert() {
-		try {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Success message");
-			alert.setHeaderText(null);
+        if (success) {
+            // Đăng ký thành công, hiển thị thông báo và chuyển về màn hình đăng nhập
+            Platform.runLater(() -> {
+                showSuccessAlert();
+                try {
+                    BackToLogin();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+        } else {
+            // Hiển thị thông báo lỗi nếu đăng ký thất bại
+            Platform.runLater(() -> {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Registration Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to create account. Username may already exist.");
+                alert.showAndWait();
+            });
+        }
+    }
 
-			Label messageLabel = new Label("Account created successfully!\nPlease sign in to continue");
-			messageLabel.setStyle("-fx-text-fill: #004AAD; -fx-font-size: 16px; -fx-font-weight: bold;");
+    private void showSuccessAlert() {
+        try {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Success message");
+            alert.setHeaderText(null);
 
-			VBox contentBox = new VBox(15, messageLabel);
-			contentBox.setAlignment(Pos.CENTER);
+            Label messageLabel = new Label("Account created successfully!\nPlease sign in to continue");
+            messageLabel.setStyle("-fx-text-fill: #004AAD; -fx-font-size: 16px; -fx-font-weight: bold;");
 
-			DialogPane dialogPane = alert.getDialogPane();
-			dialogPane.getStylesheets()
-					.add(getClass().getResource("/frontend/view/register/selectRole.css").toExternalForm());
-			dialogPane.getStyleClass().add("success-alert");
-			dialogPane.setContent(contentBox);
-			dialogPane.setPrefWidth(400);
+            VBox contentBox = new VBox(15, messageLabel);
+            contentBox.setAlignment(Pos.CENTER);
 
-			alert.showAndWait();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Alert simpleAlert = new Alert(AlertType.INFORMATION, "Account created successfully!");
-			simpleAlert.showAndWait();
-		}
-	}
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets()
+                    .add(getClass().getResource("/frontend/view/register/selectRole.css").toExternalForm());
+            dialogPane.getStyleClass().add("success-alert");
+            dialogPane.setContent(contentBox);
+            dialogPane.setPrefWidth(400);
 
-	public void BackToLogin() throws Exception {
-	    FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/login/Login.fxml"));
-	    Parent root = loader.load();
-	    Stage stage = (Stage) nextButton.getScene().getWindow();
-	    stage.setScene(new Scene(root));
-	    
-	    Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-	    stage.setX((rec.getWidth() - stage.getWidth())/2);
-	    stage.setY((rec.getHeight() - stage.getHeight())/2);
-	    
-	    stage.show();
-	}
+            alert.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert simpleAlert = new Alert(AlertType.INFORMATION, "Account created successfully!");
+            simpleAlert.showAndWait();
+        }
+    }
+
+    public void BackToLogin() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/login/Login.fxml"));
+        Parent root = loader.load();
+        Stage stage = (Stage) nextButton.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        
+        Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+        stage.setX((rec.getWidth() - stage.getWidth())/2);
+        stage.setY((rec.getHeight() - stage.getHeight())/2);
+        
+        stage.show();
+    }
 }

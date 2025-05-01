@@ -2,6 +2,7 @@ package backend.controller.register;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import backend.service.user.RegisterService;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import model.user.UserStatus;
 import model.user.Users;
 
 public class RegisterController {
@@ -178,7 +180,17 @@ public class RegisterController {
         user.setEmail(str_email);
         user.setPhoneNumber(str_phoneNumber);
         user.setPassword(str_password);
+        // Gán các giá trị mặc định để đảm bảo tính nhất quán
+        user.setStatus(UserStatus.online);
+        user.setCreatedAt(LocalDate.now());
+        user.setDescription("No bio yet");
         
+        // Thêm log để kiểm tra dữ liệu trước khi truyền
+        System.out.println("User data before passing to SelectRoleController:");
+        System.out.println("Username: " + str_username);
+        System.out.println("Password: " + str_password);
+        System.out.println("Email: " + str_email);
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/register/selectRole.fxml"));
         root = loader.load();
         
