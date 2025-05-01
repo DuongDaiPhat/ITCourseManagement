@@ -95,8 +95,11 @@
                      <children>
                         <AnchorPane prefHeight="149.0" prefWidth="885.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="147.0" fitWidth="872.0" layoutX="-1.0" layoutY="43.0" pickOnBounds="true" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" />
-                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="147.0" fitWidth="875.0" layoutX="-1.0" layoutY="43.0" pickOnBounds="true" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
+                                 <image>
+                                    <Image url="@../../../../resources/images/main_page/images/it.png" />
+                                 </image></ImageView>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../resources/images/main_page/icon/ArrowLeft.png" />
                                  </image>

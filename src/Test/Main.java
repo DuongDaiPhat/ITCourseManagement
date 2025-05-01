@@ -24,7 +24,7 @@ import model.user.MyCart;
 public class Main extends Application{
 	@Override
 	public void start(Stage stage) throws Exception {
-	    Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/login/Login.fxml"));
+	    Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/register/register.fxml"));
 	    Scene scene = new Scene(root);
 	    
 	    
