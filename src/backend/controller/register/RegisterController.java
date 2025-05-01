@@ -3,6 +3,7 @@ package backend.controller.register;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import backend.controller.scene.SceneManager;
 import backend.service.user.RegisterService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,14 +60,7 @@ public class RegisterController implements IRegisterController{
     private Label termsError;
     
     public void BackToLogin(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("/frontend/view/login/Login.fxml"));
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setX((rec.getWidth() - stage.getWidth())/2);
-        stage.setY((rec.getHeight() - stage.getHeight())/2);
-        stage.show();
+    	SceneManager.goBack();
     }
     
     public void SignIn(ActionEvent e) throws IOException, SQLException {
@@ -182,15 +176,12 @@ public class RegisterController implements IRegisterController{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/register/selectRole.fxml"));
         root = loader.load();
         
-        SelectRoleController selectRoleController = loader.getController();
-        selectRoleController.SelectRoleForUser(user);
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-        stage.setX((rec.getWidth() - stage.getWidth())/2);
-        stage.setY((rec.getHeight() - stage.getHeight())/2);
-        stage.show();
+        SceneManager.switchSceneWithData(
+        	    "Role Selection",
+        	    "/frontend/view/register/selectRole.fxml",
+        	    (controller, data) -> ((SelectRoleController) controller).SelectRoleForUser(user),
+        	    user
+        	);
     }
     
     private void resetErrors() {

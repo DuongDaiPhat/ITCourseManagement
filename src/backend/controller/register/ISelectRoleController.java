@@ -9,6 +9,4 @@ public interface ISelectRoleController {
 	public void SelectRoleForUser(Users user);
 	
 	public void Next(ActionEvent e) throws SQLException;
-	
-	public void BackToLogin() throws Exception;
 }
