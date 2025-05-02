@@ -6,32 +6,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import model.user.UserStatus;
-import model.user.Users;
-import backend.service.user.RegisterService; // Thêm import này
-import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
+import javafx.geometry.Pos;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
-
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import model.user.UserStatus;
+import model.user.Users;
+import backend.repository.user.UsersRepository; // Thay thế RegisterService
+import backend.controller.scene.SceneManager; // Thêm import này
 
-public class SelectRoleController implements Initializable {
+public class SelectRoleController implements Initializable, ISelectRoleController {
     private Users user;
     @FXML
     private Label userFullName;
@@ -67,11 +57,13 @@ public class SelectRoleController implements Initializable {
         });
     }
 
+    @Override
     public void SelectRoleForUser(Users user) {
         this.user = user;
         userFullName.setText(this.user.getUserFirstName() + " " + this.user.getUserLastName());
     }
 
+    @Override
     public void Next(ActionEvent e) throws SQLException {
         if (instructorCheckbox.isSelected()) {
             this.user.setRoleID(1);
@@ -82,30 +74,19 @@ public class SelectRoleController implements Initializable {
         this.user.setStatus(UserStatus.online);
         this.user.setDescription("No bio yet");
 
-        // Gọi RegisterService để mã hóa mật khẩu và lưu vào cơ sở dữ liệu
-        RegisterService registerService = RegisterService.getInstance();
-        boolean success = registerService.registerUser(user);
+        // Thay RegisterService bằng UsersRepository
+        UsersRepository.getInstance().Insert(user);
 
-        if (success) {
-            // Đăng ký thành công, hiển thị thông báo và chuyển về màn hình đăng nhập
-            Platform.runLater(() -> {
-                showSuccessAlert();
-                try {
-                    BackToLogin();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
-        } else {
-            // Hiển thị thông báo lỗi nếu đăng ký thất bại
-            Platform.runLater(() -> {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Registration Failed");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to create account. Username may already exist.");
-                alert.showAndWait();
-            });
-        }
+        Platform.runLater(() -> {
+            showSuccessAlert();
+            try {
+                // Quay lại 2 lần để trở về màn hình đăng nhập
+                SceneManager.goBack();
+                SceneManager.goBack();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void showSuccessAlert() {
@@ -133,18 +114,5 @@ public class SelectRoleController implements Initializable {
             Alert simpleAlert = new Alert(AlertType.INFORMATION, "Account created successfully!");
             simpleAlert.showAndWait();
         }
-    }
-
-    public void BackToLogin() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/login/Login.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) nextButton.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        
-        Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-        stage.setX((rec.getWidth() - stage.getWidth())/2);
-        stage.setY((rec.getHeight() - stage.getHeight())/2);
-        
-        stage.show();
     }
 }

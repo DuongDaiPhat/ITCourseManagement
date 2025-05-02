@@ -80,7 +80,7 @@
                   <Image url="@../../../../resources/images/main_page/icon/Notification.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fx:id="pageRole" fitHeight="33.0" fitWidth="33.0" onMouseClicked="#switchToMyRoles" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyProfile.png" />
                </image>

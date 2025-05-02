@@ -202,5 +202,3 @@ CREATE TABLE NotificationDetail (
     PRIMARY KEY (NotificationID, UserID),
     FOREIGN KEY (NotificationID) REFERENCES Notification(NotificationID)
 );
-
-Select * from courses

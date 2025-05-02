@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import backend.service.user.LoginService;
 import backend.service.user.UserService;
+import backend.controller.scene.SceneManager; // Đảm bảo import đúng
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +22,7 @@ import javafx.scene.control.TextField;
 import model.user.Session;
 import model.user.Users;
 
-public class LoginController {
+public class LoginController implements ILoginController {
     @FXML
     private TextField username;
     @FXML
@@ -36,7 +37,8 @@ public class LoginController {
     private Parent root;
     private UserService userService = new UserService();
     
-    public void Login(ActionEvent e) {
+    @Override
+    public void Login(ActionEvent e) throws SQLException, IOException {
         String str_username = username.getText().trim();
         String str_password = password.getText();
         
@@ -68,30 +70,17 @@ public class LoginController {
                 System.out.println("Login successful for user: " + str_username + ", RoleID: " + currentUser.getRoleID());
                 
                 // Chuyển hướng dựa trên roleID
-                FXMLLoader loader;
                 if (currentUser.getRoleID() == 1) { // Instructor
-                    loader = new FXMLLoader(getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
-                    root = loader.load();
+                    SceneManager.switchScene("Instructor Main Page", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
                 } else if (currentUser.getRoleID() == 2) { // Student
-                    loader = new FXMLLoader(getClass().getResource("/frontend/view/mainPage/mainPage.fxml"));
-                    root = loader.load();
+                    SceneManager.switchScene("Main Page", "/frontend/view/mainPage/mainPage.fxml");
                 } else {
                     loginWarning.setText("Error: Invalid role for user");
                     loginWarning.setVisible(true);
                     return;
                 }
-                
-                // Chuyển hướng giao diện
-                stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-                stage.setScene(scene);
-                stage.setX((rec.getWidth() - stage.getWidth())/2);
-                stage.setY((rec.getHeight() - stage.getHeight())/2);
-                stage.show();
             } else {
                 // Đăng nhập thất bại
-                // Kiểm tra xem username có tồn tại không để hiển thị thông báo chi tiết
                 boolean usernameExists = userService.GetUserByUsername(str_username) != null;
                 if (!usernameExists) {
                     loginWarning.setText("Username does not exist");
@@ -102,28 +91,16 @@ public class LoginController {
                 System.out.println("Login failed for user: " + str_username);
             }
         } catch (SQLException ex) {
-            // Xử lý lỗi cơ sở dữ liệu
             loginWarning.setText("Database error. Please try again later.");
             loginWarning.setVisible(true);
             System.err.println("SQLException during login: " + ex.getMessage());
             ex.printStackTrace();
-        } catch (IOException ex) {
-            // Xử lý lỗi tải giao diện
-            loginWarning.setText("Error loading the next page. Please try again.");
-            loginWarning.setVisible(true);
-            System.err.println("IOException during login: " + ex.getMessage());
-            ex.printStackTrace();
         }
     }
     
-    public void Register(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/register/register.fxml"));
-        Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setX((rec.getWidth() - stage.getWidth())/2);
-        stage.setY((rec.getHeight() - stage.getHeight())/2);
-        stage.show();
+    @Override
+    public void Register(ActionEvent e) throws SQLException, IOException {
+        // Sử dụng SceneManager.switchScene với 2 tham số
+        SceneManager.switchScene("Register", "/frontend/view/register/register.fxml");
     }
 }

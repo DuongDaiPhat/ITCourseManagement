@@ -49,6 +49,18 @@ public class MainPageController {
     
     @FXML
     private Label labeluser;
+    
+    @FXML
+    private ImageView pageRole;
+    
+
+    @FXML
+    void switchToMyRoles(MouseEvent event) throws IOException {
+    	Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/register/register.fxml"));
+        Stage stage = (Stage) pageRole.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
     @FXML
     void switchToCategory(MouseEvent event) throws IOException {

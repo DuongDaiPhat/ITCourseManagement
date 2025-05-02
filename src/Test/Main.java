@@ -1,57 +1,25 @@
 package Test;
 
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import backend.controller.InstructorMainPage.InstructorMainPageController;
-import backend.repository.invoice.InvoiceRepository;
-import backend.repository.notification.NotificationRepository;
-import backend.repository.payment.PaymentRepository;
-import backend.repository.user.MyCartRepository;
-import backend.repository.user.UserNotificationRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import model.invoice.Invoice;
-import model.notification.Notification;
-import model.notification.UserNotification;
-import model.notification.NotificationStatus;
-import model.payment.Payment;
-/*
-public class Main {
-    public static void main(String[] args) throws SQLException {
-        NotificationDAO notificationDAO = new NotificationDAO();
+import backend.controller.scene.SceneManager; // Thêm import này
 
-        // Thêm một thông báo mới
-        Notification notification = new Notification(0, "System Update", "The system will be updated at midnight.", LocalDateTime.now(), new ArrayList<>());
-        int newID = notificationDAO.Insert(notification);
-        System.out.println("Inserted notification with ID: " + newID);
+public class Main extends Application {
 
-        // Hiển thị danh sách thông báo
-        ArrayList<Notification> notifications = notificationDAO.SelectAll();
-        for (Notification n : notifications) {
-            System.out.println("ID: " + n.getNotificationID() + " - Name: " + n.getNotificationName() + " - Content: " + n.getContent());
-        }
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        SceneManager.setPrimaryStage(primaryStage); // Thêm dòng này
+
+        Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/login/Login.fxml"));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setTitle("Login");
+        primaryStage.show();
     }
-}*/
-import model.user.MyCart;
-public class Main extends Application{
-	@Override
-	public void start(Stage stage) throws Exception {
-	}
-    public static void main(String[] args) throws SQLException {
-    	launch(args);
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
-
-
-
-
-
-
