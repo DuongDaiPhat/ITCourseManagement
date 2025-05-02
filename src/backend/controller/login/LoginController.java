@@ -32,44 +32,38 @@ public class LoginController implements ILoginController {
 	private Button loginButton;
 	@FXML
 	private Label loginWarning;
-	
+
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
 	private UserService userService = new UserService();
-	
+
 	public void Login(ActionEvent e) throws SQLException, IOException {
 		String str_username = username.getText();
 		String str_password = password.getText();
 		System.out.println(str_username);
 		System.out.println(str_password);
-		if(str_username.isEmpty() || str_password.isEmpty()) {
+		if (str_username.isEmpty() || str_password.isEmpty()) {
 			loginWarning.setText("Username or password is empty");
 			return;
 		}
 		boolean isMatching = LoginService.getInstance().LoginCheck(str_username, str_password);
-		if(isMatching == true) {
+		if (isMatching == true) {
 			Session.setCurrentUser(userService.GetUserByUsername(str_username));
-			if(Session.getCurrentUser().getRoleID() == 1) {
-				FXMLLoader Loader = new FXMLLoader(getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
-				Parent root = Loader.load();
-				Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-				stage =  (Stage)((Node)e.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				stage.setScene(scene);
-				stage.setX((rec.getWidth() - stage.getWidth())/2);
-				stage.setY((rec.getHeight() - stage.getHeight())/2);
-				stage.show();
+			if (Session.getCurrentUser().getRoleID() == 1) {
+				SceneManager.switchScene("Instructor Main Page",
+						"/frontend/view/instructorMainPage/instructorMainPage.fxml");
+			} else if (Session.getCurrentUser().getRoleID() == 2) {
+				// Xử lý cho role 2 nếu cần
+			} else if (Session.getCurrentUser().getRoleID() == 3) {
+				SceneManager.switchScene("Admin Main Page", "/frontend/view/admin/AdminMainPage.fxml");
 			}
-			else if(Session.getCurrentUser().getUserID() == 2) {
-				
-			}
-		}
-		else {
+		} else {
 			loginWarning.setText("Wrong Username and password");
 		}
 	}
-	public void Register(ActionEvent e) throws SQLException, IOException{
+
+	public void Register(ActionEvent e) throws SQLException, IOException {
 		SceneManager.switchScene("Register", "/frontend/view/register/register.fxml");
 	}
 }

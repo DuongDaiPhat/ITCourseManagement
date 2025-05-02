@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<HBox alignment="CENTER" prefHeight="180.0" prefWidth="850.0"
+	styleClass="course-item" stylesheets="@CoursePendingItem.css"
+	xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="backend.controller.course.CourseApproveItemController">
+	<padding>
+		<Insets bottom="10" left="15" right="15" top="10" />
+	</padding>
+
+	<!-- Course Thumbnail -->
+	<ImageView fx:id="courseThumbnail" fitHeight="140.0"
+		fitWidth="200.0" preserveRatio="true">
+		<Image url="@/images/default_image.png" />
+	</ImageView>
+
+	<!-- Course Details -->
+	<VBox alignment="TOP_LEFT" prefHeight="160.0" prefWidth="500.0"
+		spacing="10" HBox.hgrow="ALWAYS">
+		<padding>
+			<Insets bottom="5" left="15" right="10" top="5" />
+		</padding>
+
+		<!-- Course Name and Instructor -->
+		<HBox alignment="CENTER_LEFT" spacing="5">
+			<Label fx:id="courseNameLabel" styleClass="course-name"
+				text="Course Name" wrapText="true" />
+			<Circle radius="3" fill="#888" />
+			<Label fx:id="instructorNameLabel"
+				styleClass="course-instructor" text="Instructor Name" />
+		</HBox>
+
+		<!-- Tags Row -->
+		<HBox alignment="CENTER_LEFT" spacing="8">
+			<Label fx:id="languageLabel" styleClass="course-language"
+				text="Language" />
+			<Label fx:id="technologyLabel" styleClass="course-technology"
+				text="Technology" />
+			<Label fx:id="levelLabel" styleClass="course-level"
+				text="Level" />
+			<Label fx:id="categoryLabel" styleClass="course-category"
+				text="Category" />
+			<Label fx:id="lectureCountLabel" styleClass="course-lectures"
+				text="Lecture" />
+		</HBox>
+
+		<!-- Action Buttons -->
+		<HBox alignment="CENTER_LEFT" spacing="10"
+			style="-fx-padding: 5 0;">
+			<Button fx:id="warnButton" styleClass="action-button warn"
+				text="Warn" />
+			<Button fx:id="removeButton" styleClass="action-button ban"
+				text="Remove" />
+		</HBox>
+
+		<!-- Bottom Row -->
+		<HBox alignment="CENTER_LEFT" spacing="15">
+			<Label fx:id="priceLabel" styleClass="course-price"
+				text="Price" />
+			<Region HBox.hgrow="ALWAYS" />
+			<Label fx:id="createdDateLabel" styleClass="course-date"
+				text="CreateDate" />
+		</HBox>
+	</VBox>
+</HBox>

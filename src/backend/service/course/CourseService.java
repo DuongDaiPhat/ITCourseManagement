@@ -3,6 +3,7 @@ package backend.service.course;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import backend.repository.course.CourseRepository;
 import backend.repository.lecture.LectureRepository;
@@ -61,5 +62,14 @@ public class CourseService implements ICourseService{
 		LectureRepository.getInstance().Delete(lecture);
 	}
 
+	public List<Courses> getPendingCourses() throws SQLException {
+		ArrayList<Courses> allCourses = CourseRepository.getInstance().SelectAll();
+		return allCourses.stream().filter(course -> !course.isApproved()).collect(Collectors.toList());
+	}
+	
+	public ArrayList<Courses> getAllCourses() throws SQLException {
+		return CourseRepository.getInstance().SelectAll();
+	}
+	
 	
 }
