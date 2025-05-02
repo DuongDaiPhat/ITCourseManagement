@@ -15,4 +15,6 @@ public class UserService {
 	public Users GetUserByUsername(String username) throws SQLException {
 		return UsersRepository.getInstance().GetUserByUsername(username);
 	}
+	
+	
 }
