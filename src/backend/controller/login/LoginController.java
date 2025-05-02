@@ -69,7 +69,13 @@ public class LoginController implements ILoginController {
 			loginWarning.setText("Wrong Username and password");
 		}
 	}
-	public void Register(ActionEvent e) throws SQLException, IOException{
+
+	public void Register(ActionEvent e) throws SQLException, IOException {
+		this.ResetError();
 		SceneManager.switchScene("Register", "/frontend/view/register/register.fxml");
 	}
+	private void ResetError() {
+		loginWarning.setVisible(false);
+	}
 }
+

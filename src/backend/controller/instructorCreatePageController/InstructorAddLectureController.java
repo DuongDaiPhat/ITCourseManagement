@@ -2,8 +2,6 @@ package backend.controller.instructorCreatePageController;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -11,34 +9,18 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
 import model.course.CourseSession;
-import model.course.Courses;
 import model.lecture.Lecture;
-import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.text.Text;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-
-import backend.controller.InstructorMainPage.InstructorMainPageController;
-import backend.controller.course.CourseItemController;
 import backend.controller.course.LectureItemController;
 import backend.controller.scene.SceneManager;
-import backend.repository.DatabaseConnection;
 import backend.service.course.CourseService;
 
 public class InstructorAddLectureController implements IInstructorAddLectureController, IOnChildRemovedListener {
@@ -73,6 +55,7 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     @FXML
     public void initialize() throws SQLException {
     	goBack.setOnMouseClicked(event->{
+    		this.disposeMediaPlayer();
     		SceneManager.goBack();
     	});
     	courseLabel.setText(CourseSession.getCurrentCourse().getCourseName());
@@ -159,11 +142,7 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     }
     private void loadVideo(String url) {
         try {
-        	if (mediaPlayer != null) {
-                mediaPlayer.stop();      
-                mediaPlayer.dispose();  
-                mediaPlayer = null;
-            }
+        	disposeMediaPlayer();
 
             String source;
             if (url.startsWith("http") || url.startsWith("file:/")) {
@@ -177,6 +156,11 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
                     Media media = new Media(source);
                     mediaPlayer = new MediaPlayer(media);
                     mediaView.setMediaPlayer(mediaPlayer);
+                    
+                    mediaPlayer.setOnError(() -> {
+                        System.err.println("Media error: " + mediaPlayer.getError().getMessage());
+                    });
+                    
                     mediaPlayer.setOnReady(() -> {
                         Duration d = media.getDuration();
                         int minutes = (int) Math.ceil(d.toMinutes());
@@ -217,13 +201,29 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     }
     private void ToAddLecturePage() throws IOException {
     	this.dispose();
-    	SceneManager.switchScene("Add Lecture", "/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml");
+    	SceneManager.switchSceneReloadWithData("Add Lecture", "/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml", null, null);
 	}
     
     private void ToCreateCoursePage() throws IOException {
     	this.dispose();
     	SceneManager.switchScene("Create Course", "/frontend/view/instructorCreatePage/instructorCreatePage.fxml");
 	}
+    private void disposeMediaPlayer() {
+        Platform.runLater(() -> {
+            if (mediaPlayer != null) {
+                try {
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
+                    if (mediaView != null) {
+                        mediaView.setMediaPlayer(null);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error disposing MediaPlayer: " + e.getMessage());
+                }
+                mediaPlayer = null;
+            }
+        });
+    }
 
     @FXML
     private void cancelAddLecture() {
@@ -263,7 +263,7 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     
     private void ReturnToInstructorMainPage() throws IOException, SQLException {
     	this.dispose();
-		SceneManager.switchScene("Instructor Main Page", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
+		SceneManager.switchSceneReloadWithData("Instructor Main Page", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 	}
     
     private void showAlert(Alert.AlertType type, String title, String content) {
@@ -278,12 +278,12 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     	for(LectureItemController l : lectureControllers) {
     		l.dispose();
     	}
+    	disposeMediaPlayer();	
     }
 
 	@Override
 	public void onChildRemoved() {
 		// TODO Auto-generated method stub
-		
 	}
     
     

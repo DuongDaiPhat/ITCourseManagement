@@ -91,7 +91,7 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		}
 
 		myCourse.setOnMouseClicked(event -> {
-			SceneManager.switchScene("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
+			SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 		});
 
 		technology.setVisibleRowCount(5);
@@ -190,12 +190,12 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		course.setApproved(false);
 
 		courseService.AddCourse(course);
-		SceneManager.switchScene("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
+		SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 
 	}
 
 	public void ReturnToMyCourse(ActionEvent e) throws IOException, SQLException {
-		SceneManager.switchScene("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
+		SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 	}
 
 	private static boolean IsValidCourseName(String name) {

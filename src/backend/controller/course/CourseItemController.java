@@ -64,7 +64,11 @@ public class CourseItemController implements ICourseItemController{
 	public void initialize() {
 		courseNameLabel.setOnMouseClicked(event->{
 			CourseSession.setCurrentCourse(course);
-			SceneManager.switchSceneReloadWithData(course.getCourseName(), "/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml", null, null);
+			try {
+				this.ToAddLecturePage();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		});
 	}
 

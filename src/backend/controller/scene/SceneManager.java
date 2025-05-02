@@ -74,7 +74,7 @@ public class SceneManager {
             }
 
             Scene scene = new Scene(root);
-            sceneCache.put(sceneName, scene); // Có thể bỏ nếu không muốn cache lại
+            // Có thể bỏ nếu không muốn cache lại
 
             primaryStage.setTitle(sceneName);
             primaryStage.setScene(scene);

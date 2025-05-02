@@ -1,14 +1,8 @@
 package backend.controller.course;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -17,20 +11,13 @@ import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.course.CourseSession;
 import model.lecture.Lecture;
-
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Optional;
-
 import backend.controller.instructorCreatePageController.IOnChildRemovedListener;
-import backend.controller.instructorCreatePageController.InstructorAddLectureController;
 import backend.service.course.CourseService;
 
 public class LectureItemController implements ILectureItemController{
@@ -64,11 +51,7 @@ public class LectureItemController implements ILectureItemController{
     
     private CourseService courseService = new CourseService();
     private IOnChildRemovedListener listener;
-    
-    private double originalWidth;
-    private double originalHeight;
-    private double originalX;
-    private double originalY;
+   
     
     // Mô hình dữ liệu cho bài giảng
     private Lecture lecture;
@@ -141,6 +124,25 @@ public class LectureItemController implements ILectureItemController{
         // Tải video
         loadVideo(lecture.getVideoURL());
     }
+    private String convertToValidMediaUri(String path) {
+        try {
+            // Handle URL format paths
+            if (path.startsWith("http://") || path.startsWith("https://") || 
+                path.startsWith("file:/")) {
+                return path;
+            }
+            
+            // Handle local file paths
+            File file = new File(path);
+            if (!file.exists()) {
+                throw new IllegalArgumentException("File does not exist: " + path);
+            }
+            return file.toURI().toString();
+        } catch (Exception e) {
+            System.err.println("Error converting path to URI: " + e.getMessage());
+            return null;
+        }
+    }
     private void loadVideo(String videoUrl) {
         try {
         	if (mediaPlayer != null) {
@@ -148,52 +150,62 @@ public class LectureItemController implements ILectureItemController{
         	    mediaPlayer.dispose();
         	    mediaPlayer = null;
         	}
-        	String source;
-        	if (videoUrl.startsWith("http") || videoUrl.startsWith("file:/")) {
-		       source = videoUrl;
-        	} else {
-		       // Convert local file to URI
-		       source = new File(videoUrl).toURI().toString();
-        	}
-        	System.out.println(source);
-        	Platform.runLater(() -> {
-        		// Tạo Media object từ URL
-                Media media = new Media(source);
-                
-                // Tạo MediaPlayker
-                mediaPlayer = new MediaPlayer(media);
-                mediaView.setMediaPlayer(mediaPlayer);
-                changePlaybackRate();
-                
-                // Xử lý sự kiện khi media sẵn sàng
-                mediaPlayer.setOnReady(() -> {
-                    Duration totalDuration = mediaPlayer.getTotalDuration();
-                    totalDurationLabel.setText(formatDuration(totalDuration));
-                    progressSlider.setMax(totalDuration.toSeconds());
-                });
-                
-                // Cập nhật current time và progress slider
-                mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
-                    if (!progressSlider.isValueChanging()) {
-                        progressSlider.setValue(newValue.toSeconds());
-                    }
-                    currentTimeLabel.setText(formatDuration(newValue));
-                });
-                
-                // Xử lý khi video kết thúc
-                mediaPlayer.setOnEndOfMedia(() -> {
-                    mediaPlayer.seek(Duration.ZERO);
-                    mediaPlayer.pause();
-                    isPlaying = false;
-                    playButton.setText("▶");
-                });
-                mediaPlayer.setOnError(() -> {
-                    System.out.println("MediaPlayer error: " + mediaPlayer.getError());
-                });
-                media.setOnError(() -> {
-                    System.out.println("Media error: " + media.getError());
-                });
-        	});
+        	String validUri = convertToValidMediaUri(videoUrl);
+            if (validUri == null) {
+                System.err.println("Invalid media URI");
+                return;
+            }
+            
+            final String mediaUri = validUri;
+            
+            Platform.runLater(() -> {
+                try {
+                	// Tạo Media object từ URL
+                    Media media = new Media(mediaUri);
+                    
+                    // Tạo MediaPlayker
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaView.setMediaPlayer(mediaPlayer);
+                    changePlaybackRate();
+                    
+                    // Xử lý sự kiện khi media sẵn sàng
+                    mediaPlayer.setOnReady(() -> {
+                        Duration totalDuration = mediaPlayer.getTotalDuration();
+                        totalDurationLabel.setText(formatDuration(totalDuration));
+                        progressSlider.setMax(totalDuration.toSeconds());
+                    });
+                    mediaPlayer.setOnError(() -> {
+                        System.out.println("MediaPlayer error: " + mediaPlayer.getError());
+                        mediaPlayer.getError().printStackTrace();
+                    });
+                    
+                    // Cập nhật current time và progress slider
+                    mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+                        if (!progressSlider.isValueChanging()) {
+                            progressSlider.setValue(newValue.toSeconds());
+                        }
+                        currentTimeLabel.setText(formatDuration(newValue));
+                    });
+                    
+                    // Xử lý khi video kết thúc
+                    mediaPlayer.setOnEndOfMedia(() -> {
+                        mediaPlayer.seek(Duration.ZERO);
+                        mediaPlayer.pause();
+                        isPlaying = false;
+                        playButton.setText("▶");
+                    });
+                    mediaPlayer.setOnError(() -> {
+                        System.out.println("MediaPlayer error: " + mediaPlayer.getError());
+                    });
+                    media.setOnError(() -> {
+                        System.out.println("Media error: " + media.getError());
+                    });
+                    
+                } catch (Exception e) {
+                    System.err.println("Exception when creating media: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            });
           
             
         } catch (Exception e) {
@@ -304,14 +316,14 @@ public class LectureItemController implements ILectureItemController{
     }
     
     // Update fullscreen button icon based on current state
-    private void updateFullscreenButtonIcon() {
-        if (isFullScreen) {
-            fullscreenButton.setText("◱"); // Unicode for exit fullscreen
-        } else {
-            fullscreenButton.setText("⛶"); // Unicode for enter fullscreen
-        }
-    }
-    
+//    private void updateFullscreenButtonIcon() {
+//        if (isFullScreen) {
+//            fullscreenButton.setText("◱"); // Unicode for exit fullscreen
+//        } else {
+//            fullscreenButton.setText("⛶"); // Unicode for enter fullscreen
+//        }
+//    }
+  
     private String formatDuration(Duration duration) {
         int seconds = (int) Math.floor(duration.toSeconds() % 60);
         int minutes = (int) Math.floor(duration.toMinutes() % 60);
@@ -372,7 +384,7 @@ public class LectureItemController implements ILectureItemController{
         updatedMediaView.setMediaPlayer(updatedMediaPlayer);
  
         HBox videoUrlBox = new HBox(10, videoUrlField, browseButton);
-        videoUrlBox.setHgrow(videoUrlField, Priority.ALWAYS);
+        HBox.setHgrow(videoUrlField, Priority.ALWAYS);
         
         TextArea descriptionArea = new TextArea(lecture.getLectureDescription());
         descriptionArea.setPromptText("Lecture Description");
