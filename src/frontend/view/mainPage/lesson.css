@@ -1,0 +1,35 @@
+.course-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 4);
+    -fx-border-radius: 12;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.course-image {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 4);
+    -fx-border-radius: 12;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.course-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.course-author {
+    -fx-text-fill: #7f8c8d;
+    -fx-padding: 5 0 10 0;
+}
+
+.course-meta {
+    -fx-text-fill: #34495e;
+}
+
+.course-price {
+    -fx-text-fill: #e67e22;
+    -fx-font-weight: bold;
+}
