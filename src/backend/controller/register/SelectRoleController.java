@@ -14,12 +14,11 @@ import javafx.geometry.Pos;
 import javafx.application.Platform;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
-import model.user.UserStatus;
+
+import backend.service.user.RegisterService;
+import backend.controller.scene.SceneManager;
 import model.user.Users;
-import backend.repository.user.UsersRepository; // Thay thế RegisterService
-import backend.controller.scene.SceneManager; // Thêm import này
 
 public class SelectRoleController implements Initializable, ISelectRoleController {
     private Users user;
@@ -34,10 +33,8 @@ public class SelectRoleController implements Initializable, ISelectRoleControlle
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Thiết lập nút NEXT ở trạng thái vô hiệu hóa ban đầu
         nextButton.setDisable(true);
 
-        // Với CheckBox
         instructorCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 studentCheckbox.setSelected(false);
@@ -70,40 +67,35 @@ public class SelectRoleController implements Initializable, ISelectRoleControlle
         } else if (studentCheckbox.isSelected()) {
             this.user.setRoleID(2);
         }
-        this.user.setCreatedAt(LocalDate.now());
-        this.user.setStatus(UserStatus.online);
-        this.user.setDescription("No bio yet");
 
-        // Thay RegisterService bằng UsersRepository
-        UsersRepository.getInstance().Insert(user);
-
-        Platform.runLater(() -> {
-            showSuccessAlert();
-            try {
-                // Quay lại 2 lần để trở về màn hình đăng nhập
-                SceneManager.goBack();
-                SceneManager.goBack();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+        // Gọi RegisterService để mã hóa và lưu
+        if (RegisterService.getInstance().registerUser(this.user)) {
+            Platform.runLater(() -> {
+                showSuccessAlert("Account created successfully! Please log in.");
+                // SceneManager.switchScene đã xử lý IOException nội bộ
+                SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
+            });
+        } else {
+            Platform.runLater(() -> {
+                showErrorAlert("Registration failed. Please try again.");
+            });
+        }
     }
 
-    private void showSuccessAlert() {
+    private void showSuccessAlert(String message) {
         try {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Success message");
             alert.setHeaderText(null);
 
-            Label messageLabel = new Label("Account created successfully!\nPlease sign in to continue");
+            Label messageLabel = new Label(message);
             messageLabel.setStyle("-fx-text-fill: #004AAD; -fx-font-size: 16px; -fx-font-weight: bold;");
 
             VBox contentBox = new VBox(15, messageLabel);
             contentBox.setAlignment(Pos.CENTER);
 
             DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.getStylesheets()
-                    .add(getClass().getResource("/frontend/view/register/selectRole.css").toExternalForm());
+            dialogPane.getStylesheets().add(getClass().getResource("/frontend/view/register/selectRole.css").toExternalForm());
             dialogPane.getStyleClass().add("success-alert");
             dialogPane.setContent(contentBox);
             dialogPane.setPrefWidth(400);
@@ -114,5 +106,13 @@ public class SelectRoleController implements Initializable, ISelectRoleControlle
             Alert simpleAlert = new Alert(AlertType.INFORMATION, "Account created successfully!");
             simpleAlert.showAndWait();
         }
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
