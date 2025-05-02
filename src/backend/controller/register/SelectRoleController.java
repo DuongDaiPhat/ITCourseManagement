@@ -32,7 +32,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class SelectRoleController implements Initializable, ISelectRoleController{
+public class SelectRoleController implements Initializable{
 	private Users user;
 	@FXML
 	private Label userFullName;

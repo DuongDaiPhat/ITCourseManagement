@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.media.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000" stylesheets="@instructorAddLecturePage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.instructorCreatePageController.InstructorAddLectureController">
+<BorderPane prefHeight="700.0" prefWidth="1000" stylesheets="@instructorAddLecturePage.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.instructorCreatePageController.InstructorAddLectureController">
     <top>
         <!-- Navigation Bar -->
         <VBox styleClass="navigation">
@@ -24,8 +30,8 @@
                 <!-- Navigation Links -->
                 <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
                     <Label styleClass="nav-link" text="Explore" />
-                    <Label styleClass="nav-link" text="MyCourse" fx:id = "myCourse" />
-                    <Label styleClass="nav-link" text="Create Course" fx:id = "createCourse"/>
+                    <Label fx:id="myCourse" styleClass="nav-link" text="MyCourse" />
+                    <Label fx:id="createCourse" styleClass="nav-link" text="Create Course" />
                 </HBox>
                 
                 <!-- Search Bar -->
@@ -65,48 +71,49 @@
        </top>
        <center>
        <!--Main-->
-       <VBox styleClass = "main-card">
-	       <HBox styleClass ="title-card">
-	       		<Label fx:id = "courseLabel" styleClass = "course-label" text = "null"/>
+       <VBox styleClass="main-card">
+       		<Label fx:id = "goBack" styleClass = "go-back-label" text = "⬅"/>
+	       <HBox styleClass="title-card">
+	       		<Label fx:id="courseLabel" prefHeight="43.0" prefWidth="960.0" styleClass="course-label" text="null" />
 	       </HBox>
-	       <ScrollPane fx:id="mainScrollPane" fitToWidth="true" id = "myScrollPane">
+	       <ScrollPane id="myScrollPane" fx:id="mainScrollPane" fitToWidth="true">
 		    <content>
 		        <VBox fx:id="mainContainer" spacing="10" styleClass="main-container">
 		            <!-- Add Lecture Bar -->
 		            <VBox styleClass="lecture-bar-container">
-		                <HBox fx:id="addLectureBar" styleClass="add-lecture-bar" onMouseClicked="#toggleAddLectureForm">
-		                    <Label text="Add Lecture" styleClass="bar-title"/>
+		                <HBox fx:id="addLectureBar" onMouseClicked="#toggleAddLectureForm" styleClass="add-lecture-bar">
+		                    <Label styleClass="bar-title" text="Add Lecture" />
 		                    <Region HBox.hgrow="ALWAYS" />
-		                    <Label fx:id="addLectureArrow" text="▲" styleClass="arrow"/>
+		                    <Label fx:id="addLectureArrow" styleClass="arrow" text="▲" />
 		                    <padding>
-		                        <Insets top="10" right="15" bottom="10" left="15" />
+		                        <Insets bottom="10" left="15" right="15" top="10" />
 		                    </padding>
 		                </HBox>
 		                
 		                <!-- Create Lecture Form (Hidden by default) -->
-		                <VBox fx:id="createLectureForm" styleClass="lecture-form" visible="false" managed="false">
+		                <VBox fx:id="createLectureForm" managed="false" styleClass="lecture-form" visible="false">
 		                    <padding>
-		                        <Insets top="15" right="15" bottom="15" left="15" />
+		                        <Insets bottom="15" left="15" right="15" top="15" />
 		                    </padding>
 		                    
-		                    <Label text="Lecture Name:" styleClass="form-label"/>
-		                    <TextField fx:id="lectureName" promptText="Enter lecture name" styleClass="form-field"/>
+		                    <Label styleClass="form-label" text="Lecture Name:" />
+		                    <TextField fx:id="lectureName" promptText="Enter lecture name" styleClass="form-field" />
 		                    
-		                    <Label text="Video URL:" styleClass="form-label"/>
+		                    <Label styleClass="form-label" text="Video URL:" />
 		                    <HBox spacing="10">
-		                        <TextField fx:id="videoUrl" promptText="Enter video URL" styleClass="form-field" HBox.hgrow="ALWAYS"/>
-		                        <Button text="Browse" onAction="#browseVideo" styleClass="browse-button"/>
+		                        <TextField fx:id="videoUrl" promptText="Enter video URL" styleClass="form-field" HBox.hgrow="ALWAYS" />
+		                        <Button onAction="#browseVideo" styleClass="browse-button" text="Browse" />
 		                    </HBox>
 		                    <MediaView fx:id="mediaView" fitWidth="600" preserveRatio="true" />
-		                    <Label text="Duration (minutes):" styleClass="form-label"/>
-		                    <TextField fx:id="duration" promptText="Duration will be calculated automatically" styleClass="form-field" disable="true"/>
+		                    <Label styleClass="form-label" text="Duration (minutes):" />
+		                    <TextField fx:id="duration" disable="true" promptText="Duration will be calculated automatically" styleClass="form-field" />
 		                    
-		                    <Label text="Lecture Description:" styleClass="form-label"/>
-		                    <TextArea fx:id="lectureDescription" promptText="Enter lecture description" styleClass="description-field" wrapText="true" prefRowCount="4"/>
+		                    <Label styleClass="form-label" text="Lecture Description:" />
+		                    <TextArea fx:id="lectureDescription" prefRowCount="4" promptText="Enter lecture description" styleClass="description-field" wrapText="true" />
 		                    
-		                    <HBox spacing="10" alignment="CENTER_RIGHT">
-		                        <Button text="Cancel" onAction="#cancelAddLecture" styleClass="cancel-button"/>
-		                        <Button text="Add Lecture" onAction="#addLecture" styleClass="add-button"/>
+		                    <HBox alignment="CENTER_RIGHT" spacing="10">
+		                        <Button onAction="#cancelAddLecture" styleClass="cancel-button" text="Cancel" />
+		                        <Button onAction="#addLecture" styleClass="add-button" text="Add Lecture" />
 		                    </HBox>
 		                </VBox>
 		            </VBox>

@@ -54,6 +54,43 @@ public class SceneManager {
             e.printStackTrace();
         }
     }
+    public static <T> void switchSceneReloadWithData(String sceneName, String fxmlPath, ControllerDataSetter<T> setter, T data) {
+        try {
+            Scene currentScene = primaryStage.getScene();
+            if (currentScene != null) {
+                sceneStack.push(currentScene);
+            }
+
+            // Xóa cache để luôn load mới
+            sceneCache.remove(sceneName);
+
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
+            Parent root = loader.load();
+
+            // Lấy controller và truyền dữ liệu nếu có
+            Object controller = loader.getController();
+            if (setter != null && data != null) {
+                setter.setData(controller, data);
+            }
+
+            Scene scene = new Scene(root);
+            sceneCache.put(sceneName, scene); // Có thể bỏ nếu không muốn cache lại
+
+            primaryStage.setTitle(sceneName);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            Platform.runLater(() -> {
+                Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+                primaryStage.setX((rec.getWidth() - primaryStage.getWidth()) / 2);
+                primaryStage.setY((rec.getHeight() - primaryStage.getHeight()) / 2);
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void goBack() {
         if (!sceneStack.isEmpty()) {

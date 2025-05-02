@@ -16,15 +16,15 @@
 
 <VBox fx:id="lectureItemContainer" spacing="10" styleClass="lecture-item-container" stylesheets="@LectureItem.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.course.LectureItemController">
     <!-- Lecture Title -->
-    <HBox alignment="CENTER_LEFT" styleClass="lecture-title-container">
+    <HBox fx:id = "lectureTitleContainer" alignment="CENTER_LEFT" styleClass="lecture-title-container">
         <Label fx:id="lectureTitleLabel" styleClass="lecture-title" text="Lecture Title" wrapText="true">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
          <Region HBox.hgrow="ALWAYS" />
-		    <Button fx:id="editButton" onAction="#handleEditLecture" id = "config-icon" styleClass="icon-button" text="⚙" />
-		    <Button fx:id="deleteButton" onAction="#handleDeleteLecture" id = "trash-bin-icon" styleClass="icon-button" text="🗑" />
+		    <Button id="config-icon" fx:id="editButton" onAction="#handleEditLecture" styleClass="icon-button" text="⚙" />
+		    <Button id="trash-bin-icon" fx:id="deleteButton" onAction="#handleDeleteLecture" styleClass="icon-button" text="🗑" />
         <padding>
             <Insets bottom="5" left="10" right="10" top="5" />
         </padding>
@@ -35,7 +35,7 @@
 
 	    <!-- Video Area -->
 	    <StackPane fx:id="mediaViewContainer" prefHeight="374.0" prefWidth="562.0" styleClass="media-view-container">
-	        <MediaView fx:id="mediaView" preserveRatio="true" />
+	        <MediaView fx:id="mediaView"/>
 	    </StackPane>
 	
 	    <!-- Video Controls Area -->
@@ -56,6 +56,9 @@
 	        
 	        <!-- Playback Rate -->
 	        <ComboBox fx:id="playbackRateComboBox" prefWidth="80" promptText="1.0x" styleClass="playback-rate-combo" />
+	        
+	         <!-- Fullscreen Button -->
+	        <Button fx:id="fullscreenButton" onAction="#toggleFullscreen" prefHeight="28.0" prefWidth="30.0" styleClass="control-button" text="⛶" />
 	    </HBox>
 	
 	    <padding>
@@ -64,7 +67,7 @@
 	</VBox>
     
     <!-- Description Section -->
-    <VBox styleClass="description-section">
+    <VBox fx:id = "descriptionSection" styleClass="description-section">
         <!-- Description Header -->
         <HBox alignment="CENTER_LEFT" onMouseClicked="#toggleDescription" styleClass="description-header">
             <Label styleClass="description-title" text="Lecture description">

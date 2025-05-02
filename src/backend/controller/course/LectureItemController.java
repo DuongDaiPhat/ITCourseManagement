@@ -50,14 +50,25 @@ public class LectureItemController implements ILectureItemController{
     @FXML private VBox descriptionContent;
     @FXML private TextFlow lectureDescriptionText;
     @FXML private Text descriptionText;
+    @FXML private HBox lectureTitleContainer;
+    @FXML private VBox descriptionSection;
+    @FXML private VBox videoContainer;
+    @FXML private Button fullscreenButton;
     
-    private InstructorAddLectureController parentController;
+    
     private MediaPlayer mediaPlayer;
     private boolean isPlaying = false;
     private boolean isMuted = false;
     private boolean isDescriptionExpanded = true;
+    private boolean isFullScreen = false;
+    
     private CourseService courseService = new CourseService();
     private IOnChildRemovedListener listener;
+    
+    private double originalWidth;
+    private double originalHeight;
+    private double originalX;
+    private double originalY;
     
     // Mô hình dữ liệu cho bài giảng
     private Lecture lecture;
@@ -76,7 +87,8 @@ public class LectureItemController implements ILectureItemController{
         mediaView.fitWidthProperty().bind(mediaViewContainer.widthProperty());
         mediaView.fitHeightProperty().bind(mediaViewContainer.heightProperty());
         mediaView.setPreserveRatio(true);
-        
+
+        mediaView.setSmooth(true);
         // Khởi tạo ComboBox tốc độ phát
         playbackRateComboBox.setItems(FXCollections.observableArrayList(
             "0.5x", "0.75x", "1.0x", "1.25x", "1.5x", "2.0x"
@@ -95,22 +107,25 @@ public class LectureItemController implements ILectureItemController{
             if (mediaPlayer != null) {
                 double volume = newValue.doubleValue() / 100.0;
                 mediaPlayer.setVolume(volume);
+                mediaPlayer.setMute(volume == 0);
                 updateVolumeButton(volume);
             }
         });
-        
         // Thiết lập progressSlider
         progressSlider.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
             if (!isChanging && mediaPlayer != null) {
                 mediaPlayer.seek(Duration.seconds(progressSlider.getValue()));
             }
         });
+        progressSlider.setOnMousePressed(event -> {
+            if (mediaPlayer != null) {
+                double value = progressSlider.getValue();
+                mediaPlayer.seek(Duration.seconds(value));
+            }
+        });
     }
     public void setOnChildRemovedListener(IOnChildRemovedListener listener) {
         this.listener = listener;
-    }
-    public void setParentController(InstructorAddLectureController parentController) {
-        this.parentController = parentController;
     }
     
     // Phương thức để thiết lập dữ liệu bài giảng
@@ -129,7 +144,9 @@ public class LectureItemController implements ILectureItemController{
     private void loadVideo(String videoUrl) {
         try {
         	if (mediaPlayer != null) {
+        		mediaPlayer.stop();
         	    mediaPlayer.dispose();
+        	    mediaPlayer = null;
         	}
         	String source;
         	if (videoUrl.startsWith("http") || videoUrl.startsWith("file:/")) {
@@ -138,41 +155,46 @@ public class LectureItemController implements ILectureItemController{
 		       // Convert local file to URI
 		       source = new File(videoUrl).toURI().toString();
         	}
-            // Tạo Media object từ URL
-            Media media = new Media(source);
-            
-            // Tạo MediaPlayer
-            mediaPlayer = new MediaPlayer(media);
-            mediaView.setMediaPlayer(mediaPlayer);
-            
-            // Xử lý sự kiện khi media sẵn sàng
-            mediaPlayer.setOnReady(() -> {
-                Duration totalDuration = mediaPlayer.getTotalDuration();
-                totalDurationLabel.setText(formatDuration(totalDuration));
-                progressSlider.setMax(totalDuration.toSeconds());
-            });
-            
-            // Cập nhật current time và progress slider
-            mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
-                if (!progressSlider.isValueChanging()) {
-                    progressSlider.setValue(newValue.toSeconds());
-                }
-                currentTimeLabel.setText(formatDuration(newValue));
-            });
-            
-            // Xử lý khi video kết thúc
-            mediaPlayer.setOnEndOfMedia(() -> {
-                mediaPlayer.seek(Duration.ZERO);
-                mediaPlayer.pause();
-                isPlaying = false;
-                playButton.setText("▶");
-            });
-            mediaPlayer.setOnError(() -> {
-                System.out.println("MediaPlayer error: " + mediaPlayer.getError());
-            });
-            media.setOnError(() -> {
-                System.out.println("Media error: " + media.getError());
-            });
+        	System.out.println(source);
+        	Platform.runLater(() -> {
+        		// Tạo Media object từ URL
+                Media media = new Media(source);
+                
+                // Tạo MediaPlayker
+                mediaPlayer = new MediaPlayer(media);
+                mediaView.setMediaPlayer(mediaPlayer);
+                changePlaybackRate();
+                
+                // Xử lý sự kiện khi media sẵn sàng
+                mediaPlayer.setOnReady(() -> {
+                    Duration totalDuration = mediaPlayer.getTotalDuration();
+                    totalDurationLabel.setText(formatDuration(totalDuration));
+                    progressSlider.setMax(totalDuration.toSeconds());
+                });
+                
+                // Cập nhật current time và progress slider
+                mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+                    if (!progressSlider.isValueChanging()) {
+                        progressSlider.setValue(newValue.toSeconds());
+                    }
+                    currentTimeLabel.setText(formatDuration(newValue));
+                });
+                
+                // Xử lý khi video kết thúc
+                mediaPlayer.setOnEndOfMedia(() -> {
+                    mediaPlayer.seek(Duration.ZERO);
+                    mediaPlayer.pause();
+                    isPlaying = false;
+                    playButton.setText("▶");
+                });
+                mediaPlayer.setOnError(() -> {
+                    System.out.println("MediaPlayer error: " + mediaPlayer.getError());
+                });
+                media.setOnError(() -> {
+                    System.out.println("Media error: " + media.getError());
+                });
+        	});
+          
             
         } catch (Exception e) {
             System.err.println("Lỗi khi tải video: " + e.getMessage());
@@ -228,6 +250,66 @@ public class LectureItemController implements ILectureItemController{
         descriptionContent.setVisible(isDescriptionExpanded);
         descriptionContent.setManaged(isDescriptionExpanded);
         descriptionArrow.setText(isDescriptionExpanded ? "▼" : "▲");
+    }
+    @FXML
+    private void toggleFullscreen() {
+//        Stage stage = (Stage) mediaViewContainer.getScene().getWindow();
+//        
+//        if (!isFullScreen) {
+//            // Save original dimensions and position
+//            originalWidth = stage.getWidth();
+//            originalHeight = stage.getHeight();
+//            originalX = stage.getX();
+//            originalY = stage.getY();
+//            
+//            // Get screen dimensions
+//            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+//            
+//            // Enter fullscreen mode
+//            stage.setX(screenBounds.getMinX());
+//            stage.setY(screenBounds.getMinY());
+//            stage.setWidth(screenBounds.getWidth());
+//            stage.setHeight(screenBounds.getHeight());
+//            
+//            // Hide navigation elements for cleaner fullscreen experience
+//            lectureTitleContainer.setVisible(false);
+//            lectureTitleContainer.setManaged(false);
+//            descriptionSection.setVisible(false);
+//            descriptionSection.setManaged(false);
+//            
+//            // Focus on video content
+//            videoContainer.setPrefWidth(Screen.getPrimary().getVisualBounds().getWidth());
+//            mediaViewContainer.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight() - 100); // Leave space for controls
+//        } else {
+//            // Restore original dimensions and position
+//            stage.setX(originalX);
+//            stage.setY(originalY);
+//            stage.setWidth(originalWidth);
+//            stage.setHeight(originalHeight);
+//            
+//            // Restore navigation elements
+//            lectureTitleContainer.setVisible(true);
+//            lectureTitleContainer.setManaged(true);
+//            descriptionSection.setVisible(true);
+//            descriptionSection.setManaged(true);
+//            
+//            // Restore original video container dimensions
+//            videoContainer.setPrefWidth(582.0);
+//            mediaViewContainer.setPrefHeight(374.0);
+//        }
+//        
+//        // Toggle state and update button icon
+//        isFullScreen = !isFullScreen;
+//        updateFullscreenButtonIcon();
+    }
+    
+    // Update fullscreen button icon based on current state
+    private void updateFullscreenButtonIcon() {
+        if (isFullScreen) {
+            fullscreenButton.setText("◱"); // Unicode for exit fullscreen
+        } else {
+            fullscreenButton.setText("⛶"); // Unicode for enter fullscreen
+        }
     }
     
     private String formatDuration(Duration duration) {

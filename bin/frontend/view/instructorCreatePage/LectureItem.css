@@ -50,7 +50,7 @@
 
 /* Container cho Media View */
 .media-view-container {
-    -fx-min-height: 360px;
+    -pref-height: 100%;
     -fx-background-color: black;
     -fx-alignment: center;
 }
@@ -129,7 +129,16 @@
     -fx-font-size: 12px;
     -fx-background-color: #f0f0f0;
 }
+.fullscreen-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-cursor: hand;
+}
 
+.fullscreen-button:hover {
+    -fx-text-fill: #3498db;
+}
 /* Section mô tả */
 .description-section {
     -fx-border-color: #e0e0e0;
