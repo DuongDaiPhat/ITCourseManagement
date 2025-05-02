@@ -37,6 +37,7 @@ import java.util.function.Consumer;
 import backend.controller.InstructorMainPage.InstructorMainPageController;
 import backend.controller.course.CourseItemController;
 import backend.controller.course.LectureItemController;
+import backend.controller.scene.SceneManager;
 import backend.repository.DatabaseConnection;
 import backend.service.course.CourseService;
 
@@ -48,6 +49,7 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     @FXML private Label addLectureArrow;
     @FXML private VBox createLectureForm;
     @FXML private VBox lecturesContainer;
+    @FXML private Label goBack;
     @FXML private TextField lectureName;
     @FXML private TextField videoUrl;
     @FXML private TextField duration;
@@ -70,6 +72,9 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     
     @FXML
     public void initialize() throws SQLException {
+    	goBack.setOnMouseClicked(event->{
+    		SceneManager.goBack();
+    	});
     	courseLabel.setText(CourseSession.getCurrentCourse().getCourseName());
         loadExistingLectures();
         videoUrl.textProperty().addListener((obs, oldText, newText) -> {
@@ -154,8 +159,10 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     }
     private void loadVideo(String url) {
         try {
-            if (mediaPlayer != null) {
-                mediaPlayer.dispose(); // Clear cái cũ tránh leak
+        	if (mediaPlayer != null) {
+                mediaPlayer.stop();      
+                mediaPlayer.dispose();  
+                mediaPlayer = null;
             }
 
             String source;
@@ -165,16 +172,21 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
                 // Convert local file to URI
                 source = new File(url).toURI().toString();
             }
-
-            Media media = new Media(source);
-            mediaPlayer = new MediaPlayer(media);
-            mediaView.setMediaPlayer(mediaPlayer);
-
-            mediaPlayer.setOnReady(() -> {
-                Duration d = media.getDuration();
-                int minutes = (int) Math.ceil(d.toMinutes());
-                duration.setText(String.valueOf(minutes)); // set duration
-            });
+            Platform.runLater(() -> {
+                try {
+                    Media media = new Media(source);
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaView.setMediaPlayer(mediaPlayer);
+                    mediaPlayer.setOnReady(() -> {
+                        Duration d = media.getDuration();
+                        int minutes = (int) Math.ceil(d.toMinutes());
+                        duration.setText(String.valueOf(minutes)); // set duration
+                    });
+                } catch (Exception e) {
+                    System.err.println("Lỗi khi tạo MediaPlayer: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                });
 
         } catch (Exception e) {
             System.out.println("Error loading video: " + e.getMessage());
@@ -205,28 +217,12 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     }
     private void ToAddLecturePage() throws IOException {
     	this.dispose();
-		Parent root = FXMLLoader
-				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml"));
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) mainScrollPane.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+    	SceneManager.switchScene("Add Lecture", "/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml");
 	}
     
     private void ToCreateCoursePage() throws IOException {
     	this.dispose();
-		Parent root = FXMLLoader
-				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorCreatePage.fxml"));
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) mainScrollPane.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+    	SceneManager.switchScene("Create Course", "/frontend/view/instructorCreatePage/instructorCreatePage.fxml");
 	}
 
     @FXML
@@ -267,19 +263,7 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     
     private void ReturnToInstructorMainPage() throws IOException, SQLException {
     	this.dispose();
-		FXMLLoader Loader = new FXMLLoader(
-				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
-		Parent root = Loader.load();
-		InstructorMainPageController controller = Loader.getController();
-		controller.initialize();
-
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) mainContainer.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+		SceneManager.switchScene("Instructor Main Page", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
 	}
     
     private void showAlert(Alert.AlertType type, String title, String content) {

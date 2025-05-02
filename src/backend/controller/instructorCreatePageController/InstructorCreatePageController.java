@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.function.UnaryOperator;
 
 import backend.controller.InstructorMainPage.InstructorMainPageController;
+import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
 import javafx.event.ActionEvent;
@@ -90,11 +91,7 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		}
 
 		myCourse.setOnMouseClicked(event -> {
-			try {
-				ReturnToInstructorMainPage();
-			} catch (IOException | SQLException e) {
-				e.printStackTrace();
-			}
+			SceneManager.switchScene("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
 		});
 
 		technology.setVisibleRowCount(5);
@@ -193,11 +190,12 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		course.setApproved(false);
 
 		courseService.AddCourse(course);
-		this.ReturnToInstructorMainPage();
+		SceneManager.switchScene("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
+
 	}
 
 	public void ReturnToMyCourse(ActionEvent e) throws IOException, SQLException {
-		this.ReturnToInstructorMainPage();
+		SceneManager.switchScene("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
 	}
 
 	private static boolean IsValidCourseName(String name) {
@@ -223,21 +221,5 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 			displayNames.add(cat.name().replace('_', ' '));
 		}
 		return displayNames;
-	}
-
-	private void ReturnToInstructorMainPage() throws IOException, SQLException {
-		FXMLLoader Loader = new FXMLLoader(
-				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
-		Parent root = Loader.load();
-		InstructorMainPageController controller = Loader.getController();
-		controller.initialize();
-
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) courseName.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
 	}
 }

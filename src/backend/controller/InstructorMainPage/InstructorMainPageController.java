@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Optional;
 
 import backend.controller.course.CourseItemController;
+import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
 
@@ -83,15 +84,7 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 	}
 
 	private void ToCreateCoursePage() throws IOException {
-		Parent root = FXMLLoader
-				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorCreatePage.fxml"));
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) usernameLabel.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+		SceneManager.switchScene("createCourse", "/frontend/view/instructorCreatePage/instructorCreatePage.fxml");
 	}
 
 	private void loadUserInfo() {

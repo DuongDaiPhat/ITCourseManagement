@@ -20,7 +20,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.user.Users;
 
-public class RegisterController implements IRegisterController{
+public class RegisterController{
     private Parent root;
     private Stage stage;
     private Scene scene;

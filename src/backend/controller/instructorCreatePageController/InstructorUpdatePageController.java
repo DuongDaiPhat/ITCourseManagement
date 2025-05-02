@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.function.UnaryOperator;
 
 import backend.controller.InstructorMainPage.InstructorMainPageController;
+import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
 import javafx.event.ActionEvent;
@@ -274,18 +275,6 @@ public class InstructorUpdatePageController implements IInstructorUpdatePageCont
 	}
 
 	private void ReturnToInstructorMainPage() throws IOException, SQLException {
-		FXMLLoader Loader = new FXMLLoader(
-				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
-		Parent root = Loader.load();
-		InstructorMainPageController controller = Loader.getController();
-		controller.initialize();
-
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) courseName.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+		SceneManager.switchScene("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
 	}
 }
