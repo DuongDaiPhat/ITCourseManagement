@@ -53,7 +53,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public int Update(Courses t) throws SQLException {
 		int result = 0;
-		String sql = "UPDATE COURSES SET COURSENAME = ?, LANGUAGE = ?, TECHNOLOGY = ?, LEVEL = ?, CATEGORY = ?, USERID = ?, THUMBNAILURL = ?, PRICE = ?, COURSEDESCRIPTION = ?, UPDATEDAT = ?, ISAPPROVED = ? WHERE COURSEID = ?";
+		String sql = "UPDATE COURSES SET COURSENAME = ?, LANGUAGE = ?, TECHNOLOGY = ?, LEVEL = ?, CATEGORY = ?, USERID = ?, THUMBNAILURL = ?, PRICE = ?, COURSEDESCRIPTION = ?, UPDATEDAT = ?, ISAPPROVED = ?, is_rejected = ? WHERE COURSEID = ?";
 		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setString(1, t.getCourseName());
 			ps.setString(2, t.getLanguage().toString());
@@ -66,7 +66,8 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 			ps.setString(9, t.getCourseDescription());
 			ps.setString(10, t.getUpdatedAt().toString());
 			ps.setBoolean(11, t.isApproved());
-			ps.setInt(12, t.getCourseID());
+			ps.setBoolean(12, t.isRejected()); 
+			ps.setInt(13, t.getCourseID()); 
 
 			result = ps.executeUpdate();
 			System.out.println("Update executed. " + result + " row(s) affected");
@@ -248,10 +249,9 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public void ApproveByCourseId(int id, boolean status) throws SQLException {
 		String sql;
-		if(status == true) {
+		if (status == true) {
 			sql = "UPDATE COURSES SET ISAPPROVED = TRUE WHERE COURSEID = ?";
-		}
-		else {
+		} else {
 			sql = "UPDATE COURSES SET ISAPPROVED = FALSE WHERE COURSEID = ?";
 		}
 		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -268,10 +268,9 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public void PublishByCourseId(int id, boolean status) throws SQLException {
 		String sql;
-		if(status == true) {
+		if (status == true) {
 			sql = "UPDATE COURSES SET ISPUBLISHED = TRUE WHERE COURSEID = ?";
-		}
-		else {
+		} else {
 			sql = "UPDATE COURSES SET ISPUBLISHED = FALSE WHERE COURSEID = ?";
 		}
 		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -284,5 +283,5 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 			DatabaseConnection.closeConnection();
 		}
 	}
-	
+
 }
