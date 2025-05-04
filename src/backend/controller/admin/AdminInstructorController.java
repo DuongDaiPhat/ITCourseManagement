@@ -139,20 +139,38 @@ public class AdminInstructorController implements Initializable {
 
 	@FXML
 	private void handleUnban(ActionEvent event) {
-		Users selectedInstructor = instructorTable.getSelectionModel().getSelectedItem();
-		if (selectedInstructor != null) {
-			try {
-				boolean success = adminService.updateStudentStatus(selectedInstructor.getUserID(), "online");
-				if (success) {
-					showAlert("Success", "Instructor has been unbanned", Alert.AlertType.INFORMATION);
-					loadInstructors();
-				}
-			} catch (SQLException e) {
-				showAlert("Error", "Failed to unban instructor: " + e.getMessage(), Alert.AlertType.ERROR);
-			}
-		} else {
-			showAlert("Warning", "Please select an instructor first", Alert.AlertType.WARNING);
-		}
+	    Users selectedInstructor = instructorTable.getSelectionModel().getSelectedItem();
+	    
+	    if (selectedInstructor == null) {
+	        showAlert("Warning", "Please select an instructor first", Alert.AlertType.WARNING);
+	        return;
+	    }
+
+	    String currentStatus = selectedInstructor.getStatus().toString();
+	    if (!currentStatus.equalsIgnoreCase("banned")) {
+	        showAlert("Warning", 
+	                 "This instructor is not banned (Current status: " + currentStatus + ")",
+	                 Alert.AlertType.WARNING);
+	        return;
+	    }
+
+	    try {
+	        boolean success = adminService.updateInstructorStatus(selectedInstructor.getUserID(), "online");
+	        if (success) {
+	            showAlert("Success", "Instructor has been unbanned", Alert.AlertType.INFORMATION);
+	            loadInstructors();
+	        } else {
+	            showAlert("Error", "Failed to unban instructor", Alert.AlertType.ERROR);
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("SQLException in unban: " + e.getMessage());
+	        showAlert("Error", "Database error while unbanning instructor: " + e.getMessage(), 
+	                 Alert.AlertType.ERROR);
+	    } catch (Exception e) {
+	        System.err.println("General exception in unban: " + e.getMessage());
+	        showAlert("Error", "An unexpected error occurred: " + e.getMessage(), 
+	                 Alert.AlertType.ERROR);
+	    }
 	}
 
 	@FXML
