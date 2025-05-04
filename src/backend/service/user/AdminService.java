@@ -27,4 +27,14 @@ public class AdminService {
 			return false;
 		}
 	}
+
+	public boolean updateInstructorStatus(int instructorId, String status) throws SQLException {
+		try {
+			UserStatus userStatus = UserStatus.valueOf(status.toLowerCase());
+			int result = adminRepository.updateInstructorStatus(instructorId, userStatus);
+			return result > 0;
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+	}
 }
