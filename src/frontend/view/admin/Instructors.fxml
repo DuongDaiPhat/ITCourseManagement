@@ -52,16 +52,16 @@
 			<!-- Left Navigation Menu -->
 			<VBox styleClass="left-nav" prefWidth="150.0" minWidth="150.0"
 				maxWidth="150.0">
-				<Button styleClass="nav-link" text="Danh sách học sinh"
+				<Button styleClass="nav-link" text="Student List"
 					onAction="#handleBackToMain" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách giảng viên"
+				<Button styleClass="nav-link" text="Instructor List"
 					wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link"
-					text="Danh sách khóa học đang chờ duyệt"
+					text="Pending Course"
 					onAction="#handleViewPendingCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách khóa học"
+				<Button styleClass="nav-link" text="Course List"
 					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Xem doanh thu"
+				<Button styleClass="nav-link" text="View Revenue"
 					wrapText="true" maxWidth="160" />
 			</VBox>
 
@@ -70,7 +70,7 @@
 				<!-- Student List Header -->
 				<!-- Student List Header with Updated Button Layout -->
 				<HBox alignment="CENTER_LEFT" styleClass="section-header">
-					<Label styleClass="section-title" text="Danh sách giảng viên" />
+					<Label styleClass="section-title" text="Instructor List" />
 					<HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
 						<Button fx:id="warnButton" styleClass="action-button, warn"
 							text="Warn" onAction="#handleWarn" minWidth="120" />
@@ -96,22 +96,22 @@
 				<TableView fx:id="instructorTable"
 					styleClass="student-table" VBox.vgrow="ALWAYS" maxHeight="600">
 					<columns>
-						<TableColumn fx:id="idColumn" text="Mã số"
+						<TableColumn fx:id="idColumn" text="Id"
 							styleClass="table-column" prefWidth="60" />
-						<TableColumn fx:id="firstNameColumn" text="Họ"
+						<TableColumn fx:id="firstNameColumn" text="Last name"
 							styleClass="table-column" prefWidth="100" />
-						<TableColumn fx:id="lastNameColumn" text="Tên"
+						<TableColumn fx:id="lastNameColumn" text="First name"
 							styleClass="table-column" prefWidth="100" />
-						<TableColumn fx:id="phoneColumn" text="Số điện thoại"
+						<TableColumn fx:id="phoneColumn" text="Phone number"
 							styleClass="table-column" prefWidth="125" />
 						<TableColumn fx:id="emailColumn" text="Email"
 							styleClass="table-column" prefWidth="164" />
 						<TableColumn fx:id="courseCountColumn"
-							text="Số khóa học" styleClass="table-column" prefWidth="100" />
+							text="Course number" styleClass="table-column" prefWidth="150" />
 						<TableColumn fx:id="createdDateColumn"
-							text="Ngày tạo tài khoản" styleClass="table-column"
-							prefWidth="150" />
-						<TableColumn fx:id="statusColumn" text="Tình trạng"
+							text="Account creation date" styleClass="table-column"
+							prefWidth="200" />
+						<TableColumn fx:id="statusColumn" text="Status"
 							styleClass="table-column" prefWidth="105" />
 					</columns>
 				</TableView>
