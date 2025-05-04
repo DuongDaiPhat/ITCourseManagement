@@ -51,16 +51,16 @@
 			<!-- Left Navigation Menu -->
 			<VBox styleClass="left-nav" prefWidth="150.0" minWidth="150.0"
 				maxWidth="150.0">
-				<Button styleClass="nav-link" text="Danh sách học sinh"
+				<Button styleClass="nav-link" text="Student List"
 					onAction="#handleViewStudents" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách giảng viên"
+				<Button styleClass="nav-link" text="Instructor List"
 					onAction="#handleViewInstructors" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link"
-					text="Danh sách khóa học đang chờ duyệt"
+					text="Pending Course List"
 					onAction="#handleViewPendingCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách khóa học"
+				<Button styleClass="nav-link" text="Course List"
 					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Xem doanh thu"
+				<Button styleClass="nav-link" text="View Revenue"
 					onAction="#handleViewRevenue" wrapText="true" maxWidth="160" />
 			</VBox>
 
@@ -69,7 +69,7 @@
 				<!-- Pending Courses Header -->
 				<HBox alignment="CENTER_LEFT" styleClass="section-header">
 					<Label styleClass="section-title"
-						text="Danh sách khóa học chờ duyệt" />
+						text="Pending Course List" />
 				</HBox>
 
 				<Separator styleClass="separator" />
