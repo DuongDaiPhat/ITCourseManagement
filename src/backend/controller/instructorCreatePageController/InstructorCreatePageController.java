@@ -22,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -39,6 +40,7 @@ import model.course.Language;
 import model.course.Level;
 import model.course.Technology;
 import model.user.Session;
+import model.user.Users;
 
 public class InstructorCreatePageController implements IInstructorCreatePageController {
 	@FXML
@@ -118,6 +120,14 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		}
 		return displayLevel.toUpperCase();
 	}
+	
+	private void showAlert(String title, String message, Alert.AlertType type) {
+	    Alert alert = new Alert(type);
+	    alert.setTitle(title);
+	    alert.setHeaderText(null);
+	    alert.setContentText(message);
+	    alert.showAndWait();
+	}
 
 	public void SelectImage(ActionEvent e) {
 		FileChooser fileChooser = new FileChooser();
@@ -134,6 +144,12 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 	}
 
 	public void CreateCourse(ActionEvent e) throws IOException, SQLException {
+		Users currentUser = Session.getCurrentUser();
+	    if (currentUser.getStatus().toString().equalsIgnoreCase("banned")) {
+	        showAlert("Failed to create the course!", "Your account is banned. You cannot create courses.", 
+	                  Alert.AlertType.ERROR);
+	        return;
+	    }
 		String str_courseName = courseName.getText().trim();
 		String str_price = price.getText().trim();
 		String str_description = description.getText().trim();
