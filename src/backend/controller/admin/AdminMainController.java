@@ -15,20 +15,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.user.Session;
@@ -55,6 +51,14 @@ public class AdminMainController implements Initializable {
 	@FXML
 	private TableColumn<Users, String> statusColumn;
 
+	// Add explicit button references
+	@FXML
+	private Button warnButton;
+	@FXML
+	private Button banButton;
+	@FXML
+	private Button unbanButton;
+
 	private AdminService adminService = new AdminService();
 
 	@Override
@@ -62,14 +66,15 @@ public class AdminMainController implements Initializable {
 		try {
 			setupStudentTable();
 			loadStudents();
-			loadUserInfo(); // Đảm bảo các thành phần UI đã được khởi tạo trước khi sử dụng
+			loadUserInfo();
+
 		} catch (SQLException e) {
 			showAlert("Error", "Failed to load student data: " + e.getMessage(), Alert.AlertType.ERROR);
 		}
 	}
 
 	private void loadUserInfo() {
-		if (usernameLabel != null) { // Kiểm tra null trước khi sử dụng
+		if (usernameLabel != null) {
 			Users currentUser = Session.getCurrentUser();
 			if (currentUser != null) {
 				usernameLabel.setText(currentUser.getUserFirstName() + " " + currentUser.getUserLastName());
@@ -84,7 +89,6 @@ public class AdminMainController implements Initializable {
 		phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 		emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-		// For createdDateColumn - using SimpleStringProperty
 		createdDateColumn.setCellValueFactory(cellData -> {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			String dateString = cellData.getValue().getCreatedAt() != null
@@ -93,7 +97,6 @@ public class AdminMainController implements Initializable {
 			return new SimpleStringProperty(dateString);
 		});
 
-		// For statusColumn - using SimpleStringProperty
 		statusColumn
 				.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus().toString()));
 	}
@@ -105,10 +108,11 @@ public class AdminMainController implements Initializable {
 	}
 
 	@FXML
-	private void handleWarn(ActionEvent event) {
+	public void handleWarn(ActionEvent event) {
 		Users selectedStudent = studentTable.getSelectionModel().getSelectedItem();
 		if (selectedStudent != null) {
 			try {
+				System.out.println("Attempting to warn student with ID: " + selectedStudent.getUserID());
 				boolean success = adminService.updateStudentStatus(selectedStudent.getUserID(), "offline");
 				if (success) {
 					showAlert("Success", "Student has been warned", Alert.AlertType.INFORMATION);
@@ -123,10 +127,11 @@ public class AdminMainController implements Initializable {
 	}
 
 	@FXML
-	private void handleBan(ActionEvent event) {
+	public void handleBan(ActionEvent event) {
 		Users selectedStudent = studentTable.getSelectionModel().getSelectedItem();
 		if (selectedStudent != null) {
 			try {
+				System.out.println("Attempting to ban student with ID: " + selectedStudent.getUserID());
 				boolean success = adminService.updateStudentStatus(selectedStudent.getUserID(), "banned");
 				if (success) {
 					showAlert("Success", "Student has been banned", Alert.AlertType.INFORMATION);
@@ -141,17 +146,33 @@ public class AdminMainController implements Initializable {
 	}
 
 	@FXML
-	private void handleUnban(ActionEvent event) {
+	public void handleUnban(ActionEvent event) {
 		Users selectedStudent = studentTable.getSelectionModel().getSelectedItem();
 		if (selectedStudent != null) {
-			try {
-				boolean success = adminService.updateStudentStatus(selectedStudent.getUserID(), "online");
-				if (success) {
-					showAlert("Success", "Student has been unbanned", Alert.AlertType.INFORMATION);
-					loadStudents();
+			System.out.println(
+					"Selected student: " + selectedStudent.getUserID() + ", Status: " + selectedStudent.getStatus());
+			// Use string comparison for status checking
+			String currentStatus = selectedStudent.getStatus().toString();
+			if (currentStatus.equalsIgnoreCase("banned")) {
+				try {
+					System.out.println("Attempting to unban student");
+					boolean success = adminService.updateStudentStatus(selectedStudent.getUserID(), "online");
+					if (success) {
+						showAlert("Success", "Student has been unbanned", Alert.AlertType.INFORMATION);
+						loadStudents();
+					} else {
+						System.out.println("Failed to unban student - service returned false");
+					}
+				} catch (SQLException e) {
+					System.out.println("SQLException in unban: " + e.getMessage());
+					showAlert("Error", "Failed to unban student: " + e.getMessage(), Alert.AlertType.ERROR);
+				} catch (Exception e) {
+					System.out.println("General exception in unban: " + e.getMessage());
+					showAlert("Error", "Unexpected error: " + e.getMessage(), Alert.AlertType.ERROR);
 				}
-			} catch (SQLException e) {
-				showAlert("Error", "Failed to unban student: " + e.getMessage(), Alert.AlertType.ERROR);
+			} else {
+				showAlert("Warning", "This student is not banned (Current status: " + currentStatus + ")",
+						Alert.AlertType.WARNING);
 			}
 		} else {
 			showAlert("Warning", "Please select a student first", Alert.AlertType.WARNING);
