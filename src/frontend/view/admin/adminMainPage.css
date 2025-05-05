@@ -81,7 +81,7 @@
     -fx-min-width: 120.0px;
     -fx-text-fill: white;
     -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.3), 4.0, 0.0, 0.0, 1.0);
-    -fx-translate-x: 100px;
+    -fx-translate-x: 100.0px;
 }
 
 /* Button color styles - Updated */
@@ -257,9 +257,23 @@
     -fx-padding: 8.0px;
     -fx-background-color: white;
     -fx-background-radius: 5.0px;
-    -fx-translate-x: 170.0px;
+    -fx-translate-x: -10.0px;
+}
+
+.icon-button.print-button:hover {
+    -fx-background-color: #e0e0e0;
+    -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.2), 5.0, 0.0, 0.0, 1.0);
 }
 
 .icon-button:hover {
     -fx-background-color: rgba(0.0, 0.0, 0.0, 0.1);
+}
+
+/* Refresh notification style */
+.refresh-notification {
+    -fx-text-fill: #0a557a;
+    -fx-font-size: 12.0px;
+    -fx-font-style: italic;
+    -fx-padding: 0.0 0.0 5.0px 0.0;
+    -fx-alignment: CENTER_RIGHT;
 }
