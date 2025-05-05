@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.user.Session;
+import model.user.Users;
 
 public class LoginController implements ILoginController {
 	@FXML
@@ -39,30 +40,53 @@ public class LoginController implements ILoginController {
 	private UserService userService = new UserService();
 
 	public void Login(ActionEvent e) throws SQLException, IOException {
-		String str_username = username.getText();
+		String str_username = username.getText().trim();
 		String str_password = password.getText();
 		System.out.println(str_username);
 		System.out.println(str_password);
 		if (str_username.isEmpty() || str_password.isEmpty()) {
 			loginWarning.setText("Username or password is empty");
-			return;
+			loginWarning.setVisible(true);
+            return;
 		}
-		boolean isMatching = LoginService.getInstance().LoginCheck(str_username, str_password);
-		if (isMatching == true) {
-			Session.setCurrentUser(userService.GetUserByUsername(str_username));
-			if (Session.getCurrentUser().getRoleID() == 1) {
-				SceneManager.switchScene("Instructor Main Page",
-						"/frontend/view/instructorMainPage/instructorMainPage.fxml");
-			} else if (Session.getCurrentUser().getRoleID() == 2) {
-				// Xử lý cho role 2 nếu cần
-			} else if (Session.getCurrentUser().getRoleID() == 3) {
-				SceneManager.switchScene("Admin Main Page", "/frontend/view/admin/AdminMainPage.fxml");
-			}
-		} else {
-			loginWarning.setText("Wrong Username and password");
+		try {
+            // Kiểm tra username và password
+            boolean isMatching = LoginService.getInstance().LoginCheck(str_username, str_password);
+            
+            if (isMatching) {
+                // Đăng nhập thành công, lấy thông tin người dùng và lưu vào session
+                Users currentUser = userService.GetUserByUsername(str_username);
+                if (currentUser == null) {
+                    loginWarning.setText("Error: Could not retrieve user information");
+                    loginWarning.setVisible(true);
+                    return;
+                }
+                
+                Session.setCurrentUser(currentUser);
+                System.out.println("Login successful for user: " + str_username + ", RoleID: " + currentUser.getRoleID());
+                
+                // Chuyển hướng dựa trên roleID
+                if (currentUser.getRoleID() == 1) { // Instructor
+                    SceneManager.switchScene("Instructor Main Page", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
+                } else if (currentUser.getRoleID() == 2) { // Student
+                    SceneManager.switchScene("Main Page", "/frontend/view/mainPage/mainPage.fxml");
+                } else if (Session.getCurrentUser().getRoleID() == 3) {
+                	SceneManager.switchScene("Admin Main Page", "/frontend/view/admin/AdminMainPage.fxml");
+                }
+                else {
+                	loginWarning.setText("Wrong Username and password");
+                    return;
+                }
+            } else {
+            	loginWarning.setText("Wrong Username and password");
+            }
+		}catch (SQLException ex) {
+                loginWarning.setText("Database error. Please try again later.");
+                loginWarning.setVisible(true);
+                System.err.println("SQLException during login: " + ex.getMessage());
+                ex.printStackTrace();
 		}
 	}
-
 	public void Register(ActionEvent e) throws SQLException, IOException {
 		this.ResetError();
 		SceneManager.switchScene("Register", "/frontend/view/register/register.fxml");

@@ -14,6 +14,7 @@ import model.user.UserStatus;
 import model.user.Users;
 import backend.controller.scene.SceneManager;
 import backend.repository.user.UsersRepository;
+import backend.service.user.RegisterService;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -79,10 +80,17 @@ public class SelectRoleController implements Initializable{
 		} else if (studentCheckbox.isSelected()) {
 			this.user.setRoleID(2);
 		}
-		this.user.setCreatedAt(LocalDate.now());
-		this.user.setStatus(UserStatus.online);
-		this.user.setDescription("No bio yet");
-		UsersRepository.getInstance().Insert(user);
+		 if (RegisterService.getInstance().registerUser(this.user)) {
+	            Platform.runLater(() -> {
+	                showSuccessAlert();
+	                // SceneManager.switchScene đã xử lý IOException nội bộ
+	                SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
+	            });
+	        } else {
+	            Platform.runLater(() -> {
+	                showErrorAlert("Registration failed. Please try again.");
+	            });
+	        }
 
 		Platform.runLater(() -> {
 			showSuccessAlert();
@@ -121,4 +129,11 @@ public class SelectRoleController implements Initializable{
 			simpleAlert.showAndWait();
 		}
 	}
+	private void showErrorAlert(String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

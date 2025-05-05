@@ -13,7 +13,12 @@ public class UserService {
 		return null;
 	}
 	public Users GetUserByUsername(String username) throws SQLException {
-		return UsersRepository.getInstance().GetUserByUsername(username);
+		Users user = UsersRepository.getInstance().GetUserByUsername(username);
+        if (user != null) {
+            user.setPassword(null);
+            user.setSalt(null);    
+        }
+        return user;
 	}
 	
 	
