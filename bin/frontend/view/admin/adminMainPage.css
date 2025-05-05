@@ -71,74 +71,56 @@
     -fx-border-width: 5.0px 0.0px 0.0px 0.0px;
 }
 
-/* Action Button Bar */
-.action-button-bar {
-    -fx-background-color: #f8f9fa;
-    -fx-padding: 10.0px 20.0px;
-    -fx-border-color: #eaeaea;
-    -fx-border-width: 1.0px 0.0px;
-    -fx-spacing: 10.0px;
-}
-
-/* Action Buttons - Updated */
 .action-button {
     -fx-font-size: 14.0px;
     -fx-font-weight: bold;
     -fx-padding: 8.0px 20.0px;
-    -fx-background-radius: 18.0px; 
+    -fx-background-radius: 20.0px; 
+    -fx-border-radius: 20.0px;
     -fx-cursor: hand;
-    -fx-min-width: 80px;
+    -fx-min-width: 120.0px;
     -fx-text-fill: white;
-    -fx-translate-x: 150px;
+    -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.3), 4.0, 0.0, 0.0, 1.0);
+    -fx-translate-x: 100px;
 }
 
+/* Button color styles - Updated */
 .warn {
     -fx-background-color: #FFC107;
+    -fx-border-color: transparent;
     -fx-text-fill: white;
 }
 
-.approve {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-}
-
-.decline {
-    -fx-background-color: #FF5252;
-    -fx-text-fill: white;
+.warn:hover {
+    -fx-background-color: #FFD54F;
+    -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.4), 6.0, 0.0, 0.0, 2.0);
 }
 
 .ban {
-    -fx-background-color: #FF5252;
+    -fx-background-color: #F44336;
+    -fx-border-color: transparent;
     -fx-text-fill: white;
+}
+
+.ban:hover {
+    -fx-background-color: #EF5350;
+    -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.4), 6.0, 0.0, 0.0, 2.0);
 }
 
 .unban {
     -fx-background-color: #4CAF50;
+    -fx-border-color: transparent;
     -fx-text-fill: white;
 }
 
-.action-button:hover {
-    -fx-opacity: 0.9;
+.unban:hover {
+    -fx-background-color: #66BB6A;
+    -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.4), 6.0, 0.0, 0.0, 2.0);
 }
 
-.select-button {
-    -fx-background-color: #2ac5b9;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 6.0px 15.0px;
-    -fx-background-radius: 4.0px;
-    -fx-cursor: hand;
-    -fx-min-width: 80.0px;
-}
-
-.select-button:hover {
-    -fx-background-color: #1f9e94;
-}
-
-.section-header HBox {
-    -fx-spacing: 10.0;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 0.0 0.0 0.0 20.0;
+.action-button:pressed {
+    -fx-effect: innershadow(gaussian, rgba(0.0,0.0,0.0,0.4), 4.0, 0.0, 0.0, 2.0);
+    -fx-translate-y: 1.0px;
 }
 
 /* Student Table Styles */
@@ -206,8 +188,6 @@
 .table-view .column-header:hover {
     -fx-background-color: #1f9e94;
 }
-
-
 
 /* ScrollPane Styles - Enhanced */
 .scroll-pane {
@@ -277,7 +257,7 @@
     -fx-padding: 8.0px;
     -fx-background-color: white;
     -fx-background-radius: 5.0px;
-    -fx-translate-x: 170px;
+    -fx-translate-x: 170.0px;
 }
 
 .icon-button:hover {
