@@ -17,12 +17,11 @@ public class Courses {
 	private LocalDateTime updatedAt;
 	private boolean isApproved;
 	private boolean isPublished;
+	private boolean isRejected;
 
 	public Courses() {
 		super();
 	}
-
-	
 
 	public Courses(int courseID, String courseName, Language language, Technology technology, Level level,
 			Category category, int userID, String thumbnailURL, float price, String courseDescription,
@@ -43,8 +42,6 @@ public class Courses {
 		this.isApproved = isApproved;
 		this.isPublished = isPublished;
 	}
-
-
 
 	public int getCourseID() {
 		return courseID;
@@ -141,19 +138,14 @@ public class Courses {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
 
 	public boolean isPublished() {
 		return isPublished;
 	}
 
-
-
 	public void setPublish(boolean isPublished) {
 		this.isPublished = isPublished;
 	}
-
-
 
 	@Override
 	public String toString() {
@@ -174,6 +166,14 @@ public class Courses {
 
 	public void print() {
 		System.out.println(this.toString());
+	}
+
+	public boolean isRejected() {
+		return isRejected;
+	}
+
+	public void setRejected(boolean rejected) {
+		isRejected = rejected;
 	}
 
 }

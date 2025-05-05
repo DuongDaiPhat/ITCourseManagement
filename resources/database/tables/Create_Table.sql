@@ -72,6 +72,7 @@ CREATE TABLE COURSES(
 	COURSEDESCRIPTION VARCHAR(512),
     CREATEDAT DATETIME NOT NULL,
     UPDATEDAT DATETIME,
+	is_rejected BOOLEAN DEFAULT FALSE,
     ISAPPROVED BOOLEAN DEFAULT FALSE,
     ISPUBLISHED BOOLEAN DEFAULT FALSE,
     CHECK(PRICE >= 0)
@@ -201,4 +202,15 @@ CREATE TABLE NotificationDetail (
     Status ENUM('read', 'unread') NOT NULL DEFAULT 'unread',
     PRIMARY KEY (NotificationID, UserID),
     FOREIGN KEY (NotificationID) REFERENCES Notification(NotificationID)
+);
+
+INSERT INTO ROLES (ROLENAME) VALUES ('instructor'), ('student'), ('admin');
+
+-- Thêm tài khoản admin (sử dụng ROLEID = 3)
+INSERT INTO USERS (
+    ROLEID, USERFIRSTNAME, USERLASTNAME, USERNAME, PASSWORD, 
+    PHONENUMBER, EMAIL, DESCRIPTION, STATUS, CREATEDAT
+) VALUES (
+    3, 'System', 'Admin', 'admin', 'Admin123', 
+    '0123456789', 'admin@example.com', 'Quản trị viên hệ thống', 'online', CURDATE()
 );

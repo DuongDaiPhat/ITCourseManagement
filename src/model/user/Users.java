@@ -14,6 +14,7 @@ public class Users {
 	private String description;
 	private UserStatus status;
 	private LocalDate createdAt;
+	private int courseCount; // BỔ SUNG DÒNG NÀY
 
 	public Users() {
 		super();
@@ -123,13 +124,22 @@ public class Users {
 		this.createdAt = createdAt;
 	}
 
+	public int getCourseCount() {
+		return courseCount;
+	}
+
+	public void setCourseCount(int courseCount) {
+		this.courseCount = courseCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Users [userID=" + userID + ", roleID=" + roleID + ", userFirstName=" + userFirstName + ", userLastName="
 				+ userLastName + ", userName=" + userName + ", password=" + password + ", phoneNumber=" + phoneNumber
 				+ ", email=" + email + ", description=" + description + ", status=" + status + ", createdAt="
-				+ createdAt + "]";
+				+ createdAt + ", courseCount=" + courseCount + "]";
 	}
+
 	public void print() {
 		System.out.println(this.toString());
 	}
