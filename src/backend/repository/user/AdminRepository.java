@@ -71,4 +71,17 @@ public class AdminRepository {
 			return ps.executeUpdate();
 		}
 	}
+<<<<<<< Updated upstream
+=======
+
+	public int updateInstructorStatus(int instructorId, UserStatus userStatus) throws SQLException {
+		String sql = "UPDATE USERS SET STATUS = ? WHERE USERID = ? AND ROLEID = 1"; 
+																					
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setString(1, userStatus.toString());
+			ps.setInt(2, instructorId);
+			return ps.executeUpdate();
+		}
+	}
+>>>>>>> Stashed changes
 }

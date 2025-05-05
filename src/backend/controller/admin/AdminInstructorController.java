@@ -1,12 +1,26 @@
 package backend.controller.admin;
 
 import java.io.IOException;
+<<<<<<< Updated upstream
 import java.net.URL;
 import java.sql.SQLException;
+=======
+
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+>>>>>>> Stashed changes
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
+<<<<<<< Updated upstream
+=======
+import java.io.File;
+import java.io.FileOutputStream;
+import javafx.stage.FileChooser;
+
+>>>>>>> Stashed changes
 import backend.service.user.AdminService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -30,6 +44,12 @@ import javafx.stage.Stage;
 import model.user.Session;
 import model.user.Users;
 import model.user.UserStatus;
+<<<<<<< Updated upstream
+=======
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+>>>>>>> Stashed changes
 
 public class AdminInstructorController implements Initializable {
 	@FXML
@@ -52,6 +72,11 @@ public class AdminInstructorController implements Initializable {
 	private TableColumn<Users, String> createdDateColumn;
 	@FXML
 	private TableColumn<Users, String> statusColumn;
+<<<<<<< Updated upstream
+=======
+	@FXML
+	private Label refreshNotificationLabel;
+>>>>>>> Stashed changes
 
 	private AdminService adminService = new AdminService();
 
@@ -61,11 +86,42 @@ public class AdminInstructorController implements Initializable {
 			setupInstructorTable();
 			loadInstructors();
 			loadUserInfo();
+<<<<<<< Updated upstream
+=======
+
+			// Bắt đầu tự động refresh bảng mỗi 10 giây
+			Timeline refreshTimeline = new Timeline(new KeyFrame(Duration.seconds(10), e -> {
+				try {
+					loadInstructors();
+					// Hiển thị thông báo refresh
+					showRefreshNotification();
+				} catch (SQLException ex) {
+					System.out.println("Auto-refresh failed: " + ex.getMessage());
+				}
+			}));
+			refreshTimeline.setCycleCount(Timeline.INDEFINITE);
+			refreshTimeline.play();
+
+>>>>>>> Stashed changes
 		} catch (SQLException e) {
 			showAlert("Error", "Failed to load instructor data: " + e.getMessage(), Alert.AlertType.ERROR);
 		}
 	}
 
+<<<<<<< Updated upstream
+=======
+	private void showRefreshNotification() {
+		String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+		refreshNotificationLabel.setText("Last refreshed at: " + time);
+
+		// Tạo hiệu ứng fade out sau 3 giây
+		Timeline fadeOut = new Timeline(
+				new KeyFrame(Duration.seconds(0), e -> refreshNotificationLabel.setOpacity(1.0)),
+				new KeyFrame(Duration.seconds(3), e -> refreshNotificationLabel.setOpacity(0.0)));
+		fadeOut.play();
+	}
+
+>>>>>>> Stashed changes
 	private void loadUserInfo() {
 		if (usernameLabel != null) {
 			Users currentUser = Session.getCurrentUser();
@@ -140,6 +196,7 @@ public class AdminInstructorController implements Initializable {
 	@FXML
 	private void handleUnban(ActionEvent event) {
 		Users selectedInstructor = instructorTable.getSelectionModel().getSelectedItem();
+<<<<<<< Updated upstream
 		if (selectedInstructor != null) {
 			try {
 				boolean success = adminService.updateStudentStatus(selectedInstructor.getUserID(), "online");
@@ -153,6 +210,40 @@ public class AdminInstructorController implements Initializable {
 		} else {
 			showAlert("Warning", "Please select an instructor first", Alert.AlertType.WARNING);
 		}
+=======
+
+		if (selectedInstructor == null) {
+			showAlert("Warning", "Please select an instructor first", Alert.AlertType.WARNING);
+			return;
+		}
+
+		String currentStatus = selectedInstructor.getStatus().toString();
+		if (!currentStatus.equalsIgnoreCase("banned")) {
+			showAlert("Warning", "This instructor is not banned (Current status: " + currentStatus + ")",
+					Alert.AlertType.WARNING);
+			return;
+		}
+
+		try {
+			boolean success = adminService.updateInstructorStatus(selectedInstructor.getUserID(), "online");
+			if (success) {
+				showAlert("Success", "Instructor has been unbanned", Alert.AlertType.INFORMATION);
+				loadInstructors();
+			} else {
+				showAlert("Error", "Failed to unban instructor", Alert.AlertType.ERROR);
+			}
+		} catch (SQLException e) {
+			System.err.println("SQLException in unban: " + e.getMessage());
+			showAlert("Error", "Database error while unbanning instructor: " + e.getMessage(), Alert.AlertType.ERROR);
+		} catch (Exception e) {
+			System.err.println("General exception in unban: " + e.getMessage());
+			showAlert("Error", "An unexpected error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
+		}
+	}
+
+	@FXML
+	private void handlePrint(ActionEvent event) {
+>>>>>>> Stashed changes
 	}
 
 	@FXML

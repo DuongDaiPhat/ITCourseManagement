@@ -14,7 +14,7 @@
 <VBox prefHeight="700.0" prefWidth="1000.0"
 	stylesheets="@adminMainPage.css" xmlns="http://javafx.com/javafx/21"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="backend.controller.admin.PendingCoursesController">
+	fx:controller="backend.controller.admin.AllCoursesController">
 	<children>
 		<!-- Top Bar with Logo and Icons -->
 		<HBox alignment="CENTER_LEFT" styleClass="top-bar">
@@ -51,18 +51,6 @@
 			<!-- Left Navigation Menu -->
 			<VBox styleClass="left-nav" prefWidth="150.0" minWidth="150.0"
 				maxWidth="150.0">
-<<<<<<< Updated upstream
-				<Button styleClass="nav-link" text="Danh sách học sinh"
-					onAction="#handleViewStudents" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách giảng viên"
-					onAction="#handleViewInstructors" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link"
-					text="Danh sách khóa học đang chờ duyệt"
-					onAction="#handleViewPendingCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách khóa học"
-					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Xem doanh thu"
-=======
 				<Button styleClass="nav-link" text="Student List"
 					onAction="#handleViewStudents" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="Instructor List"
@@ -73,20 +61,15 @@
 				<Button styleClass="nav-link" text="Course List"
 					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="View Revenue"
->>>>>>> Stashed changes
 					onAction="#handleViewRevenue" wrapText="true" maxWidth="160" />
 			</VBox>
 
 			<!-- Right Content Area -->
 			<VBox styleClass="right-content" HBox.hgrow="ALWAYS">
-				<!-- Pending Courses Header -->
+				<!-- All Courses Header -->
 				<HBox alignment="CENTER_LEFT" styleClass="section-header">
 					<Label styleClass="section-title"
-<<<<<<< Updated upstream
-						text="Danh sách khóa học chờ duyệt" />
-=======
-						text="Pending Course List" />
->>>>>>> Stashed changes
+						text="Approved Course List" />
 				</HBox>
 
 				<Separator styleClass="separator" />

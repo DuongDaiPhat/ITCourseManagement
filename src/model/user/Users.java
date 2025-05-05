@@ -11,6 +11,10 @@ public class Users {
 	private String password;
 	private String phoneNumber;
 	private String email;
+<<<<<<< Updated upstream
+=======
+	private String salt;
+>>>>>>> Stashed changes
 	private String description;
 	private UserStatus status;
 	private LocalDate createdAt;
@@ -42,6 +46,7 @@ public class Users {
 
 	public int getRoleID() {
 		return roleID;
+<<<<<<< Updated upstream
 	}
 
 	public void setRoleID(int roleID) {
@@ -132,6 +137,106 @@ public class Users {
 		this.courseCount = courseCount;
 	}
 
+=======
+	}
+	
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public void setRoleID(int roleID) {
+		this.roleID = roleID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+	public String getUserFirstName() {
+		return userFirstName;
+	}
+
+	public void setUserFirstName(String userFirstName) {
+		this.userFirstName = userFirstName;
+	}
+
+	public String getUserLastName() {
+		return userLastName;
+	}
+
+	public void setUserLastName(String userLastName) {
+		this.userLastName = userLastName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public UserStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(UserStatus status) {
+		this.status = status;
+	}
+
+	public LocalDate getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public int getCourseCount() {
+		return courseCount;
+	}
+
+	public void setCourseCount(int courseCount) {
+		this.courseCount = courseCount;
+	}
+
+>>>>>>> Stashed changes
 	@Override
 	public String toString() {
 		return "Users [userID=" + userID + ", roleID=" + roleID + ", userFirstName=" + userFirstName + ", userLastName="

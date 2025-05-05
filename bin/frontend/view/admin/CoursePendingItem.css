@@ -1,0 +1,85 @@
+.course-item {
+	-fx-background-color: white;
+	-fx-background-radius: 5.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0.0, 0.0, 0.0, 0.1), 10.0, 0.0,
+		0.0, 4.0);
+	-fx-padding: 10.0px;
+	-fx-spacing: 15.0px;
+	-fx-border-width: 1.0px;
+	-fx-border-color: #000000;
+}
+
+.course-name {
+	-fx-text-fill: #333;
+	-fx-font-size: 18.0px;
+	-fx-font-weight: bold;
+}
+
+.course-instructor {
+	-fx-text-fill: #666;
+	-fx-font-size: 14.0px;
+}
+
+.course-language, .course-technology, .course-level, .course-category {
+	-fx-text-fill: white;
+	-fx-padding: 3.0px 8.0px;
+	-fx-background-radius: 3.0px;
+	-fx-font-size: 12.0px;
+}
+
+.course-language {
+	-fx-background-color: #26b0a5;
+}
+
+.course-technology {
+	-fx-background-color: #1ca3b6;
+}
+
+.course-level {
+	-fx-background-color: #0a557a;
+}
+
+.course-category {
+	-fx-background-color: #01363e;
+}
+
+.course-lectures {
+	-fx-text-fill: #666;
+	-fx-font-size: 12.0px;
+}
+
+.course-price {
+	-fx-text-fill: #2ac5b9;
+	-fx-font-weight: bold;
+	-fx-font-size: 16.0px;
+}
+
+.course-date {
+	-fx-text-fill: #888;
+	-fx-font-size: 12.0px;
+}
+
+/* Button styles - ensure these are properly defined */
+.action-button {
+	-fx-font-size: 14.0px;
+	-fx-font-weight: bold;
+	-fx-padding: 8.0px 20.0px;
+	-fx-background-radius: 10.0px;
+	-fx-cursor: hand;
+	-fx-min-width: 150.0px;
+	-fx-text-fill: white;
+	-fx-translate-x: -2px;
+}
+
+.approve {
+	-fx-background-color: #4CAF50 !important;
+}
+
+.decline {
+	-fx-background-color: #FF5252 !important;
+}
+
+/* Add hover effect */
+.action-button:hover {
+	-fx-opacity: 0.9;
+}

@@ -33,11 +33,22 @@ public class Main {
         int newID = notificationDAO.Insert(notification);
         System.out.println("Inserted notification with ID: " + newID);
 
+<<<<<<< Updated upstream
         // Hiển thị danh sách thông báo
         ArrayList<Notification> notifications = notificationDAO.SelectAll();
         for (Notification n : notifications) {
             System.out.println("ID: " + n.getNotificationID() + " - Name: " + n.getNotificationName() + " - Content: " + n.getContent());
         }
+=======
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        SceneManager.setPrimaryStage(primaryStage); 
+
+        Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/admin/PendingCourses.fxml"));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setTitle("Login");
+        primaryStage.show();
+>>>>>>> Stashed changes
     }
 }*/
 import model.user.MyCart;

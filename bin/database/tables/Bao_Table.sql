@@ -1,6 +1,6 @@
 USE it_course_management;
 
--- Bảng MyCart
+-- Bảng MyCart, Payments, UserPayment, Invoices, InvoiceDetail, Notification, NotificationDetail
 CREATE TABLE MyCart (
     UserID INT NOT NULL,
     CourseID INT NOT NULL,

@@ -154,9 +154,14 @@
                            <children>
                               <ImageView fitHeight="117.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
+<<<<<<< Updated upstream
                                     <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
                                  </image>
                               </ImageView>
+=======
+                                    <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                                 </image></ImageView>
+>>>>>>> Stashed changes
                               <VBox prefHeight="118.0" prefWidth="247.0" spacing="12.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label text="Java developer for beginner" VBox.vgrow="ALWAYS" />
@@ -206,9 +211,14 @@
                            <children>
                               <ImageView fitHeight="117.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
+<<<<<<< Updated upstream
                                     <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
                                  </image>
                               </ImageView>
+=======
+                                    <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                                 </image></ImageView>
+>>>>>>> Stashed changes
                               <VBox prefHeight="118.0" prefWidth="247.0" spacing="12.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label text="Java developer for beginner" VBox.vgrow="ALWAYS" />
@@ -258,9 +268,14 @@
                            <children>
                               <ImageView fitHeight="117.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
+<<<<<<< Updated upstream
                                     <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
                                  </image>
                               </ImageView>
+=======
+                                    <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                                 </image></ImageView>
+>>>>>>> Stashed changes
                               <VBox prefHeight="118.0" prefWidth="247.0" spacing="12.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label text="Java developer for beginner" VBox.vgrow="ALWAYS" />

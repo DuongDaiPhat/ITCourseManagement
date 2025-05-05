@@ -52,18 +52,6 @@
 			<!-- Left Navigation Menu -->
 			<VBox styleClass="left-nav" prefWidth="150.0" minWidth="150.0"
 				maxWidth="150.0">
-<<<<<<< Updated upstream
-				<Button styleClass="nav-link" text="Danh sách học sinh"
-					onAction="#handleBackToMain" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách giảng viên"
-					wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link"
-					text="Danh sách khóa học đang chờ duyệt"
-					onAction="#handleViewPendingCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách khóa học"
-					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Xem doanh thu"
-=======
 				<Button styleClass="nav-link" text="Student List"
 					onAction="#handleBackToMain" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="Instructor List"
@@ -73,22 +61,14 @@
 				<Button styleClass="nav-link" text="Course List"
 					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="View Revenue"
->>>>>>> Stashed changes
 					wrapText="true" maxWidth="160" />
 			</VBox>
 
 			<!-- Right Content Area -->
 			<VBox styleClass="right-content" HBox.hgrow="ALWAYS">
-<<<<<<< Updated upstream
-				<!-- Student List Header -->
-				<!-- Student List Header with Updated Button Layout -->
-				<HBox alignment="CENTER_LEFT" styleClass="section-header">
-					<Label styleClass="section-title" text="Danh sách giảng viên" />
-=======
 				<!-- Instructor List Header -->
 				<HBox alignment="CENTER_LEFT" styleClass="section-header">
 					<Label styleClass="section-title" text="Instructor List" />
->>>>>>> Stashed changes
 					<HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
 						<Button fx:id="warnButton" styleClass="action-button, warn"
 							text="Warn" onAction="#handleWarn" minWidth="120" />
@@ -98,12 +78,8 @@
 							styleClass="action-button, unban" text="Unban"
 							onAction="#handleUnban" minWidth="120" />
 						<HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-<<<<<<< Updated upstream
-							<Button styleClass="icon-button, print-button">
-=======
 							<Button styleClass="icon-button, print-button"
 								onAction="#handlePrint">
->>>>>>> Stashed changes
 								<graphic>
 									<ImageView fitHeight="30" fitWidth="36">
 										<Image url="@/images/main_page/icon/print.png" />
@@ -116,18 +92,6 @@
 
 				<Separator styleClass="separator" />
 
-<<<<<<< Updated upstream
-				<TableView fx:id="instructorTable"
-					styleClass="student-table" VBox.vgrow="ALWAYS" maxHeight="600">
-					<columns>
-						<TableColumn fx:id="idColumn" text="Mã số"
-							styleClass="table-column" prefWidth="60" />
-						<TableColumn fx:id="firstNameColumn" text="Họ"
-							styleClass="table-column" prefWidth="100" />
-						<TableColumn fx:id="lastNameColumn" text="Tên"
-							styleClass="table-column" prefWidth="100" />
-						<TableColumn fx:id="phoneColumn" text="Số điện thoại"
-=======
 				<!-- Thêm Label refresh notification -->
 				<Label fx:id="refreshNotificationLabel"
 					styleClass="refresh-notification" text="" />
@@ -142,24 +106,15 @@
 						<TableColumn fx:id="lastNameColumn" text="First name"
 							styleClass="table-column" prefWidth="100" />
 						<TableColumn fx:id="phoneColumn" text="Phone number"
->>>>>>> Stashed changes
 							styleClass="table-column" prefWidth="125" />
 						<TableColumn fx:id="emailColumn" text="Email"
 							styleClass="table-column" prefWidth="164" />
 						<TableColumn fx:id="courseCountColumn"
-<<<<<<< Updated upstream
-							text="Số khóa học" styleClass="table-column" prefWidth="100" />
-						<TableColumn fx:id="createdDateColumn"
-							text="Ngày tạo tài khoản" styleClass="table-column"
-							prefWidth="150" />
-						<TableColumn fx:id="statusColumn" text="Tình trạng"
-=======
 							text="Course number" styleClass="table-column" prefWidth="150" />
 						<TableColumn fx:id="createdDateColumn"
 							text="Account creation date" styleClass="table-column"
 							prefWidth="200" />
 						<TableColumn fx:id="statusColumn" text="Status"
->>>>>>> Stashed changes
 							styleClass="table-column" prefWidth="105" />
 					</columns>
 				</TableView>

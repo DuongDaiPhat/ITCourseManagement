@@ -51,18 +51,6 @@
 			<!-- Left Navigation Menu -->
 			<VBox styleClass="left-nav" prefWidth="150.0" minWidth="150.0"
 				maxWidth="150.0">
-<<<<<<< Updated upstream
-				<Button styleClass="nav-link" text="Danh sách học sinh"
-					onAction="#handleViewStudents" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách giảng viên"
-					onAction="#handleViewInstructors" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link"
-					text="Danh sách khóa học đang chờ duyệt"
-					onAction="#handleViewPendingCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Danh sách khóa học"
-					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Xem doanh thu"
-=======
 				<Button styleClass="nav-link" text="Student List"
 					onAction="#handleViewStudents" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="Instructor List"
@@ -73,7 +61,6 @@
 				<Button styleClass="nav-link" text="Course List"
 					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="View Revenue"
->>>>>>> Stashed changes
 					onAction="#handleViewRevenue" wrapText="true" maxWidth="160" />
 			</VBox>
 
@@ -82,11 +69,7 @@
 				<!-- Pending Courses Header -->
 				<HBox alignment="CENTER_LEFT" styleClass="section-header">
 					<Label styleClass="section-title"
-<<<<<<< Updated upstream
-						text="Danh sách khóa học chờ duyệt" />
-=======
 						text="Pending Course List" />
->>>>>>> Stashed changes
 				</HBox>
 
 				<Separator styleClass="separator" />

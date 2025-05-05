@@ -71,79 +71,10 @@
     -fx-border-width: 5.0px 0.0px 0.0px 0.0px;
 }
 
-<<<<<<< Updated upstream
-/* Action Button Bar */
-.action-button-bar {
-    -fx-background-color: #f8f9fa;
-    -fx-padding: 10.0px 20.0px;
-    -fx-border-color: #eaeaea;
-    -fx-border-width: 1.0px 0.0px;
-    -fx-spacing: 10.0px;
-}
-
-/* Action Buttons - Updated */
-=======
->>>>>>> Stashed changes
 .action-button {
     -fx-font-size: 14.0px;
     -fx-font-weight: bold;
     -fx-padding: 8.0px 20.0px;
-<<<<<<< Updated upstream
-    -fx-background-radius: 18.0px; 
-    -fx-cursor: hand;
-    -fx-min-width: 80px;
-    -fx-text-fill: white;
-    -fx-translate-x: 150px;
-}
-
-.warn {
-    -fx-background-color: #FFC107;
-    -fx-text-fill: white;
-}
-
-.approve {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-}
-
-.decline {
-    -fx-background-color: #FF5252;
-    -fx-text-fill: white;
-}
-
-.ban {
-    -fx-background-color: #FF5252;
-    -fx-text-fill: white;
-}
-
-.unban {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-}
-
-.action-button:hover {
-    -fx-opacity: 0.9;
-}
-
-.select-button {
-    -fx-background-color: #2ac5b9;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-padding: 6.0px 15.0px;
-    -fx-background-radius: 4.0px;
-    -fx-cursor: hand;
-    -fx-min-width: 80.0px;
-}
-
-.select-button:hover {
-    -fx-background-color: #1f9e94;
-}
-
-.section-header HBox {
-    -fx-spacing: 10.0;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 0.0 0.0 0.0 20.0;
-=======
     -fx-background-radius: 20.0px; 
     -fx-border-radius: 20.0px;
     -fx-cursor: hand;
@@ -190,7 +121,6 @@
 .action-button:pressed {
     -fx-effect: innershadow(gaussian, rgba(0.0,0.0,0.0,0.4), 4.0, 0.0, 0.0, 2.0);
     -fx-translate-y: 1.0px;
->>>>>>> Stashed changes
 }
 
 /* Student Table Styles */
@@ -259,11 +189,6 @@
     -fx-background-color: #1f9e94;
 }
 
-<<<<<<< Updated upstream
-
-
-=======
->>>>>>> Stashed changes
 /* ScrollPane Styles - Enhanced */
 .scroll-pane {
     -fx-background: transparent;
@@ -332,22 +257,16 @@
     -fx-padding: 8.0px;
     -fx-background-color: white;
     -fx-background-radius: 5.0px;
-<<<<<<< Updated upstream
-    -fx-translate-x: 170px;
-=======
     -fx-translate-x: -10.0px;
 }
 
 .icon-button.print-button:hover {
     -fx-background-color: #e0e0e0;
     -fx-effect: dropshadow(gaussian, rgba(0.0,0.0,0.0,0.2), 5.0, 0.0, 0.0, 1.0);
->>>>>>> Stashed changes
 }
 
 .icon-button:hover {
     -fx-background-color: rgba(0.0, 0.0, 0.0, 0.1);
-<<<<<<< Updated upstream
-=======
 }
 
 /* Refresh notification style */
@@ -357,5 +276,4 @@
     -fx-font-style: italic;
     -fx-padding: 0.0 0.0 5.0px 0.0;
     -fx-alignment: CENTER_RIGHT;
->>>>>>> Stashed changes
 }

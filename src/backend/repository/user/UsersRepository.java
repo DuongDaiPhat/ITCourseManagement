@@ -135,6 +135,7 @@ public class UsersRepository implements RepositoryInterface<Users>, IUserReposit
 		return false;
 	}
 
+<<<<<<< Updated upstream
 	@Override
 	public Users GetUserByUsername(String username) throws SQLException {
 		Users user = new Users();
@@ -162,4 +163,124 @@ public class UsersRepository implements RepositoryInterface<Users>, IUserReposit
 		}
 		return null;
 	}
+=======
+    @Override
+    public int Delete(Users t) {
+        return 0; // TODO
+    }
+
+    @Override
+    public ArrayList<Users> SelectAll() {
+        return null; // TODO
+    }
+
+    @Override
+    public Users SelectByID(int id) {
+        Users user = new Users();
+        String sql = "SELECT * FROM USERS WHERE USERID = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.setUserFirstName(rs.getString("USERFIRSTNAME"));
+                user.setUserLastName(rs.getString("USERLASTNAME"));
+                user.setUserID(rs.getInt("USERID"));
+                user.setUserName(rs.getString("USERNAME"));
+                user.setEmail(rs.getString("EMAIL"));
+                user.setPhoneNumber(rs.getString("PHONENUMBER"));
+                user.setPassword(rs.getString("PASSWORD"));
+                user.setSalt(rs.getString("SALT")); // Lấy salt
+                user.setDescription(rs.getString("DESCRIPTION"));
+                user.setCreatedAt(rs.getDate("CREATEDAT").toLocalDate());
+                user.setStatus(UserStatus.valueOf(rs.getString("STATUS")));
+                user.setRoleID(rs.getInt("ROLEID"));
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Users> SelectByCondition(String condition) {
+        return null; // TODO
+    }
+   // Retrieve encrypted password.
+    @Override
+    public String GetUserPasswordByName(String username) throws SQLException {
+        String password = "";
+        String sql = "SELECT PASSWORD FROM USERS WHERE USERNAME = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                password = rs.getString("PASSWORD");
+            }
+            return password != null ? password : "";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    //Truy xuất Salt.
+    public String GetUserSaltByName(String username) throws SQLException {
+        String salt = "";
+        String sql = "SELECT SALT FROM USERS WHERE USERNAME = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                salt = rs.getString("SALT");
+            }
+            return salt != null ? salt : "";
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean isExistUser(String username) throws SQLException {
+        String sql = "SELECT USERNAME FROM USERS WHERE USERNAME = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    //Truy xuất thông tin người dùng, bao gồm mật khẩu và Salt.
+    @Override
+    public Users GetUserByUsername(String username) throws SQLException {
+        Users user = new Users();
+        String sql = "SELECT * FROM USERS WHERE USERNAME = ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                user.setUserFirstName(rs.getString("USERFIRSTNAME"));
+                user.setUserLastName(rs.getString("USERLASTNAME"));
+                user.setUserID(rs.getInt("USERID"));
+                user.setUserName(rs.getString("USERNAME"));
+                user.setEmail(rs.getString("EMAIL"));
+                user.setPhoneNumber(rs.getString("PHONENUMBER"));
+                user.setPassword(rs.getString("PASSWORD"));
+                user.setSalt(rs.getString("SALT")); // Lấy salt
+                user.setDescription(rs.getString("DESCRIPTION"));
+                user.setCreatedAt(rs.getDate("CREATEDAT").toLocalDate());
+                user.setStatus(UserStatus.valueOf(rs.getString("STATUS")));
+                user.setRoleID(rs.getInt("ROLEID"));
+            }
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+>>>>>>> Stashed changes
 }
