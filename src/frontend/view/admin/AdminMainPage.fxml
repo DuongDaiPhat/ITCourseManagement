@@ -79,7 +79,8 @@
 							styleClass="action-button, unban" text="Unban"
 							onAction="#handleUnban" minWidth="120" />
 						<HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-							<Button styleClass="icon-button, print-button">
+							<Button styleClass="icon-button, print-button"
+								onAction="#handlePrint">
 								<graphic>
 									<ImageView fitHeight="30" fitWidth="36">
 										<Image url="@/images/main_page/icon/print.png" />
@@ -91,6 +92,10 @@
 				</HBox>
 
 				<Separator styleClass="separator" />
+
+				<!-- Thêm Label refresh notification -->
+				<Label fx:id="refreshNotificationLabel"
+					styleClass="refresh-notification" text="" />
 
 				<TableView fx:id="studentTable" styleClass="student-table"
 					VBox.vgrow="ALWAYS" maxHeight="600">
