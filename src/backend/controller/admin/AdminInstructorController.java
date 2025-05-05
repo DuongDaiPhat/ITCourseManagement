@@ -230,7 +230,7 @@ public class AdminInstructorController implements Initializable {
 			File file = fileChooser.showSaveDialog(stage);
 
 			if (file == null) {
-				return; 
+				return;
 			}
 
 			String dest = file.getAbsolutePath();
