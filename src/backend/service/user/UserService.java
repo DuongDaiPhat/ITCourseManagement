@@ -19,7 +19,5 @@ public class UserService {
             user.setSalt(null);    
         }
         return user;
-	}
-	
-	
+	}	
 }

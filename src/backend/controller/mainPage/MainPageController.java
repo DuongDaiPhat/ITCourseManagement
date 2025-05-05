@@ -3,6 +3,7 @@ package backend.controller.mainPage;
 import java.io.IOException;
 import java.util.List;
 
+import backend.repository.course.LessonRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
