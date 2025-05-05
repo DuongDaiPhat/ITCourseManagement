@@ -11,6 +11,7 @@ public class Users {
 	private String password;
 	private String phoneNumber;
 	private String email;
+	private String salt;
 	private String description;
 	private UserStatus status;
 	private LocalDate createdAt;
@@ -42,6 +43,14 @@ public class Users {
 
 	public int getRoleID() {
 		return roleID;
+	}
+	
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public void setRoleID(int roleID) {

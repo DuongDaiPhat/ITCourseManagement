@@ -17,34 +17,31 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="920.0" stylesheets="@category.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.MainPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="920.0" stylesheets="@category.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CategoryController">
    <children>
       <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="-2.0" prefHeight="72.0" prefWidth="922.0" spacing="10.0" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
          <children>
-            <Label fx:id="labelLogo" text="AiTeeCo" textFill="WHITE" HBox.hgrow="ALWAYS">
+            <Label fx:id="pageStudent" onMouseClicked="#switchToMainPage" text="AiTeeCo" HBox.hgrow="ALWAYS">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <Label fx:id="categoryCombo" text="Category" HBox.hgrow="ALWAYS">
+            <Label styleClass="nav-link" text="Category" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <HBox prefHeight="8.0" prefWidth="485.0" styleClass="search-box" HBox.hgrow="ALWAYS">
+            <HBox prefHeight="42.0" prefWidth="365.0" styleClass="search-box" HBox.hgrow="ALWAYS">
                <children>
                   <ImageView fx:id="searchIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="search-icon" HBox.hgrow="ALWAYS">
                      <image>
                         <Image url="@../../../../resources/images/main_page/icon/Magnifier.png" />
                      </image>
                   </ImageView>
-                  <TextField fx:id="searchField" prefHeight="2.0" prefWidth="442.0" promptText="Search" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="searchField" prefHeight="31.0" prefWidth="365.0" promptText="Search" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <Label fx:id="myLearningLabel" text="My Learning" HBox.hgrow="ALWAYS">
+            <Label fx:id="pageMyLearning" onMouseClicked="#switchToMyLearning" styleClass="nav-link" text="My Learning" HBox.hgrow="ALWAYS">
                <textFill>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -55,7 +52,7 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
+                              <Color />
                            </color>
                         </Stop>
                      </stops>
@@ -65,29 +62,32 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ImageView fx:id="bellIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyCart.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="heartIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyWishList.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cartIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/Notification.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="user" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyProfile.png" />
                </image>
             </ImageView>
          </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </HBox>
-      <ScrollPane fitToWidth="true" layoutY="72.0" prefHeight="600.0" prefWidth="920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+      <ScrollPane id="myScrollPane" fitToWidth="true" layoutY="72.0" prefHeight="600.0" prefWidth="920.0" styleClass="content-scroll-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="920.0">
                <children>
@@ -154,9 +154,8 @@
                            <children>
                               <ImageView fitHeight="117.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
-                                    <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                 </image>
-                              </ImageView>
+                                    <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                                 </image></ImageView>
                               <VBox prefHeight="118.0" prefWidth="247.0" spacing="12.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label text="Java developer for beginner" VBox.vgrow="ALWAYS" />
@@ -206,9 +205,8 @@
                            <children>
                               <ImageView fitHeight="117.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
-                                    <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                 </image>
-                              </ImageView>
+                                    <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                                 </image></ImageView>
                               <VBox prefHeight="118.0" prefWidth="247.0" spacing="12.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label text="Java developer for beginner" VBox.vgrow="ALWAYS" />
@@ -258,9 +256,8 @@
                            <children>
                               <ImageView fitHeight="117.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
-                                    <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                 </image>
-                              </ImageView>
+                                    <Image url="@../../../../resources/images/main_page/images/Python.jpeg" />
+                                 </image></ImageView>
                               <VBox prefHeight="118.0" prefWidth="247.0" spacing="12.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label text="Java developer for beginner" VBox.vgrow="ALWAYS" />
@@ -310,18 +307,16 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </VBox>
-                  <AnchorPane layoutY="791.0" prefHeight="210.0" prefWidth="920.0" styleClass="footer" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <HBox alignment="CENTER" layoutX="-1.0" layoutY="791.0" prefHeight="208.0" prefWidth="920.0" styleClass="footer">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" text="About us" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
+                        <VBox alignment="CENTER" prefHeight="208.0" prefWidth="206.0">
+                           <children>
+                              <Label alignment="CENTER" styleClass="footer-text" text="AiTeeCo © 2025" />
+                              <Label styleClass="footer-text" text="All rights reserved" />
+                           </children>
+                        </VBox>
                      </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </AnchorPane>
+                  </HBox>
                </children>
             </AnchorPane>
          </content>

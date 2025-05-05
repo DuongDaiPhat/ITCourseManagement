@@ -2,6 +2,7 @@ package backend.controller.register;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import backend.controller.scene.SceneManager;
 import backend.service.user.RegisterService;
@@ -18,13 +19,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import model.user.UserStatus;
 import model.user.Users;
 
 public class RegisterController{
-    private Parent root;
-    private Stage stage;
-    private Scene scene;
-    
     @FXML
     private TextField firstName;
     @FXML
@@ -113,7 +111,12 @@ public class RegisterController{
             emailError.setVisible(true);
             email.getStyleClass().add("error-border");
             isValid = false;
-        } else if(!IsValidEmail(str_email)) {
+        } else if(RegisterService.getInstance().isExistEmail(str_email)) {
+        	emailError.setText("This email is existed");
+        	emailError.setVisible(true);
+        	email.getStyleClass().add("error-border");
+            isValid = false;
+        }	else if(!IsValidEmail(str_email)) {
             emailError.setText("Invalid email");
             emailError.setVisible(true);
             email.getStyleClass().add("error-border");
@@ -124,6 +127,11 @@ public class RegisterController{
             phoneNumberError.setText("Phone number is empty");
             phoneNumberError.setVisible(true);
             phoneNumber.getStyleClass().add("error-border");
+            isValid = false;
+        } else if(RegisterService.getInstance().isExistPhonenumber(str_phoneNumber)) {
+        	phoneNumberError.setText("This phonenumber is existed");
+        	phoneNumberError.setVisible(true);
+        	phoneNumber.getStyleClass().add("error-border");
             isValid = false;
         } else if(!IsValidPhoneNumber(str_phoneNumber)) {
             phoneNumberError.setText("Phone number must be 10-11 digits");
@@ -172,11 +180,10 @@ public class RegisterController{
         user.setUserName(str_username);
         user.setEmail(str_email);
         user.setPhoneNumber(str_phoneNumber);
-        user.setPassword(str_password);
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/register/selectRole.fxml"));
-        root = loader.load();
-        
+        user.setPassword(str_password);      
+        user.setStatus(UserStatus.online);
+        user.setCreatedAt(LocalDate.now());
+        user.setDescription("No bio yet");
         SceneManager.switchSceneWithData(
         	    "Role Selection",
         	    "/frontend/view/register/selectRole.fxml",
