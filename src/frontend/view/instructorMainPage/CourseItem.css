@@ -6,10 +6,17 @@
     -fx-spacing: 15.0px;
 	-fx-border: 1.0px;
 }
+.thumbnail{
+	-fx-border: 1.0px;
+}
 .course-name {
     -fx-text-fill: #333;
     -fx-font-size: 18.0px;
     -fx-font-weight: bold;
+}
+.course-name:hover{
+	-fx-underline: true;
+	-fx-cursor: hand;
 }
 
 .course-language, .course-technology, .course-level,.course-category {

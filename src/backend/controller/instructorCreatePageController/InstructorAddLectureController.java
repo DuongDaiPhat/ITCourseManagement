@@ -2,8 +2,6 @@ package backend.controller.instructorCreatePageController;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -11,33 +9,18 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
 import model.course.CourseSession;
-import model.course.Courses;
 import model.lecture.Lecture;
-import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.text.Text;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-
-import backend.controller.InstructorMainPage.InstructorMainPageController;
-import backend.controller.course.CourseItemController;
 import backend.controller.course.LectureItemController;
-import backend.repository.DatabaseConnection;
+import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 
 public class InstructorAddLectureController implements IInstructorAddLectureController, IOnChildRemovedListener {
@@ -48,6 +31,7 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     @FXML private Label addLectureArrow;
     @FXML private VBox createLectureForm;
     @FXML private VBox lecturesContainer;
+    @FXML private Label goBack;
     @FXML private TextField lectureName;
     @FXML private TextField videoUrl;
     @FXML private TextField duration;
@@ -64,12 +48,18 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     private List<Lecture> lectures = new ArrayList<>();
     List<LectureItemController> lectureControllers = new ArrayList<>();
     
-    private Stage stage;
-    private Scene scene;
+    @FXML
+    private Button profileButton;
+
+	private ContextMenu profileMenu;
     
     
     @FXML
     public void initialize() throws SQLException {
+    	goBack.setOnMouseClicked(event->{
+    		this.disposeMediaPlayer();
+    		SceneManager.goBack();
+    	});
     	courseLabel.setText(CourseSession.getCurrentCourse().getCourseName());
         loadExistingLectures();
         videoUrl.textProperty().addListener((obs, oldText, newText) -> {
@@ -93,6 +83,8 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
 				e.printStackTrace();
 			}
         });
+        setupProfileMenu();
+        profileButton.setOnAction(event -> showProfileMenu());
     }
     
     private void loadExistingLectures() throws SQLException {
@@ -127,6 +119,43 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
 			}
 		}
     }
+    private void setupProfileMenu() {
+        profileMenu = new ContextMenu();
+        
+        MenuItem profileInfoItem = new MenuItem("My information");
+        MenuItem paymentMethodItem = new MenuItem("Payment");
+        MenuItem logoutItem = new MenuItem("Log out");
+        
+        profileInfoItem.getStyleClass().add("menu-item");
+        paymentMethodItem.getStyleClass().add("menu-item");
+        logoutItem.getStyleClass().add("menu-item");
+        profileInfoItem.setOnAction(event -> showProfileInfo());
+        paymentMethodItem.setOnAction(event -> showPaymentMethods());
+        logoutItem.setOnAction(event -> logout());
+        
+        profileMenu.getItems().addAll(profileInfoItem, paymentMethodItem, logoutItem);
+        profileMenu.getStyleClass().add("ProfileMenu.css");
+	}
+    
+    private void showProfileMenu() {
+        profileMenu.show(profileButton, profileButton.localToScreen(0, profileButton.getHeight()).getX(), 
+                     profileButton.localToScreen(0, profileButton.getHeight()).getY());
+    }
+    
+    // Methods to handle menu item actions
+    private void showProfileInfo() {
+        SceneManager.switchScene("My Information", "/frontend/view/UserProfile/UserProfile.fxml");
+    }
+    
+    private void showPaymentMethods() {
+        System.out.println("Opening payment methods...");
+    
+    }
+    
+    private void logout() {
+        SceneManager.clearSceneCache();
+        SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
+    }
     @FXML
     private void toggleAddLectureForm() {
         isAddLectureFormVisible = !isAddLectureFormVisible;
@@ -154,9 +183,7 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     }
     private void loadVideo(String url) {
         try {
-            if (mediaPlayer != null) {
-                mediaPlayer.dispose(); // Clear cái cũ tránh leak
-            }
+        	disposeMediaPlayer();
 
             String source;
             if (url.startsWith("http") || url.startsWith("file:/")) {
@@ -165,16 +192,26 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
                 // Convert local file to URI
                 source = new File(url).toURI().toString();
             }
-
-            Media media = new Media(source);
-            mediaPlayer = new MediaPlayer(media);
-            mediaView.setMediaPlayer(mediaPlayer);
-
-            mediaPlayer.setOnReady(() -> {
-                Duration d = media.getDuration();
-                int minutes = (int) Math.ceil(d.toMinutes());
-                duration.setText(String.valueOf(minutes)); // set duration
-            });
+            Platform.runLater(() -> {
+                try {
+                    Media media = new Media(source);
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaView.setMediaPlayer(mediaPlayer);
+                    
+                    mediaPlayer.setOnError(() -> {
+                        System.err.println("Media error: " + mediaPlayer.getError().getMessage());
+                    });
+                    
+                    mediaPlayer.setOnReady(() -> {
+                        Duration d = media.getDuration();
+                        int minutes = (int) Math.ceil(d.toMinutes());
+                        duration.setText(String.valueOf(minutes)); // set duration
+                    });
+                } catch (Exception e) {
+                    System.err.println("Lỗi khi tạo MediaPlayer: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                });
 
         } catch (Exception e) {
             System.out.println("Error loading video: " + e.getMessage());
@@ -205,29 +242,29 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     }
     private void ToAddLecturePage() throws IOException {
     	this.dispose();
-		Parent root = FXMLLoader
-				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml"));
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) mainScrollPane.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+    	SceneManager.switchSceneReloadWithData("Add Lecture", "/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml", null, null);
 	}
     
     private void ToCreateCoursePage() throws IOException {
     	this.dispose();
-		Parent root = FXMLLoader
-				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorCreatePage.fxml"));
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) mainScrollPane.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+    	SceneManager.switchScene("Create Course", "/frontend/view/instructorCreatePage/instructorCreatePage.fxml");
 	}
+    private void disposeMediaPlayer() {
+        Platform.runLater(() -> {
+            if (mediaPlayer != null) {
+                try {
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
+                    if (mediaView != null) {
+                        mediaView.setMediaPlayer(null);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error disposing MediaPlayer: " + e.getMessage());
+                }
+                mediaPlayer = null;
+            }
+        });
+    }
 
     @FXML
     private void cancelAddLecture() {
@@ -267,19 +304,7 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     
     private void ReturnToInstructorMainPage() throws IOException, SQLException {
     	this.dispose();
-		FXMLLoader Loader = new FXMLLoader(
-				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
-		Parent root = Loader.load();
-		InstructorMainPageController controller = Loader.getController();
-		controller.initialize();
-
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) mainContainer.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+		SceneManager.switchSceneReloadWithData("Instructor Main Page", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 	}
     
     private void showAlert(Alert.AlertType type, String title, String content) {
@@ -294,12 +319,12 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     	for(LectureItemController l : lectureControllers) {
     		l.dispose();
     	}
+    	disposeMediaPlayer();	
     }
 
 	@Override
 	public void onChildRemoved() {
 		// TODO Auto-generated method stub
-		
 	}
     
     

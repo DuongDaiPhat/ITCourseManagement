@@ -72,6 +72,25 @@
     -fx-background-color: rgba(255, 255, 255, 0.1);
     -fx-background-radius: 50%;
 }
+.context-menu {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.menu-item {
+    -fx-padding: 8px 16px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #0a557a;
+}
+
+.menu-item .label {
+    -fx-font-size: 14px;
+}
 
 /* Main Containers */
 .main-container {
@@ -79,11 +98,20 @@
     -fx-padding: 15px;
 }
 .title-card{
-	-fx-padding: 10 30 10 20;
+	-fx-padding: 0 30 10 20;
+}
+.go-back-label{
+	-fx-text-fill: #b4cfdb;
+	-fx-font-size: 20px;
+	-fx-padding: 2 0 0 960;
+	-fx-cursor: hand;
+}
+.go-back-label: hover{
+	-fx-underline: true;
 }
 .course-label{
 	-fx-text-fill: #333;
-	-fx-font-size: 35px;
+	-fx-font-size: 20px;
 	-fx-font-weight: bold;
 }
 

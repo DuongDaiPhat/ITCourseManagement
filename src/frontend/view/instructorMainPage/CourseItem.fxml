@@ -17,7 +17,7 @@
 	</padding>
 
 	<!-- Course Thumbnail -->
-	<ImageView fx:id="courseThumbnail" fitHeight="140.0" fitWidth="200.0" preserveRatio="true" styleClass="thumbnail">
+	<ImageView fx:id="courseThumbnail" fitHeight="120" fitWidth="200" styleClass="thumbnail">
 		<Image url="@/images/default_image.png" />
 	</ImageView>
 

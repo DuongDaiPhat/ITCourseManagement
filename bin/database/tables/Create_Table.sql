@@ -11,7 +11,8 @@ CREATE TABLE USERS(
     USERFIRSTNAME NVARCHAR(50) NOT NULL,
     USERLASTNAME NVARCHAR(50) NOT NULL,
     USERNAME NVARCHAR(100) NOT NULL UNIQUE,
-    PASSWORD CHAR(20) NOT NULL,
+    PASSWORD CHAR(255) NOT NULL,
+    SALT CHAR(255),
     PHONENUMBER VARCHAR(15) UNIQUE,
     EMAIL CHAR(50) NOT NULL UNIQUE,
     DESCRIPTION NVARCHAR(512),
@@ -72,6 +73,7 @@ CREATE TABLE COURSES(
 	COURSEDESCRIPTION VARCHAR(512),
     CREATEDAT DATETIME NOT NULL,
     UPDATEDAT DATETIME,
+	is_rejected BOOLEAN DEFAULT FALSE,
     ISAPPROVED BOOLEAN DEFAULT FALSE,
     ISPUBLISHED BOOLEAN DEFAULT FALSE,
     CHECK(PRICE >= 0)
@@ -153,20 +155,20 @@ CREATE TABLE MyCart (
 
 
 -- Bảng Payments
-CREATE TABLE Payments (
-    PaymentID INT PRIMARY KEY AUTO_INCREMENT,
-    PaymentName NVARCHAR(255) NOT NULL
-);
+	CREATE TABLE Payments (
+		PaymentID INT PRIMARY KEY AUTO_INCREMENT,
+		PaymentName NVARCHAR(255) NOT NULL
+	);
 
 
--- Bảng UserPayment
-CREATE TABLE UserPayment (
-    PaymentID INT,
-    UserID INT,
-    Balance FLOAT NOT NULL,
-    PRIMARY KEY (PaymentID, UserID),
-    FOREIGN KEY (PaymentID) REFERENCES Payments(PaymentID)
-);
+	-- Bảng UserPayment
+	CREATE TABLE UserPayment (
+		PaymentID INT,
+		UserID INT,
+		Balance FLOAT NOT NULL,
+		PRIMARY KEY (PaymentID, UserID),
+		FOREIGN KEY (PaymentID) REFERENCES Payments(PaymentID)
+	);
 
 
 -- Bảng Invoices
@@ -203,4 +205,16 @@ CREATE TABLE NotificationDetail (
     FOREIGN KEY (NotificationID) REFERENCES Notification(NotificationID)
 );
 
-Select * from courses
+INSERT INTO ROLES(ROLEID, ROLENAME) VALUES
+('1', 'Instructor'),
+('2', 'Student'),
+('3', 'Admin');
+
+-- Thêm tài khoản admin (sử dụng ROLEID = 3)
+INSERT INTO USERS (
+    ROLEID, USERFIRSTNAME, USERLASTNAME, USERNAME, PASSWORD, 
+    PHONENUMBER, EMAIL, DESCRIPTION, STATUS, CREATEDAT, SALT
+) VALUES (
+    3, 'System', 'Admin', 'admin', 'c3TkceTlRqUh0zB/Mp7SYBo/kVkYNXt0CbxYjnOoW34=', 
+    '0123456789', 'admin@example.com', 'Quản trị viên hệ thống', 'online', CURDATE(), '20NjEIl5uIz6fv+QpAl3rw=='
+);

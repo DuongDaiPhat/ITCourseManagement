@@ -12,6 +12,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.user.Session;
 import model.user.Users;
+import utils.PasswordUtil;
 
 public class Program extends Application{
 	public static void main(String[] args) {

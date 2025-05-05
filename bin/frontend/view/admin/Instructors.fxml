@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="700.0" prefWidth="1000.0"
+	stylesheets="@adminMainPage.css" xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="backend.controller.admin.AdminInstructorController">
+	<children>
+		<!-- Top Bar with Logo and Icons -->
+		<HBox alignment="CENTER_LEFT" styleClass="top-bar">
+			<padding>
+				<Insets bottom="10" left="20" right="20" top="10" />
+			</padding>
+
+			<!-- Company Logo and Name -->
+			<Label styleClass="company-name" text="AiTeecCo" />
+
+			<HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS" spacing="15">
+				<!-- Notification Icon -->
+				<Button styleClass="icon-button">
+					<graphic>
+						<ImageView fitHeight="20" fitWidth="20">
+							<Image url="@/images/main_page/icon/Notification.png" />
+						</ImageView>
+					</graphic>
+				</Button>
+
+				<!-- Profile Icon -->
+				<Button styleClass="icon-button">
+					<graphic>
+						<ImageView fitHeight="20" fitWidth="20">
+							<Image url="@/images/main_page/icon/MyProfile.png" />
+						</ImageView>
+					</graphic>
+				</Button>
+			</HBox>
+		</HBox>
+
+		<!-- Main Content Area -->
+		<HBox prefHeight="600.0" prefWidth="1000.0" VBox.vgrow="ALWAYS">
+			<!-- Left Navigation Menu -->
+			<VBox styleClass="left-nav" prefWidth="150.0" minWidth="150.0"
+				maxWidth="150.0">
+				<Button styleClass="nav-link" text="Student List"
+					onAction="#handleBackToMain" wrapText="true" maxWidth="160" />
+				<Button styleClass="nav-link" text="Instructor List"
+					wrapText="true" maxWidth="160" />
+				<Button styleClass="nav-link"
+					text="Pending Course"
+					onAction="#handleViewPendingCourses" wrapText="true" maxWidth="160" />
+				<Button styleClass="nav-link" text="Course List"
+					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
+				<Button styleClass="nav-link" text="View Revenue"
+					wrapText="true" maxWidth="160" />
+			</VBox>
+
+			<!-- Right Content Area -->
+			<VBox styleClass="right-content" HBox.hgrow="ALWAYS">
+				<!-- Student List Header -->
+				<!-- Student List Header with Updated Button Layout -->
+				<HBox alignment="CENTER_LEFT" styleClass="section-header">
+					<Label styleClass="section-title" text="Instructor List" />
+					<HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+						<Button fx:id="warnButton" styleClass="action-button, warn"
+							text="Warn" onAction="#handleWarn" minWidth="120" />
+						<Button fx:id="banButton" styleClass="action-button, ban"
+							text="Ban" onAction="#handleBan" minWidth="120" />
+						<Button fx:id="unbanButton"
+							styleClass="action-button, unban" text="Unban"
+							onAction="#handleUnban" minWidth="120" />
+						<HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+							<Button styleClass="icon-button, print-button">
+								<graphic>
+									<ImageView fitHeight="30" fitWidth="36">
+										<Image url="@/images/main_page/icon/print.png" />
+									</ImageView>
+								</graphic>
+							</Button>
+						</HBox>
+					</HBox>
+				</HBox>
+
+				<Separator styleClass="separator" />
+
+				<TableView fx:id="instructorTable"
+					styleClass="student-table" VBox.vgrow="ALWAYS" maxHeight="600">
+					<columns>
+						<TableColumn fx:id="idColumn" text="Id"
+							styleClass="table-column" prefWidth="60" />
+						<TableColumn fx:id="firstNameColumn" text="Last name"
+							styleClass="table-column" prefWidth="100" />
+						<TableColumn fx:id="lastNameColumn" text="First name"
+							styleClass="table-column" prefWidth="100" />
+						<TableColumn fx:id="phoneColumn" text="Phone number"
+							styleClass="table-column" prefWidth="125" />
+						<TableColumn fx:id="emailColumn" text="Email"
+							styleClass="table-column" prefWidth="164" />
+						<TableColumn fx:id="courseCountColumn"
+							text="Course number" styleClass="table-column" prefWidth="150" />
+						<TableColumn fx:id="createdDateColumn"
+							text="Account creation date" styleClass="table-column"
+							prefWidth="200" />
+						<TableColumn fx:id="statusColumn" text="Status"
+							styleClass="table-column" prefWidth="105" />
+					</columns>
+				</TableView>
+			</VBox>
+		</HBox>
+
+		<!-- Footer -->
+		<HBox styleClass="footer">
+			<Label styleClass="footer-text" text="About us" />
+		</HBox>
+	</children>
+</VBox>

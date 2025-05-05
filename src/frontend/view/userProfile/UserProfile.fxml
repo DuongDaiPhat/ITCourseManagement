@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="backend.controller.user.UserProfileController"
+      spacing="15"
+      alignment="TOP_CENTER"
+      styleClass="main-container"
+      stylesheets="@userprofile.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Header with title and back button -->
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="header">
+        <Button fx:id="backButton" text="Back" styleClass="back-button" onAction = "#GoBack"/>
+        <Region HBox.hgrow="ALWAYS" />
+        <Label text="My Information" styleClass="title-label">
+            <font>
+                <Font name="System Bold" size="24"/>
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <!-- Main content area -->
+    <GridPane vgap="15" hgap="10" styleClass="info-container">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        
+        <columnConstraints>
+            <ColumnConstraints minWidth="100" prefWidth="150" halignment="RIGHT" />
+            <ColumnConstraints prefWidth="300" hgrow="ALWAYS" />
+        </columnConstraints>
+
+        <!-- Row 0: User ID -->
+        <Label text="ID:" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <Label fx:id="userIdLabel" text="Loading..." styleClass="field-value" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+        <!-- Row 1: Role -->
+        <Label text="Role:" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+        <Label fx:id="roleLabel" text="Loading..." styleClass="field-value" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+        <!-- Row 2: First Name -->
+        <Label text="Last name:" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+        <Label fx:id="firstNameLabel" text="Loading..." styleClass="field-value" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+        <!-- Row 3: Last Name -->
+        <Label text="First name:" styleClass="field-label" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+        <Label fx:id="lastNameLabel" text="Loading..." styleClass="field-value" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+        <!-- Row 4: Username -->
+        <Label text="Username:" styleClass="field-label" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+        <Label fx:id="usernameLabel" text="Loading..." styleClass="field-value" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+        <!-- Row 5: Phone Number -->
+        <Label text="Phone number:" styleClass="field-label" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+        <Label fx:id="phoneLabel" text="Loading..." styleClass="field-value" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+        <!-- Row 6: Email -->
+        <Label text="Email:" styleClass="field-label" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+        <Label fx:id="emailLabel" text="Loading..." styleClass="field-value" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+
+        <!-- Row 7: Status -->
+        <Label text="Status:" styleClass="field-label" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+        <HBox alignment="CENTER_LEFT" spacing="10" GridPane.rowIndex="7" GridPane.columnIndex="1">
+            <Circle fx:id="statusIndicator" radius="6" styleClass="status-indicator" />
+            <Label fx:id="statusLabel" text="Loading..." styleClass="field-value" />
+        </HBox>
+
+        <!-- Row 8: Created Date -->
+        <Label text="Created date:" styleClass="field-label" GridPane.rowIndex="8" GridPane.columnIndex="0" />
+        <Label fx:id="createdAtLabel" text="Loading..." styleClass="field-value" GridPane.rowIndex="8" GridPane.columnIndex="1" />
+
+        <!-- Row 9: Description -->
+        <Label text="Description:" styleClass="field-label" GridPane.rowIndex="9" GridPane.columnIndex="0" GridPane.valignment="TOP" />
+        <VBox spacing="10" GridPane.rowIndex="9" GridPane.columnIndex="1">
+            <TextArea fx:id="descriptionArea" wrapText="true" styleClass="description-area" prefHeight="100" />
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="editDescriptionButton" text="Sửa" styleClass="action-button, edit-button" />
+                <Button fx:id="saveDescriptionButton" text="Lưu" styleClass="action-button, save-button" visible="false" />
+                <Button fx:id="cancelDescriptionButton" text="Hủy" styleClass="action-button, cancel-button" visible="false" />
+            </HBox>
+        </VBox>
+    </GridPane>
+</VBox>

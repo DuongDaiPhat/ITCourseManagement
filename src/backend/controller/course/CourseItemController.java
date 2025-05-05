@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import backend.controller.instructorCreatePageController.InstructorUpdatePageController;
+import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,7 +62,14 @@ public class CourseItemController implements ICourseItemController{
 
 	@FXML
 	public void initialize() {
-		
+		courseNameLabel.setOnMouseClicked(event->{
+			CourseSession.setCurrentCourse(course);
+			try {
+				this.ToAddLecturePage();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	public void setCourseData(Courses course) {
@@ -105,22 +113,12 @@ public class CourseItemController implements ICourseItemController{
 			return;
 		}
 
-		try {
-			FXMLLoader loader = new FXMLLoader(
-					getClass().getResource("/frontend/view/instructorCreatePage/instructorUpdatePage.fxml"));
-			Parent root = loader.load();
-
-			InstructorUpdatePageController controller = loader.getController();
-			controller.setCourseData(course);
-
-			// Lấy stage từ nút được click
-			Stage stage = (Stage) ((Hyperlink) event.getSource()).getScene().getWindow();
-			stage.setScene(new Scene(root));
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.err.println("Error loading update page: " + e.getMessage());
-		}
+		SceneManager.switchSceneWithData(
+			    "Update Course",
+			    "/frontend/view/instructorCreatePage/instructorUpdatePage.fxml",
+			    (controller, data) -> ((InstructorUpdatePageController) controller).setCourseData(data),
+			    course
+		);
 	}
 
 	@FXML
@@ -154,15 +152,7 @@ public class CourseItemController implements ICourseItemController{
 		this.ToAddLecturePage();
 	}
 	private void ToAddLecturePage() throws IOException {
-		Parent root = FXMLLoader
-				.load(getClass().getResource("/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml"));
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) courseNameLabel.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
+		SceneManager.switchSceneReloadWithData("Add Lecture to Course", "/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml", null, null);
 	}
 	
 	public void PublishCourse(ActionEvent event) throws SQLException {

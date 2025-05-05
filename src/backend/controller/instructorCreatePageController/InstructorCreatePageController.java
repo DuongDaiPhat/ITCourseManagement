@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.function.UnaryOperator;
 
 import backend.controller.InstructorMainPage.InstructorMainPageController;
+import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
 import javafx.event.ActionEvent;
@@ -23,8 +24,11 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -67,8 +71,12 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 	private int userID;
 	private File selectedImageFile;
 
-	private Stage stage;
-	private Scene scene;
+	@FXML
+	private Label createCourse;
+	@FXML
+    private Button profileButton;
+
+	private ContextMenu profileMenu;
 
 	@FXML
 	public void initialize() {
@@ -92,11 +100,7 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		}
 
 		myCourse.setOnMouseClicked(event -> {
-			try {
-				ReturnToInstructorMainPage();
-			} catch (IOException | SQLException e) {
-				e.printStackTrace();
-			}
+			SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 		});
 
 		technology.setVisibleRowCount(5);
@@ -112,7 +116,47 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		userService = new UserService();
 		courseService = new CourseService();
 		userID = Session.getCurrentUser().getUserID();
+		
+		setupProfileMenu();
+        profileButton.setOnAction(event -> showProfileMenu());
 	}
+	private void setupProfileMenu() {
+        profileMenu = new ContextMenu();
+        
+        MenuItem profileInfoItem = new MenuItem("My information");
+        MenuItem paymentMethodItem = new MenuItem("Payment");
+        MenuItem logoutItem = new MenuItem("Log out");
+        
+        profileInfoItem.getStyleClass().add("menu-item");
+        paymentMethodItem.getStyleClass().add("menu-item");
+        logoutItem.getStyleClass().add("menu-item");
+        profileInfoItem.setOnAction(event -> showProfileInfo());
+        paymentMethodItem.setOnAction(event -> showPaymentMethods());
+        logoutItem.setOnAction(event -> logout());
+        
+        profileMenu.getItems().addAll(profileInfoItem, paymentMethodItem, logoutItem);
+        profileMenu.getStyleClass().add("ProfileMenu.css");
+	}
+    
+    private void showProfileMenu() {
+        profileMenu.show(profileButton, profileButton.localToScreen(0, profileButton.getHeight()).getX(), 
+                     profileButton.localToScreen(0, profileButton.getHeight()).getY());
+    }
+    
+    // Methods to handle menu item actions
+    private void showProfileInfo() {
+        SceneManager.switchScene("My Information", "/frontend/view/UserProfile/UserProfile.fxml");
+    }
+    
+    private void showPaymentMethods() {
+        System.out.println("Opening payment methods...");
+    
+    }
+    
+    private void logout() {
+        SceneManager.clearSceneCache();
+        SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
+    }
 
 	private String convertDisplayToLevel(String displayLevel) {
 		if ("All Level".equals(displayLevel)) {
@@ -209,11 +253,12 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		course.setApproved(false);
 
 		courseService.AddCourse(course);
-		this.ReturnToInstructorMainPage();
+		SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
+
 	}
 
 	public void ReturnToMyCourse(ActionEvent e) throws IOException, SQLException {
-		this.ReturnToInstructorMainPage();
+		SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 	}
 
 	private static boolean IsValidCourseName(String name) {
@@ -239,21 +284,5 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 			displayNames.add(cat.name().replace('_', ' '));
 		}
 		return displayNames;
-	}
-
-	private void ReturnToInstructorMainPage() throws IOException, SQLException {
-		FXMLLoader Loader = new FXMLLoader(
-				getClass().getResource("/frontend/view/instructorMainPage/instructorMainPage.fxml"));
-		Parent root = Loader.load();
-		InstructorMainPageController controller = Loader.getController();
-		controller.initialize();
-
-		Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-		stage = (Stage) courseName.getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setX((rec.getWidth() - stage.getWidth()) / 2);
-		stage.setY((rec.getHeight() - stage.getHeight()) / 2);
-		stage.show();
 	}
 }

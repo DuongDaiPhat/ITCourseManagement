@@ -14,34 +14,37 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="920.0" stylesheets="@mainPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.MainPageController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="920.0" stylesheets="@mainPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.MainPageController">
    <children>
       <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="-2.0" prefHeight="72.0" prefWidth="922.0" spacing="10.0" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <children>
-            <Label fx:id="labelLogo" text="AiTeeCo" textFill="WHITE" HBox.hgrow="ALWAYS">
+            <Label text="AiTeeCo" HBox.hgrow="ALWAYS">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="19.0" />
                </font>
             </Label>
-            <Label fx:id="categoryCombo" text="Category" HBox.hgrow="ALWAYS">
+            <Label fx:id="pageCategory" onMouseClicked="#switchToCategory" styleClass="nav-link" text="Category" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <HBox prefHeight="2.0" prefWidth="478.0" styleClass="search-box" HBox.hgrow="ALWAYS">
+            <HBox prefHeight="42.0" prefWidth="413.0" styleClass="search-box" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="searchIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="search-icon">
+                  <ImageView fx:id="searchIcon" pickOnBounds="true" preserveRatio="true" styleClass="search-icon">
                      <image>
                         <Image url="@../../../../resources/images/main_page/icon/Magnifier.png" />
                      </image>
                   </ImageView>
-                  <TextField fx:id="searchField" prefHeight="2.0" prefWidth="398.0" promptText="Search" />
+                  <TextField fx:id="searchField" prefHeight="33.0" prefWidth="250.0" promptText="Search">
+                     <font>
+                        <Font size="15.0" />
+                     </font></TextField>
                </children>
             </HBox>
-            <Label fx:id="myLearningLabel" text="My Learning" HBox.hgrow="ALWAYS">
+            <Label fx:id="pageMyLearning" onMouseClicked="#switchToMyLearning" styleClass="nav-link" text="My Learning" HBox.hgrow="ALWAYS">
                <textFill>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -52,7 +55,7 @@
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
+                              <Color />
                            </color>
                         </Stop>
                      </stops>
@@ -62,22 +65,22 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ImageView fx:id="bellIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyCart.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="heartIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyWishList.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="cartIcon" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/Notification.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="user" fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fx:id="pageRole" fitHeight="33.0" fitWidth="33.0" onMouseClicked="#switchToMyRoles" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyProfile.png" />
                </image>
@@ -90,28 +93,42 @@
                <children>
                   <VBox prefHeight="230.0" prefWidth="1500.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <Label alignment="TOP_LEFT" text="Hello, name" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                        <AnchorPane prefHeight="149.0" prefWidth="885.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="867.0" layoutY="-2.0" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0">
+                              <ImageView layoutX="-1.0" layoutY="43.0" pickOnBounds="true" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
                                  <image>
-                                    <Image url="@../../../../../hinh-nen-4k-4%20(3).jpg" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@../../../../resources/images/main_page/images/it.png" />
+                                 </image></ImageView>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../resources/images/main_page/icon/ArrowLeft.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="829.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="831.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../resources/images/main_page/icon/ArowRight.png" />
                                  </image>
                               </ImageView>
+                              <HBox prefHeight="42.0" prefWidth="870.0">
+                                 <children>
+                                    <Label styleClass="welcome-text" text="Hello">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="labeluser" styleClass="welcome-name" text="name">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
                            </children>
                         </AnchorPane>
                      </children>
@@ -119,9 +136,9 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </VBox>
-                  <VBox layoutX="-1.0" layoutY="239.0" prefHeight="274.0" prefWidth="906.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <VBox layoutX="-1.0" layoutY="239.0" prefHeight="310.0" prefWidth="920.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0">
                      <children>
-                        <Label text="What to learn next!" VBox.vgrow="ALWAYS">
+                        <Label fx:id="aiCategory" prefHeight="70.0" prefWidth="300.0" styleClass="section-title" text="Category" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -129,78 +146,15 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </padding>
                         </Label>
-                        <HBox prefHeight="215.0" prefWidth="906.0" spacing="40.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox prefHeight="215.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <ImageView fitHeight="132.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                                       <image>
-                                          <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="Name" VBox.vgrow="ALWAYS" />
-                                    <Label text="Author" VBox.vgrow="ALWAYS" />
-                                    <HBox prefHeight="26.0" prefWidth="250.0" spacing="150.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox prefHeight="215.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <ImageView fitHeight="132.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                                       <image>
-                                          <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="Name" VBox.vgrow="ALWAYS" />
-                                    <Label text="Author" VBox.vgrow="ALWAYS" />
-                                    <HBox prefHeight="26.0" prefWidth="250.0" spacing="150.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox prefHeight="215.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <ImageView fitHeight="132.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                                       <image>
-                                          <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="Name" VBox.vgrow="ALWAYS" />
-                                    <Label text="Author" VBox.vgrow="ALWAYS" />
-                                    <HBox prefHeight="26.0" prefWidth="250.0" spacing="150.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
+                        <HBox fx:id="aiCourseContainer" prefHeight="242.0" prefWidth="920.0">
                            <padding>
-                              <Insets left="20.0" right="20.0" />
-                           </padding>
-                        </HBox>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding></HBox>
                      </children>
                   </VBox>
-                  <VBox layoutX="-1.0" layoutY="513.0" prefHeight="274.0" prefWidth="906.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <VBox layoutX="-1.0" layoutY="549.0" prefHeight="310.0" prefWidth="906.0">
                      <children>
-                        <Label text="What to learn next!" VBox.vgrow="ALWAYS">
+                        <Label fx:id="webCategory" prefHeight="70.0" prefWidth="300.0" styleClass="section-title" text="Category" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -208,84 +162,22 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </padding>
                         </Label>
-                        <HBox prefHeight="215.0" prefWidth="906.0" spacing="40.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox prefHeight="215.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <ImageView fitHeight="132.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                                       <image>
-                                          <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="Name" VBox.vgrow="ALWAYS" />
-                                    <Label text="Author" VBox.vgrow="ALWAYS" />
-                                    <HBox prefHeight="26.0" prefWidth="250.0" spacing="150.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox prefHeight="215.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <ImageView fitHeight="132.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                                       <image>
-                                          <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="Name" VBox.vgrow="ALWAYS" />
-                                    <Label text="Author" VBox.vgrow="ALWAYS" />
-                                    <HBox prefHeight="26.0" prefWidth="250.0" spacing="150.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox prefHeight="215.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <ImageView fitHeight="132.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                                       <image>
-                                          <Image url="@../../../../resources/images/main_page/images/Khoa-hoc-lap-trinh-Python-tai-FUNiX%20(1).jpeg" />
-                                       </image>
-                                    </ImageView>
-                                    <Label text="Name" VBox.vgrow="ALWAYS" />
-                                    <Label text="Author" VBox.vgrow="ALWAYS" />
-                                    <HBox prefHeight="26.0" prefWidth="250.0" spacing="150.0">
-                                       <children>
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                          <Label text="Label" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
+                        <HBox fx:id="webCourseContainer" prefHeight="241.0" prefWidth="906.0">
                            <padding>
-                              <Insets left="20.0" right="20.0" />
-                           </padding>
-                        </HBox>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding></HBox>
                      </children>
                   </VBox>
-                  <AnchorPane layoutY="787.0" prefHeight="211.0" prefWidth="906.0" styleClass="footer" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <HBox alignment="CENTER" layoutX="-8.0" layoutY="870.0" prefHeight="131.0" prefWidth="920.0" styleClass="footer">
                      <children>
-                        <Label fx:id="About" layoutX="14.0" layoutY="14.0" text="About us" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </Label>
+                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="174.0">
+                           <children>
+                              <Label styleClass="footer-text" text="AiTeeCo © 2025" />
+                              <Label styleClass="footer-text" text="All rights reserved" />
+                           </children>
+                        </VBox>
                      </children>
-                  </AnchorPane>
+                  </HBox>
                </children>
             </AnchorPane>
         </content>
