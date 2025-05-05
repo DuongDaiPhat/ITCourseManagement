@@ -12,7 +12,7 @@ public class LessonRepository implements RepositoryInterface<Lesson> {
 
     @Override
     public int Insert(Lesson lesson) throws SQLException {
-        String sql = "INSERT INTO course (title, author, rating, total_ratings, price, image_path, category) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO courses (title, author, rating, total_ratings, price, image_path, category) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
             stmt.setString(1, lesson.getTitle());
             stmt.setString(2, lesson.getAuthor());
@@ -27,7 +27,7 @@ public class LessonRepository implements RepositoryInterface<Lesson> {
 
     @Override
     public int Update(Lesson lesson) throws SQLException {
-        String sql = "UPDATE course SET title=?, author=?, rating=?, total_ratings=?, price=?, image_path=?, category=? WHERE id=?";
+        String sql = "UPDATE courses SET title=?, author=?, rating=?, total_ratings=?, price=?, image_path=?, category=? WHERE id=?";
         try (PreparedStatement stmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
             stmt.setString(1, lesson.getTitle());
             stmt.setString(2, lesson.getAuthor());
@@ -43,7 +43,7 @@ public class LessonRepository implements RepositoryInterface<Lesson> {
 
     @Override
     public int Delete(Lesson lesson) throws SQLException {
-        String sql = "DELETE FROM course WHERE id=?";
+        String sql = "DELETE FROM courses WHERE id=?";
         try (PreparedStatement stmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
             stmt.setInt(1, lesson.getId());
             return stmt.executeUpdate();
@@ -64,7 +64,7 @@ public class LessonRepository implements RepositoryInterface<Lesson> {
     @Override
     public ArrayList<Lesson> SelectByCondition(String condition) throws SQLException {
         ArrayList<Lesson> list = new ArrayList<>();
-        String sql = "SELECT * FROM course WHERE " + condition;
+        String sql = "SELECT * FROM courses WHERE " + condition;
         try (Statement stmt = DatabaseConnection.getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
