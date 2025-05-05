@@ -11,7 +11,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane stylesheets="@paymentMethod.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaymentMethodsController">
+<BorderPane stylesheets="@paymentMethod.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+fx:controller="backend.controller.payment.PaymentMethodsController">
    <top>
       <VBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>

@@ -2,6 +2,7 @@ package backend.repository.payment;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import backend.repository.RepositoryInterface;
 import backend.repository.DatabaseConnection;
@@ -90,6 +91,27 @@ public class PaymentRepository implements RepositoryInterface<Payment> {
             );
             payments.add(payment);
         }
+        return payments;
+    }
+    public List<Payment> getAllPayments() {
+        List<Payment> payments = new ArrayList<>();
+        String query = "SELECT * FROM Payments";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            
+            while (rs.next()) {
+                Payment payment = new Payment(
+                    rs.getInt("PaymentID"),
+                    rs.getString("PaymentName")
+                );
+                payments.add(payment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         return payments;
     }
 }
