@@ -116,7 +116,7 @@ public class InstructorMainPageController implements IInstructorMainPageControll
     }
     
     private void showPaymentMethods() {
-        System.out.println("Opening payment methods...");
+    	SceneManager.switchScene("Payment", "/frontend/view/payment/paymentMethod.fxml");
     
     }
     

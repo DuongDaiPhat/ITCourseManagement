@@ -18,7 +18,7 @@ public class LoginService {
             UsersRepository repo = UsersRepository.getInstance();
             String storedHashedPassword = repo.GetUserPasswordByName(username);
             String storedSalt = repo.GetUserSaltByName(username);
-
+            
             if (storedHashedPassword.isEmpty() || storedSalt.isEmpty()) {
                 System.out.println("User not found or missing salt/password");
                 return false;
@@ -26,7 +26,6 @@ public class LoginService {
 
             //  Encrypt user entered passwords with the same salt
             String inputHashedPassword = PasswordUtil.getSHA256Hash(password, storedSalt);
-
             // Compare encryption passwords
             return inputHashedPassword.equals(storedHashedPassword);
         } catch (NoSuchAlgorithmException e) {
