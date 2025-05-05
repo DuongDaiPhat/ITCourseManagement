@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 
 <BorderPane stylesheets="@paymentMethod.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
 fx:controller="backend.controller.payment.PaymentMethodsController">
@@ -24,7 +26,14 @@ fx:controller="backend.controller.payment.PaymentMethodsController">
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
                   <Label text="Add New Payment Method:" />
-                  <ComboBox fx:id="paymentMethodComboBox" prefWidth="200.0" promptText="Select Payment Method" />
+                  <ComboBox fx:id="paymentMethodComboBox" prefWidth="200.0" promptText="Select Payment Method">
+                  	<items>
+     						<FXCollections fx:factory="observableArrayList">
+     							 <String fx:value="ApplePay"/>
+								 <String fx:value="Momo" />
+     						</FXCollections>
+     				</items>
+                  </ComboBox>
                   <Button fx:id="addPaymentMethodButton" mnemonicParsing="false" styleClass="action-button" text="Add" />
                </children>
             </HBox>
@@ -68,7 +77,7 @@ fx:controller="backend.controller.payment.PaymentMethodsController">
                   <TextField fx:id="amountTextField" prefWidth="150.0" promptText="Enter amount" />
                   <Button fx:id="depositButton" mnemonicParsing="false" styleClass="deposit-button" text="Deposit" />
                   <Button fx:id="withdrawButton" mnemonicParsing="false" styleClass="withdraw-button" text="Withdraw" />
-                  <Button fx:id="cancle" mnemonicParsing="false" styleClass="cancle-button" text="Cancle" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" styleClass="cancle-button" text="Cancle" onAction = "#Cancle"/>
                </children>
             </HBox>
          </children>

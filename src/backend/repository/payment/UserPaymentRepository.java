@@ -11,17 +11,17 @@ import backend.repository.DatabaseConnection;
 import model.payment.UserPayment;
 
 public class UserPaymentRepository {
+
     public List<UserPayment> getUserPayments(int userId) {
         List<UserPayment> userPayments = new ArrayList<>();
         String query = "SELECT up.*, p.PaymentName FROM UserPayment up " +
                        "JOIN Payments p ON up.PaymentID = p.PaymentID " +
                        "WHERE up.UserID = ?";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            
+
             pstmt.setInt(1, userId);
-            
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     UserPayment userPayment = new UserPayment(
@@ -36,20 +36,19 @@ public class UserPaymentRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return userPayments;
     }
-    
-    // Add a new payment method for user
+
     public boolean addUserPayment(int userId, int paymentId) {
         String query = "INSERT INTO UserPayment (PaymentID, UserID, Balance) VALUES (?, ?, 0)";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            
+
             pstmt.setInt(1, paymentId);
             pstmt.setInt(2, userId);
-            
+
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -57,17 +56,16 @@ public class UserPaymentRepository {
             return false;
         }
     }
-    
-    // Check if user already has this payment method
+
     public boolean hasPaymentMethod(int userId, int paymentId) {
         String query = "SELECT COUNT(*) FROM UserPayment WHERE UserID = ? AND PaymentID = ?";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            
+
             pstmt.setInt(1, userId);
             pstmt.setInt(2, paymentId);
-            
+
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1) > 0;
@@ -76,20 +74,19 @@ public class UserPaymentRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return false;
     }
-    
-    // Get balance for a specific payment method
+
     public float getBalance(int userId, int paymentId) {
         String query = "SELECT Balance FROM UserPayment WHERE UserID = ? AND PaymentID = ?";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            
+
             pstmt.setInt(1, userId);
             pstmt.setInt(2, paymentId);
-            
+
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getFloat("Balance");
@@ -98,25 +95,24 @@ public class UserPaymentRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return 0;
     }
-    
-    // Deposit money
+
     public boolean deposit(int userId, int paymentId, float amount) {
         if (amount <= 0) {
             return false;
         }
-        
+
         String query = "UPDATE UserPayment SET Balance = Balance + ? WHERE UserID = ? AND PaymentID = ?";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            
+
             pstmt.setFloat(1, amount);
             pstmt.setInt(2, userId);
             pstmt.setInt(3, paymentId);
-            
+
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -124,28 +120,26 @@ public class UserPaymentRepository {
             return false;
         }
     }
-    
-    // Withdraw money
+
     public boolean withdraw(int userId, int paymentId, float amount) {
         if (amount <= 0) {
             return false;
         }
-        
-        // First check if there's enough balance
+
         float currentBalance = getBalance(userId, paymentId);
         if (currentBalance < amount) {
             return false;
         }
-        
+
         String query = "UPDATE UserPayment SET Balance = Balance - ? WHERE UserID = ? AND PaymentID = ?";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            
+
             pstmt.setFloat(1, amount);
             pstmt.setInt(2, userId);
             pstmt.setInt(3, paymentId);
-            
+
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -153,17 +147,16 @@ public class UserPaymentRepository {
             return false;
         }
     }
-    
-    // Delete a payment method
+
     public boolean deleteUserPayment(int userId, int paymentId) {
         String query = "DELETE FROM UserPayment WHERE UserID = ? AND PaymentID = ?";
-        
+
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            
+
             pstmt.setInt(1, userId);
             pstmt.setInt(2, paymentId);
-            
+
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {

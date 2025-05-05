@@ -10,7 +10,7 @@ import model.payment.Payment;
 
 public class PaymentRepository implements RepositoryInterface<Payment> {
     
-    private Connection connection;
+    private Connection connection = DatabaseConnection.getConnection();
 
     public PaymentRepository() {
         this.connection = DatabaseConnection.getConnection();

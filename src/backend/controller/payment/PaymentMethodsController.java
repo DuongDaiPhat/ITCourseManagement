@@ -2,6 +2,7 @@ package backend.controller.payment;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -9,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import model.payment.Payment;
 import model.payment.UserPayment;
+import backend.controller.scene.SceneManager;
 import backend.service.user.PaymentService;
 import model.user.Session;
 
@@ -40,6 +42,9 @@ public class PaymentMethodsController implements Initializable {
     
     @FXML
     private Button withdrawButton;
+    
+    @FXML
+    private Button cancelButton;
     
     private PaymentService paymentService;
     private int currentUserId;
@@ -257,6 +262,9 @@ public class PaymentMethodsController implements Initializable {
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.WARNING, "Warning", "Please enter a valid amount.");
         }
+    }
+    public void Cancle(ActionEvent e) {
+    	SceneManager.goBack();
     }
     
     private void updateBalanceLabel(UserPayment userPayment) {
