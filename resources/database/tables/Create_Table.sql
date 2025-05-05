@@ -155,20 +155,20 @@ CREATE TABLE MyCart (
 
 
 -- Bảng Payments
-CREATE TABLE Payments (
-    PaymentID INT PRIMARY KEY AUTO_INCREMENT,
-    PaymentName NVARCHAR(255) NOT NULL
-);
+	CREATE TABLE Payments (
+		PaymentID INT PRIMARY KEY AUTO_INCREMENT,
+		PaymentName NVARCHAR(255) NOT NULL
+	);
 
 
--- Bảng UserPayment
-CREATE TABLE UserPayment (
-    PaymentID INT,
-    UserID INT,
-    Balance FLOAT NOT NULL,
-    PRIMARY KEY (PaymentID, UserID),
-    FOREIGN KEY (PaymentID) REFERENCES Payments(PaymentID)
-);
+	-- Bảng UserPayment
+	CREATE TABLE UserPayment (
+		PaymentID INT,
+		UserID INT,
+		Balance FLOAT NOT NULL,
+		PRIMARY KEY (PaymentID, UserID),
+		FOREIGN KEY (PaymentID) REFERENCES Payments(PaymentID)
+	);
 
 
 -- Bảng Invoices

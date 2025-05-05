@@ -48,8 +48,10 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
     private List<Lecture> lectures = new ArrayList<>();
     List<LectureItemController> lectureControllers = new ArrayList<>();
     
-    private Stage stage;
-    private Scene scene;
+    @FXML
+    private Button profileButton;
+
+	private ContextMenu profileMenu;
     
     
     @FXML
@@ -81,6 +83,8 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
 				e.printStackTrace();
 			}
         });
+        setupProfileMenu();
+        profileButton.setOnAction(event -> showProfileMenu());
     }
     
     private void loadExistingLectures() throws SQLException {
@@ -114,6 +118,43 @@ public class InstructorAddLectureController implements IInstructorAddLectureCont
 				}
 			}
 		}
+    }
+    private void setupProfileMenu() {
+        profileMenu = new ContextMenu();
+        
+        MenuItem profileInfoItem = new MenuItem("My information");
+        MenuItem paymentMethodItem = new MenuItem("Payment");
+        MenuItem logoutItem = new MenuItem("Log out");
+        
+        profileInfoItem.getStyleClass().add("menu-item");
+        paymentMethodItem.getStyleClass().add("menu-item");
+        logoutItem.getStyleClass().add("menu-item");
+        profileInfoItem.setOnAction(event -> showProfileInfo());
+        paymentMethodItem.setOnAction(event -> showPaymentMethods());
+        logoutItem.setOnAction(event -> logout());
+        
+        profileMenu.getItems().addAll(profileInfoItem, paymentMethodItem, logoutItem);
+        profileMenu.getStyleClass().add("ProfileMenu.css");
+	}
+    
+    private void showProfileMenu() {
+        profileMenu.show(profileButton, profileButton.localToScreen(0, profileButton.getHeight()).getX(), 
+                     profileButton.localToScreen(0, profileButton.getHeight()).getY());
+    }
+    
+    // Methods to handle menu item actions
+    private void showProfileInfo() {
+        SceneManager.switchScene("My Information", "/frontend/view/UserProfile/UserProfile.fxml");
+    }
+    
+    private void showPaymentMethods() {
+        System.out.println("Opening payment methods...");
+    
+    }
+    
+    private void logout() {
+        SceneManager.clearSceneCache();
+        SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
     }
     @FXML
     private void toggleAddLectureForm() {

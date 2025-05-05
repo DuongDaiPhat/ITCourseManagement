@@ -14,7 +14,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="920.0" stylesheets="@mainPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.MainPageController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="920.0" stylesheets="@mainPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.MainPageController">
    <children>
       <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="-2.0" prefHeight="72.0" prefWidth="922.0" spacing="10.0" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
@@ -33,7 +33,7 @@
             </Label>
             <HBox prefHeight="42.0" prefWidth="413.0" styleClass="search-box" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="searchIcon" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="search-icon">
+                  <ImageView fx:id="searchIcon" pickOnBounds="true" preserveRatio="true" styleClass="search-icon">
                      <image>
                         <Image url="@../../../../resources/images/main_page/icon/Magnifier.png" />
                      </image>
@@ -95,7 +95,7 @@
                      <children>
                         <AnchorPane prefHeight="149.0" prefWidth="885.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="147.0" fitWidth="875.0" layoutX="-1.0" layoutY="43.0" pickOnBounds="true" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
+                              <ImageView layoutX="-1.0" layoutY="43.0" pickOnBounds="true" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
                                  <image>
                                     <Image url="@../../../../resources/images/main_page/images/it.png" />
                                  </image></ImageView>

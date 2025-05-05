@@ -39,8 +39,7 @@ public class UsersRepository implements RepositoryInterface<Users>, IUserReposit
             ps.setString(10, t.getStatus().toString());
             ps.setString(11, t.getCreatedAt().toString());
 
-            System.out.println("Password to be inserted: " + t.getPassword());
-            System.out.println("Salt to be inserted: " + t.getSalt());
+
 
             result = ps.executeUpdate();
             System.out.println(result + " row(s) affected");
@@ -53,8 +52,35 @@ public class UsersRepository implements RepositoryInterface<Users>, IUserReposit
 
 
 	@Override
-	public int Update(Users t) {
-		// TODO Auto-generated method stub
+	public int Update(Users t) throws SQLException {
+		String sql = "UPDATE USERS SET "
+				+ " ROLEID = ?,"
+				+ " USERFIRSTNAME = ?,"
+				+ " USERLASTNAME = ?,"
+				+ " USERNAME = ?,"
+				+ " PHONENUMBER = ?,"
+				+ " EMAIL = ?,"
+				+ " DESCRIPTION = ?,"
+				+ " STATUS = ?,"
+				+ " CREATEDAT = ?"
+				+ " WHERE USERID = ?";
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, String.valueOf(t.getRoleID()));
+            ps.setString(2, t.getUserFirstName());
+            ps.setString(3, t.getUserLastName());
+            ps.setString(4, t.getUserName()); 
+            ps.setString(5, t.getPhoneNumber());
+            ps.setString(6, t.getEmail());
+            ps.setString(7, t.getDescription());
+            ps.setString(8, t.getStatus().toString());
+            ps.setString(9, t.getCreatedAt().toString());
+            ps.setString(10, String.valueOf(t.getUserID()));
+            int result = ps.executeUpdate();
+			System.out.println("Update executed. " + result + " row(s) affected");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
 		return 0;
 	}
 
@@ -185,7 +211,7 @@ public class UsersRepository implements RepositoryInterface<Users>, IUserReposit
 
 	@Override
 	public boolean isExistEmail(String email) throws SQLException {
-		String sql = "SELECT EMAIL FROM USER WHERE EMAIL = ?";
+		String sql = "SELECT EMAIL FROM USERS WHERE EMAIL = ?";
 		try(PreparedStatement ps = con.prepareStatement(sql)){
 			ps.setString(1, email);
 			ResultSet rs = ps.executeQuery();
@@ -204,7 +230,7 @@ public class UsersRepository implements RepositoryInterface<Users>, IUserReposit
 
 	@Override
 	public boolean isExistPhonenumber(String phonenumber) throws SQLException {
-		String sql = "SELECT PHONENUMBER FROM USER WHERE PHONENUMBER = ?";
+		String sql = "SELECT PHONENUMBER FROM USERS WHERE PHONENUMBER = ?";
 		try(PreparedStatement ps = con.prepareStatement(sql)){
 			ps.setString(1, phonenumber);
 			ResultSet rs = ps.executeQuery();

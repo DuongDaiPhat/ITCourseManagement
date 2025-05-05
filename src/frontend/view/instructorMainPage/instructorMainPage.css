@@ -70,6 +70,25 @@
     -fx-background-color: rgba(255.0, 255.0, 255.0, 0.1);
     -fx-background-radius: 50.0%;
 }
+.context-menu {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.menu-item {
+    -fx-padding: 8px 16px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #0a557a;
+}
+
+.menu-item .label {
+    -fx-font-size: 14px;
+}
 
 .content-scroll-pane {
     -fx-background: #f5f5f5;

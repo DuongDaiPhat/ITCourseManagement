@@ -17,6 +17,10 @@ import model.lecture.Lecture;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import backend.controller.instructorCreatePageController.IOnChildRemovedListener;
 import backend.service.course.CourseService;
 
@@ -48,6 +52,9 @@ public class LectureItemController implements ILectureItemController{
     private boolean isMuted = false;
     private boolean isDescriptionExpanded = true;
     private boolean isFullScreen = false;
+    
+    private ScheduledExecutorService retryExecutor = Executors.newSingleThreadScheduledExecutor();
+
     
     private CourseService courseService = new CourseService();
     private IOnChildRemovedListener listener;
@@ -144,73 +151,57 @@ public class LectureItemController implements ILectureItemController{
         }
     }
     private void loadVideo(String videoUrl) {
+    	int retryDelaySeconds = 1;
         try {
-        	if (mediaPlayer != null) {
-        		mediaPlayer.stop();
-        	    mediaPlayer.dispose();
-        	    mediaPlayer = null;
-        	}
-        	String validUri = convertToValidMediaUri(videoUrl);
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.dispose();
+                mediaPlayer = null;
+            }
+
+            String validUri = convertToValidMediaUri(videoUrl);
             if (validUri == null) {
                 System.err.println("Invalid media URI");
                 return;
             }
-            
-            final String mediaUri = validUri;
-            
-            Platform.runLater(() -> {
-                try {
-                	// Tạo Media object từ URL
-                    Media media = new Media(mediaUri);
-                    
-                    // Tạo MediaPlayker
-                    mediaPlayer = new MediaPlayer(media);
-                    mediaView.setMediaPlayer(mediaPlayer);
-                    changePlaybackRate();
-                    
-                    // Xử lý sự kiện khi media sẵn sàng
-                    mediaPlayer.setOnReady(() -> {
-                        Duration totalDuration = mediaPlayer.getTotalDuration();
-                        totalDurationLabel.setText(formatDuration(totalDuration));
-                        progressSlider.setMax(totalDuration.toSeconds());
-                    });
-                    mediaPlayer.setOnError(() -> {
-                        System.out.println("MediaPlayer error: " + mediaPlayer.getError());
-                        mediaPlayer.getError().printStackTrace();
-                    });
-                    
-                    // Cập nhật current time và progress slider
-                    mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
-                        if (!progressSlider.isValueChanging()) {
-                            progressSlider.setValue(newValue.toSeconds());
-                        }
-                        currentTimeLabel.setText(formatDuration(newValue));
-                    });
-                    
-                    // Xử lý khi video kết thúc
-                    mediaPlayer.setOnEndOfMedia(() -> {
-                        mediaPlayer.seek(Duration.ZERO);
-                        mediaPlayer.pause();
-                        isPlaying = false;
-                        playButton.setText("▶");
-                    });
-                    mediaPlayer.setOnError(() -> {
-                        System.out.println("MediaPlayer error: " + mediaPlayer.getError());
-                    });
-                    media.setOnError(() -> {
-                        System.out.println("Media error: " + media.getError());
-                    });
-                    
-                } catch (Exception e) {
-                    System.err.println("Exception when creating media: " + e.getMessage());
-                    e.printStackTrace();
+
+            Runnable attemptLoad = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Media media = new Media(validUri);
+                        mediaPlayer = new MediaPlayer(media);
+
+                        mediaPlayer.setOnReady(() -> {
+                            Platform.runLater(() -> {
+                                mediaView.setMediaPlayer(mediaPlayer);
+                                changePlaybackRate();
+                                // Cập nhật thời lượng, slider...
+                            });
+                        });
+
+                        mediaPlayer.setOnError(() -> {
+                            System.err.println("MediaPlayer error: " + mediaPlayer.getError());
+                            retryExecutor.schedule(this, retryDelaySeconds, TimeUnit.SECONDS);
+                        });
+
+                        media.setOnError(() -> {
+                            System.err.println("Media error: " + media.getError());
+                            retryExecutor.schedule(this, retryDelaySeconds, TimeUnit.SECONDS);
+                        });
+
+                    } catch (Exception ex) {
+                        System.err.println("Exception loading media: " + ex.getMessage());
+                        retryExecutor.schedule(this, retryDelaySeconds, TimeUnit.SECONDS);
+                    }
                 }
-            });
-          
-            
+            };
+
+            // Bắt đầu load lần đầu
+            retryExecutor.execute(attemptLoad);
+
         } catch (Exception e) {
-            System.err.println("Lỗi khi tải video: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("loadVideoWithRetry failed: " + e.getMessage());
         }
     }
     

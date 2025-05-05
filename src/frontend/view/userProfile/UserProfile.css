@@ -1,0 +1,122 @@
+/* Color Palette
+    #70f4d6 (112,244,214) - Bright Turquoise
+    #2ac5b9 (42,197,185) - Medium Teal
+    #1ca3b6 (28,163,182) - Blue-Green
+    #0a557a (10,85,122) - Deep Blue
+    #01363e - Dark Teal
+*/
+
+.main-container {
+    -fx-background-color: white;
+    -fx-font-family: "System";
+}
+
+.header {
+    -fx-padding: 10px 0px 20px 0px;
+    -fx-border-color: transparent transparent #1ca3b6 transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.title-label {
+    -fx-text-fill: #0a557a;
+    -fx-font-weight: bold;
+}
+
+.info-container {
+    -fx-background-color: #f9f9f9;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+}
+
+.field-label {
+    -fx-text-fill: #01363e;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.field-value {
+    -fx-text-fill: #0a557a;
+    -fx-font-size: 14px;
+}
+
+.back-button {
+    -fx-background-color: #2ac5b9;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 16px;
+}
+
+.back-button:hover {
+    -fx-background-color: #1ca3b6;
+}
+
+.back-button:pressed {
+    -fx-background-color: #0a557a;
+}
+
+.description-area {
+    -fx-background-color: white;
+    -fx-border-color: #70f4d6;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-text-fill: #0a557a;
+}
+
+.description-area .content {
+    -fx-background-color: white;
+}
+
+.status-indicator {
+    -fx-stroke: transparent;
+}
+/* Action buttons */
+.action-button {
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 5px;
+    -fx-padding: 6px 12px;
+}
+
+.edit-button {
+    -fx-background-color: #2ac5b9;
+    -fx-text-fill: white;
+}
+
+.edit-button:hover {
+    -fx-background-color: #1ca3b6;
+}
+
+.save-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+.save-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.cancel-button {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #0a557a;
+    -fx-border-color: #0a557a;
+    -fx-border-radius: 5px;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+/* Status colors */
+.online {
+    -fx-fill: #4CAF50; /* Green */
+}
+
+.offline {
+    -fx-fill: #9E9E9E; /* Gray */
+}
+
+.banned {
+    -fx-fill: #F44336; /* Red */
+}

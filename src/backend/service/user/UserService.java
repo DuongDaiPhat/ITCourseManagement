@@ -20,4 +20,7 @@ public class UserService {
         }
         return user;
 	}	
+	public void UpdateUser(Users user) throws SQLException{
+		UsersRepository.getInstance().Update(user);
+	}
 }
