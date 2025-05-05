@@ -60,6 +60,7 @@ public class RegisterController{
     private Label termsError;
     
     public void BackToLogin(ActionEvent e) throws IOException {
+    	this.resetErrors();
     	SceneManager.goBack();
     }
     

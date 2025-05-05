@@ -42,10 +42,7 @@ public class SelectRoleController implements Initializable{
 	private CheckBox studentCheckbox;
 	@FXML
 	private Button nextButton;
-
-	// Nếu bạn sử dụng ToggleButton thay thế
-	// @FXML
-	// private ToggleGroup roleToggleGroup;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Thiết lập nút NEXT ở trạng thái vô hiệu hóa ban đầu

@@ -275,6 +275,6 @@ public class InstructorUpdatePageController implements IInstructorUpdatePageCont
 	}
 
 	private void ReturnToInstructorMainPage() throws IOException, SQLException {
-		SceneManager.switchScene("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
+		SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 	}
 }

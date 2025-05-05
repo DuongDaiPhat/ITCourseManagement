@@ -84,7 +84,7 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 	}
 
 	private void ToCreateCoursePage() throws IOException {
-		SceneManager.switchScene("createCourse", "/frontend/view/instructorCreatePage/instructorCreatePage.fxml");
+		SceneManager.switchSceneReloadWithData("createCourse", "/frontend/view/instructorCreatePage/instructorCreatePage.fxml", null, null);
 	}
 
 	private void loadUserInfo() {
