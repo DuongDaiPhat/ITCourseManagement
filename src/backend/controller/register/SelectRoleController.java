@@ -84,7 +84,7 @@ public class SelectRoleController implements Initializable{
 	            Platform.runLater(() -> {
 	                showSuccessAlert();
 	                // SceneManager.switchScene đã xử lý IOException nội bộ
-	                SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
+	                SceneManager.switchSceneReloadWithData("Login", "/frontend/view/login/Login.fxml", null, null);
 	            });
 	        } else {
 	            Platform.runLater(() -> {

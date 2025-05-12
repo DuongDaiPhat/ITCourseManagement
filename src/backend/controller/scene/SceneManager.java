@@ -57,12 +57,12 @@ public class SceneManager {
     public static <T> void switchSceneReloadWithData(String sceneName, String fxmlPath, ControllerDataSetter<T> setter, T data) {
         try {
             Scene currentScene = primaryStage.getScene();
-            if (currentScene != null) {
-                sceneStack.push(currentScene);
-            }
 
             // Xóa cache để luôn load mới
             sceneCache.remove(sceneName);
+            if (currentScene != null) {
+            	sceneStack.push(currentScene);
+            }
 
             FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
             Parent root = loader.load();
