@@ -8,13 +8,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="920.0" stylesheets="@mainPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.MainPageController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" stylesheets="@mainPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.MainPageController">
    <children>
       <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="-2.0" prefHeight="72.0" prefWidth="922.0" spacing="10.0" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
@@ -23,7 +24,7 @@
          <children>
             <Label text="AiTeeCo" HBox.hgrow="ALWAYS">
                <font>
-                  <Font name="System Bold" size="19.0" />
+                  <Font name="System Bold" size="22.0" />
                </font>
             </Label>
             <Label fx:id="pageCategory" onMouseClicked="#switchToCategory" styleClass="nav-link" text="Category" HBox.hgrow="ALWAYS">
@@ -38,7 +39,7 @@
                         <Image url="@../../../../resources/images/main_page/icon/Magnifier.png" />
                      </image>
                   </ImageView>
-                  <TextField fx:id="searchField" prefHeight="33.0" prefWidth="250.0" promptText="Search">
+                  <TextField fx:id="searchField" prefHeight="33.0" prefWidth="486.0" promptText="Search">
                      <font>
                         <Font size="15.0" />
                      </font></TextField>
@@ -62,7 +63,7 @@
                   </RadialGradient>
                </textFill>
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
             <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
@@ -87,100 +88,98 @@
             </ImageView>
          </children>
       </HBox>
-      <ScrollPane fitToWidth="true" layoutY="72.0" prefHeight="600.0" prefWidth="920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="920.0">
+      <ScrollPane id="myScrollPane" fx:id="myScrollPane" fitToWidth="true" layoutY="72.0" prefHeight="600.0" prefWidth="920.0" styleClass="content-scroll-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+         <content>
+            <VBox prefHeight="846.0" prefWidth="998.0">
                <children>
-                  <VBox prefHeight="230.0" prefWidth="1500.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <VBox prefHeight="200.0" prefWidth="926.0">
                      <children>
-                        <AnchorPane prefHeight="149.0" prefWidth="885.0" VBox.vgrow="ALWAYS">
+                        <HBox prefHeight="51.0" prefWidth="926.0" spacing="5.0">
                            <children>
-                              <ImageView layoutX="-1.0" layoutY="43.0" pickOnBounds="true" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
+                              <Label styleClass="welcome-text" text="Hello">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labeluser" styleClass="welcome-name" text="user">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </HBox>
+                        <Pane prefHeight="161.0" prefWidth="926.0">
+                           <children>
+                              <ImageView fx:id="imageView" fitHeight="156.0" fitWidth="957.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../resources/images/main_page/images/it.png" />
+                                    <Image url="@../../../../resources/images/main_page/images/images1.jpeg" />
                                  </image></ImageView>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="prevImageView" fitHeight="20.0" fitWidth="20.0" layoutX="14.0" layoutY="67.0" onMouseClicked="#prevImage" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../resources/images/main_page/icon/ArrowLeft.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="831.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+                                 </image></ImageView>
+                              <ImageView fx:id="nextImageView" fitHeight="20.0" fitWidth="20.0" layoutX="895.0" layoutY="67.0" onMouseClicked="#nextImage" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../resources/images/main_page/icon/ArowRight.png" />
-                                 </image>
-                              </ImageView>
-                              <HBox prefHeight="42.0" prefWidth="870.0">
-                                 <children>
-                                    <Label styleClass="welcome-text" text="Hello">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="labeluser" styleClass="welcome-name" text="name">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                 </children>
-                              </HBox>
+                                 </image></ImageView>
                            </children>
-                        </AnchorPane>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Pane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <VBox prefHeight="250.0" prefWidth="938.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="aiCategory" styleClass="section-title" text="Category" />
+                        <HBox fx:id="aiCourseContainer" prefHeight="206.0" prefWidth="929.0" spacing="5.0">
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding>
+                        </HBox>
                      </children>
                      <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                        <Insets top="10.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
+                     </VBox.margin>
                   </VBox>
-                  <VBox layoutX="-1.0" layoutY="239.0" prefHeight="310.0" prefWidth="920.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0">
+                  <VBox prefHeight="250.0" prefWidth="938.0" spacing="10.0">
                      <children>
-                        <Label fx:id="aiCategory" prefHeight="70.0" prefWidth="300.0" styleClass="section-title" text="Category" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
+                        <Label fx:id="webCategory" styleClass="section-title" text="Category" />
+                        <HBox fx:id="webCourseContainer" prefHeight="236.0" prefWidth="938.0">
                            <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
-                        </Label>
-                        <HBox fx:id="aiCourseContainer" prefHeight="242.0" prefWidth="920.0">
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding></HBox>
+                        </HBox>
                      </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="30.0" right="30.0" top="5.0" />
+                     </VBox.margin>
                   </VBox>
-                  <VBox layoutX="-1.0" layoutY="549.0" prefHeight="310.0" prefWidth="906.0">
+                  <HBox alignment="CENTER" prefHeight="146.0" prefWidth="938.0" styleClass="footer">
                      <children>
-                        <Label fx:id="webCategory" prefHeight="70.0" prefWidth="300.0" styleClass="section-title" text="Category" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
-                        </Label>
-                        <HBox fx:id="webCourseContainer" prefHeight="241.0" prefWidth="906.0">
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding></HBox>
-                     </children>
-                  </VBox>
-                  <HBox alignment="CENTER" layoutX="-8.0" layoutY="870.0" prefHeight="131.0" prefWidth="920.0" styleClass="footer">
-                     <children>
-                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="174.0">
+                        <VBox alignment="CENTER" prefHeight="208.0" prefWidth="206.0">
                            <children>
-                              <Label styleClass="footer-text" text="AiTeeCo © 2025" />
+                              <Label alignment="CENTER" styleClass="footer-text" text="AiTeeCo © 2025" />
                               <Label styleClass="footer-text" text="All rights reserved" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
                </children>
-            </AnchorPane>
-        </content>
+            </VBox>
+         </content>
       </ScrollPane>
    </children>
 </AnchorPane>
