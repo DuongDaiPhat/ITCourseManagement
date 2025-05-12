@@ -160,7 +160,6 @@ CREATE TABLE MyCart (
 		PaymentName NVARCHAR(255) NOT NULL
 	);
 
-
 	-- Bảng UserPayment
 	CREATE TABLE UserPayment (
 		PaymentID INT,

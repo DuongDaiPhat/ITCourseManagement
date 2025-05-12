@@ -26,7 +26,6 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 		String sql = "INSERT INTO COURSES(COURSENAME, LANGUAGE, TECHNOLOGY, LEVEL, CATEGORY, USERID, THUMBNAILURL, PRICE, COURSEDESCRIPTION, CREATEDAT, UPDATEDAT, ISAPPROVED) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
 			ps.setString(1, t.getCourseName());
 			ps.setString(2, t.getLanguage() + "");
 			ps.setString(3, t.getTechnology() + "");
@@ -39,7 +38,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 			ps.setString(10, t.getCreatedAt() + "");
 			ps.setString(11, t.getUpdatedAt() + "");
 			ps.setBoolean(12, t.isApproved());
-
+			
 			result = ps.executeUpdate();
 			System.out.println("Insert executed. " + result + " row(s) affected");
 		} catch (SQLException e) {
