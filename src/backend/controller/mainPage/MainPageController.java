@@ -1,9 +1,10 @@
 package backend.controller.mainPage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
-import backend.repository.course.LessonRepository;
+import backend.service.course.CourseService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.course.Category;
-import model.course.Lesson;
+import model.course.Courses;
 import model.user.Session;
 import model.user.Users;
 
@@ -78,10 +79,14 @@ public class MainPageController {
     
     private int currentImageIndex = 0; // Chỉ số ảnh hiện tại
     private Timeline slideshowTimeline; // Timeline để chạy ảnh tự động
+    private CourseService courseService; // Dịch vụ để lấy danh sách khóa học
 
     // Hàm khởi tạo được gọi khi giao diện được tải
     @FXML
     public void initialize() {
+        // Khởi tạo CourseService
+        courseService = new CourseService();
+
         // Lấy thông tin người dùng từ Session
         Users currentUser = Session.getCurrentUser();
         if (currentUser != null) {
@@ -97,8 +102,9 @@ public class MainPageController {
         aiCategory.setText(getDisplayName(Category.Artificial_Intelligence));
         webCategory.setText(getDisplayName(Category.Web_Development));
 
-        loadCoursesByCategory(Category.Artificial_Intelligence, aiCourseContainer);
-        loadCoursesByCategory(Category.Web_Development, webCourseContainer);
+        // Tải các khóa học đã được duyệt theo danh mục
+        loadApprovedCoursesByCategory(Category.Artificial_Intelligence, aiCourseContainer);
+        loadApprovedCoursesByCategory(Category.Web_Development, webCourseContainer);
 
         // Tải ảnh đầu tiên vào imageView
         loadImage(currentImageIndex);
@@ -199,22 +205,41 @@ public class MainPageController {
         return category.name().replace('_', ' ');
     }
 
-    // Hàm tải danh sách bài học theo danh mục
-    private void loadCoursesByCategory(Category category, HBox container) {
-        List<Lesson> lessons = new LessonRepository().getLessonsByCategory(category);
-
+    // Hàm tải các khóa học đã được duyệt theo danh mục
+    private void loadApprovedCoursesByCategory(Category category, HBox container) {
         try {
-            for (Lesson lesson : lessons) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/mainPage/lesson.fxml"));
-                Region lessonCard = loader.load();
+            // Lấy tất cả các khóa học đã được duyệt
+            List<Courses> allCourses = courseService.getAllCourses();
+            List<Courses> approvedCourses = allCourses.stream()
+                    .filter(Courses::isApproved) // Chỉ lấy các khóa học có ISAPPROVED = true
+                    .filter(course -> course.getCategory() == category) // Lọc theo danh mục
+                    .toList();
 
-                LessonItemController controller = loader.getController();
-                controller.setLesson(lesson);
+            container.getChildren().clear(); // Xóa nội dung cũ trong container
 
-                container.getChildren().add(lessonCard);
+            if (approvedCourses.isEmpty()) {
+                Label emptyLabel = new Label("Không có khóa học nào trong danh mục này.");
+                emptyLabel.setStyle("-fx-text-fill: gray; -fx-font-size: 14px;");
+                container.getChildren().add(emptyLabel);
+            } else {
+                for (Courses course : approvedCourses) {
+                    // Tải giao diện khóa học từ FXML
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/mainPage/courseStudent.fxml"));
+                    Region courseCard = loader.load();
+
+                    // Gán dữ liệu khóa học vào controller
+                    CourseStudentController controller = loader.getController();
+                    controller.setCourseData(course);
+
+                    container.getChildren().add(courseCard);
+                }
             }
-        } catch (IOException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
+            Label errorLabel = new Label("Lỗi khi tải khóa học: " + e.getMessage());
+            errorLabel.setStyle("-fx-text-fill: red; -fx-font-size: 14px;");
+            container.getChildren().clear();
+            container.getChildren().add(errorLabel);
         }
     }
 }
