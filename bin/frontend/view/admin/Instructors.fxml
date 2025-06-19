@@ -56,7 +56,8 @@
 					onAction="#handleBackToMain" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="Instructor List"
 					wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link" text="Pending Course"
+				<Button styleClass="nav-link"
+					text="Pending Course"
 					onAction="#handleViewPendingCourses" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="Course List"
 					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
@@ -66,7 +67,8 @@
 
 			<!-- Right Content Area -->
 			<VBox styleClass="right-content" HBox.hgrow="ALWAYS">
-				<!-- Instructor List Header -->
+				<!-- Student List Header -->
+				<!-- Student List Header with Updated Button Layout -->
 				<HBox alignment="CENTER_LEFT" styleClass="section-header">
 					<Label styleClass="section-title" text="Instructor List" />
 					<HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
@@ -78,8 +80,7 @@
 							styleClass="action-button, unban" text="Unban"
 							onAction="#handleUnban" minWidth="120" />
 						<HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
-							<Button styleClass="icon-button, print-button"
-								onAction="#handlePrint">
+							<Button styleClass="icon-button, print-button">
 								<graphic>
 									<ImageView fitHeight="30" fitWidth="36">
 										<Image url="@/images/main_page/icon/print.png" />
@@ -91,10 +92,6 @@
 				</HBox>
 
 				<Separator styleClass="separator" />
-
-				<!-- Thêm Label refresh notification -->
-				<Label fx:id="refreshNotificationLabel"
-					styleClass="refresh-notification" text="" />
 
 				<TableView fx:id="instructorTable"
 					styleClass="student-table" VBox.vgrow="ALWAYS" maxHeight="600">
