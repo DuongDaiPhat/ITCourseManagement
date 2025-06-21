@@ -87,7 +87,7 @@
             </ImageView>
          </children>
       </HBox>
-      <ScrollPane fitToWidth="true" layoutY="72.0" prefHeight="600.0" prefWidth="920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+      <ScrollPane id="myScrollPane" fitToWidth="true" layoutY="72.0" prefHeight="600.0" prefWidth="920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="920.0">
                <children>
