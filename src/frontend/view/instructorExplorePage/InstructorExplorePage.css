@@ -1,0 +1,406 @@
+/* Root styling */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f5f5f5;
+}
+
+/* Navigation styling */
+.navigation {
+    -fx-background-color: transparent;
+}
+
+.top-nav {
+    -fx-background-color: linear-gradient(to right, #70f4d6, #0a557a);
+    -fx-padding: 10.0px 20.0px;
+    -fx-alignment: center-left;
+}
+
+.bottom-nav {
+    -fx-background-color: linear-gradient(to right, #5de0e6, #004aad);
+    -fx-min-height: 10.0px;
+}
+
+.company-name {
+    -fx-text-fill: black;
+    -fx-font-size: 22.0px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+/* Navigation links */
+.nav-link {
+    -fx-text-fill: black;
+    -fx-font-size: 14.0px;
+    -fx-padding: 0.0 10.0px;
+    -fx-cursor: hand;
+}
+
+.nav-link:hover {
+    -fx-text-fill: white;
+}
+
+.nav-link-active {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Search container */
+.search-container {
+    -fx-background-color: rgba(255.0, 255.0, 255.0, 0.2);
+    -fx-background-radius: 20.0px;
+    -fx-padding: 2.0px;
+    -fx-alignment: center;
+}
+
+.search-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255.0, 255.0, 255.0, 0.7);
+    -fx-font-size: 14.0px;
+    -fx-border-color: transparent;
+    -fx-padding: 8 12 8 12;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.search-input:focused {
+    -fx-border-color: transparent;
+}
+
+.search-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 8 12 8 12;
+    -fx-cursor: hand;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+}
+
+.search-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Icon buttons */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-padding: 8;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    -fx-cursor: hand;
+}
+
+.icon-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Content area */
+.content-scroll-pane {
+    -fx-background-color: #f8f9fa;
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: as-needed;
+}
+
+.content-scroll-pane > .viewport {
+    -fx-background-color: #f8f9fa;
+}
+
+.main-content {
+    -fx-background-color: #f8f9fa;
+    -fx-min-height: 500;
+}
+
+/* Page header */
+.page-header {
+    -fx-background-color: white;
+    -fx-padding: 30;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 8, 0, 0, 2);
+}
+
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #212529;
+}
+
+.page-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #6c757d;
+}
+
+/* Filter section */
+.filter-section {
+    -fx-padding: 20 0 0 0;
+    -fx-border-color: transparent transparent #e9ecef transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.filter-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #495057;
+}
+
+.category-filter {
+    -fx-background-color: white;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 8 12 8 12;
+}
+
+.clear-filters-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 8 16 8 16;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.clear-filters-button:hover {
+    -fx-background-color: #545b62;
+}
+
+/* Courses container */
+.courses-container {
+    -fx-spacing: 30;
+}
+
+/* Category section */
+.category-section {
+    -fx-background-color: white;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 8, 0, 0, 2);
+    -fx-padding: 25;
+}
+
+.category-header {
+    -fx-spacing: 10;
+    -fx-padding: 0 0 20 0;
+}
+
+.category-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #212529;
+}
+
+.category-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6c757d;
+}
+
+/* Course grid */
+.course-grid {
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+    -fx-alignment: TOP_LEFT;
+}
+
+/* Course card */
+.course-card {
+    -fx-background-color: white;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 6, 0, 0, 2);
+    -fx-padding: 0;
+    -fx-pref-width: 280;
+    -fx-max-width: 280;
+    -fx-cursor: hand;
+}
+
+.course-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 4);
+    -fx-translate-y: -2;
+}
+
+.course-thumbnail {
+    -fx-border-radius: 8 8 0 0;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.course-info {
+    -fx-padding: 15;
+    -fx-spacing: 8;
+}
+
+.course-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #212529;
+    -fx-wrap-text: true;
+}
+
+.course-author {
+    -fx-font-size: 14px;
+    -fx-text-fill: #6c757d;
+}
+
+.course-price {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #28a745;
+}
+
+.course-rating {
+    -fx-spacing: 5;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.rating-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffc107;
+    -fx-font-weight: 500;
+}
+
+.rating-count {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6c757d;
+}
+
+.course-category-tag {
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #1976d2;
+    -fx-padding: 4 8 4 8;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-font-size: 12px;
+    -fx-font-weight: 500;
+}
+
+/* No courses message */
+.no-courses-message {
+    -fx-background-color: white;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 40;
+    -fx-alignment: CENTER;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 8, 0, 0, 2);
+}
+
+.no-courses-text {
+    -fx-font-size: 18px;
+    -fx-text-fill: #6c757d;
+    -fx-text-alignment: CENTER;
+}
+
+/* Search button */
+.search-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 16.0px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-padding: 6.0px;
+}
+
+.search-button:hover {
+    -fx-background-color: rgba(255.0, 255.0, 255.0, 0.2);
+}
+
+/* Icon buttons */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 16.0px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-padding: 6.0px;
+}
+
+.icon-button:hover {
+    -fx-background-color: rgba(255.0, 255.0, 255.0, 0.2);
+}
+
+/* Context Menu styling */
+.context-menu {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.menu-item {
+    -fx-padding: 8px 16px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #0a557a;
+}
+
+.menu-item .label {
+    -fx-font-size: 14px;
+}
+
+/* Main content */
+.content-scroll-pane {
+    -fx-background: #f5f5f5;
+    -fx-background-color: transparent;
+    -fx-padding: 0.0;
+}
+
+.content-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.main-content {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 20.0px;
+}
+
+/* Footer */
+.footer {
+    -fx-background-color: #222;
+    -fx-padding: 20.0px 30.0px;
+}
+
+.footer-text {
+    -fx-text-fill: #bbb;
+    -fx-font-size: 14.0px;
+}
+
+/* Scroll pane styling */
+.content-scroll-pane .scroll-bar:vertical {
+    -fx-pref-width: 8;
+    -fx-background-color: transparent;
+}
+
+.content-scroll-pane .scroll-bar:horizontal {
+    -fx-pref-height: 8;
+    -fx-background-color: transparent;
+}
+
+.content-scroll-pane .thumb {
+    -fx-background-color: #ced4da;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+.content-scroll-pane .track {
+    -fx-background-color: transparent;
+}
+
+/* ScrollPane styling for myScrollPane */
+#myScrollPane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10.0px; 
+}
+
+#myScrollPane .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 10.0px;
+}
+
+#myScrollPane .thumb {
+    -fx-background-color: #b4cfdb;   
+    -fx-background-radius: 5.0px;
+}
+
+#myScrollPane .track {
+    -fx-background-color: white;   
+    -fx-background-radius: 5.0px;
+}
