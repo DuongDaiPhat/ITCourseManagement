@@ -77,6 +77,27 @@
     -fx-text-fill: #bbb;
     -fx-font-size: 14px;
 }
+/* ScrollPane styling */
+#myScrollPane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10.0px; 
+}
+
+#myScrollPane .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 10.0px;
+}
+
+#myScrollPane .thumb {
+    -fx-background-color: #b4cfdb;   
+    -fx-background-radius: 5.0px;
+}
+
+#myScrollPane .track {
+    -fx-background-color: white;   
+    -fx-background-radius: 5.0px;
+}
+
 .scroll-pane .scroll-bar:vertical,
 .scroll-pane .scroll-bar:horizontal {
     -fx-opacity: 0;

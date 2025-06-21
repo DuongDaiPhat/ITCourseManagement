@@ -65,6 +65,12 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 	private ImageView thumbnail;
 	@FXML
 	private Label myCourse;
+	@FXML
+	private TextField searchField;
+	@FXML
+	private Button searchButton;
+	@FXML
+	private Label exploreLabel;
 
 	private UserService userService;
 	private CourseService courseService;
@@ -98,10 +104,12 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		if (level.getItems().isEmpty()) {
 			level.getItems().addAll("Beginner", "Intermediate", "Advanced", "All Level");
 		}
-
 		myCourse.setOnMouseClicked(event -> {
 			SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
 		});
+		
+		// Setup navigation events
+		exploreLabel.setOnMouseClicked(event -> goToExplorePage());
 
 		technology.setVisibleRowCount(5);
 		technology.setEditable(false);
@@ -137,7 +145,7 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
         profileMenu.getItems().addAll(profileInfoItem, paymentMethodItem, logoutItem);
         profileMenu.getStyleClass().add("ProfileMenu.css");
 	}
-    
+      @FXML
     private void showProfileMenu() {
         profileMenu.show(profileButton, profileButton.localToScreen(0, profileButton.getHeight()).getX(), 
                      profileButton.localToScreen(0, profileButton.getHeight()).getY());
@@ -284,5 +292,30 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 			displayNames.add(cat.name().replace('_', ' '));
 		}
 		return displayNames;
+	}
+		@FXML
+	private void handleSearch() {
+		String searchKeyword = searchField.getText().trim();
+		if (searchKeyword.isEmpty()) {
+			// Nếu không có từ khóa, chỉ chuyển sang trang Explore
+			goToExplorePage();
+		} else {
+			// Chuyển sang trang Explore với từ khóa tìm kiếm - luôn reload để đảm bảo search hoạt động
+			SceneManager.switchSceneReloadWithData(
+				"Instructor Explore",
+				"/frontend/view/instructorExplorePage/InstructorExplorePage.fxml",
+				(controller, keyword) -> {
+					if (controller instanceof backend.controller.instructorExplorePage.instructorExplorePageController) {
+						((backend.controller.instructorExplorePage.instructorExplorePageController) controller).setSearchKeyword((String) keyword);
+					}
+				},
+				searchKeyword
+			);
+		}
+	}
+		@FXML
+	private void goToExplorePage() {
+		// Use reload to ensure fresh course data is displayed
+		SceneManager.switchSceneReloadWithData("Instructor Explore", "/frontend/view/instructorExplorePage/InstructorExplorePage.fxml", null, null);
 	}
 }

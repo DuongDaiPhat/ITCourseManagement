@@ -28,6 +28,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.DialogPane;
 import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,11 +53,16 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 
 	@FXML
 	private Label emptyCourseLabel;
-
 	@FXML
 	private Label createCourse;
 	@FXML
+	private Label exploreLabel;
+	@FXML
     private Button profileButton;
+	@FXML
+	private TextField searchField;
+	@FXML
+	private Button searchButton;
 
 	private Stage stage;
 	private Scene scene;
@@ -65,19 +71,19 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 	private ContextMenu profileMenu;
 
 	@FXML
-	public void initialize() throws SQLException {
-		createCourse.setOnMouseClicked(event -> {
+	public void initialize() throws SQLException {		createCourse.setOnMouseClicked(event -> {
 			try {
 				ToCreateCoursePage();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
+		
+		exploreLabel.setOnMouseClicked(event -> goToExplorePage());
+		
 		courseService = new CourseService();
 		userService = new UserService();
-		loadUser();
-		
-        setupProfileMenu();
+		loadUser();        setupProfileMenu();
         profileButton.setOnAction(event -> showProfileMenu());
 	}
 
@@ -306,8 +312,30 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 			ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 			alert.getButtonTypes().setAll(okButton);
 		}
-
 		return alert.showAndWait();
+	}	@FXML
+	private void goToExplorePage() {
+		// Use reload to ensure fresh course data is displayed
+		SceneManager.switchSceneReloadWithData("Instructor Explore", "/frontend/view/instructorExplorePage/InstructorExplorePage.fxml", null, null);
+	}@FXML
+	private void handleSearch() {
+		String searchKeyword = searchField.getText().trim();
+		if (searchKeyword.isEmpty()) {
+			// Nếu không có từ khóa, chỉ chuyển sang trang Explore
+			goToExplorePage();
+		} else {
+			// Chuyển sang trang Explore với từ khóa tìm kiếm - luôn reload để đảm bảo search hoạt động
+			SceneManager.switchSceneReloadWithData(
+				"Instructor Explore",
+				"/frontend/view/instructorExplorePage/InstructorExplorePage.fxml",
+				(controller, keyword) -> {
+					if (controller instanceof backend.controller.instructorExplorePage.instructorExplorePageController) {
+						((backend.controller.instructorExplorePage.instructorExplorePageController) controller).setSearchKeyword((String) keyword);
+					}
+				},
+				searchKeyword
+			);
+		}
 	}
 
 	private Node findNodeById(Node parent, String id) {

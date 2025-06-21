@@ -22,19 +22,16 @@
                 </padding>
                 
                 <!-- Company Logo and Name -->
-                <Label styleClass="company-name" text="AiTeeCo" />
-                
-                <!-- Navigation Links -->
+                <Label styleClass="company-name" text="AiTeeCo" />                <!-- Navigation Links -->
                 <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
-                    <Label styleClass="nav-link" text="Explore" />
+                    <Label fx:id="exploreLabel" styleClass="nav-link" text="Explore" />
                     <Label styleClass="nav-link" text="MyCourse" />
                     <Label styleClass="nav-link" text="Create Course" fx:id = "createCourse"/>
                 </HBox>
-                
-                <!-- Search Bar -->
+                  <!-- Search Bar -->
                 <HBox styleClass="search-container">
-                    <TextField promptText="Search..." styleClass="search-input" />
-                    <Button styleClass="search-button">
+                    <TextField fx:id="searchField" promptText="Search..." styleClass="search-input" />
+                    <Button fx:id="searchButton" onAction="#handleSearch" styleClass="search-button">
                         <graphic>
                             <ImageView fitHeight="16" fitWidth="16">
                                 <Image url="@/images/main_page/icon/WhiteMagnifier.png" />

@@ -36,6 +36,11 @@
     -fx-text-fill: white;
 }
 
+.nav-link-active {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
 .search-container {
     -fx-background-color: rgba(255.0, 255.0, 255.0, 0.2);
     -fx-background-radius: 20.0px;
