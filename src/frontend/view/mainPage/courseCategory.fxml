@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="722.0" spacing="5.0" stylesheets="@courseCategory.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CourseCategoryController">
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+   <children>
+      <ImageView fx:id="courseImage" fitHeight="189.0" fitWidth="274.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="250.0" spacing="10.0">
+         <children>
+            <Label fx:id="courseName" text="courseName" />
+            <Label fx:id="Rating" text="Rating" />
+            <HBox prefHeight="9.0" prefWidth="297.0" spacing="50.0">
+               <children>
+                  <Label fx:id="numberLecture" text="numberLecture" />
+                  <Label fx:id="totalHours" text="totalHours" />
+               </children>
+            </HBox>
+            <HBox prefHeight="2.0" prefWidth="297.0" spacing="85.0">
+               <children>
+                  <Label fx:id="beginner" text="beginner" />
+                  <Label fx:id="author" text="author" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox alignment="BOTTOM_LEFT" prefHeight="190.0" prefWidth="215.0">
+         <children>
+            <Label fx:id="Price" text="Price">
+               <VBox.margin>
+                  <Insets bottom="40.0" />
+               </VBox.margin></Label>
+            <HBox prefHeight="43.0" prefWidth="197.0" spacing="20.0">
+               <children>
+                  <Button fx:id="Addtocart" mnemonicParsing="false" text="Add to cart" />
+                  <Button mnemonicParsing="false" text="Favorites" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

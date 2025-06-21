@@ -6,21 +6,24 @@ import backend.repository.user.UsersRepository;
 import model.user.Users;
 
 public class UserService {
-	public Users GetUserByID(int id) {
-		return UsersRepository.getInstance().SelectByID(id);
-	}
-	public Users GetNameByID(int id) {
-		return null;
-	}
-	public Users GetUserByUsername(String username) throws SQLException {
-		Users user = UsersRepository.getInstance().GetUserByUsername(username);
+    public Users GetUserByID(int id) throws SQLException { // Thêm throws SQLException
+        return UsersRepository.getInstance().SelectByID(id);
+    }
+
+    public Users GetNameByID(int id) {
+        return null;
+    }
+
+    public Users GetUserByUsername(String username) throws SQLException {
+        Users user = UsersRepository.getInstance().GetUserByUsername(username);
         if (user != null) {
             user.setPassword(null);
-            user.setSalt(null);    
+            user.setSalt(null);
         }
         return user;
-	}	
-	public void UpdateUser(Users user) throws SQLException{
-		UsersRepository.getInstance().Update(user);
-	}
+    }
+
+    public void UpdateUser(Users user) throws SQLException {
+        UsersRepository.getInstance().Update(user);
+    }
 }

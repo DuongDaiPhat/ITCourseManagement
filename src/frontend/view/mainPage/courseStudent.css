@@ -1,0 +1,63 @@
+/* Định dạng cho VBox chính */
+.course-student {
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #f0f4f8);
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 2);
+    -fx-padding: 10px;
+}
+
+/* Định dạng cho ImageView */
+.course-student .image-view {
+    -fx-background-radius: 8px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+}
+
+/* Định dạng cho Label courseName */
+.course-student .label.course-name {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 5px 0;
+}
+
+/* Định dạng cho Label courseAuthor */
+.course-student .label.course-author {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+    -fx-padding: 2px 0;
+}
+
+/* Định dạng cho HBox chứa language và price */
+.course-student .hbox {
+    -fx-alignment: center;
+    -fx-spacing: 10px;
+}
+
+/* Định dạng cho Label courseLanguage */
+.course-student .label.course-language {
+    -fx-font-size: 14px;
+    -fx-text-fill: #34495e;
+    -fx-padding: 2px 5px;
+    -fx-background-color: #ecf0f1;
+    -fx-background-radius: 5px;
+}
+
+/* Định dạng cho Label coursePrice */
+.course-student .label.course-price {
+    -fx-font-size: 14px;
+    -fx-text-fill: #e74c3c;
+    -fx-font-weight: bold;
+    -fx-padding: 2px 10px;
+    -fx-background-color: #ecf0f1;
+    -fx-background-radius: 5px;
+}
+
+/* Hiệu ứng hover cho toàn bộ card */
+.course-student:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-transition: all 0.3s ease-in-out;
+    -fx-cursor: hand;
+}

@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.LessonItemController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="300.0" stylesheets="@courseStudent.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CourseStudentController">
    <children>
       <ImageView fx:id="courseImage" fitHeight="177.0" fitWidth="301.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="courseTitle" text="Title">
+      <Label fx:id="courseName" text="Title">
          <VBox.margin>
             <Insets left="5.0" />
          </VBox.margin>
@@ -21,7 +21,7 @@
       </Label>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label fx:id="courseRating" text="Rating">
+            <Label fx:id="courseLanguage" text="Language">
                <HBox.margin>
                   <Insets left="5.0" />
                </HBox.margin>

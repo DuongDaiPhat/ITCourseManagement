@@ -7,3 +7,7 @@
 Thumbs.db
 *.log
 *.class
+/images/
+/frontend/
+/backend/
+/model/
