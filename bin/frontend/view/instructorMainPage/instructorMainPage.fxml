@@ -8,6 +8,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -69,8 +70,7 @@
                 <padding>
                     <Insets bottom="30" left="30" right="30" top="20" />
                 </padding>
-                
-                <!-- Welcome Section -->
+                  <!-- Welcome Section -->
                 <HBox alignment="CENTER_LEFT" styleClass="welcome-section">
                     <Label styleClass="welcome-text">
                         <text>Hello </text>
@@ -83,10 +83,8 @@
                         <font>
                             <Font name="System Bold" size="24" />
                         </font>
-                    </Label>
-                </HBox>
-                
-                <!-- Courses Section -->
+                    </Label>                </HBox>
+                  <!-- Courses Section -->
                 <HBox alignment="CENTER_LEFT" styleClass="section-header">
                     <Label styleClass="section-title" text="Your Courses" />
                     <Button maxHeight="30.0" maxWidth="30.0" prefWidth="30.0" styleClass="create-course-button" onAction ="#CreateCoursePage">
@@ -99,7 +97,7 @@
                 </HBox>
                 
                 <!-- Course List -->
-                <VBox fx:id="courseListContainer" spacing="20">
+                <VBox fx:id="courseListContainer" spacing="20" alignment="TOP_LEFT">
                     <!-- Empty state message - shown if no courses -->
                     <Label fx:id="emptyCourseLabel" prefHeight="80.0" prefWidth="966.0" styleClass="empty-course-message" text="You have no course, feel free to create one!" visible="true" />
                     <!-- Courses will be added here dynamically -->

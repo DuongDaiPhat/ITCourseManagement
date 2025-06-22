@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="700.0" prefWidth="1000.0" stylesheets="@InstructorExplorePage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.instructorExplorePage.InstructorExplorePageController">
+    <children>
+        <!-- Navigation Bar -->
+        <VBox styleClass="navigation">
+            <!-- Top Navigation -->
+            <HBox alignment="CENTER_LEFT" styleClass="top-nav">
+                <padding>
+                    <Insets bottom="10" left="20" right="20" top="10" />
+                </padding>
+
+                <!-- Company Logo and Name -->
+                <Label styleClass="company-name" text="AiTeecCo" />
+
+                <!-- Search Bar -->
+                <HBox alignment="CENTER" styleClass="search-container" HBox.hgrow="ALWAYS">
+                    <TextField fx:id="searchField" promptText="Search courses..." styleClass="search-input" />
+                    <Button fx:id="searchButton" onAction="#handleSearch" styleClass="search-button">
+                        <graphic>
+                            <ImageView fitHeight="16" fitWidth="16">
+                                <Image url="@/images/main_page/icon/Search.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+
+                <!-- Right Side Icons -->
+                <HBox alignment="CENTER_RIGHT" spacing="15">
+                    <!-- Notification Icon -->
+                    <Button styleClass="icon-button">
+                        <graphic>
+                            <ImageView fitHeight="20" fitWidth="20">
+                                <Image url="@/images/main_page/icon/Notification.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+
+                    <!-- Profile Icon -->
+                    <Button fx:id="profileButton" onAction="#showProfileMenu" styleClass="icon-button">
+                        <graphic>
+                            <ImageView fitHeight="20" fitWidth="20">
+                                <Image url="@/images/main_page/icon/MyProfile.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </HBox>
+
+            <!-- Bottom Navigation -->
+            <HBox alignment="CENTER_LEFT" styleClass="bottom-nav" spacing="30">
+                <padding>
+                    <Insets left="20" right="20" />
+                </padding>
+
+                <Button onAction="#goToMainPage" styleClass="nav-link" text="Home" />
+                <Button styleClass="nav-link nav-link-active" text="Explore" />
+                <Button onAction="#goToCreateCourse" styleClass="nav-link" text="Create Course" />
+                <Button onAction="#goToMyCourses" styleClass="nav-link" text="My Courses" />
+            </HBox>
+        </VBox>
+        
+        <!-- Main Content Area -->
+        <ScrollPane fx:id="contentScrollPane" fitToWidth="true" prefHeight="600.0" styleClass="content-scroll-pane" VBox.vgrow="ALWAYS">
+            <content>
+                <VBox styleClass="main-content">
+                    <padding>
+                        <Insets bottom="30" left="30" right="30" top="30" />
+                    </padding>
+                    
+                    <!-- Page Header -->
+                    <VBox styleClass="page-header" spacing="15">
+                        <Label styleClass="page-title" text="Explore Courses" />
+                        <Label styleClass="page-subtitle" text="Discover amazing courses from instructors around the world" />
+                        
+                        <!-- Filters -->
+                        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="filter-section">
+                            <Label styleClass="filter-label" text="Filter by Category:" />
+                            <ComboBox fx:id="categoryFilter" onAction="#handleCategoryFilter" prefWidth="200" promptText="All Categories" styleClass="category-filter" />
+                            <Button fx:id="clearFiltersButton" onAction="#clearFilters" styleClass="clear-filters-button" text="Clear Filters" />
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Courses Grid -->
+                    <VBox fx:id="coursesContainer" spacing="30" styleClass="courses-container">
+                        <!-- Categories will be dynamically added here -->
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+        
+        <!-- Footer -->
+        <HBox alignment="CENTER" styleClass="footer">
+            <padding>
+                <Insets bottom="15" left="20" right="20" top="15" />
+            </padding>
+            <Label styleClass="footer-text" text="© 2025 AiTeecCo. All rights reserved." />
+        </HBox>
+    </children>
+</VBox>

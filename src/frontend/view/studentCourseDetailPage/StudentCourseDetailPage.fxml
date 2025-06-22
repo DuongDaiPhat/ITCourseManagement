@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@StudentCourseDetailPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.studentCourseDetailPage.StudentCourseDetailPageController">
+    <children>
+        <!-- Main Page Content -->
+        <VBox fx:id="mainContent" prefHeight="700.0" prefWidth="1000.0">
+            <children>
+                <!-- Header Navigation Bar (Same as StudentMainPage) -->
+                <VBox styleClass="navigation" VBox.vgrow="NEVER" minHeight="70.0" maxHeight="70.0" prefHeight="70.0">
+                    <!-- Top Navigation Bar -->
+                    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav" minHeight="50.0" maxHeight="50.0" prefHeight="50.0">
+                        <padding>
+                            <Insets bottom="10" left="20" right="20" top="10" />
+                        </padding>
+                        
+                        <!-- Company Logo and Name -->
+                        <Label fx:id="homeLabel" styleClass="company-name" text="AiTeeCo" />
+                        
+                        <!-- Navigation Links -->
+                        <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
+                            <Label fx:id="categoryLabel" styleClass="nav-link" text="Category" />
+                            <Label fx:id="myLearningLabel" styleClass="nav-link" text="My Learning" />
+                            <!-- Spacer to push other elements to the right -->
+                            <HBox HBox.hgrow="ALWAYS" />
+                        </HBox>
+                        
+                        <!-- Search Bar -->
+                        <HBox styleClass="search-container">
+                            <TextField fx:id="searchField" promptText="Search..." styleClass="search-input" />
+                            <Button fx:id="searchButton" onAction="#handleSearch" styleClass="search-button">                                <graphic>
+                                    <ImageView fx:id="searchIcon" fitHeight="16" fitWidth="16" preserveRatio="true">
+                                        <Image url="@/images/main_page/icon/WhiteMagnifier.png" />
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </HBox>                          <!-- Icons -->
+                        <Button fx:id="cartButton" styleClass="icon-button">
+                            <graphic>
+                                <ImageView fx:id="cartIcon" fitHeight="20" fitWidth="20" preserveRatio="true">
+                                    <Image url="@/images/main_page/icon/MyCart.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        
+                        <Button fx:id="wishlistButton" styleClass="icon-button">                            <graphic>
+                                <ImageView fx:id="wishlistIcon" fitHeight="20" fitWidth="20" preserveRatio="true">
+                                    <Image url="@/images/main_page/icon/MyWishList.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        
+                        <Button fx:id="notificationButton" styleClass="icon-button">                            <graphic>
+                                <ImageView fx:id="notificationIcon" fitHeight="20" fitWidth="20" preserveRatio="true">
+                                    <Image url="@/images/main_page/icon/Notification.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        
+                        <Button fx:id="profileButton" onAction="#showProfileMenu" styleClass="icon-button">                            <graphic>
+                                <ImageView fx:id="profileIcon" fitHeight="20" fitWidth="20" preserveRatio="true">
+                                    <Image url="@/images/main_page/icon/MyProfile.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </HBox>
+                    
+                    <!-- Bottom Decoration Bar -->
+                    <HBox minHeight="10.0" maxHeight="10.0" prefHeight="10.0" prefWidth="1000.0" styleClass="bottom-nav" />
+                </VBox>
+                
+                <!-- Main Content Area (Same as CourseDetail) -->
+                <ScrollPane fitToWidth="true" prefHeight="625.0" prefWidth="1000.0" styleClass="content-scroll-pane">
+                    <VBox styleClass="main-content">
+                        <padding>
+                            <Insets bottom="30" left="30" right="30" top="30" />
+                        </padding>
+                        
+                        <!-- Course Detail Container -->
+                        <HBox spacing="30" styleClass="course-detail-container">
+                            <!-- Left Panel -->
+                            <VBox spacing="20" styleClass="left-panel" HBox.hgrow="ALWAYS">
+                                <!-- Course Overview Section -->
+                                <VBox spacing="15" styleClass="course-overview-section">
+                                    <Label styleClass="section-title" text="Course Overview" />
+                                    <Separator styleClass="section-separator" />
+                                    
+                                    <!-- Course Thumbnail -->
+                                    <ImageView fx:id="courseThumbnail" fitHeight="200" fitWidth="350" preserveRatio="true" styleClass="course-detail-thumbnail" />
+                                    
+                                    <!-- Course Title -->
+                                    <Label fx:id="courseTitle" styleClass="course-detail-title" text="Course Title" wrapText="true" />
+                                    
+                                    <!-- Course Description -->
+                                    <Label fx:id="courseDescription" styleClass="course-detail-description" text="Course description will be displayed here..." wrapText="true" />
+                                    
+                                    <!-- Course Properties -->
+                                    <VBox spacing="8" styleClass="course-properties">
+                                        <HBox spacing="10">
+                                            <Label styleClass="property-label" text="Category:" />
+                                            <Label fx:id="courseCategory" styleClass="property-value" text="N/A" />
+                                        </HBox>
+                                        <HBox spacing="10">
+                                            <Label styleClass="property-label" text="Level:" />
+                                            <Label fx:id="courseLevel" styleClass="property-value" text="N/A" />
+                                        </HBox>
+                                        <HBox spacing="10">
+                                            <Label styleClass="property-label" text="Language:" />
+                                            <Label fx:id="courseLanguage" styleClass="property-value" text="N/A" />
+                                        </HBox>
+                                        <HBox spacing="10">
+                                            <Label styleClass="property-label" text="Technology:" />
+                                            <Label fx:id="courseTechnology" styleClass="property-value" text="N/A" />
+                                        </HBox>
+                                        <HBox spacing="10">
+                                            <Label styleClass="property-label" text="Price:" />
+                                            <Label fx:id="coursePrice" styleClass="property-value price" text="0.00" />
+                                        </HBox>
+                                        <HBox spacing="10">
+                                            <Label styleClass="property-label" text="Instructor:" />
+                                            <Label fx:id="instructorName" styleClass="property-value instructor-name" text="Unknown Instructor" />
+                                        </HBox>
+                                        <HBox spacing="10">
+                                            <Label styleClass="property-label" text="Created:" />
+                                            <Label fx:id="createdDate" styleClass="property-value" text="N/A" />
+                                        </HBox>
+                                        <HBox spacing="10">
+                                            <Label styleClass="property-label" text="Updated:" />
+                                            <Label fx:id="updatedDate" styleClass="property-value" text="N/A" />
+                                        </HBox>
+                                    </VBox>
+                                      <!-- Student-specific action buttons -->
+                                    <VBox spacing="10" styleClass="student-actions">
+                                        <Button fx:id="addToCartBtn" styleClass="cart-action-btn" text="Add to Cart" onAction="#handleAddToCart" />
+                                        <Button fx:id="addToWishlistBtn" styleClass="wishlist-action-btn" text="Add to Wishlist" onAction="#handleAddToWishlist" />
+                                        <Button fx:id="payNowBtn" styleClass="pay-now-btn" text="Pay Now - 0.00" onAction="#handlePayNow" />
+                                    </VBox>
+                                </VBox>
+                                
+                                <!-- Instructor Info Section -->
+                                <VBox spacing="15" styleClass="instructor-info-section">
+                                    <Label styleClass="section-title" text="About the Instructor" />
+                                    <Separator styleClass="section-separator" />
+                                    <VBox fx:id="instructorDetails" spacing="10" styleClass="instructor-details">
+                                        <!-- Instructor info will be populated by controller -->
+                                    </VBox>
+                                </VBox>
+                            </VBox>
+                              <!-- Right Panel (Lectures) - Same as CourseDetailPage -->
+                            <VBox spacing="20" styleClass="right-panel" HBox.hgrow="ALWAYS">
+                                <Label styleClass="section-title" text="Course Lectures" />
+                                
+                                <!-- Lectures Container -->
+                                <ScrollPane fitToWidth="true" prefHeight="500" styleClass="lectures-scroll-pane">
+                                    <VBox fx:id="lecturesContainer" spacing="15" styleClass="lectures-container">
+                                        <!-- Lectures will be added here dynamically -->
+                                    </VBox>
+                                </ScrollPane>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+                
+                <!-- Footer (Same as StudentMainPage) -->
+                <HBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0" styleClass="footer">
+                    <padding>
+                        <Insets bottom="20" left="30" right="30" top="20" />
+                    </padding>
+                    
+                    <HBox alignment="CENTER" spacing="15">
+                       <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                           <Label styleClass="footer-text" text="AiTeeCo © 2025" />
+                           <Label styleClass="footer-text" text="All rights reserved" />
+                       </VBox>
+                    </HBox>
+                </HBox>
+            </children>
+        </VBox>
+        
+        <!-- Video Overlay (Hidden by default) - Absolute Full Screen (Same as CourseDetail) -->
+        <VBox fx:id="videoOverlay" styleClass="video-overlay-absolute-fullscreen" visible="false" managed="false" 
+              StackPane.alignment="CENTER">
+            
+            <!-- Close button - Fixed position at top-left with responsive margin -->
+            <HBox styleClass="video-close-bar" alignment="TOP_LEFT">
+                <Button fx:id="closeVideoBtn" styleClass="close-video-btn-fixed" text="✕" onAction="#closeVideo" />
+            </HBox>
+            
+            <!-- Main Video Container using VBox for proper layering -->
+            <VBox styleClass="video-main-container" VBox.vgrow="ALWAYS" spacing="10">
+                <!-- Video Title -->
+                <Label fx:id="videoTitle" styleClass="video-title-fullscreen" text="Lecture Title" />
+                
+                <!-- Video Player Area - Centered in its own container -->
+                <StackPane fx:id="videoPlayerArea" styleClass="video-player-fullscreen" VBox.vgrow="ALWAYS">
+                    <Label fx:id="videoPlaceholder" text="Loading video..." style="-fx-text-fill: white; -fx-font-size: 18px;" />
+                    <!-- MediaView will be added programmatically here -->
+                </StackPane>
+                  <!-- Video Controls Bar - At bottom, not overlapping -->
+                <HBox fx:id="videoControlsBar" styleClass="video-controls-fullscreen" alignment="CENTER">
+                    <!-- Play/Pause -->
+                    <Button fx:id="playPauseBtn" styleClass="control-btn" text="▶" onAction="#togglePlayPause" />
+                    
+                    <!-- Time Display and Seek Bar -->
+                    <VBox styleClass="time-container" spacing="5">
+                        <HBox alignment="CENTER" spacing="10">
+                            <Label fx:id="currentTimeLabel" styleClass="time-label" text="0:00" />
+                            <Slider fx:id="timeSlider" styleClass="time-slider" HBox.hgrow="ALWAYS" min="0" max="100" value="0" />
+                            <Label fx:id="totalTimeLabel" styleClass="time-label" text="0:00" />
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Speed Control -->
+                    <VBox styleClass="control-group" alignment="CENTER" spacing="3">
+                        <Label text="Speed" styleClass="control-label" />
+                        <Button fx:id="speedBtn" styleClass="control-btn" text="1.0x" onAction="#setPlaybackSpeed" />
+                    </VBox>
+                    
+                    <!-- Volume Control -->
+                    <VBox styleClass="control-group" alignment="CENTER" spacing="3">
+                        <Label text="Volume" styleClass="control-label" />
+                        <HBox alignment="CENTER" spacing="5">
+                            <Button fx:id="volumeDownBtn" styleClass="control-btn-small" text="🔉" onAction="#decreaseVolume" />
+                            <Slider fx:id="volumeSlider" styleClass="volume-slider" min="0" max="1" value="0.5" orientation="HORIZONTAL" />
+                            <Button fx:id="volumeUpBtn" styleClass="control-btn-small" text="🔊" onAction="#increaseVolume" />
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Fullscreen Toggle -->
+                    <Button fx:id="fullscreenBtn" styleClass="control-btn" text="⛶" onAction="#toggleFullscreen" />
+                </HBox>
+            </VBox>
+        </VBox>
+    </children>
+</StackPane>
