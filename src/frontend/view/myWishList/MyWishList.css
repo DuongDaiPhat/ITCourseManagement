@@ -1,0 +1,668 @@
+/* ==============================================
+   My Wishlist Page Styles
+   ============================================== */
+
+/* Main Layout */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f5f5f5;
+}
+
+/* Navigation Styles - Identical to StudentMainPage */
+.navigation {
+    -fx-background-color: white;
+    -fx-min-width: 800px;
+    -fx-min-height: 60px;
+    -fx-max-height: 70px;
+    -fx-pref-height: 70px;
+}
+
+.top-nav {
+    -fx-background-color: linear-gradient(to right, #70f4d6, #0a557a);
+    -fx-padding: 10.0px 20.0px;
+    -fx-alignment: center-left;
+    -fx-min-height: 50px;
+    -fx-max-height: 50px;
+    -fx-pref-height: 50px;
+    -fx-min-width: 800px;
+}
+
+.bottom-nav {
+    -fx-background-color: linear-gradient(to right, #5de0e6, #004aad);
+    -fx-min-height: 10.0px;
+    -fx-max-height: 10.0px;
+    -fx-pref-height: 10.0px;
+}
+
+.company-name {
+    -fx-text-fill: black;
+    -fx-font-size: 22.0px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.nav-link {
+    -fx-text-fill: black;
+    -fx-font-size: 14.0px;
+    -fx-padding: 0.0 10.0px;
+    -fx-cursor: hand;
+}
+
+.nav-link:hover {
+    -fx-text-fill: white;
+}
+
+.nav-link-active {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Search Container - Identical to StudentMainPage */
+.search-container {
+    -fx-background-color: rgba(255.0, 255.0, 255.0, 0.2);
+    -fx-background-radius: 20.0px;
+    -fx-padding: 2.0px;
+    -fx-alignment: center;
+}
+
+.search-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255.0, 255.0, 255.0, 0.7);
+    -fx-font-size: 14.0px;
+    -fx-padding: 5.0px 10.0px;
+    -fx-min-width: 150.0px;
+    -fx-pref-width: 200.0px;
+    -fx-max-width: 250.0px;
+    -fx-background-radius: 20.0px 0.0 0.0 20.0px;
+}
+
+.search-button {
+    -fx-background-color: transparent;
+    -fx-padding: 5.0px 10.0px;
+    -fx-cursor: hand;
+    -fx-background-radius: 0.0 20.0px 20.0px 0.0;
+}
+
+/* Icon Buttons - Identical to StudentMainPage */
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-padding: 5.0px;
+    -fx-cursor: hand;
+}
+
+.icon-button:hover {
+    -fx-background-color: rgba(255.0, 255.0, 255.0, 0.1);
+    -fx-background-radius: 50.0%;
+}
+
+/* Icon Labels - For non-clickable nav items like wishlist on MyWishList page */
+.icon-label {
+    -fx-background-color: transparent;
+    -fx-padding: 5.0px;
+    -fx-cursor: default;
+}
+
+.icon-label.nav-link-active {
+    -fx-background-color: rgba(255.0, 255.0, 255.0, 0.2);
+    -fx-background-radius: 50.0%;
+}
+
+/* Context Menu - Identical to StudentMainPage */
+.context-menu {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.menu-item {
+    -fx-padding: 8px 16px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #0a557a;
+}
+
+.menu-item .label {
+    -fx-font-size: 14px;
+}
+
+/* Content Scroll Pane - Identical to StudentMainPage */
+.content-scroll-pane {
+    -fx-background: #f5f5f5;
+    -fx-background-color: transparent;
+    -fx-padding: 0.0;
+}
+
+.content-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.content-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10.0px;
+}
+
+.content-scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-pref-height: 10.0px;
+}
+
+.content-scroll-pane .thumb {
+    -fx-background-color: #b4cfdb;
+    -fx-background-radius: 5.0px;
+}
+
+.content-scroll-pane .track {
+    -fx-background-color: white;
+    -fx-background-radius: 5.0px;
+}
+
+/* Main Content - Enhanced like StudentCart */
+.main-content {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 20;
+    -fx-spacing: 25;
+    -fx-min-height: 500;
+}
+
+/* Wishlist Items Container */
+.wishlist-items-container {
+    -fx-background-color: transparent;
+    -fx-spacing: 20;
+}
+
+/* Wishlist Scroll Pane */
+.wishlist-scroll-pane {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.wishlist-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.wishlist-scroll-pane .scroll-bar {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12px;
+}
+
+.wishlist-scroll-pane .scroll-bar .track {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 6px;
+}
+
+.wishlist-scroll-pane .scroll-bar .thumb {
+    -fx-background-color: #c0c0c0;
+    -fx-background-radius: 6px;
+}
+
+/* Page Title */
+.page-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0a557a;
+}
+
+.page-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #666;
+}
+
+/* Actions Summary Container */
+.actions-summary-container {
+    -fx-background-color: transparent;
+    -fx-spacing: 20;
+}
+
+/* Actions Card */
+.actions-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-spacing: 15;
+}
+
+.actions-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0a557a;
+}
+
+/* Action Buttons */
+.browse-courses-button {
+    -fx-background-color: #0a557a;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 20;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 2);
+}
+
+.browse-courses-button:hover {
+    -fx-background-color: #004aad;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 3);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.go-to-cart-button {
+    -fx-background-color: #26b0a5;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 20;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 2);
+}
+
+.go-to-cart-button:hover {
+    -fx-background-color: #1ca3b6;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 3);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.my-learning-button {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 20;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 2);
+}
+
+.my-learning-button:hover {
+    -fx-background-color: #e67e22;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 3);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+/* Wishlist Courses Section */
+.wishlist-courses-section {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
+    -fx-spacing: 15px;
+}
+
+/* Wishlist Course Card */
+.wishlist-course-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 8, 0, 0, 2);
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-spacing: 15px;
+    -fx-min-height: 200px;
+    -fx-pref-height: 200px;
+}
+
+.wishlist-course-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 12, 0, 0, 4);
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+    -fx-border-color: #0a557a;
+}
+
+/* Course Image */
+.course-image {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 4, 0, 0, 1);
+}
+
+/* Course Info Section */
+.course-info-section {
+    -fx-spacing: 10;
+    -fx-alignment: top-left;
+}
+
+.course-title {
+    -fx-text-fill: #333;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true;
+    -fx-padding: 0 0 5 0;
+}
+
+.course-description {
+    -fx-text-fill: #666;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+    -fx-padding: 0 0 10 0;
+    -fx-max-height: 60px;
+}
+
+.course-instructor {
+    -fx-text-fill: #666;
+    -fx-font-size: 14px;
+    -fx-padding: 2px 0;
+}
+
+.course-price {
+    -fx-text-fill: #0a557a;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 0;
+}
+
+.course-rating {
+    -fx-text-fill: #ffa500;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 2px 0;
+}
+
+/* Course Attributes */
+.course-attributes {
+    -fx-spacing: 8;
+    -fx-alignment: center-left;
+}
+
+.course-attribute {
+    -fx-text-fill: white;
+    -fx-padding: 4px 8px;
+    -fx-background-radius: 4px;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.course-category {
+    -fx-background-color: #e74c3c;
+}
+
+.course-level {
+    -fx-background-color: #0a557a;
+}
+
+.course-language {
+    -fx-background-color: #26b0a5;
+}
+
+.course-technology {
+    -fx-background-color: #f39c12;
+}
+
+/* Remove from Wishlist Button */
+.remove-wishlist-btn {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+.remove-wishlist-btn:hover {
+    -fx-background-color: #c0392b;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.remove-wishlist-btn:pressed {
+    -fx-background-color: #a93226;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+/* Empty Wishlist State */
+.empty-wishlist-container {
+    -fx-alignment: center;
+    -fx-spacing: 20;
+    -fx-padding: 50 20;
+}
+
+.empty-wishlist-icon {
+    -fx-font-size: 48px;
+    -fx-text-fill: #bbb;
+}
+
+.empty-wishlist-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #666;
+    -fx-text-alignment: center;
+}
+
+.empty-wishlist-message {
+    -fx-font-size: 16px;
+    -fx-text-fill: #999;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-max-width: 400px;
+}
+
+.browse-courses-btn {
+    -fx-background-color: #0a557a;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 24;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0, 0, 2);
+}
+
+.browse-courses-btn:hover {
+    -fx-background-color: #004aad;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 3);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.browse-courses-btn:pressed {
+    -fx-background-color: #003875;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+/* Footer Styles - Identical to StudentMainPage */
+.footer {
+    -fx-background-color: #222;
+    -fx-padding: 20.0px 30.0px;
+}
+
+.footer-text {
+    -fx-text-fill: #bbb;
+    -fx-font-size: 14.0px;
+}
+
+/* Dialog Styles - Same as StudentMainPage */
+.dialog-pane {
+    -fx-background-color: #f5f5f5;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #0a557a;
+    -fx-padding: 15px;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .content.label {
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+    -fx-padding: 20px;
+}
+
+.dialog-pane .button-bar {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 10px 15px;
+}
+
+.dialog-pane .button {
+    -fx-background-color: #0a557a;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+}
+
+/* Success Alert Styles */
+.success-alert .dialog-pane {
+    -fx-background-color: #d4edda;
+    -fx-border-color: #c3e6cb;
+    -fx-border-width: 1px;
+}
+
+.success-alert .header-panel .label {
+    -fx-text-fill: #155724;
+}
+
+.success-alert .button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+}
+
+.success-alert .button:hover {
+    -fx-background-color: #218838;
+}
+
+/* Confirmation Alert Styles */
+.confirmation-alert .dialog-pane {
+    -fx-background-color: #fff3cd;
+    -fx-border-color: #ffeaa7;
+    -fx-border-width: 1px;
+}
+
+.confirmation-alert .header-panel .label {
+    -fx-text-fill: #856404;
+}
+
+.confirmation-alert .button:default {
+    -fx-background-color: #ffc107;
+    -fx-text-fill: #212529;
+}
+
+.confirmation-alert .button:default:hover {
+    -fx-background-color: #e0a800;
+}
+
+.confirmation-alert .button:cancel {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+}
+
+.confirmation-alert .button:cancel:hover {
+    -fx-background-color: #5a6268;
+}
+
+/* Learning Course Item Styles - Matching MyLearning */
+.learning-course-item {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 20px;
+    -fx-spacing: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.learning-course-item:hover {
+    -fx-border-color: #0a557a;
+    -fx-effect: dropshadow(gaussian, rgba(10,85,122,0.2), 8, 0, 0, 2);
+}
+
+/* Course Image - Same as MyLearning */
+.learning-course-image {
+    -fx-background-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 1);
+}
+
+/* Course Content - Same as MyLearning */
+.learning-course-content {
+    -fx-spacing: 8px;
+}
+
+.learning-course-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0a557a;
+    -fx-wrap-text: true;
+}
+
+.learning-course-instructor {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666666;
+}
+
+.learning-course-description {
+    -fx-font-size: 13px;
+    -fx-text-fill: #888888;
+    -fx-wrap-text: true;
+    -fx-max-width: 400px;
+}
+
+.learning-course-attributes {
+    -fx-spacing: 15px;
+    -fx-padding: 5px 0 0 0;
+}
+
+.learning-course-attribute {
+    -fx-font-size: 11px;
+    -fx-text-fill: #0a557a;
+    -fx-background-color: #e3f2fd;
+    -fx-background-radius: 4px;
+    -fx-padding: 3px 8px;
+    -fx-font-weight: 500;
+}
+
+/* Course Action Section - Modified for Wishlist */
+.learning-course-actions {
+    -fx-spacing: 10px;
+    -fx-alignment: center-right;
+}
+
+/* Price Text - Blue color, no background */
+.course-price-text {
+    -fx-text-fill: #0a557a;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 5px 0;
+}
+
+/* Remove Wishlist Button - Enhanced */
+.remove-wishlist-btn {
+    -fx-background-color: #f44336;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 12px;
+}
+
+.remove-wishlist-btn:hover {
+    -fx-background-color: #d32f2f;
+}
+
+.remove-wishlist-btn:pressed {
+    -fx-background-color: #b71c1c;
+}
