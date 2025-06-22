@@ -14,6 +14,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import model.course.Courses;
 import model.user.MyCart;
 import model.user.Users;
@@ -56,33 +57,33 @@ public class CourseCartController {
 
     @FXML
     public void initialize() {
-        if (course != null) {
-            System.out.println("Initializing CourseCartController for course: " + course.getCourseName());
-            courseName.setText(course.getCourseName());
-            Price.setText(String.format("%.2f VND", course.getPrice()));
-            Evaluate.setText("Chưa có đánh giá");
-            numberLectures.setText("Số bài giảng");
-
-            try {
-                Users courseAuthor = userService.GetUserByID(course.getUserID());
-                Author.setText(courseAuthor != null ? courseAuthor.getUserFirstName() + " " + courseAuthor.getUserLastName() : "Không xác định");
-            } catch (SQLException e) {
-                Author.setText("Không xác định");
-                System.err.println("Error fetching author: " + e.getMessage());
-            }
-
-            if (course.getThumbnailURL() != null && !course.getThumbnailURL().isEmpty()) {
-                try {
-                    imageCourse.setImage(new Image("file:" + course.getThumbnailURL()));
-                } catch (Exception e) {
-                    System.err.println("Error loading course image: " + e.getMessage());
-                }
-            }
-
-            deleteCoure.setOnAction(event -> handleDeleteCourse());
-        } else {
-            System.err.println("Course is null in CourseCartController during initialization");
+        if (course == null) {
+            System.err.println("Course is null during initialization, cannot proceed");
+            return;
         }
+        System.out.println("Initializing CourseCartController for course: " + course.getCourseName());
+        courseName.setText(course.getCourseName());
+        Price.setText(String.format("%.2f VND", course.getPrice()));
+        Evaluate.setText("Chưa có đánh giá");
+        numberLectures.setText("Số bài giảng");
+
+        try {
+            Users courseAuthor = userService.GetUserByID(course.getUserID());
+            Author.setText(courseAuthor != null ? courseAuthor.getUserFirstName() + " " + courseAuthor.getUserLastName() : "Không xác định");
+        } catch (SQLException e) {
+            Author.setText("Không xác định");
+            System.err.println("Error fetching author: " + e.getMessage());
+        }
+
+        if (course.getThumbnailURL() != null && !course.getThumbnailURL().isEmpty()) {
+            try {
+                imageCourse.setImage(new Image("file:" + course.getThumbnailURL()));
+            } catch (Exception e) {
+                System.err.println("Error loading course image: " + e.getMessage());
+            }
+        }
+
+        deleteCoure.setOnAction(event -> handleDeleteCourse());
     }
 
     private void handleDeleteCourse() {
@@ -99,7 +100,7 @@ public class CourseCartController {
                             refreshCallback.accept(null);
                         }
                     });
-                    utils.SimpleEventBus.getInstance().post(new utils.CartUpdatedEvent());
+                    SimpleEventBus.getInstance().post(new CartUpdatedEvent());
                 } else {
                     Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Không thể xóa khóa học khỏi giỏ hàng!");
@@ -117,6 +118,10 @@ public class CourseCartController {
     }
 
     public static Parent loadWithData(Courses course, Consumer<Void> refreshCallback) throws IOException {
+        if (course == null) {
+            System.err.println("Cannot load CourseCartController with null course");
+            return new VBox(); // Trả về node rỗng để tránh lỗi
+        }
         FXMLLoader loader = new FXMLLoader(CourseCartController.class.getResource("/frontend/view/mainPage/CourseCart.fxml"));
         Parent parent = loader.load();
         CourseCartController controller = loader.getController();

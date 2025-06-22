@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 public class CategoryController {
 	
 	@FXML
-    private ImageView Cartpage; // Thêm tham chiếu đến ImageView của giỏ hàng
-
+    private ImageView Cartpage;
 
     @FXML private CheckBox Artificial_Intelligence;
     @FXML private CheckBox Business_Analysis;
@@ -69,9 +68,11 @@ public class CategoryController {
         MyCartRepository cartRepository = new MyCartRepository();
         try {
             ArrayList<Integer> cartCourseIds = cartRepository.getCourseIdsByUserId(currentUserId);
+            ArrayList<Integer> purchasedCourseIds = cartRepository.getPurchasedCourseIdsByUserId(currentUserId);
             allCourses = courseService.getAllCourses().stream()
                     .filter(Courses::isApproved)
                     .filter(course -> !cartCourseIds.contains(course.getCourseID()))
+                    .filter(course -> !purchasedCourseIds.contains(course.getCourseID()))
                     .collect(Collectors.toList());
             System.out.println("Loaded " + allCourses.size() + " approved courses for userId=" + currentUserId);
             displayCourses(allCourses);
@@ -155,8 +156,7 @@ public class CategoryController {
         stage.setScene(new Scene(root));
         stage.show();
     }
-    
-    // Trong MainPageController.java
+
     @FXML
     void switchToCartPage(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/mainPage/CartPage.fxml"));

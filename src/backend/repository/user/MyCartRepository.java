@@ -171,7 +171,7 @@ public class MyCartRepository implements RepositoryInterface<MyCart> {
     public ArrayList<Integer> getCourseIdsByUserId(int userId) throws SQLException {
         ensureConnection();
         ArrayList<Integer> courseIds = new ArrayList<>();
-        String sql = "SELECT courseId FROM mycart WHERE userId = ?";
+        String sql = "SELECT courseId FROM mycart WHERE userId = ? AND isBuy = false";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, userId);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -186,4 +186,24 @@ public class MyCartRepository implements RepositoryInterface<MyCart> {
             throw e;
         }
     }
+
+    public ArrayList<Integer> getPurchasedCourseIdsByUserId(int userId) throws SQLException {
+        ensureConnection();
+        ArrayList<Integer> courseIds = new ArrayList<>();
+        String sql = "SELECT courseId FROM mycart WHERE userId = ? AND isBuy = true";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    courseIds.add(resultSet.getInt("courseId"));
+                }
+                System.out.println("Retrieved " + courseIds.size() + " purchased course IDs for userId=" + userId + ", SQL: " + sql);
+                return courseIds;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving purchased course IDs for userId=" + userId + ": " + e.getMessage());
+            throw e;
+        }
+    }
+    
 }

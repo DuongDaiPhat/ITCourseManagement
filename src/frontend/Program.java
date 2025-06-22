@@ -32,5 +32,6 @@ public class Program extends Application{
 		Image icon = new Image(getClass().getResource("/images/logo/logoIcon.png").toExternalForm());
 		stage.getIcons().add(icon);
 	    SceneManager.switchScene("AiTeeCo", "/frontend/view/login/login.fxml");
+	    
 	}
 }

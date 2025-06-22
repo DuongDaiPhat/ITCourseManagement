@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" spacing="10.0" stylesheets="@CartPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CartPageController">
+<VBox fx:id="cartPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" spacing="10.0" stylesheets="@CartPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CartPageController">
    <children>
       <Label text="My Cart">
          <font>
@@ -38,7 +38,7 @@
       <HBox alignment="CENTER_LEFT" prefHeight="95.0" prefWidth="800.0" spacing="150.0">
          <children>
             <Button fx:id="Back" alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#switchToMainPage" text="Back" />
-            <Button fx:id="Payment" mnemonicParsing="false" text="Proceed with payment">
+            <Button fx:id="Payment" mnemonicParsing="false" onMouseClicked="#proceedWithPayment" text="Proceed with payment">
                <font>
                   <Font size="16.0" />
                </font>
