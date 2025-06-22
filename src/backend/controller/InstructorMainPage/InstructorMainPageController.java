@@ -3,29 +3,21 @@ package backend.controller.InstructorMainPage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import model.course.Courses;
 import model.user.Session;
 import model.user.Users;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ButtonBar;
-import javafx.scene.layout.VBox;
 import javafx.scene.control.DialogPane;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -33,15 +25,12 @@ import javafx.scene.control.TextField;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
 import backend.controller.course.CourseItemController;
 import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
-import backend.service.user.UserService;
 
 public class InstructorMainPageController implements IInstructorMainPageController {
 	private Users currentUser;
@@ -58,16 +47,11 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 	@FXML
 	private Label exploreLabel;
 	@FXML
-    private Button profileButton;
-	@FXML
-	private TextField searchField;
-	@FXML
+    private Button profileButton;	@FXML
+	private TextField searchField;	@FXML
 	private Button searchButton;
 
-	private Stage stage;
-	private Scene scene;
 	private CourseService courseService;
-	private UserService userService;
 	private ContextMenu profileMenu;
 
 	@FXML
@@ -78,12 +62,10 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 				e.printStackTrace();
 			}
 		});
-		
-		exploreLabel.setOnMouseClicked(event -> goToExplorePage());
-		
-		courseService = new CourseService();
-		userService = new UserService();
-		loadUser();        setupProfileMenu();
+				exploreLabel.setOnMouseClicked(event -> goToExplorePage());
+				courseService = new CourseService();
+		loadUser();
+		setupProfileMenu();
         profileButton.setOnAction(event -> showProfileMenu());
 	}
 
@@ -334,10 +316,8 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 					}
 				},
 				searchKeyword
-			);
-		}
-	}
-
+			);		}	}
+	
 	private Node findNodeById(Node parent, String id) {
 		if (parent.getId() != null && parent.getId().equals(id)) {
 			return parent;
