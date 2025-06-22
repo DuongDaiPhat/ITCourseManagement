@@ -1,0 +1,30 @@
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+    -fx-border-width: 0;
+}
+
+.icon-button:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-cursor: hand;
+}
+
+.context-menu {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.menu-item {
+    -fx-padding: 8px 16px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #f2f2f2;
+}
+
+.menu-item .label {
+    -fx-font-size: 14px;
+}

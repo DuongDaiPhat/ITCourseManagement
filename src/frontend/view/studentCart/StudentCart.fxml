@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="700.0" prefWidth="1000.0" stylesheets="@StudentCart.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.studentCart.StudentCartController">
+    <children>
+        <!-- Header Navigation Bar -->
+        <VBox maxHeight="70.0" minHeight="70.0" prefHeight="70.0" styleClass="navigation" VBox.vgrow="NEVER">
+            <!-- Top Navigation Bar -->
+            <HBox alignment="CENTER_LEFT" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" spacing="20" styleClass="top-nav">
+                <padding>
+                    <Insets bottom="10" left="20" right="20" top="10" />
+                </padding>
+                
+                <!-- Company Logo and Name -->
+                <Label fx:id="homeLabel" styleClass="company-name" text="AiTeeCo" />
+                  
+                <!-- Navigation Links -->
+                <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
+                    <Label fx:id="categoryLabel" styleClass="nav-link" text="Category" />
+                    <Label fx:id="myLearningLabel" styleClass="nav-link" text="My Learning" />
+                    <!-- Spacer to push other elements to the right -->
+                    <HBox HBox.hgrow="ALWAYS" />
+                </HBox>
+                
+                <!-- Search Bar -->
+                <HBox styleClass="search-container">
+                    <TextField fx:id="searchField" promptText="Search..." styleClass="search-input" />
+                    <Button fx:id="searchButton" onAction="#handleSearch" styleClass="search-button">
+                        <graphic>
+                            <ImageView fx:id="searchIcon" fitHeight="16" fitWidth="16" preserveRatio="true">
+                                <!-- Search icon will be set by controller if available -->
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+                  <!-- Icons -->
+                <Label fx:id="cartLabel" styleClass="nav-link nav-link-active">
+                    <graphic>
+                        <ImageView fx:id="cartIcon" fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <!-- Cart icon will be set by controller if available -->
+                        </ImageView>
+                    </graphic>
+                </Label>
+                
+                <Button fx:id="wishlistButton" styleClass="icon-button">
+                    <graphic>
+                        <ImageView fx:id="wishlistIcon" fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <!-- Wishlist icon will be set by controller if available -->
+                        </ImageView>
+                    </graphic>
+                </Button>
+                
+                <Button fx:id="notificationButton" styleClass="icon-button">
+                    <graphic>
+                        <ImageView fx:id="notificationIcon" fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <!-- Notification icon will be set by controller if available -->
+                        </ImageView>
+                    </graphic>
+                </Button>
+                
+                <Button fx:id="profileButton" onAction="#showProfileMenu" styleClass="icon-button">
+                    <graphic>
+                        <ImageView fx:id="profileIcon" fitHeight="20" fitWidth="20" preserveRatio="true">
+                            <!-- Profile icon will be set by controller if available -->
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+              
+            <!-- Bottom Decoration Bar -->
+            <HBox maxHeight="10.0" minHeight="10.0" prefHeight="10.0" prefWidth="1000.0" styleClass="bottom-nav" />
+        </VBox>
+        
+        <!-- Main Content -->
+        <HBox styleClass="main-content" VBox.vgrow="ALWAYS">
+            <!-- Left Side - Cart Items List -->
+            <VBox spacing="20" styleClass="cart-items-container" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets bottom="20" left="20" right="10" top="20" />
+                </padding>
+                
+                <!-- Cart Header -->
+                <VBox spacing="15">
+                    <Label styleClass="cart-title" text="Shopping Cart" />
+                    <HBox alignment="CENTER_LEFT" spacing="20">
+                        <Label fx:id="selectAllLabel" styleClass="select-action-label" text="Select All" />
+                        <Label fx:id="unselectAllLabel" styleClass="select-action-label" text="Unselect All" />
+                    </HBox>
+                </VBox>
+                
+                <!-- Cart Items Scroll Pane -->
+                <ScrollPane fx:id="cartItemsScrollPane" fitToWidth="true" styleClass="cart-scroll-pane" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox fx:id="cartItemsContainer" spacing="15" styleClass="cart-items-list">
+                            <padding>
+                                <Insets bottom="10" left="5" right="5" top="10" />
+                            </padding>
+                            <!-- Cart items will be dynamically added here -->
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </VBox>
+            
+            <!-- Right Side - Fixed Payment Summary -->
+            <VBox maxWidth="300" minWidth="300" prefWidth="300" spacing="20" styleClass="payment-summary-container">
+                <padding>
+                    <Insets bottom="20" left="10" right="20" top="20" />
+                </padding>
+                
+                <!-- Summary Card -->
+                <VBox spacing="15" styleClass="summary-card">
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
+                    
+                    <Label styleClass="summary-title" text="Order Summary" />
+                    
+                    <VBox spacing="10">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label styleClass="summary-label" text="Selected Items:" />
+                            <Label fx:id="selectedItemsLabel" styleClass="summary-value" text="0" />
+                        </HBox>
+                          <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label styleClass="summary-label" text="Total:" />
+                            <Label fx:id="totalPriceLabel" styleClass="summary-total" text="0.00" />
+                        </HBox>
+                    </VBox>
+                    
+                    <Button fx:id="payButton" onAction="#handlePayment" styleClass="pay-button" text="Proceed to Payment" />
+                </VBox>
+            </VBox>
+        </HBox>
+          
+        <!-- Footer -->
+        <HBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0" styleClass="footer">
+            <padding>
+                <Insets bottom="20" left="30" right="30" top="20" />
+            </padding>
+            
+            <HBox alignment="CENTER" spacing="15">
+               <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                   <Label styleClass="footer-text" text="AiTeeCo © 2025" />
+                   <Label styleClass="footer-text" text="All rights reserved" />
+               </VBox>
+            </HBox>
+        </HBox>
+    </children>
+</VBox>
