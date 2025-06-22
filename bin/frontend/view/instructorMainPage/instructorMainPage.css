@@ -5,12 +5,16 @@
 
 .navigation {
     -fx-background-color: transparent;
+    -fx-min-width: 800px;
+    -fx-min-height: 60px;
 }
 
 .top-nav {
     -fx-background-color: linear-gradient(to right, #70f4d6, #0a557a);
     -fx-padding: 10.0px 20.0px;
     -fx-alignment: center-left;
+    -fx-min-height: 50px;
+    -fx-min-width: 800px;
 }
 
 .bottom-nav {
@@ -54,7 +58,9 @@
     -fx-prompt-text-fill: rgba(255.0, 255.0, 255.0, 0.7);
     -fx-font-size: 14.0px;
     -fx-padding: 5.0px 10.0px;
-    -fx-min-width: 200.0px;
+    -fx-min-width: 150.0px;
+    -fx-pref-width: 200.0px;
+    -fx-max-width: 300.0px;
     -fx-background-radius: 20.0px 0.0 0.0 20.0px;
 }
 
@@ -108,6 +114,8 @@
 .main-content {
     -fx-background-color: #f5f5f5;
     -fx-padding: 20.0px 30.0px;
+    -fx-min-width: 750px;
+    -fx-alignment: center;
 }
 
 .welcome-section {
