@@ -199,4 +199,52 @@ public class SceneManager {
             });
         }
     }
+
+    /**
+     * Switch scene and call refresh method on the target controller
+     */
+    public static void switchSceneWithRefresh(String sceneName, String fxmlPath) {
+        try {
+            Scene currentScene = primaryStage.getScene();
+            if (currentScene != null) {
+                sceneStack.push(currentScene); // Save current scene before switching
+            }
+
+            // Always reload the scene to ensure fresh state
+            sceneCache.remove(sceneName);
+            
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            Object controller = loader.getController();
+            
+            // Call refresh method if the controller has one
+            if (controller != null) {
+                try {
+                    // Use reflection to call refreshPageData method if it exists
+                    controller.getClass().getMethod("refreshPageData").invoke(controller);
+                    System.out.println("Called refreshPageData on " + controller.getClass().getSimpleName());
+                } catch (Exception e) {
+                    // Method doesn't exist or failed to call - that's okay
+                    System.out.println("No refreshPageData method found on " + controller.getClass().getSimpleName());
+                }
+            }
+            
+            Scene scene = new Scene(root);
+            sceneCache.put(sceneName, scene);
+
+            primaryStage.setTitle(sceneName);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            
+            // Preserve maximized state immediately after setting scene
+            if (isMaximized) {
+                primaryStage.setMaximized(true);
+            }
+            
+            preserveWindowState();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -69,7 +69,7 @@ public class LoginController implements ILoginController {
                 if (currentUser.getRoleID() == 1) { // Instructor
                     SceneManager.switchScene("Instructor Main Page", "/frontend/view/instructorMainPage/instructorMainPage.fxml");
                 } else if (currentUser.getRoleID() == 2) { // Student
-                    SceneManager.switchScene("Main Page", "/frontend/view/mainPage/mainPage.fxml");
+                    SceneManager.switchScene("Student Main Page", "/frontend/view/studentMainPage/studentMainPage.fxml");
                 } else if (Session.getCurrentUser().getRoleID() == 3) {
                 	SceneManager.switchScene("Admin Main Page", "/frontend/view/admin/AdminMainPage.fxml");
                 }
