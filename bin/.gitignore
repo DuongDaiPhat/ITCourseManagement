@@ -7,5 +7,5 @@
 Thumbs.db
 *.log
 *.class
-.bat
-.md
+*.md
+*.bat
