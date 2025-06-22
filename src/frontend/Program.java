@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.controller.scene.SceneManager;
+import backend.repository.DatabaseConnection;
 import backend.service.user.UserService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,12 +19,18 @@ public class Program extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	@Override
+    public void stop() {
+        System.out.println("Closing database connection on application shutdown");
+        DatabaseConnection.closeConnection();
+    }
 
 	@Override
 	public void start(Stage stage) throws Exception {
 		SceneManager.setPrimaryStage(stage);
 		Image icon = new Image(getClass().getResource("/images/logo/logoIcon.png").toExternalForm());
 		stage.getIcons().add(icon);
-	    SceneManager.switchScene("AiTeeCo", "/frontend/view/login/Login.fxml");
+	    SceneManager.switchScene("AiTeeCo", "/frontend/view/login/login.fxml");
 	}
 }

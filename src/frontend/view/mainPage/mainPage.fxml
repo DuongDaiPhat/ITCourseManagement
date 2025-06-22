@@ -66,7 +66,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fx:id="Cartpage" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#switchToCartPage" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyCart.png" />
                </image>

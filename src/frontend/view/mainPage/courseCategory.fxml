@@ -39,7 +39,7 @@
                </VBox.margin></Label>
             <HBox prefHeight="43.0" prefWidth="197.0" spacing="20.0">
                <children>
-                  <Button fx:id="Addtocart" mnemonicParsing="false" text="Add to cart" />
+                  <Button fx:id="Addtocart" mnemonicParsing="false" onAction="#handleAddToCart" text="Add to cart" />
                   <Button mnemonicParsing="false" text="Favorites" />
                </children>
             </HBox>

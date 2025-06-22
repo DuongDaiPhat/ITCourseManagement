@@ -10,40 +10,35 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import model.course.Courses;
 import model.user.MyCart;
 import model.user.Users;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.function.Consumer;
 
-public class CourseCategoryController {
+public class CourseCartController {
 
-    @FXML private Button Addtocart;
+    @FXML private Label Author;
+    @FXML private Label Evaluate;
     @FXML private Label Price;
-    @FXML private Label Rating;
-    @FXML private Label author;
-    @FXML private Label beginner;
     @FXML private Label courseName;
-    @FXML private Label numberLecture;
-    @FXML private Label totalHours;
-    @FXML private ImageView courseImage;
+    @FXML private Hyperlink deleteCoure;
+    @FXML private ImageView imageCourse;
+    @FXML private Label numberLectures;
 
-    private UserService userService;
     private Courses course;
     private MyCartRepository cartRepository;
-    private int currentUserId;
+    private UserService userService;
     private Consumer<Void> refreshCallback;
+    private int currentUserId;
 
-    public CourseCategoryController() {
+    public CourseCartController() {
         this.cartRepository = new MyCartRepository();
         this.userService = new UserService();
         this.currentUserId = utils.UserSession.getInstance().getCurrentUserId();
@@ -52,78 +47,79 @@ public class CourseCategoryController {
     public void setCourseAndCallback(Courses course, Consumer<Void> refreshCallback) {
         this.course = course;
         this.refreshCallback = refreshCallback;
+        if (course == null) {
+            System.err.println("Course is null in setCourseAndCallback, skipping initialization");
+            return;
+        }
         initialize();
     }
 
     @FXML
     public void initialize() {
         if (course != null) {
+            System.out.println("Initializing CourseCartController for course: " + course.getCourseName());
             courseName.setText(course.getCourseName());
             Price.setText(String.format("%.2f VND", course.getPrice()));
-            beginner.setText(course.getLevel().toString());
-            Rating.setText("Chưa có đánh giá");
-            numberLecture.setText("Số bài giảng");
-            totalHours.setText("Tổng giờ học");
+            Evaluate.setText("Chưa có đánh giá");
+            numberLectures.setText("Số bài giảng");
 
             try {
                 Users courseAuthor = userService.GetUserByID(course.getUserID());
-                author.setText(courseAuthor != null ? courseAuthor.getUserFirstName() + " " + courseAuthor.getUserLastName() : "Không xác định");
+                Author.setText(courseAuthor != null ? courseAuthor.getUserFirstName() + " " + courseAuthor.getUserLastName() : "Không xác định");
             } catch (SQLException e) {
-                author.setText("Không xác định");
+                Author.setText("Không xác định");
                 System.err.println("Error fetching author: " + e.getMessage());
             }
 
             if (course.getThumbnailURL() != null && !course.getThumbnailURL().isEmpty()) {
                 try {
-                    courseImage.setImage(new Image("file:" + course.getThumbnailURL()));
+                    imageCourse.setImage(new Image("file:" + course.getThumbnailURL()));
                 } catch (Exception e) {
                     System.err.println("Error loading course image: " + e.getMessage());
                 }
             }
+
+            deleteCoure.setOnAction(event -> handleDeleteCourse());
+        } else {
+            System.err.println("Course is null in CourseCartController during initialization");
         }
     }
 
-    @FXML
-    private void handleAddToCart() {
-        System.out.println("Add to Cart clicked for course: " + course.getCourseName());
+    private void handleDeleteCourse() {
+        System.out.println("Delete clicked for course: " + (course != null ? course.getCourseName() : "null"));
         if (course != null) {
             try {
-                MyCart cartItem = new MyCart(currentUserId, course.getCourseID(), false, LocalDateTime.now());
-                int rowsAffected = cartRepository.Insert(cartItem);
+                MyCart cartItem = new MyCart(currentUserId, course.getCourseID(), false, null);
+                int rowsAffected = cartRepository.Delete(cartItem);
                 if (rowsAffected > 0) {
                     Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Đã thêm khóa học vào giỏ hàng!");
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Đã xóa khóa học khỏi giỏ hàng!");
                         alert.showAndWait();
-                        HBox parentContainer = (HBox) Addtocart.getParent();
-                        if (parentContainer != null) {
-                            VBox grandParent = (VBox) parentContainer.getParent();
-                            if (grandParent != null) {
-                                grandParent.getChildren().remove(parentContainer);
-                                refreshCallback.accept(null);
-                            }
+                        if (refreshCallback != null) {
+                            refreshCallback.accept(null);
                         }
                     });
                     utils.SimpleEventBus.getInstance().post(new utils.CartUpdatedEvent());
                 } else {
                     Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.ERROR, "Không thể thêm khóa học vào giỏ hàng!");
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Không thể xóa khóa học khỏi giỏ hàng!");
                         alert.showAndWait();
                     });
                 }
             } catch (SQLException e) {
                 Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Lỗi hệ thống khi thêm vào giỏ hàng: " + e.getMessage());
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Lỗi hệ thống khi xóa khóa học: " + e.getMessage());
                     alert.showAndWait();
                 });
-                System.err.println("SQL Error when adding to cart: " + e.getMessage());
+                System.err.println("Error deleting course from cart: " + e.getMessage());
             }
         }
     }
 
     public static Parent loadWithData(Courses course, Consumer<Void> refreshCallback) throws IOException {
-        FXMLLoader loader = new FXMLLoader(CourseCategoryController.class.getResource("/frontend/view/mainPage/CourseCategory.fxml"));
+        FXMLLoader loader = new FXMLLoader(CourseCartController.class.getResource("/frontend/view/mainPage/CourseCart.fxml"));
         Parent parent = loader.load();
-        CourseCategoryController controller = loader.getController();
+        CourseCartController controller = loader.getController();
         controller.setCourseAndCallback(course, refreshCallback);
         return parent;
     }

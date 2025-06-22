@@ -27,6 +27,9 @@ import model.user.Session;
 import model.user.Users;
 
 public class MainPageController {
+	
+    @FXML
+    private ImageView Cartpage; // Thêm tham chiếu đến ImageView của giỏ hàng
 
     @FXML
     private Label aiCategory;
@@ -139,12 +142,6 @@ public class MainPageController {
         slideshowTimeline.play(); // Bắt đầu chạy
     }
 
-    // Hàm dừng slideshow khi nhấn nút (tùy chọn, nếu muốn)
-    private void stopSlideshow() {
-        if (slideshowTimeline != null) {
-            slideshowTimeline.stop();
-        }
-    }
 
     // Hàm xử lý sự kiện khi nhấn nút "Next" (ảnh tiếp theo)
     @FXML
@@ -198,6 +195,22 @@ public class MainPageController {
         Stage stage = (Stage) pageMyLearning.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+ // Trong MainPageController.java
+    @FXML
+    void switchToCartPage(MouseEvent event) throws IOException {
+        stopSlideshow(); // Dừng slideshow khi chuyển giao diện
+        Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/mainPage/CartPage.fxml"));
+        Stage stage = (Stage) Cartpage.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+    
+    private void stopSlideshow() {
+        if (slideshowTimeline != null) {
+            slideshowTimeline.stop();
+        }
     }
 
     // Hàm lấy tên hiển thị của danh mục

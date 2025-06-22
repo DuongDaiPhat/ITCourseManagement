@@ -28,17 +28,16 @@ public class DatabaseConnection {
         return connection;
     }
 
-    // Phương thức đóng kết nối
     public static void closeConnection() {
         if (connection != null) {
             try {
                 connection.close();
                 connection = null;
-                System.out.println("Đã đóng kết nối MySQL!");
+                System.out.println("Đã đóng kết nối MySQL! Stack trace:");
+                new Exception().printStackTrace(); // In stack trace để debug
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println("Lỗi khi đóng kết nối!");
             }
         }
-    }
-}
+    }}

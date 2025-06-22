@@ -61,7 +61,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+            <ImageView fx:id="CartPage" fitHeight="22.0" fitWidth="22.0" onMouseClicked="#switchToCartPage" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                <image>
                   <Image url="@../../../../resources/images/main_page/icon/MyCart.png" />
                </image>
@@ -157,7 +157,7 @@
                         </Label>
                         <ScrollPane prefHeight="654.0" prefWidth="690.0">
                            <content>
-                              <VBox fx:id="CourseContainer" prefHeight="1174.0" prefWidth="722.0" />
+                              <VBox fx:id="CourseContainer" prefHeight="654.0" prefWidth="722.0" />
                            </content>
                         </ScrollPane>
                      </children>

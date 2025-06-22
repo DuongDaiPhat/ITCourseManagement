@@ -1,6 +1,7 @@
 package backend.controller.mainPage;
 
 import backend.service.course.CourseService;
+import backend.repository.user.MyCartRepository;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +22,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CategoryController {
+	
+	@FXML
+    private ImageView Cartpage; // Thêm tham chiếu đến ImageView của giỏ hàng
+
 
     @FXML private CheckBox Artificial_Intelligence;
     @FXML private CheckBox Business_Analysis;
@@ -50,50 +55,51 @@ public class CategoryController {
     @FXML private ImageView searchIcon;
 
     private List<Courses> allCourses;
+    private int currentUserId;
 
     @FXML
     public void initialize() {
+        this.currentUserId = utils.UserSession.getInstance().getCurrentUserId();
         loadAllApprovedCourses();
         setupCategoryFilterListeners();
     }
 
     private void loadAllApprovedCourses() {
         CourseService courseService = new CourseService();
+        MyCartRepository cartRepository = new MyCartRepository();
         try {
+            ArrayList<Integer> cartCourseIds = cartRepository.getCourseIdsByUserId(currentUserId);
             allCourses = courseService.getAllCourses().stream()
-                    .filter(Courses::isApproved) // lọc chỉ lấy course đã được duyệt
+                    .filter(Courses::isApproved)
+                    .filter(course -> !cartCourseIds.contains(course.getCourseID()))
                     .collect(Collectors.toList());
+            System.out.println("Loaded " + allCourses.size() + " approved courses for userId=" + currentUserId);
             displayCourses(allCourses);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error loading approved courses: " + e.getMessage());
         }
     }
 
     private void displayCourses(List<Courses> courses) {
         CourseContainer.getChildren().clear();
-
         for (Courses course : courses) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/mainPage/CourseCategory.fxml"));
-                Parent courseNode = loader.load();
-
-                CourseCategoryController controller = loader.getController();
-                controller.setCourseData(course);
-
+                Parent courseNode = CourseCategoryController.loadWithData(course, (v) -> loadAllApprovedCourses());
                 CourseContainer.getChildren().add(courseNode);
+                System.out.println("Added course node: " + course.getCourseName());
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error loading course node: " + e.getMessage());
             }
         }
     }
 
     private void setupCategoryFilterListeners() {
         List<CheckBox> checkBoxes = List.of(
-            Artificial_Intelligence, Business_Analysis, Cloud_Computing, Computer_Architecture,
-            Computer_Networks, Cryptography, Data_Science, Data_structures_and_Algorithms,
-            Databases, Deep_Learning, Desktop_Applications, DevOps, Game_Development,
-            Machine_Learning, Mobile_Development, Project_Management, Testing_and_QA,
-            UI_UX, Web_Development, Cybersecurity
+                Artificial_Intelligence, Business_Analysis, Cloud_Computing, Computer_Architecture,
+                Computer_Networks, Cryptography, Cybersecurity, Data_Science, Data_structures_and_Algorithms,
+                Databases, Deep_Learning, Desktop_Applications, DevOps, Game_Development,
+                Machine_Learning, Mobile_Development, Project_Management, Testing_and_QA,
+                UI_UX, Web_Development
         );
 
         for (CheckBox cb : checkBoxes) {
@@ -103,7 +109,6 @@ public class CategoryController {
 
     private void filterCoursesBySelectedCategories() {
         List<String> selected = new ArrayList<>();
-
         if (Artificial_Intelligence.isSelected()) selected.add("Artificial_Intelligence");
         if (Business_Analysis.isSelected()) selected.add("Business_Analysis");
         if (Cloud_Computing.isSelected()) selected.add("Cloud_Computing");
@@ -129,8 +134,8 @@ public class CategoryController {
             displayCourses(allCourses);
         } else {
             List<Courses> filtered = allCourses.stream()
-                .filter(c -> selected.contains(c.getCategory().toString()))
-                .collect(Collectors.toList());
+                    .filter(c -> selected.contains(c.getCategory().toString()))
+                    .collect(Collectors.toList());
             displayCourses(filtered);
         }
     }
@@ -149,5 +154,18 @@ public class CategoryController {
         Stage stage = (Stage) pageMyLearning.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+    
+    // Trong MainPageController.java
+    @FXML
+    void switchToCartPage(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/frontend/view/mainPage/CartPage.fxml"));
+        Stage stage = (Stage) Cartpage.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    public void refreshCourses() {
+        loadAllApprovedCourses();
     }
 }
