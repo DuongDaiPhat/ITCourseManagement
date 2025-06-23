@@ -2,6 +2,7 @@ package backend.controller.myLearning;
 
 import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
+import backend.service.course.CourseReviewService;
 import backend.service.user.UserService;
 import backend.service.user.MyLearningService;
 import backend.util.ImageCache;
@@ -16,18 +17,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import model.course.Courses;
+import model.course.CourseReview;
 import model.user.MyLearning;
 import model.user.Session;
 import model.user.Users;
 import model.user.CourseStatus;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MyLearningController implements Initializable {
 
@@ -48,17 +49,20 @@ public class MyLearningController implements Initializable {
     @FXML private ImageView wishlistIcon;
     @FXML private ImageView notificationIcon;
     @FXML private ImageView profileIcon;
-    
-    // Main Content Elements
+      // Main Content Elements
     @FXML private ScrollPane mainScrollPane;
     @FXML private Label coursesCountLabel;
     @FXML private VBox learningCoursesContainer;
-    
-    // Services
+    @FXML private StackPane rootStackPane;
+    @FXML private StackPane ratingOverlay;
+      // Services
     private CourseService courseService;
     private UserService userService;
     private MyLearningService learningService;
+    private CourseReviewService courseReviewService;
     private ContextMenu profileMenu;
+      // Review Dialog Components
+    private VBox reviewDialog;
     
     // Data
     private List<LearningCourseData> learningCourses;
@@ -112,6 +116,7 @@ public class MyLearningController implements Initializable {
         courseService = new CourseService();
         userService = new UserService();
         learningService = new MyLearningService();
+        courseReviewService = new CourseReviewService();
     }
     
     private void setupIcons() {
@@ -295,10 +300,21 @@ public class MyLearningController implements Initializable {
         
         attributesBox.getChildren().addAll(categoryLabel, levelLabel, languageLabel, technologyLabel);
         
-        courseDetails.getChildren().addAll(titleLabel, instructorLabel, descriptionLabel, attributesBox);
-          // Action Section
+        courseDetails.getChildren().addAll(titleLabel, instructorLabel, descriptionLabel, attributesBox);        // Action Section
         VBox actionSection = new VBox();
         actionSection.getStyleClass().add("learning-course-actions");
+        
+        // Rate Button - Always available for purchased courses
+        Button rateButton = new Button("Rate Course");
+        rateButton.getStyleClass().add("rate-course-button");
+        rateButton.setOnAction(event -> showRateDialog(course));
+        
+        // Check if user has already rated this course
+        boolean hasRated = courseReviewService.hasUserReviewedCourse(currentUser.getUserID(), course.getCourseID());
+        if (hasRated) {
+            rateButton.setText("Update Rating");
+            rateButton.getStyleClass().add("update-rating-button");
+        }
         
         if (learningRecord.getCourseStatus() == CourseStatus.FINISHED) {
             Label completedBadge = new Label("✓ Completed");
@@ -308,12 +324,12 @@ public class MyLearningController implements Initializable {
             toggleCompleteButton.getStyleClass().add("toggle-complete-button");
             toggleCompleteButton.setOnAction(event -> toggleCourseCompletion(course, learningRecord));
             
-            actionSection.getChildren().addAll(completedBadge, toggleCompleteButton);
+            actionSection.getChildren().addAll(completedBadge, toggleCompleteButton, rateButton);
         } else {
             Button markCompleteButton = new Button("Mark as Completed");
             markCompleteButton.getStyleClass().add("mark-complete-button");
             markCompleteButton.setOnAction(event -> toggleCourseCompletion(course, learningRecord));
-            actionSection.getChildren().add(markCompleteButton);
+            actionSection.getChildren().addAll(markCompleteButton, rateButton);
         }
         
         // Last accessed info
@@ -435,6 +451,193 @@ public class MyLearningController implements Initializable {
             return "Unknown Instructor";
         }
     }
+      /**
+     * Show rating dialog for a course
+     */
+    private void showRateDialog(Courses course) {
+        // Clear any existing content in the overlay
+        ratingOverlay.getChildren().clear();
+        
+        // Create dialog container
+        reviewDialog = new VBox();
+        reviewDialog.getStyleClass().add("review-dialog");
+        reviewDialog.setAlignment(Pos.CENTER);
+        reviewDialog.setSpacing(15);
+        reviewDialog.setPadding(new Insets(25));
+        reviewDialog.setMaxWidth(450);
+        reviewDialog.setMaxHeight(400);
+        
+        // Course title
+        Label titleLabel = new Label(course.getCourseName());
+        titleLabel.getStyleClass().add("review-dialog-title");
+        
+        // Star rating container
+        HBox starContainer = new HBox();
+        starContainer.setAlignment(Pos.CENTER);
+        starContainer.setSpacing(5);
+        starContainer.getStyleClass().add("star-rating-container");
+        
+        Button[] stars = new Button[5];
+        final int[] currentRating = {0};
+        
+        // Create star buttons
+        for (int i = 0; i < 5; i++) {
+            Button star = new Button("☆");
+            star.getStyleClass().add("star-button");
+            final int starIndex = i;
+            
+            star.setOnAction(event -> {
+                currentRating[0] = starIndex + 1;
+                updateStarDisplay(stars, currentRating[0]);
+            });
+            
+            star.setOnMouseEntered(event -> {
+                updateStarPreview(stars, starIndex + 1);
+            });
+            
+            star.setOnMouseExited(event -> {
+                updateStarDisplay(stars, currentRating[0]);
+            });
+            
+            stars[i] = star;
+            starContainer.getChildren().add(star);
+        }
+        
+        // Comment text area
+        TextArea commentArea = new TextArea();
+        commentArea.getStyleClass().add("review-comment-area");
+        commentArea.setPromptText("Write your review here... (optional)");
+        commentArea.setWrapText(true);
+        commentArea.setPrefRowCount(4);
+        commentArea.setMaxWidth(400);
+        
+        // Button container
+        HBox buttonContainer = new HBox();
+        buttonContainer.setAlignment(Pos.CENTER);
+        buttonContainer.setSpacing(15);
+        
+        // Submit button
+        Button submitButton = new Button("Submit Rating");
+        submitButton.getStyleClass().add("submit-rating-button");
+        submitButton.setOnAction(event -> {
+            if (currentRating[0] > 0) {
+                submitRating(course, currentRating[0], commentArea.getText().trim());
+                closeReviewDialog();
+            } else {
+                showAlert("Rating Required", "Please select a star rating before submitting.");
+            }
+        });
+        
+        // Cancel button
+        Button cancelButton = new Button("Cancel");
+        cancelButton.getStyleClass().add("cancel-rating-button");
+        cancelButton.setOnAction(event -> closeReviewDialog());
+        
+        buttonContainer.getChildren().addAll(cancelButton, submitButton);
+        
+        // Check if user has existing review and populate fields
+        CourseReview existingReview = courseReviewService.getUserReviewForCourse(currentUser.getUserID(), course.getCourseID());
+        if (existingReview != null) {
+            currentRating[0] = existingReview.getRating();
+            updateStarDisplay(stars, currentRating[0]);
+            commentArea.setText(existingReview.getComment() != null ? existingReview.getComment() : "");
+            submitButton.setText("Update Rating");
+        }
+        
+        reviewDialog.getChildren().addAll(titleLabel, starContainer, commentArea, buttonContainer);
+        
+        // Add dialog to overlay and show it
+        ratingOverlay.getChildren().add(reviewDialog);
+        ratingOverlay.setVisible(true);
+        ratingOverlay.setManaged(true);
+        
+        // Click outside to close
+        ratingOverlay.setOnMouseClicked(event -> {
+            if (event.getTarget() == ratingOverlay) {
+                closeReviewDialog();
+            }
+        });
+    }
+    
+    /**
+     * Update star display based on rating
+     */
+    private void updateStarDisplay(Button[] stars, int rating) {
+        for (int i = 0; i < stars.length; i++) {
+            if (i < rating) {
+                stars[i].setText("★");
+                stars[i].getStyleClass().remove("star-button-empty");
+                stars[i].getStyleClass().add("star-button-filled");
+            } else {
+                stars[i].setText("☆");
+                stars[i].getStyleClass().remove("star-button-filled");
+                stars[i].getStyleClass().add("star-button-empty");
+            }
+        }
+    }
+    
+    /**
+     * Update star preview on hover
+     */
+    private void updateStarPreview(Button[] stars, int rating) {
+        for (int i = 0; i < stars.length; i++) {
+            if (i < rating) {
+                stars[i].setText("★");
+                stars[i].getStyleClass().remove("star-button-empty");
+                stars[i].getStyleClass().add("star-button-preview");
+            } else {
+                stars[i].setText("☆");
+                stars[i].getStyleClass().remove("star-button-preview");
+                stars[i].getStyleClass().add("star-button-empty");
+            }
+        }
+    }
+    
+    /**
+     * Submit rating to database
+     */
+    private void submitRating(Courses course, int rating, String comment) {
+        try {
+            boolean success;
+            
+            // Check if updating existing review or creating new one
+            if (courseReviewService.hasUserReviewedCourse(currentUser.getUserID(), course.getCourseID())) {
+                success = courseReviewService.updateReview(currentUser.getUserID(), course.getCourseID(), rating, comment);
+                if (success) {
+                    showAlert("Rating Updated", "Your rating has been updated successfully!");
+                } else {
+                    showAlert("Update Failed", "Failed to update your rating. Please try again.");
+                }
+            } else {
+                success = courseReviewService.submitReview(currentUser.getUserID(), course.getCourseID(), rating, comment);
+                if (success) {
+                    showAlert("Rating Submitted", "Thank you for rating this course!");
+                } else {
+                    showAlert("Submission Failed", "Failed to submit your rating. Please try again.");
+                }
+            }
+            
+            if (success) {
+                // Refresh the course list to update the button text
+                Platform.runLater(() -> loadLearningCourses());
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Error submitting rating: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "An error occurred while submitting your rating. Please try again.");
+        }
+    }    /**
+     * Close review dialog
+     */
+    private void closeReviewDialog() {
+        if (ratingOverlay != null) {
+            ratingOverlay.getChildren().clear();
+            ratingOverlay.setVisible(false);
+            ratingOverlay.setManaged(false);
+        }
+        reviewDialog = null;
+    }
     
     // Navigation methods
     private void navigateToMainPage() {
@@ -498,11 +701,10 @@ public class MyLearningController implements Initializable {
         confirmation.setTitle("Logout");
         confirmation.setHeaderText("Confirm Logout");
         confirmation.setContentText("Are you sure you want to logout?");
-        
-        Optional<ButtonType> result = confirmation.showAndWait();
+          Optional<ButtonType> result = confirmation.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Session.clearCurrentUser();
-            SceneManager.switchScene("Login", "/frontend/view/login/login.fxml");
+            SceneManager.switchToLoginScene("Login", "/frontend/view/login/login.fxml");
         }
     }
     
