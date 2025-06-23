@@ -143,17 +143,8 @@ public class Courses {
 		return isPublished;
 	}
 
-	public void setPublish(boolean isPublished) {
+	public void setPublished(boolean isPublished) {
 		this.isPublished = isPublished;
-	}
-
-	@Override
-	public String toString() {
-		return "Courses [courseID=" + courseID + ", courseName=" + courseName + ", language=" + language
-				+ ", technology=" + technology + ", level=" + level + ", category=" + category + ", userID=" + userID
-				+ ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription=" + CourseDescription
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", isApproved=" + isApproved
-				+ ", isPublished=" + isPublished + "]";
 	}
 
 	public boolean isApproved() {
@@ -164,10 +155,6 @@ public class Courses {
 		isApproved = approved;
 	}
 
-	public void print() {
-		System.out.println(this.toString());
-	}
-
 	public boolean isRejected() {
 		return isRejected;
 	}
@@ -176,4 +163,16 @@ public class Courses {
 		isRejected = rejected;
 	}
 
+	@Override
+	public String toString() {
+		return "Courses [courseID=" + courseID + ", courseName=" + courseName + ", language=" + language
+				+ ", technology=" + technology + ", level=" + level + ", category=" + category + ", userID=" + userID
+				+ ", thumbnailURL=" + thumbnailURL + ", price=" + price + ", CourseDescription=" + CourseDescription
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", isApproved=" + isApproved
+				+ ", isPublished=" + isPublished + ", isRejected=" + isRejected + "]";
+	}
+
+	public void print() {
+		System.out.println(this.toString());
+	}
 }
