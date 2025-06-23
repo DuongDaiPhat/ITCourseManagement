@@ -57,10 +57,11 @@
     -fx-text-fill: white;
     -fx-prompt-text-fill: rgba(255.0, 255.0, 255.0, 0.7);
     -fx-font-size: 14.0px;
-    -fx-border-color: transparent;
-    -fx-padding: 8 12 8 12;
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
+    -fx-padding: 5.0px 10.0px;
+    -fx-min-width: 150.0px;
+    -fx-pref-width: 200.0px;
+    -fx-max-width: 300.0px;
+    -fx-background-radius: 20.0px 0.0 0.0 20.0px;
 }
 
 .search-input:focused {
@@ -69,11 +70,9 @@
 
 .search-button {
     -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 8 12 8 12;
+    -fx-padding: 5.0px 10.0px;
     -fx-cursor: hand;
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
+    -fx-background-radius: 0.0 20.0px 20.0px 0.0;
 }
 
 .search-button:hover {

@@ -3,32 +3,34 @@
     -fx-background-color: white;
 }
 /* Navigation Styling */
+/* Navigation styling */
 .navigation {
     -fx-background-color: transparent;
 }
 
 .top-nav {
     -fx-background-color: linear-gradient(to right, #70f4d6, #0a557a);
-    -fx-padding: 10px 20px;
+    -fx-padding: 10.0px 20.0px;
     -fx-alignment: center-left;
 }
 
 .bottom-nav {
     -fx-background-color: linear-gradient(to right, #5de0e6, #004aad);
-    -fx-min-height: 10px;
+    -fx-min-height: 10.0px;
 }
 
 .company-name {
     -fx-text-fill: black;
-    -fx-font-size: 22px;
+    -fx-font-size: 22.0px;
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
 
+/* Navigation links */
 .nav-link {
     -fx-text-fill: black;
-    -fx-font-size: 14px;
-    -fx-padding: 0 10px;
+    -fx-font-size: 14.0px;
+    -fx-padding: 0.0 10.0px;
     -fx-cursor: hand;
 }
 
@@ -36,41 +38,57 @@
     -fx-text-fill: white;
 }
 
-/* Search Bar */
+.nav-link-active {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Search container */
 .search-container {
-    -fx-background-color: rgba(255, 255, 255, 0.2);
-    -fx-background-radius: 20px;
-    -fx-padding: 2px;
+    -fx-background-color: rgba(255.0, 255.0, 255.0, 0.2);
+    -fx-background-radius: 20.0px;
+    -fx-padding: 2.0px;
     -fx-alignment: center;
 }
 
 .search-input {
     -fx-background-color: transparent;
     -fx-text-fill: white;
-    -fx-prompt-text-fill: rgba(255, 255, 255, 0.7);
-    -fx-font-size: 14px;
-    -fx-padding: 5px 10px;
-    -fx-min-width: 200px;
-    -fx-background-radius: 20px 0 0 20px;
+    -fx-prompt-text-fill: rgba(255.0, 255.0, 255.0, 0.7);
+    -fx-font-size: 14.0px;
+    -fx-padding: 5.0px 10.0px;
+    -fx-min-width: 150.0px;
+    -fx-pref-width: 200.0px;
+    -fx-max-width: 300.0px;
+    -fx-background-radius: 20.0px 0.0 0.0 20.0px;
+}
+
+.search-input:focused {
+    -fx-border-color: transparent;
 }
 
 .search-button {
     -fx-background-color: transparent;
-    -fx-padding: 5px 10px;
+    -fx-padding: 5.0px 10.0px;
     -fx-cursor: hand;
-    -fx-background-radius: 0 20px 20px 0;
+    -fx-background-radius: 0.0 20.0px 20.0px 0.0;
 }
 
-/* Icon Buttons */
+.search-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Icon buttons */
 .icon-button {
     -fx-background-color: transparent;
-    -fx-padding: 5px;
+    -fx-padding: 8;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
     -fx-cursor: hand;
 }
 
 .icon-button:hover {
     -fx-background-color: rgba(255, 255, 255, 0.1);
-    -fx-background-radius: 50%;
 }
 .context-menu {
     -fx-background-color: white;
