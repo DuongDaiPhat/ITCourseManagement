@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import utils.ControllerDataSetter;
@@ -14,237 +15,230 @@ import java.util.HashMap;
 import java.util.Stack;
 
 public class SceneManager {
+	private static final HashMap<String, Scene> sceneCache = new HashMap<>();
+	private static final Stack<Scene> sceneStack = new Stack<>();
+	private static Stage primaryStage;
+	private static Object sharedData;
+	private static boolean isMaximized = false;
 
-    private static final HashMap<String, Scene> sceneCache = new HashMap<>();
-    private static final Stack<Scene> sceneStack = new Stack<>();
-    private static Stage primaryStage;
-    private static boolean isMaximized = false; // Track window maximized state
+	public static void setPrimaryStage(Stage stage) {
+		primaryStage = stage;
+		primaryStage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
+			isMaximized = newValue;
+		});
+	}
 
-    public static void setPrimaryStage(Stage stage) {
-        primaryStage = stage;
-        
-        // Add listener to track when window is maximized/restored
-        primaryStage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
-            isMaximized = newValue;
-        });
-    }
+	public static void switchScene(String sceneName, String fxmlPath) {
+		try {
+			Scene currentScene = primaryStage.getScene();
+			if (currentScene != null) {
+				sceneStack.push(currentScene);
+			}
 
-    public static void switchScene(String sceneName, String fxmlPath) {
-        try {
-            Scene currentScene = primaryStage.getScene();
-            if (currentScene != null) {
-                sceneStack.push(currentScene); // Lưu lại scene hiện tại trước khi chuyển
-            }
+			Scene scene;
+			if (sceneCache.containsKey(sceneName)) {
+				scene = sceneCache.get(sceneName);
+			} else {
+				FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
+				Parent root = loader.load();
+				scene = new Scene(root);
+				sceneCache.put(sceneName, scene);
+			}
 
-            Scene scene;
-            if (sceneCache.containsKey(sceneName)) {
-                scene = sceneCache.get(sceneName);
-            } else {
-                FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
-                Parent root = loader.load();
-                scene = new Scene(root);                sceneCache.put(sceneName, scene);
-            }
+			primaryStage.setTitle(sceneName);
+			primaryStage.setScene(scene);
+			primaryStage.show();
 
-            primaryStage.setTitle(sceneName);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            
-            // Preserve maximized state immediately after setting scene
-            if (isMaximized) {
-                primaryStage.setMaximized(true);
-            }
-            
-            preserveWindowState();
+			if (isMaximized) {
+				primaryStage.setMaximized(true);
+			}
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public static <T> void switchSceneReloadWithData(String sceneName, String fxmlPath, ControllerDataSetter<T> setter, T data) {
-        try {
-            Scene currentScene = primaryStage.getScene();
+			preserveWindowState();
 
-            // Xóa cache để luôn load mới
-            sceneCache.remove(sceneName);
-            if (currentScene != null) {
-            	sceneStack.push(currentScene);
-            }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
-            Parent root = loader.load();
+	public static <T> void switchScene(String sceneName, String fxmlPath, T data) {
+		sharedData = data;
+		switchScene(sceneName, fxmlPath);
+	}
 
-            // Lấy controller và truyền dữ liệu nếu có
-            Object controller = loader.getController();
-            if (setter != null && data != null) {
-                setter.setData(controller, data);
-            }            Scene scene = new Scene(root);
-            // Có thể bỏ nếu không muốn cache lại
+	public static Object getData() {
+		return sharedData;
+	}
 
-            primaryStage.setTitle(sceneName);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+	public static <T> void switchSceneReloadWithData(String sceneName, String fxmlPath, ControllerDataSetter<T> setter,
+			T data) {
+		try {
+			Scene currentScene = primaryStage.getScene();
+			sceneCache.remove(sceneName);
+			if (currentScene != null) {
+				sceneStack.push(currentScene);
+			}
 
-            // Preserve maximized state immediately after setting scene
-            if (isMaximized) {
-                primaryStage.setMaximized(true);
-            }
+			FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
+			Parent root = loader.load();
 
-            preserveWindowState();
+			Object controller = loader.getController();
+			if (setter != null && data != null) {
+				setter.setData(controller, data);
+			}
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public static void goBack() {
-        if (!sceneStack.isEmpty()) {
-            Scene previousScene = sceneStack.pop();
-            primaryStage.setScene(previousScene);
-            primaryStage.show();
-            
-            // Preserve maximized state immediately after setting scene
-            if (isMaximized) {
-                primaryStage.setMaximized(true);
-            }
-            
-            preserveWindowState();
-        } else {
-            System.out.println("Không có scene trước để quay lại.");
-        }
-    }
+			Scene scene = new Scene(root);
+			primaryStage.setTitle(sceneName);
+			primaryStage.setScene(scene);
+			primaryStage.show();
 
-    public static void clearSceneCache() {
-        sceneCache.clear();
-    }
+			if (isMaximized) {
+				primaryStage.setMaximized(true);
+			}
 
-    public static <T> void switchSceneWithData(String sceneName, String fxmlPath, ControllerDataSetter<T> setter, T data) {
-        try {
-            Scene currentScene = primaryStage.getScene();
-            if (currentScene != null) {
-                sceneStack.push(currentScene);
-            }
+			preserveWindowState();
 
-            Scene scene;
-            if (sceneCache.containsKey(sceneName)) {
-                scene = sceneCache.get(sceneName);
-            } else {
-                FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
-                Parent root = loader.load();
-                scene = new Scene(root);
-                sceneCache.put(sceneName, scene);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-                Object controller = loader.getController();
-                if (setter != null) {
-                    setter.setData(controller, data);
-                }
-            }            primaryStage.setTitle(sceneName);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            
-            // Preserve maximized state immediately after setting scene
-            if (isMaximized) {
-                primaryStage.setMaximized(true);
-            }
-            
-            preserveWindowState();
+	public static void goBack() {
+		if (!sceneStack.isEmpty()) {
+			Scene previousScene = sceneStack.pop();
+			primaryStage.setScene(previousScene);
+			primaryStage.show();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }    // Helper method to preserve window state after scene switch
-    private static void preserveWindowState() {
-        if (isMaximized) {
-            // If window was maximized, use multiple attempts to ensure it stays maximized
-            Platform.runLater(() -> {
-                Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-                
-                // Attempt 1: Set maximized immediately
-                primaryStage.setMaximized(true);
-                
-                // Attempt 2: Force exact screen dimensions
-                Platform.runLater(() -> {
-                    primaryStage.setX(screenBounds.getMinX());
-                    primaryStage.setY(screenBounds.getMinY());
-                    primaryStage.setWidth(screenBounds.getWidth());
-                    primaryStage.setHeight(screenBounds.getHeight());
-                    primaryStage.setMaximized(true);
-                    
-                    // Attempt 3: Final enforcement after a short delay
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(100); // Wait 100ms
-                            Platform.runLater(() -> {
-                                if (!primaryStage.isMaximized() || 
-                                    Math.abs(primaryStage.getWidth() - screenBounds.getWidth()) > 5 ||
-                                    Math.abs(primaryStage.getHeight() - screenBounds.getHeight()) > 5) {
-                                    
-                                    primaryStage.setX(screenBounds.getMinX());
-                                    primaryStage.setY(screenBounds.getMinY());
-                                    primaryStage.setWidth(screenBounds.getWidth());
-                                    primaryStage.setHeight(screenBounds.getHeight());
-                                    primaryStage.setMaximized(true);
-                                }
-                            });
-                        } catch (InterruptedException e) {
-                            // Handle interruption
-                        }
-                    }).start();
-                });
-            });
-        } else {
-            // Only center if window is not maximized
-            Platform.runLater(() -> {
-                Rectangle2D rec = Screen.getPrimary().getVisualBounds();
-                primaryStage.setX((rec.getWidth() - primaryStage.getWidth()) / 2);
-                primaryStage.setY((rec.getHeight() - primaryStage.getHeight()) / 2);
-            });
-        }
-    }
+			if (isMaximized) {
+				primaryStage.setMaximized(true);
+			}
 
-    /**
-     * Switch scene and call refresh method on the target controller
-     */
-    public static void switchSceneWithRefresh(String sceneName, String fxmlPath) {
-        try {
-            Scene currentScene = primaryStage.getScene();
-            if (currentScene != null) {
-                sceneStack.push(currentScene); // Save current scene before switching
-            }
+			preserveWindowState();
+		} else {
+			System.out.println("Không có scene trước để quay lại.");
+		}
+	}
 
-            // Always reload the scene to ensure fresh state
-            sceneCache.remove(sceneName);
-            
-            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
-            Parent root = loader.load();
-            Object controller = loader.getController();
-            
-            // Call refresh method if the controller has one
-            if (controller != null) {
-                try {
-                    // Use reflection to call refreshPageData method if it exists
-                    controller.getClass().getMethod("refreshPageData").invoke(controller);
-                    System.out.println("Called refreshPageData on " + controller.getClass().getSimpleName());
-                } catch (Exception e) {
-                    // Method doesn't exist or failed to call - that's okay
-                    System.out.println("No refreshPageData method found on " + controller.getClass().getSimpleName());
-                }
-            }
-            
-            Scene scene = new Scene(root);
-            sceneCache.put(sceneName, scene);
+	public static void clearSceneCache() {
+		sceneCache.clear();
+	}
 
-            primaryStage.setTitle(sceneName);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            
-            // Preserve maximized state immediately after setting scene
-            if (isMaximized) {
-                primaryStage.setMaximized(true);
-            }
-            
-            preserveWindowState();
+	public static <T> void switchSceneWithData(String sceneName, String fxmlPath, ControllerDataSetter<T> setter,
+			T data) {
+		try {
+			Scene currentScene = primaryStage.getScene();
+			if (currentScene != null) {
+				sceneStack.push(currentScene);
+			}
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+			Scene scene;
+			if (sceneCache.containsKey(sceneName)) {
+				scene = sceneCache.get(sceneName);
+			} else {
+				FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
+				Parent root = loader.load();
+				scene = new Scene(root);
+				sceneCache.put(sceneName, scene);
+
+				Object controller = loader.getController();
+				if (setter != null) {
+					setter.setData(controller, data);
+				}
+			}
+
+			primaryStage.setTitle(sceneName);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+
+			if (isMaximized) {
+				primaryStage.setMaximized(true);
+			}
+
+			preserveWindowState();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void preserveWindowState() {
+		if (isMaximized) {
+			Platform.runLater(() -> {
+				Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+				primaryStage.setMaximized(true);
+
+				Platform.runLater(() -> {
+					primaryStage.setX(screenBounds.getMinX());
+					primaryStage.setY(screenBounds.getMinY());
+					primaryStage.setWidth(screenBounds.getWidth());
+					primaryStage.setHeight(screenBounds.getHeight());
+					primaryStage.setMaximized(true);
+
+					new Thread(() -> {
+						try {
+							Thread.sleep(100);
+							Platform.runLater(() -> {
+								if (!primaryStage.isMaximized()
+										|| Math.abs(primaryStage.getWidth() - screenBounds.getWidth()) > 5
+										|| Math.abs(primaryStage.getHeight() - screenBounds.getHeight()) > 5) {
+
+									primaryStage.setX(screenBounds.getMinX());
+									primaryStage.setY(screenBounds.getMinY());
+									primaryStage.setWidth(screenBounds.getWidth());
+									primaryStage.setHeight(screenBounds.getHeight());
+									primaryStage.setMaximized(true);
+								}
+							});
+						} catch (InterruptedException e) {
+						}
+					}).start();
+				});
+			});
+		} else {
+			Platform.runLater(() -> {
+				Rectangle2D rec = Screen.getPrimary().getVisualBounds();
+				primaryStage.setX((rec.getWidth() - primaryStage.getWidth()) / 2);
+				primaryStage.setY((rec.getHeight() - primaryStage.getHeight()) / 2);
+			});
+		}
+	}
+
+	public static void switchSceneWithRefresh(String sceneName, String fxmlPath) {
+		try {
+			Scene currentScene = primaryStage.getScene();
+			if (currentScene != null) {
+				sceneStack.push(currentScene);
+			}
+
+			sceneCache.remove(sceneName);
+
+			FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
+			Parent root = loader.load();
+			Object controller = loader.getController();
+
+			if (controller != null) {
+				try {
+					controller.getClass().getMethod("refreshPageData").invoke(controller);
+					System.out.println("Called refreshPageData on " + controller.getClass().getSimpleName());
+				} catch (Exception e) {
+					System.out.println("No refreshPageData method found on " + controller.getClass().getSimpleName());
+				}
+			}
+
+			Scene scene = new Scene(root);
+			sceneCache.put(sceneName, scene);
+
+			primaryStage.setTitle(sceneName);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+
+			if (isMaximized) {
+				primaryStage.setMaximized(true);
+			}
+
+			preserveWindowState();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

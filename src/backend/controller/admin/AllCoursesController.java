@@ -86,12 +86,16 @@ public class AllCoursesController implements Initializable {
 
 	@FXML
 	private void handleViewAllCourses(ActionEvent event) throws IOException {
-		// Already on this page
 	}
 
 	@FXML
 	private void handleViewRevenue(ActionEvent event) throws IOException {
 		switchToScene("/frontend/view/admin/Revenue.fxml", event);
+	}
+
+	@FXML
+	private void handleNotificationButton(ActionEvent event) throws IOException {
+		switchToScene("/frontend/view/admin/Notification.fxml", event);
 	}
 
 	private void switchToScene(String fxmlPath, ActionEvent event) throws IOException {
