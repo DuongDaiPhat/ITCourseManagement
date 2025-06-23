@@ -84,13 +84,13 @@
             </ImageView>
          </children>
       </HBox>
-      <ScrollPane fitToWidth="true" layoutY="72.0" prefHeight="600.0" prefWidth="920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+      <ScrollPane id="myScrollPane" fitToHeight="true" layoutY="72.0" prefHeight="600.0" prefWidth="920.0" styleClass="content-scroll-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="920.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="539.0" prefWidth="1002.0">
                <children>
-                  <VBox fx:id="containerCourses" layoutY="-1.0" prefHeight="1113.0" prefWidth="994.0" spacing="10.0">
+                  <VBox fx:id="containerCourses" layoutY="-1.0" prefHeight="1114.0" prefWidth="1000.0" spacing="10.0">
                      <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
                      </padding>
                   </VBox>
                </children>

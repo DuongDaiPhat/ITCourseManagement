@@ -26,7 +26,7 @@
             <Insets left="5.0" />
          </VBox.margin>
       </Label>
-      <ScrollPane prefHeight="508.0" prefWidth="800.0">
+      <ScrollPane id="myScrollPane" fitToWidth="true" prefHeight="508.0" prefWidth="800.0" styleClass="content-scroll-pane">
          <content>
             <VBox fx:id="CourseContainer" prefHeight="506.0" prefWidth="798.0" spacing="5.0">
                <padding>
@@ -37,8 +37,8 @@
       </ScrollPane>
       <HBox alignment="CENTER_LEFT" prefHeight="95.0" prefWidth="800.0" spacing="150.0">
          <children>
-            <Button fx:id="Back" alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#switchToMainPage" text="Back" />
-            <Button fx:id="Payment" mnemonicParsing="false" onMouseClicked="#proceedWithPayment" text="Proceed with payment">
+            <Button fx:id="Back" alignment="TOP_LEFT" mnemonicParsing="false" onMouseClicked="#switchToMainPage" styleClass="course-category" text="Back" />
+            <Button fx:id="Payment" mnemonicParsing="false" onMouseClicked="#proceedWithPayment" styleClass="add-lecture-button" text="Purchase">
                <font>
                   <Font size="16.0" />
                </font>

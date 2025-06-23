@@ -101,7 +101,7 @@ public class CartPageController {
                 .filter(course -> course != null)
                 .mapToDouble(Courses::getPrice)
                 .sum();
-        totalAmount.setText(String.format("%.2f VND", total));
+        totalAmount.setText(String.format("%.2f $", total));
     }
 
     @FXML

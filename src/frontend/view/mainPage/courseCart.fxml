@@ -7,13 +7,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="798.0" stylesheets="@courseCart.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CourseCartController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="798.0" styleClass="course-item" stylesheets="@courseCart.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CourseCartController">
    <children>
-      <ImageView fx:id="imageCourse" fitHeight="150.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageCourse" fitHeight="130.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true" styleClass="thumbnail" />
       <VBox prefHeight="150.0" prefWidth="511.0" spacing="15.0">
          <children>
-            <Label fx:id="courseName" text="courseName" />
+            <Label fx:id="courseName" styleClass="course-name" text="courseName" />
             <Label fx:id="Author" text="Author" />
             <Label fx:id="numberLectures" text="numberLectures" />
             <Label fx:id="Evaluate" text="Evaluate" />
@@ -24,12 +23,12 @@
       </VBox>
       <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="226.0" spacing="10.0">
          <children>
-            <Label fx:id="Price" text="Price">
+            <Label fx:id="Price" styleClass="course-price" text="Price">
                <VBox.margin>
                   <Insets bottom="10.0" left="5.0" />
                </VBox.margin>
             </Label>
-            <Hyperlink fx:id="deleteCoure" text="Delete" />
+            <Hyperlink fx:id="deleteCoure" styleClass="remove-link" text="Remove" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

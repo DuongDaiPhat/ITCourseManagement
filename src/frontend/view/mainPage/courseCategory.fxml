@@ -7,15 +7,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="722.0" spacing="5.0" stylesheets="@courseCategory.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CourseCategoryController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="700.0" spacing="5.0" stylesheets="@courseCategory.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.mainPage.CourseCategoryController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
    <children>
-      <ImageView fx:id="courseImage" fitHeight="189.0" fitWidth="274.0" pickOnBounds="true" preserveRatio="true" />
-      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="250.0" spacing="10.0">
+      <ImageView fx:id="courseImage" fitHeight="140.0" fitWidth="203.0" pickOnBounds="true" preserveRatio="true" styleClass="thumbnail" />
+      <VBox alignment="CENTER_LEFT" prefHeight="190.0" prefWidth="335.0" spacing="10.0">
          <children>
-            <Label fx:id="courseName" text="courseName" />
+            <Label fx:id="courseName" styleClass="course-name" text="courseName" />
             <Label fx:id="Rating" text="Rating" />
             <HBox prefHeight="9.0" prefWidth="297.0" spacing="50.0">
                <children>
@@ -25,22 +25,22 @@
             </HBox>
             <HBox prefHeight="2.0" prefWidth="297.0" spacing="85.0">
                <children>
-                  <Label fx:id="beginner" text="beginner" />
+                  <Label fx:id="beginner" text="Beginner" />
                   <Label fx:id="author" text="author" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="BOTTOM_LEFT" prefHeight="190.0" prefWidth="215.0">
+      <VBox alignment="BOTTOM_LEFT" prefHeight="190.0" prefWidth="306.0">
          <children>
-            <Label fx:id="Price" text="Price">
+            <Label fx:id="Price" styleClass="course-price" text="Price">
                <VBox.margin>
                   <Insets bottom="40.0" />
                </VBox.margin></Label>
-            <HBox prefHeight="43.0" prefWidth="197.0" spacing="20.0">
+            <HBox prefHeight="43.0" prefWidth="254.0" spacing="20.0">
                <children>
-                  <Button fx:id="Addtocart" mnemonicParsing="false" onAction="#handleAddToCart" text="Add to cart" />
-                  <Button mnemonicParsing="false" text="Favorites" />
+                  <Button fx:id="Addtocart" mnemonicParsing="false" onAction="#handleAddToCart" styleClass="add-lecture-button" text="Add to cart" />
+                  <Button mnemonicParsing="false" styleClass="course-technology" text="Favorites" />
                </children>
             </HBox>
          </children>

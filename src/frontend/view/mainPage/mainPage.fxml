@@ -130,7 +130,7 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </padding>
                         </Label>
-                        <HBox fx:id="aiCourseContainer" prefHeight="242.0" prefWidth="920.0">
+                        <HBox fx:id="aiCourseContainer" prefHeight="242.0" prefWidth="920.0" spacing="20.0">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding></HBox>
@@ -146,13 +146,13 @@
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                            </padding>
                         </Label>
-                        <HBox fx:id="webCourseContainer" prefHeight="241.0" prefWidth="906.0">
+                        <HBox fx:id="webCourseContainer" prefHeight="241.0" prefWidth="906.0" spacing="10.0">
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding></HBox>
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" layoutX="-8.0" layoutY="870.0" prefHeight="131.0" prefWidth="1000.0" styleClass="footer">
+                  <HBox alignment="CENTER" layoutX="-8.0" layoutY="900.0" prefHeight="101.0" prefWidth="1000.0" styleClass="footer">
                      <children>
                         <VBox alignment="CENTER" prefHeight="150.0" prefWidth="174.0">
                            <children>

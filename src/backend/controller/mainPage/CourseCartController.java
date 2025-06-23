@@ -63,7 +63,7 @@ public class CourseCartController {
         }
         System.out.println("Initializing CourseCartController for course: " + course.getCourseName());
         courseName.setText(course.getCourseName());
-        Price.setText(String.format("%.2f VND", course.getPrice()));
+        Price.setText(String.format("%.2f $", course.getPrice()));
         Evaluate.setText("Chưa có đánh giá");
         numberLectures.setText("Số bài giảng");
 

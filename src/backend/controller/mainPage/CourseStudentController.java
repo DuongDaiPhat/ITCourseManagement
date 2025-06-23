@@ -31,16 +31,16 @@ public class CourseStudentController {
     public void setCourseData(Courses course) {
         courseName.setText(course.getCourseName());
         courseLanguage.setText(course.getLanguage().toString());
-        coursePrice.setText(String.format("%.2f", course.getPrice()) + " VND");
+        coursePrice.setText(String.format("%.2f", course.getPrice()) + " $");
         
         // Khởi tạo UserService để lấy thông tin tác giả
         userService = new UserService();
         try {
             Users author = userService.GetUserByID(course.getUserID()); // Sử dụng GetUserByID
             if (author != null && author.getUserFirstName() != null && author.getUserLastName() != null) {
-                courseAuthor.setText("Tác giả: " + author.getUserFirstName() + " " + author.getUserLastName());
+                courseAuthor.setText("" + author.getUserFirstName() + " " + author.getUserLastName());
             } else {
-                courseAuthor.setText("Tác giả: Không xác định");
+                courseAuthor.setText("Không xác định");
             }
         } catch (Exception e) {
             courseAuthor.setText("Tác giả: Không xác định");
