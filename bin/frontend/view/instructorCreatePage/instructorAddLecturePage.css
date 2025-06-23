@@ -117,14 +117,15 @@
 }
 .title-card{
 	-fx-padding: 0 30 10 20;
+	-fx-spacing: 15;
+	-fx-alignment: center-left;
 }
 .go-back-label{
 	-fx-text-fill: #b4cfdb;
 	-fx-font-size: 20px;
-	-fx-padding: 2 0 0 960;
 	-fx-cursor: hand;
 }
-.go-back-label: hover{
+.go-back-label:hover{
 	-fx-underline: true;
 }
 .course-label{
