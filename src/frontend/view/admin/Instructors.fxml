@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -27,14 +28,12 @@
 			<Label styleClass="company-name" text="AiTeecCo" />
 
 			<HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS" spacing="15">
-				<!-- Notification Icon -->
-				<Button styleClass="icon-button">
-					<graphic>
-						<ImageView fitHeight="20" fitWidth="20">
-							<Image url="@/images/main_page/icon/Notification.png" />
-						</ImageView>
-					</graphic>
-				</Button>
+				<HBox spacing="5" alignment="CENTER_RIGHT">
+					<HBox alignment="CENTER_LEFT" styleClass="search-container">
+						<TextField fx:id="searchField" promptText="Search..."
+							styleClass="search-field" />
+					</HBox>
+				</HBox>
 
 				<!-- Profile Icon -->
 				<Button styleClass="icon-button">
@@ -62,6 +61,8 @@
 					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="View Revenue"
 					wrapText="true" maxWidth="160" />
+				<Button styleClass="nav-link" text="Create Notification"
+					onAction="#handleNotificationButton" wrapText="true" maxWidth="160" />
 			</VBox>
 
 			<!-- Right Content Area -->
@@ -92,7 +93,7 @@
 
 				<Separator styleClass="separator" />
 
-				<!-- Thêm Label refresh notification -->
+				<!-- Refresh notification label -->
 				<Label fx:id="refreshNotificationLabel"
 					styleClass="refresh-notification" text="" />
 

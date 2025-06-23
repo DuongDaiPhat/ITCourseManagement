@@ -26,14 +26,7 @@
 			<Label styleClass="company-name" text="AiTeecCo" />
 
 			<HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS" spacing="15">
-				<!-- Notification Icon -->
-				<Button styleClass="icon-button">
-					<graphic>
-						<ImageView fitHeight="20" fitWidth="20">
-							<Image url="@/images/main_page/icon/Notification.png" />
-						</ImageView>
-					</graphic>
-				</Button>
+
 
 				<!-- Profile Icon -->
 				<Button styleClass="icon-button">
@@ -55,21 +48,21 @@
 					onAction="#handleViewStudents" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="Instructor List"
 					onAction="#handleViewInstructors" wrapText="true" maxWidth="160" />
-				<Button styleClass="nav-link"
-					text="Pending Course List"
+				<Button styleClass="nav-link" text="Pending Course List"
 					onAction="#handleViewPendingCourses" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="Course List"
 					onAction="#handleViewAllCourses" wrapText="true" maxWidth="160" />
 				<Button styleClass="nav-link" text="View Revenue"
 					onAction="#handleViewRevenue" wrapText="true" maxWidth="160" />
+				<Button styleClass="nav-link" text="Create Notification"
+					onAction="#handleNotificationButton" wrapText="true" maxWidth="160" />
 			</VBox>
 
 			<!-- Right Content Area -->
 			<VBox styleClass="right-content" HBox.hgrow="ALWAYS">
 				<!-- Pending Courses Header -->
 				<HBox alignment="CENTER_LEFT" styleClass="section-header">
-					<Label styleClass="section-title"
-						text="Pending Course List" />
+					<Label styleClass="section-title" text="Pending Course List" />
 				</HBox>
 
 				<Separator styleClass="separator" />

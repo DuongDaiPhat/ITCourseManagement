@@ -14,174 +14,191 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="700" prefWidth="1000" stylesheets="@instructorCreatePage.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.instructorCreatePageController.InstructorCreatePageController">
+<VBox prefHeight="700" prefWidth="1000"
+	stylesheets="@instructorCreatePage.css"
+	xmlns="http://javafx.com/javafx/21.0.6"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="backend.controller.instructorCreatePageController.InstructorCreatePageController">
 	<children>
 		<VBox styleClass="navigation">
-            <!-- Top Navigation Bar -->
-            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav">
-                <padding>
-                    <Insets bottom="10" left="20" right="20" top="10" />
-                </padding>
-                
-                <!-- Company Logo and Name -->
-                <Label styleClass="company-name" text="AiTeeCo" />
-                  <!-- Navigation Links -->
-                <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
-                    <Label fx:id="exploreLabel" styleClass="nav-link" text="Explore" />
-                    <Label fx:id="myCourse" styleClass="nav-link" text="MyCourse" />
-                    <Label styleClass="nav-link" text="Create Course" />
-                </HBox>
-                  <!-- Search Bar -->
-                <HBox styleClass="search-container">
-                    <TextField fx:id="searchField" promptText="Search..." styleClass="search-input" />
-                    <Button fx:id="searchButton" onAction="#handleSearch" styleClass="search-button">
-                        <graphic>
-                            <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/images/main_page/icon/WhiteMagnifier.png" />
-                            </ImageView>
-                        </graphic>
-                    </Button>
-                </HBox>
-                
-                <!-- Icons -->
-                <Button styleClass="icon-button">
-                    <graphic>
-                        <ImageView fitHeight="20" fitWidth="20">
-                            <Image url="@/images/main_page/icon/Notification.png" />
-                     
-                        </ImageView>
-                    </graphic>
-                </Button>
-                
-                <Button styleClass="icon-button" fx:id="profileButton" onAction="#showProfileMenu">
-                    <graphic>
-                        <ImageView fitHeight="20" fitWidth="20">
-                            <Image url="@/images/main_page/icon/MyProfile.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </HBox>
-            
-            <!-- Bottom Decoration Bar -->
-            <HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0" styleClass="bottom-nav" />
-        </VBox>
-        <!-- Content -->
-       	<VBox styleClass="content-card">
-       	<children>
-       		<!-- Title -->
-       		<HBox styleClass="title-card">
-       			<Label Text="Create Course" styleClass="create-course-text" />
-       		</HBox>
-       		<HBox styleClass="course-name-card">
-       			<TextField fx:id="courseName" prefHeight="30.0" prefWidth="474.0" promptText="Course name" styleClass="course-name-field" />
-       		</HBox>
-       		<Separator styleClass="separator" />
-       		<!--Form-->
-       		<VBox prefHeight="418.0" prefWidth="972.0" styleClass="form-card">
-       			<HBox prefHeight="165.0" prefWidth="960.0" styleClass="row-card">
-       					<VBox styleClass="label-col">
-       						<Label styleClass="form-label" text="Technology" />
-       						<Label styleClass="form-label" text="Language" />
-       						<Label styleClass="form-label" text="Category" />
-       					</VBox>
-       					<VBox styleClass="option-col">
-       						<ComboBox fx:id="technology" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
-       							<items>
-       								<FXCollections fx:factory="observableArrayList">
-	       								<!-- A -->
-									    <String fx:value="ABAP" />
-									    <String fx:value="Ada" />
-									    <String fx:value="Assembly" />
-									    
-									    <!-- B -->
-									    <String fx:value="Bash" />
-									    
-									    <!-- C -->
-									    <String fx:value="C" />
-									    <String fx:value="CSharp" /> 
-									    <String fx:value="CSS" />   
-									    <String fx:value="Cpp" />    
-									    <String fx:value="COBOL" />
-									    <String fx:value="Crystal" />
-									    
-									    <!-- D -->
-									    <String fx:value="Dart" />
-									    <String fx:value="Delphi" />
-									    
-									    <!-- E -->
-									    <String fx:value="Elixir" />
-									    <String fx:value="Erlang" />
-									    
-									    <!-- F -->
-									    <String fx:value="FSharp" />     
-									    <String fx:value="Fortran" />
-									    
-									    <!-- G -->
-									    <String fx:value="GoLang" />
-									    <String fx:value="Groovy" />
-									    
-									    <!-- H -->
-									    <String fx:value="Hack" />
-									    <String fx:value="Haskell" />
-									    <String fx:value="HTML" />
-									    
-									    <!-- J -->
-									    <String fx:value="Java" />
-									    <String fx:value="JavaScript" />
-									    <String fx:value="Julia" />
-									    
-									    <!-- K -->
-									    <String fx:value="Kotlin" />
-									    
-									    <!-- L -->
-									    <String fx:value="Lisp" />
-									    <String fx:value="Lua" />
-									    
-									    <!-- M -->
-									    <String fx:value="MATLAB" />
-									    
-									    <!-- N -->
-									    <String fx:value="Nim" />
-									    
-									    <!-- O -->
-									    <String fx:value="Objective_C" />
-									    <String fx:value="OCaml" />
-									    
-									    <!-- P -->
-									    <String fx:value="PHP" />
-									    <String fx:value="PL_SQL" />
-									    <String fx:value="Pascal" />
-									    <String fx:value="Perl" />
-									    <String fx:value="Prolog" />
-									    <String fx:value="Python" />
-									    
-									    <!-- R -->
-									    <String fx:value="RLang" />
-									    <String fx:value="Ruby" />
-									    <String fx:value="Rust" />
-									    
-									    <!-- S -->
-									    <String fx:value="SQL" />
-									    <String fx:value="SAS" />
-									    <String fx:value="Scala" />
-									    <String fx:value="Scheme" />
-									    <String fx:value="Shell" />
-									    <String fx:value="Solidity" />
-									    <String fx:value="Swift" />
-									    
-									    <!-- T -->
-									    <String fx:value="Tcl" />
-									    <String fx:value="TypeScript" />
+			<!-- Top Navigation Bar -->
+			<HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav">
+				<padding>
+					<Insets bottom="10" left="20" right="20" top="10" />
+				</padding>
 
-									    <String fx:value="VB_NET" />
-									    <String fx:value="VHDL" />
-       								</FXCollections>
-       							</items>
-       						</ComboBox>
-       						<ComboBox fx:id="language" prefHeight="30.0" prefWidth="150.0" styleClass="choice-box">
-       							<items>
-       								<FXCollections fx:factory="observableArrayList">
-       									<String fx:value="Arabic" />
+				<!-- Company Logo and Name -->
+				<Label styleClass="company-name" text="AiTeeCo" />
+
+				<!-- Navigation Links -->
+				<HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
+					<Label fx:id="exploreLabel" styleClass="nav-link"
+						text="Explore" />
+					<Label fx:id="myCourse" styleClass="nav-link" text="MyCourse" />
+					<Label fx:id="createCourse" styleClass="nav-link"
+						text="Create Course" />
+				</HBox>
+
+				<!-- Search Bar -->
+				<HBox styleClass="search-container">
+					<TextField fx:id="searchField" promptText="Search..."
+						styleClass="search-input" />
+					<Button fx:id="searchButton" onAction="#handleSearch"
+						styleClass="search-button">
+						<graphic>
+							<ImageView fitHeight="16" fitWidth="16">
+								<Image url="@/images/main_page/icon/WhiteMagnifier.png" />
+							</ImageView>
+						</graphic>
+					</Button>
+				</HBox>
+
+				<!-- Icons -->
+				<Button fx:id="notificationButton" styleClass="icon-button">
+					<graphic>
+						<ImageView fitHeight="20" fitWidth="20">
+							<Image url="@/images/main_page/icon/Notification.png" />
+						</ImageView>
+					</graphic>
+				</Button>
+
+				<Button styleClass="icon-button" fx:id="profileButton"
+					onAction="#showProfileMenu">
+					<graphic>
+						<ImageView fitHeight="20" fitWidth="20">
+							<Image url="@/images/main_page/icon/MyProfile.png" />
+						</ImageView>
+					</graphic>
+				</Button>
+			</HBox>
+
+			<!-- Bottom Decoration Bar -->
+			<HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0"
+				styleClass="bottom-nav" />
+		</VBox>
+		<!-- Content -->
+		<VBox styleClass="content-card">
+			<children>
+				<!-- Title -->
+				<HBox styleClass="title-card">
+					<Label Text="Create Course" styleClass="create-course-text" />
+				</HBox>
+				<HBox styleClass="course-name-card">
+					<TextField fx:id="courseName" prefHeight="30.0"
+						prefWidth="474.0" promptText="Course name"
+						styleClass="course-name-field" />
+				</HBox>
+				<Separator styleClass="separator" />
+				<!--Form -->
+				<VBox prefHeight="418.0" prefWidth="972.0"
+					styleClass="form-card">
+					<HBox prefHeight="165.0" prefWidth="960.0"
+						styleClass="row-card">
+						<VBox styleClass="label-col">
+							<Label styleClass="form-label" text="Technology" />
+							<Label styleClass="form-label" text="Language" />
+							<Label styleClass="form-label" text="Category" />
+						</VBox>
+						<VBox styleClass="option-col">
+							<ComboBox fx:id="technology" prefHeight="30.0"
+								prefWidth="150.0" styleClass="choice-box">
+								<items>
+									<FXCollections fx:factory="observableArrayList">
+										<!-- A -->
+										<String fx:value="ABAP" />
+										<String fx:value="Ada" />
+										<String fx:value="Assembly" />
+
+										<!-- B -->
+										<String fx:value="Bash" />
+
+										<!-- C -->
+										<String fx:value="C" />
+										<String fx:value="CSharp" />
+										<String fx:value="CSS" />
+										<String fx:value="Cpp" />
+										<String fx:value="COBOL" />
+										<String fx:value="Crystal" />
+
+										<!-- D -->
+										<String fx:value="Dart" />
+										<String fx:value="Delphi" />
+
+										<!-- E -->
+										<String fx:value="Elixir" />
+										<String fx:value="Erlang" />
+
+										<!-- F -->
+										<String fx:value="FSharp" />
+										<String fx:value="Fortran" />
+
+										<!-- G -->
+										<String fx:value="GoLang" />
+										<String fx:value="Groovy" />
+
+										<!-- H -->
+										<String fx:value="Hack" />
+										<String fx:value="Haskell" />
+										<String fx:value="HTML" />
+
+										<!-- J -->
+										<String fx:value="Java" />
+										<String fx:value="JavaScript" />
+										<String fx:value="Julia" />
+
+										<!-- K -->
+										<String fx:value="Kotlin" />
+
+										<!-- L -->
+										<String fx:value="Lisp" />
+										<String fx:value="Lua" />
+
+										<!-- M -->
+										<String fx:value="MATLAB" />
+
+										<!-- N -->
+										<String fx:value="Nim" />
+
+										<!-- O -->
+										<String fx:value="Objective_C" />
+										<String fx:value="OCaml" />
+
+										<!-- P -->
+										<String fx:value="PHP" />
+										<String fx:value="PL_SQL" />
+										<String fx:value="Pascal" />
+										<String fx:value="Perl" />
+										<String fx:value="Prolog" />
+										<String fx:value="Python" />
+
+										<!-- R -->
+										<String fx:value="RLang" />
+										<String fx:value="Ruby" />
+										<String fx:value="Rust" />
+
+										<!-- S -->
+										<String fx:value="SQL" />
+										<String fx:value="SAS" />
+										<String fx:value="Scala" />
+										<String fx:value="Scheme" />
+										<String fx:value="Shell" />
+										<String fx:value="Solidity" />
+										<String fx:value="Swift" />
+
+										<!-- T -->
+										<String fx:value="Tcl" />
+										<String fx:value="TypeScript" />
+
+										<String fx:value="VB_NET" />
+										<String fx:value="VHDL" />
+									</FXCollections>
+								</items>
+							</ComboBox>
+							<ComboBox fx:id="language" prefHeight="30.0"
+								prefWidth="150.0" styleClass="choice-box">
+								<items>
+									<FXCollections fx:factory="observableArrayList">
+										<String fx:value="Arabic" />
 										<String fx:value="Amharic" />
 										<String fx:value="Bengali" />
 										<String fx:value="Bulgarian" />
@@ -231,67 +248,76 @@
 										<String fx:value="Urdu" />
 										<String fx:value="Vietnamese" />
 										<String fx:value="Zulu" />
-       								</FXCollections>
-       							</items>
-       						</ComboBox>
-       						<ComboBox fx:id="category" prefHeight="30.0" prefWidth="150.0">
-       						</ComboBox>
-       					</VBox>
-       					<VBox styleClass="label-col">
-       						<Label styleClass="form-label" text="Level" />
-       						<Label styleClass="form-label" text="Price" />
-       					</VBox>
-       					<VBox styleClass="option-col">
-       						<ComboBox fx:id="level" prefHeight="30.0" prefWidth="138.0">
-       							<items>
-       								<FXCollections fx:factory="observableArrayList">
-       									<String fx:value="Beginner" />
-       									<String fx:value="Intermediate" />
-       									<String fx:value="Advanced" />
-       									<String fx:value="All Level" />
-       								</FXCollections>
-       							</items>
-       						</ComboBox>
-       						<TextField fx:id="price" prefHeight="23.0" prefWidth="20.0" styleClass="price-input-field" />
-       					</VBox>
-       					<VBox styleClass="label-col">
-       						<Label styleClass="form-label" text="Course thumbnail" />
-       					</VBox>
-       					<VBox alignment="CENTER" styleClass="option-col">
-       						<ImageView fx:id="thumbnail" fitHeight="110" fitWidth="178" preserveRatio="true">
-       								<Image url="@/images/default_image.png" />
-       						</ImageView>
-       						<Button onAction="#SelectImage" styleClass="image-button" text="Choose Image" />
-       					</VBox>
-       			</HBox>
-       			<HBox styleClass="row-card">
-       				<VBox styleClass="label-col">
-       					<Label styleClass="form-label" text="Description" />
-       				</VBox>
-       				<VBox>
-       					<TextArea fx:id="description" prefHeight="174.0" prefWidth="850.0" styleClass="description-field" />
-       				</VBox>
-       			</HBox>
-       			<HBox alignment="CENTER" styleClass="button-bar">
-       				<Button onAction="#CreateCourse" prefHeight="30.0" prefWidth="132.0" styleClass="create-button" text="Create" />
-       				<Button onAction="#ReturnToMyCourse" prefHeight="30.0" prefWidth="132.0" styleClass="cancle-button" text="Cancle" />
-       			</HBox>
-       		</VBox>
-       	</children>
-       	</VBox>
-       	<!-- Footer -->
-        <HBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0" styleClass="footer">
-            <padding>
-                <Insets bottom="20" left="30" right="30" top="20" />
-            </padding>
-            
-            <HBox alignment="CENTER" spacing="15">
-               
-               <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                   <Label styleClass="footer-text" text="AiTeeCo © 2025" />
-                   <Label styleClass="footer-text" text="All rights reserved" />
-               </VBox>
-            </HBox>
-        </HBox>
+									</FXCollections>
+								</items>
+							</ComboBox>
+							<ComboBox fx:id="category" prefHeight="30.0"
+								prefWidth="150.0">
+							</ComboBox>
+						</VBox>
+						<VBox styleClass="label-col">
+							<Label styleClass="form-label" text="Level" />
+							<Label styleClass="form-label" text="Price" />
+						</VBox>
+						<VBox styleClass="option-col">
+							<ComboBox fx:id="level" prefHeight="30.0"
+								prefWidth="138.0">
+								<items>
+									<FXCollections fx:factory="observableArrayList">
+										<String fx:value="Beginner" />
+										<String fx:value="Intermediate" />
+										<String fx:value="Advanced" />
+										<String fx:value="All Level" />
+									</FXCollections>
+								</items>
+							</ComboBox>
+							<TextField fx:id="price" prefHeight="23.0"
+								prefWidth="20.0" styleClass="price-input-field" />
+						</VBox>
+						<VBox styleClass="label-col">
+							<Label styleClass="form-label" text="Course thumbnail" />
+						</VBox>
+						<VBox alignment="CENTER" styleClass="option-col">
+							<ImageView fx:id="thumbnail" fitHeight="110"
+								fitWidth="178" preserveRatio="true">
+								<Image url="@/images/default_image.png" />
+							</ImageView>
+							<Button onAction="#SelectImage" styleClass="image-button"
+								text="Choose Image" />
+						</VBox>
+					</HBox>
+					<HBox styleClass="row-card">
+						<VBox styleClass="label-col">
+							<Label styleClass="form-label" text="Description" />
+						</VBox>
+						<VBox>
+							<TextArea fx:id="description" prefHeight="174.0"
+								prefWidth="850.0" styleClass="description-field" />
+						</VBox>
+					</HBox>
+					<HBox alignment="CENTER" styleClass="button-bar">
+						<Button onAction="#CreateCourse" prefHeight="30.0"
+							prefWidth="132.0" styleClass="create-button" text="Create" />
+						<Button onAction="#ReturnToMyCourse" prefHeight="30.0"
+							prefWidth="132.0" styleClass="cancle-button" text="Cancle" />
+					</HBox>
+				</VBox>
+			</children>
+		</VBox>
+		<!-- Footer -->
+		<HBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0"
+			styleClass="footer">
+			<padding>
+				<Insets bottom="20" left="30" right="30" top="20" />
+			</padding>
+
+			<HBox alignment="CENTER" spacing="15">
+
+				<VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+					<Label styleClass="footer-text" text="AiTeeCo © 2025" />
+					<Label styleClass="footer-text" text="All rights reserved" />
+				</VBox>
+			</HBox>
+		</HBox>
 	</children>
 </VBox>
