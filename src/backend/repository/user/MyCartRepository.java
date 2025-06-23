@@ -14,14 +14,21 @@ import model.user.MyCart;
 
 public class MyCartRepository implements RepositoryInterface<MyCart> {
 	
-	private Connection connection;
-
     public MyCartRepository() {
-        this.connection = DatabaseConnection.getConnection();
+        // Constructor không cần lưu connection
+    }
+
+    private Connection getConnection() throws SQLException {
+        Connection conn = DatabaseConnection.getConnection();
+        if (conn == null) {
+            throw new SQLException("Unable to establish database connection");
+        }
+        return conn;
     }
 
     @Override
     public int Insert(MyCart cart) throws SQLException {
+        Connection connection = getConnection();
         String sql = "INSERT INTO mycart (userId, courseId, isBuy, addedAt) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, cart.getUserId());
@@ -30,10 +37,9 @@ public class MyCartRepository implements RepositoryInterface<MyCart> {
         statement.setTimestamp(4, Timestamp.valueOf(cart.getAddedAt()));
 
         return statement.executeUpdate();
-    }
-
-    @Override
+    }    @Override
     public int Update(MyCart cart) throws SQLException {
+        Connection connection = getConnection();
         String sql = "UPDATE mycart SET isBuy = ?, addedAt = ? WHERE userId = ? AND courseId = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setBoolean(1, cart.isBuy());
@@ -46,16 +52,16 @@ public class MyCartRepository implements RepositoryInterface<MyCart> {
 
     @Override
     public int Delete(MyCart cart) throws SQLException {
+        Connection connection = getConnection();
         String sql = "DELETE FROM mycart WHERE userId = ? AND courseId = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, cart.getUserId());
         statement.setInt(2, cart.getCourseId());
 
         return statement.executeUpdate();
-    }
-
-    @Override
+    }    @Override
     public ArrayList<MyCart> SelectAll() throws SQLException {
+        Connection connection = getConnection();
         ArrayList<MyCart> carts = new ArrayList<>();
         String sql = "SELECT * FROM mycart";
         Statement statement = connection.createStatement();
@@ -75,6 +81,7 @@ public class MyCartRepository implements RepositoryInterface<MyCart> {
 
     @Override
     public MyCart SelectByID(int id) throws SQLException {
+        Connection connection = getConnection();
         String sql = "SELECT * FROM mycart WHERE userId = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, id);
@@ -89,10 +96,9 @@ public class MyCartRepository implements RepositoryInterface<MyCart> {
             );
         }
         return null;
-    }
-
-    @Override
+    }    @Override
     public ArrayList<MyCart> SelectByCondition(String condition) throws SQLException {
+        Connection connection = getConnection();
         ArrayList<MyCart> carts = new ArrayList<>();
         String sql = "SELECT * FROM mycart WHERE " + condition;
         Statement statement = connection.createStatement();

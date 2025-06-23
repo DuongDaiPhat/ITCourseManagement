@@ -6,24 +6,28 @@ import java.sql.SQLException;
 import utils.ConfigReader;
 
 public class DatabaseConnection {
-    private static Connection connection = null;
-
-    // Phương thức lấy kết nối
+    private static Connection connection = null;    // Phương thức lấy kết nối
     public static Connection getConnection() {
-        if (connection == null) {
-            try {
+        try {
+            // Kiểm tra connection hiện tại có còn valid không
+            if (connection == null || connection.isClosed() || !connection.isValid(5)) {
                 // Đăng ký MySQL Driver 
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 String url = ConfigReader.get("db.url");
                 String user = ConfigReader.get("db.user");
                 String password = ConfigReader.get("db.password");
-                // Thiết lập kết nối
+                
+                // Thêm các parameter để tránh connection timeout
+                url += "?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+                
+                // Thiết lập kết nối mới
                 connection = DriverManager.getConnection(url, user, password);
                 System.out.println("Connect to MySQL successfully!");
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-                System.out.println("Error: Can't connect to MySQL!");
             }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error: Can't connect to MySQL!");
+            return null;
         }
         return connection;
     }
