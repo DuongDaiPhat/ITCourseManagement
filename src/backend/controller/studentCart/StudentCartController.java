@@ -5,6 +5,7 @@ import backend.service.course.CourseService;
 import backend.service.user.UserService;
 import backend.service.user.CartService;
 import backend.service.user.MyLearningService;
+import backend.service.course.CourseReviewService;
 import backend.util.ImageCache;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -60,12 +61,12 @@ public class StudentCartController implements Initializable {    // Header Navig
       // Payment Summary Elements
     @FXML private Label selectedItemsLabel;
     @FXML private Label totalPriceLabel;
-    @FXML private Button payButton;
-      // Services
+    @FXML private Button payButton;      // Services
     private CourseService courseService;
     private UserService userService;
     private CartService cartService;
     private MyLearningService learningService;
+    private CourseReviewService courseReviewService;
     private ContextMenu profileMenu;
     
     // Data
@@ -104,12 +105,12 @@ public class StudentCartController implements Initializable {    // Header Navig
             loadCartItems();
             updatePaymentSummary();
         });
-    }
-      private void initializeServices() {
+    }      private void initializeServices() {
         courseService = new CourseService();
         userService = new UserService();
         cartService = new CartService();
         learningService = new MyLearningService();
+        courseReviewService = new CourseReviewService();
     }
       private void setupIcons() {
         // Load icons with error handling using file: protocol - same as StudentMainPage
@@ -296,18 +297,26 @@ public class StudentCartController implements Initializable {    // Header Navig
         Label titleLabel = new Label(course.getCourseName());
         titleLabel.getStyleClass().add("course-title");
         
-        Label instructorLabel = new Label("By " + getInstructorName(course.getUserID()));
-        instructorLabel.getStyleClass().add("course-instructor");
+        Label instructorLabel = new Label("By " + getInstructorName(course.getUserID()));        instructorLabel.getStyleClass().add("course-instructor");
         
-        // Rating (mock data for now)
+        // Rating - Get real rating from database
         HBox ratingBox = new HBox();
         ratingBox.setSpacing(5);
         ratingBox.setAlignment(Pos.CENTER_LEFT);
         
-        Label ratingLabel = new Label("4.5 ★★★★☆");
+        double avgRating = courseReviewService.getCourseAverageRating(course.getCourseID());
+        int reviewCount = courseReviewService.getCourseReviewCount(course.getCourseID());
+        
+        String ratingText = reviewCount > 0 ? 
+            String.format("%.1f ★", avgRating) :
+            "No rating yet ☆";
+        Label ratingLabel = new Label(ratingText);
         ratingLabel.getStyleClass().add("course-rating");
         
-        Label reviewsLabel = new Label("(123 reviews)");
+        String reviewText = reviewCount > 0 ? 
+            String.format("(%d review%s)", reviewCount, reviewCount == 1 ? "" : "s") :
+            "(0 reviews)";
+        Label reviewsLabel = new Label(reviewText);
         reviewsLabel.getStyleClass().add("course-instructor");
         
         ratingBox.getChildren().addAll(ratingLabel, reviewsLabel);
@@ -571,11 +580,10 @@ public class StudentCartController implements Initializable {    // Header Navig
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setTitle("Logout");
         confirmation.setHeaderText("Confirm Logout");
-        confirmation.setContentText("Are you sure you want to logout?");
-          Optional<ButtonType> result = confirmation.showAndWait();
+        confirmation.setContentText("Are you sure you want to logout?");          Optional<ButtonType> result = confirmation.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Session.setCurrentUser(null);
-            SceneManager.switchScene("Login Page", "/frontend/view/login/Login.fxml");
+            SceneManager.switchToLoginScene("Login Page", "/frontend/view/login/Login.fxml");
         }
     }
     

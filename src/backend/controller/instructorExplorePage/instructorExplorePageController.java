@@ -3,6 +3,7 @@ package backend.controller.instructorExplorePage;
 import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
+import backend.service.course.CourseReviewService;
 import backend.service.sample.SampleDataService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.course.Category;
 import model.course.Courses;
+import model.course.Language;
+import model.course.Technology;
+import model.course.Level;
 import model.user.Users;
 
 import java.io.File;
@@ -36,9 +40,9 @@ public class instructorExplorePageController implements Initializable {
     @FXML private Label myCoursesLabel;
 
     private ObservableList<Courses> allCourses;
-    private Map<Category, List<Courses>> coursesByCategory;
-    private CourseService courseService;
+    private Map<Category, List<Courses>> coursesByCategory;    private CourseService courseService;
     private UserService userService;
+    private CourseReviewService courseReviewService;
     private ContextMenu profileMenu;
       // Method để nhận từ khóa tìm kiếm từ trang khác
     public void setSearchKeyword(String keyword) {
@@ -55,10 +59,10 @@ public class instructorExplorePageController implements Initializable {
             System.out.println("DEBUG: Keyword is null or empty, displaying all courses");
             displayAllCourses();
         }
-    }    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    }    @Override    public void initialize(URL location, ResourceBundle resources) {
         courseService = new CourseService();
         userService = new UserService();
+        courseReviewService = new CourseReviewService();
         setupProfileMenu();
         setupCategoryFilter();
         setupNavigationEvents();
@@ -184,8 +188,10 @@ public class instructorExplorePageController implements Initializable {
             "/images/default_image.png",
             "/images/default_image.png"
         };
-        
-        Category[] categories = Category.values();
+          Category[] categories = Category.values();
+        Language[] languages = {Language.English, Language.Vietnamese, Language.Japanese, Language.English, Language.Vietnamese, Language.English, Language.Japanese, Language.English, Language.Vietnamese, Language.English, Language.Japanese, Language.Vietnamese};
+        Technology[] technologies = {Technology.Python, Technology.JavaScript, Technology.Python, Technology.Java, Technology.Python, Technology.Kotlin, Technology.CSharp, Technology.GoLang, Technology.Python, Technology.CSharp, Technology.JavaScript, Technology.Java};
+        Level[] levels = {Level.BEGINNER, Level.INTERMEDIATE, Level.BEGINNER, Level.ADVANCED, Level.INTERMEDIATE, Level.INTERMEDIATE, Level.BEGINNER, Level.BEGINNER, Level.ADVANCED, Level.INTERMEDIATE, Level.BEGINNER, Level.INTERMEDIATE};
         
         for (int i = 0; i < courseNames.length; i++) {
             Courses course = new Courses();
@@ -197,6 +203,11 @@ public class instructorExplorePageController implements Initializable {
             course.setCourseDescription("A comprehensive course covering " + courseNames[i].toLowerCase());
             course.setApproved(true);
             course.setPublish(true);
+            
+            // Set language, technology, and level attributes
+            course.setLanguage(languages[i]);
+            course.setTechnology(technologies[i]);
+            course.setLevel(levels[i]);
             
             allCourses.add(course);
             coursesByCategory.get(course.getCategory()).add(course);
@@ -234,12 +245,13 @@ public class instructorExplorePageController implements Initializable {
         categorySubtitle.getStyleClass().add("category-subtitle");
         
         header.getChildren().addAll(categoryTitle, categorySubtitle);
-        
-        // Course grid
+          // Course grid with proper layout for 4 courses per row
         FlowPane courseGrid = new FlowPane();
         courseGrid.getStyleClass().add("course-grid");
         courseGrid.setHgap(20);
         courseGrid.setVgap(20);
+        courseGrid.setPrefWrapLength(980); // Set wrap length to fit 4 cards (4 * 230 + 3 * 20 = 980)
+        courseGrid.setAlignment(javafx.geometry.Pos.TOP_LEFT);
         
         for (Courses course : courses) {
             VBox courseCard = createCourseCard(course);
@@ -248,19 +260,34 @@ public class instructorExplorePageController implements Initializable {
         
         categorySection.getChildren().addAll(header, courseGrid);
         return categorySection;
-    }
-
-    private VBox createCourseCard(Courses course) {
+    }    private VBox createCourseCard(Courses course) {
         VBox courseCard = new VBox();
         courseCard.getStyleClass().add("course-card");
         courseCard.setOnMouseClicked(event -> handleCourseClick(course));
         
-        // Course thumbnail
+        // Set consistent dimensions for 4 cards per row layout
+        courseCard.setPrefWidth(230);
+        courseCard.setMaxWidth(230);
+        courseCard.setMinWidth(230);
+        courseCard.setPrefHeight(340);
+        courseCard.setMaxHeight(340);
+        courseCard.setAlignment(javafx.geometry.Pos.TOP_LEFT);        courseCard.setSpacing(0); // Remove spacing since we'll handle it in containers
+        
+        // Image container with proper padding and centering
+        VBox imageContainer = new VBox();
+        imageContainer.setAlignment(Pos.CENTER);
+        imageContainer.setStyle("-fx-padding: 10 10 0 10; -fx-background-radius: 12 12 0 0;");
+        imageContainer.setPrefHeight(150); // Fixed height for image section
+        imageContainer.setMaxHeight(150);
+        imageContainer.setMinHeight(150);
+        
+        // Course thumbnail with standardized aspect ratio matching StudentMainPage
         ImageView thumbnail = new ImageView();
         thumbnail.getStyleClass().add("course-thumbnail");
-        thumbnail.setFitWidth(280);
-        thumbnail.setFitHeight(160);
-        thumbnail.setPreserveRatio(false);        try {
+        thumbnail.setFitWidth(210);  // Standardized width to match StudentMainPage
+        thumbnail.setFitHeight(130); // Standardized height to match StudentMainPage (210:130 = 1.62:1 ratio)
+        thumbnail.setPreserveRatio(false); // Allow stretching to maintain consistent thumbnail aspect ratio
+        thumbnail.setSmooth(true);try {
             Image image = null;
             String thumbnailURL = course.getThumbnailURL();
             
@@ -340,16 +367,31 @@ public class instructorExplorePageController implements Initializable {
             } catch (Exception ex) {
                 // Create a placeholder if no image available
                 thumbnail.setStyle("-fx-background-color: #e9ecef;");
-            }
-        }
+            }        }
         
-        // Course info container
+        // Add thumbnail to image container
+        imageContainer.getChildren().add(thumbnail);
+        
+        // Course info container with fixed spacing and layout
         VBox courseInfo = new VBox();
         courseInfo.getStyleClass().add("course-info");
-          // Course title
+        courseInfo.setSpacing(8);
+        courseInfo.setAlignment(Pos.TOP_LEFT);
+        courseInfo.setPrefHeight(180); // Fixed height for content section
+        courseInfo.setMaxHeight(180);
+        courseInfo.setMinHeight(180);
+        
+        // Course title - fixed height with ellipsis for long text
         Label courseTitle = new Label(course.getCourseName());
         courseTitle.getStyleClass().add("course-title");
-          // Author name - get real instructor name from database
+        courseTitle.setWrapText(false);  // Disable wrapping to use ellipsis
+        courseTitle.setMaxWidth(206);
+        courseTitle.setPrefHeight(20);  // Fixed height
+        courseTitle.setMaxHeight(20);
+        courseTitle.setMinHeight(20);
+        courseTitle.setStyle("-fx-text-overrun: ellipsis;"); // Show ellipsis for long text
+        
+        // Author name - get real instructor name from database with fixed height
         String authorName = "By Instructor";
         try {
             Users instructor = userService.GetUserByID(course.getUserID());
@@ -363,35 +405,76 @@ public class instructorExplorePageController implements Initializable {
         
         Label authorLabel = new Label(authorName);
         authorLabel.getStyleClass().add("course-author");
+        authorLabel.setPrefHeight(18);  // Fixed height
+        authorLabel.setMaxHeight(18);
+        authorLabel.setMinHeight(18);
+        authorLabel.setMaxWidth(206);
+        authorLabel.setStyle("-fx-text-overrun: ellipsis;");
         
-        // Category tag
-        Label categoryTag = new Label(formatCategoryName(course.getCategory().name()));
-        categoryTag.getStyleClass().add("course-category-tag");
+        // Language, Technology, Level badges in one row - fixed height
+        HBox badgesBox = new HBox(5);
+        badgesBox.setAlignment(Pos.CENTER_LEFT);
+        badgesBox.setPrefHeight(25); // Fixed height
+        badgesBox.setMaxHeight(25);
+        badgesBox.setMinHeight(25);
         
-        // Price and rating container
+        // Language badge
+        String languageText = (course.getLanguage() != null) ? course.getLanguage().toString() : "N/A";
+        Label languageLabel = new Label(languageText);
+        languageLabel.getStyleClass().add("course-language");
+        languageLabel.setMaxWidth(50); // Fixed width to prevent overflow
+        languageLabel.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
+        
+        // Technology badge
+        String technologyText = (course.getTechnology() != null) ? course.getTechnology().toString() : "N/A";
+        Label technologyLabel = new Label(technologyText);
+        technologyLabel.getStyleClass().add("course-technology");
+        technologyLabel.setMaxWidth(65); // Fixed width to prevent overflow
+        technologyLabel.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
+        
+        // Level badge  
+        String levelText = (course.getLevel() != null) ? course.getLevel().toString() : "N/A";
+        Label levelLabel = new Label(levelText);
+        levelLabel.getStyleClass().add("course-level");
+        levelLabel.setMaxWidth(55); // Fixed width to prevent overflow
+        levelLabel.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
+        
+        badgesBox.getChildren().addAll(languageLabel, technologyLabel, levelLabel);
+        
+        // Price and rating container - fixed position
         HBox priceRatingContainer = new HBox();
         priceRatingContainer.setAlignment(Pos.CENTER_LEFT);
         priceRatingContainer.setSpacing(10);
+        priceRatingContainer.setPrefHeight(25); // Fixed height
+        priceRatingContainer.setMaxHeight(25);
+        priceRatingContainer.setMinHeight(25);
         
         Label price = new Label("$" + String.format("%.2f", course.getPrice()));
         price.getStyleClass().add("course-price");
         
-        // Rating (placeholder - you might need to calculate this from reviews)
+        // Rating - Get real rating from database
         HBox ratingContainer = new HBox();
         ratingContainer.getStyleClass().add("course-rating");
         ratingContainer.setAlignment(Pos.CENTER_LEFT);
         
-        Label ratingText = new Label("★ 4.5");
-        ratingText.getStyleClass().add("rating-text");
+        double avgRating = courseReviewService.getCourseAverageRating(course.getCourseID());
+        int reviewCount = courseReviewService.getCourseReviewCount(course.getCourseID());
         
-        Label ratingCount = new Label("(128)");
-        ratingCount.getStyleClass().add("rating-count");
+        String ratingText = reviewCount > 0 ? 
+            String.format("★ %.1f", avgRating) : 
+            "☆ No rating";
+        Label ratingLabel = new Label(ratingText);
+        ratingLabel.getStyleClass().add("rating-text");
         
-        ratingContainer.getChildren().addAll(ratingText, ratingCount);
+        String countText = reviewCount > 0 ? 
+            String.format("(%d)", reviewCount) : 
+            "(0)";
+        Label ratingCount = new Label(countText);
+        ratingCount.getStyleClass().add("rating-count");        
+        ratingContainer.getChildren().addAll(ratingLabel, ratingCount);
         priceRatingContainer.getChildren().addAll(price, ratingContainer);
-        
-        courseInfo.getChildren().addAll(courseTitle, authorLabel, categoryTag, priceRatingContainer);
-        courseCard.getChildren().addAll(thumbnail, courseInfo);
+          courseInfo.getChildren().addAll(courseTitle, authorLabel, badgesBox, priceRatingContainer);
+        courseCard.getChildren().addAll(imageContainer, courseInfo);
         
         return courseCard;
     }
@@ -528,41 +611,7 @@ public class instructorExplorePageController implements Initializable {
     private void showPaymentMethods() {
         System.out.println("Opening payment methods...");
     }
-    
-    private void logout() {
-        SceneManager.clearSceneCache();
-        SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
-    }    // Debug method to test image loading
-    private void debugImagePaths() {
-        System.out.println("=== Debug Image Paths ===");
-        String projectRoot = System.getProperty("user.dir");
-        System.out.println("Working directory: " + projectRoot);
-        
-        // Check if user_data directory exists
-        File userDataDir = new File(projectRoot, "user_data");
-        File imagesDir = new File(userDataDir, "images");
-        
-        System.out.println("user_data exists: " + userDataDir.exists());
-        System.out.println("user_data/images exists: " + imagesDir.exists());
-        
-        if (imagesDir.exists()) {
-            File[] imageFiles = imagesDir.listFiles();
-            if (imageFiles != null) {
-                System.out.println("Found " + imageFiles.length + " files in user_data/images:");
-                for (File file : imageFiles) {
-                    System.out.println("  - " + file.getName());
-                }
-            }
-        }
-        
-        // Test a sample image path
-        String samplePath = "/user_data/images/602e4edc-f79f-45f9-a1b2-2f164b864f43_Python.png";
-        String relativePath = samplePath.substring(1); // Remove leading slash
-        File testFile = new File(projectRoot, relativePath);
-        
-        System.out.println("Sample image path: " + samplePath);
-        System.out.println("Resolved file path: " + testFile.getAbsolutePath());
-        System.out.println("File exists: " + testFile.exists());
-        System.out.println("=========================");
+      private void logout() {        SceneManager.clearSceneCache();
+        SceneManager.switchToLoginScene("Login", "/frontend/view/login/Login.fxml");
     }
 }

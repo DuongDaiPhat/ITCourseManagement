@@ -23,7 +23,8 @@
                 </padding>
                 
                 <!-- Company Logo and Name -->
-                <Label styleClass="company-name" text="AiTeeCo" />                <!-- Navigation Links -->
+                <Label styleClass="company-name" text="AiTeeCo" />
+                                <!-- Navigation Links -->
                 <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
                     <Label fx:id="exploreLabel" styleClass="nav-link" text="Explore" />
                     <Label styleClass="nav-link" text="MyCourse" />

@@ -69,12 +69,11 @@
             <HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0" styleClass="bottom-nav" />
         </VBox>
        </top>
-       <center>
-       <!--Main-->
+       <center>       <!--Main-->
        <VBox styleClass="main-card">
-       		<Label fx:id = "goBack" styleClass = "go-back-label" text = "⬅"/>
-	       <HBox styleClass="title-card">
-	       		<Label fx:id="courseLabel" prefHeight="43.0" prefWidth="960.0" styleClass="course-label" text="null" />
+	       <HBox styleClass="title-card" alignment="CENTER_LEFT">
+	       		<Label fx:id="goBack" styleClass="go-back-label" text="⬅"/>
+	       		<Label fx:id="courseLabel" prefHeight="43.0" styleClass="course-label" text="null" HBox.hgrow="ALWAYS"/>
 	       </HBox>
 	       <ScrollPane id="myScrollPane" fx:id="mainScrollPane" fitToWidth="true">
 		    <content>

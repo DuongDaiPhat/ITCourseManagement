@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -63,15 +64,15 @@
             </HBox>
             
             <!-- Bottom Decoration Bar -->
-            <HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0" styleClass="bottom-nav" />
-        </VBox>
+            <HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0" styleClass="bottom-nav" />        </VBox>
         <!-- Content -->
-       	<VBox styleClass="content-card">
-       	<children>
-       		<!-- Title -->
-       		<HBox styleClass="title-card">
-       			<Label Text="Create Course" styleClass="create-course-text" />
-       		</HBox>
+        <ScrollPane fitToWidth="true" styleClass="content-scroll-pane" VBox.vgrow="ALWAYS">
+       	    <VBox styleClass="content-card">
+       	    <children>
+       		    <!-- Title -->
+       		    <HBox styleClass="title-card">
+       			    <Label Text="Create Course" styleClass="create-course-text" />
+       		    </HBox>
        		<HBox styleClass="course-name-card">
        			<TextField fx:id="courseName" prefHeight="30.0" prefWidth="474.0" promptText="Course name" styleClass="course-name-field" />
        		</HBox>
@@ -275,10 +276,10 @@
        			<HBox alignment="CENTER" styleClass="button-bar">
        				<Button onAction="#CreateCourse" prefHeight="30.0" prefWidth="132.0" styleClass="create-button" text="Create" />
        				<Button onAction="#ReturnToMyCourse" prefHeight="30.0" prefWidth="132.0" styleClass="cancle-button" text="Cancle" />
-       			</HBox>
-       		</VBox>
-       	</children>
-       	</VBox>
+       			</HBox>       		</VBox>
+       	    </children>
+       	    </VBox>
+        </ScrollPane>
        	<!-- Footer -->
         <HBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0" styleClass="footer">
             <padding>

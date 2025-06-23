@@ -1,6 +1,8 @@
 package backend.controller.courseDetailPage;
 
 import backend.controller.scene.SceneManager;
+import backend.repository.course.CourseReviewRepository;
+import backend.service.course.CourseReviewService;
 import backend.service.course.CourseService;
 import backend.service.lecture.LectureService;
 import backend.service.user.UserService;
@@ -20,6 +22,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import model.course.Courses;
+import model.course.CourseReview;
 import model.lecture.Lecture;
 import model.user.Session;
 import model.user.Users;
@@ -53,6 +56,17 @@ public class CourseDetailPageController implements Initializable {
     @FXML private Label updatedDate;
     @FXML private Label totalLectures;
     @FXML private VBox lecturesContainer;
+      // Rating and Review Elements
+    @FXML private Label averageRatingLabel;
+    @FXML private Label totalReviewsLabel;
+    @FXML private Button filterAllBtn;
+    @FXML private Button filter5StarBtn;
+    @FXML private Button filter4StarBtn;
+    @FXML private Button filter3StarBtn;
+    @FXML private Button filter2StarBtn;
+    @FXML private Button filter1StarBtn;
+    @FXML private VBox reviewsContainer;
+    @FXML private Label noReviewsLabel;
     
     // Main content container
     @FXML private VBox mainContent;    // Video Player Elements
@@ -76,6 +90,7 @@ public class CourseDetailPageController implements Initializable {
     private CourseService courseService;
     private UserService userService;
     private LectureService lectureService;
+    private CourseReviewService courseReviewService;
     private ContextMenu profileMenu;
     private Courses currentCourse;
     private boolean isOwnedByCurrentUser = false;
@@ -86,20 +101,124 @@ public class CourseDetailPageController implements Initializable {
     private int currentSpeedIndex = 2; // Default 1.0x
     private boolean isPlaying = false;
     private boolean isVideoFullscreen = false;
-    
-    @Override
+      @Override
     public void initialize(URL location, ResourceBundle resources) {
         courseService = new CourseService();
         userService = new UserService();
         lectureService = new LectureService();
-        
+        courseReviewService = new CourseReviewService();
         setupProfileMenu();
         setupNavigationEvents();
-        
-        // Initialize video player UI
         initializeVideoPlayer();
+        setupReviewFilterButtons();
+    }    // Call this after setting currentCourse
+    private void loadCourseReviews() {
+        if (currentCourse == null) return;
+        
+        // Null check for FXML elements
+        if (averageRatingLabel == null || totalReviewsLabel == null || reviewsContainer == null) {
+            System.err.println("Rating/Review FXML elements not initialized properly");
+            return;
+        }
+        
+        try {
+            int courseId = currentCourse.getCourseID();
+            double avgRating = courseReviewService.getCourseAverageRating(courseId);
+            int reviewCount = courseReviewService.getCourseReviewCount(courseId);
+            ArrayList<CourseReviewRepository.CourseReviewWithName> reviewsWithNames = courseReviewService.getCourseReviewsWithNames(courseId);
+              averageRatingLabel.setText(String.format("%.1f", avgRating));
+            totalReviewsLabel.setText("(" + reviewCount + " reviews)");
+            displayReviewsWithNames(reviewsWithNames);
+            
+            // Set "All" filter button as active by default
+            setActiveFilterButton(0);
+        } catch (Exception e) {
+            System.err.println("Error loading course reviews: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-    
+
+    private void displayReviewsWithNames(ArrayList<CourseReviewRepository.CourseReviewWithName> reviewsWithNames) {
+        if (reviewsContainer == null) return;
+        
+        reviewsContainer.getChildren().clear();
+        if (reviewsWithNames == null || reviewsWithNames.isEmpty()) {
+            if (noReviewsLabel != null) {
+                noReviewsLabel.setVisible(true);
+            }
+            return;
+        }
+        if (noReviewsLabel != null) {
+            noReviewsLabel.setVisible(false);
+        }
+          for (CourseReviewRepository.CourseReviewWithName reviewWithName : reviewsWithNames) {
+            CourseReview review = reviewWithName.getReview();
+            String reviewerName = reviewWithName.getReviewerName();
+            
+            VBox reviewBox = new VBox();
+            reviewBox.getStyleClass().add("review-item");
+            
+            // Reviewer name (first line)
+            Label reviewerLabel = new Label(reviewerName);
+            reviewerLabel.getStyleClass().add("reviewer-name");
+            
+            // Date (second line)
+            Label dateLabel = new Label(review.getCreatedAt().toLocalDate().toString());
+            dateLabel.getStyleClass().add("review-date");
+            
+            // Rating stars (third line)
+            HBox ratingStars = new HBox();
+            ratingStars.getStyleClass().add("review-rating-stars");
+            String starsText = "★".repeat(review.getRating()) + "☆".repeat(5 - review.getRating());
+            Label starsLabel = new Label(starsText);
+            starsLabel.getStyleClass().add("review-star");
+            ratingStars.getChildren().add(starsLabel);
+            
+            // Review comment (fourth line)
+            Label commentLabel = new Label(review.getComment());
+            commentLabel.getStyleClass().add("review-comment");
+            
+            reviewBox.getChildren().addAll(reviewerLabel, dateLabel, ratingStars, commentLabel);
+            reviewsContainer.getChildren().add(reviewBox);
+        }
+    }private void setupReviewFilterButtons() {
+        if (filterAllBtn != null) filterAllBtn.setOnAction(e -> filterReviews(0));
+        if (filter5StarBtn != null) filter5StarBtn.setOnAction(e -> filterReviews(5));
+        if (filter4StarBtn != null) filter4StarBtn.setOnAction(e -> filterReviews(4));
+        if (filter3StarBtn != null) filter3StarBtn.setOnAction(e -> filterReviews(3));
+        if (filter2StarBtn != null) filter2StarBtn.setOnAction(e -> filterReviews(2));
+        if (filter1StarBtn != null) filter1StarBtn.setOnAction(e -> filterReviews(1));
+    }    private void filterReviews(int star) {
+        if (currentCourse == null) return;
+        int courseId = currentCourse.getCourseID();
+        ArrayList<CourseReviewRepository.CourseReviewWithName> allReviewsWithNames = courseReviewService.getCourseReviewsWithNames(courseId);
+        ArrayList<CourseReviewRepository.CourseReviewWithName> filtered = new ArrayList<>();
+        if (star == 0) {
+            filtered = allReviewsWithNames;
+        } else {
+            for (CourseReviewRepository.CourseReviewWithName rWithName : allReviewsWithNames) {
+                if (rWithName.getReview().getRating() == star) filtered.add(rWithName);
+            }
+        }
+        displayReviewsWithNames(filtered);
+        setActiveFilterButton(star);
+    }private void setActiveFilterButton(int star) {
+        if (filterAllBtn != null) filterAllBtn.getStyleClass().remove("active");
+        if (filter5StarBtn != null) filter5StarBtn.getStyleClass().remove("active");
+        if (filter4StarBtn != null) filter4StarBtn.getStyleClass().remove("active");
+        if (filter3StarBtn != null) filter3StarBtn.getStyleClass().remove("active");
+        if (filter2StarBtn != null) filter2StarBtn.getStyleClass().remove("active");
+        if (filter1StarBtn != null) filter1StarBtn.getStyleClass().remove("active");
+        switch (star) {
+            case 5: if (filter5StarBtn != null) filter5StarBtn.getStyleClass().add("active"); break;
+            case 4: if (filter4StarBtn != null) filter4StarBtn.getStyleClass().add("active"); break;
+            case 3: if (filter3StarBtn != null) filter3StarBtn.getStyleClass().add("active"); break;
+            case 2: if (filter2StarBtn != null) filter2StarBtn.getStyleClass().add("active"); break;
+            case 1: if (filter1StarBtn != null) filter1StarBtn.getStyleClass().add("active"); break;
+            default: if (filterAllBtn != null) filterAllBtn.getStyleClass().add("active");
+        }
+    }
+
     // Method to set course data when navigating from other pages
     public void setCourseData(Courses course) {
         this.currentCourse = course;
@@ -116,6 +235,7 @@ public class CourseDetailPageController implements Initializable {
         
         loadCourseDetails();
         loadLectures();
+        loadCourseReviews();
     }
     
     private void setupNavigationEvents() {

@@ -86,8 +86,7 @@ public class LoginController implements ILoginController {
                 System.err.println("SQLException during login: " + ex.getMessage());
                 ex.printStackTrace();
 		}
-	}
-	public void Register(ActionEvent e) throws SQLException, IOException {
+	}	public void Register(ActionEvent e) throws SQLException, IOException {
 		this.ResetError();
 		SceneManager.switchScene("Register", "/frontend/view/register/register.fxml");
 	}

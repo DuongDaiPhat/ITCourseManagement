@@ -20,6 +20,9 @@ public class SceneManager {
     private static Stage primaryStage;
     private static boolean isMaximized = false; // Track window maximized state
 
+    // Simple category filter passing mechanism
+    private static String pendingCategoryFilter = null;
+
     public static void setPrimaryStage(Stage stage) {
         primaryStage = stage;
         
@@ -27,9 +30,16 @@ public class SceneManager {
         primaryStage.maximizedProperty().addListener((observable, oldValue, newValue) -> {
             isMaximized = newValue;
         });
-    }
-
-    public static void switchScene(String sceneName, String fxmlPath) {
+    }    public static void switchScene(String sceneName, String fxmlPath) {
+        // Check if this is a login page (register uses fullscreen)
+        boolean isLoginPage = isLoginPage(sceneName, fxmlPath);
+        
+        if (isLoginPage) {
+            // Use special handling for login pages
+            switchToLoginScene(sceneName, fxmlPath);
+            return;
+        }
+        
         try {
             Scene currentScene = primaryStage.getScene();
             if (currentScene != null) {
@@ -47,20 +57,25 @@ public class SceneManager {
 
             primaryStage.setTitle(sceneName);
             primaryStage.setScene(scene);
+            
+            // Set to fullscreen for non-login pages
+            setFullscreenMode();
+            
             primaryStage.show();
-            
-            // Preserve maximized state immediately after setting scene
-            if (isMaximized) {
-                primaryStage.setMaximized(true);
-            }
-            
-            preserveWindowState();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    public static <T> void switchSceneReloadWithData(String sceneName, String fxmlPath, ControllerDataSetter<T> setter, T data) {
+    }    public static <T> void switchSceneReloadWithData(String sceneName, String fxmlPath, ControllerDataSetter<T> setter, T data) {
+        // Check if this is a login page (register uses fullscreen)
+        boolean isLoginPage = isLoginPage(sceneName, fxmlPath);
+        
+        if (isLoginPage) {
+            // Use special handling for login pages
+            switchToLoginScene(sceneName, fxmlPath);
+            return;
+        }
+        
         try {
             Scene currentScene = primaryStage.getScene();
 
@@ -82,31 +97,24 @@ public class SceneManager {
 
             primaryStage.setTitle(sceneName);
             primaryStage.setScene(scene);
+            
+            // Set to fullscreen for non-login pages
+            setFullscreenMode();
+            
             primaryStage.show();
-
-            // Preserve maximized state immediately after setting scene
-            if (isMaximized) {
-                primaryStage.setMaximized(true);
-            }
-
-            preserveWindowState();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    public static void goBack() {
+    }    public static void goBack() {
         if (!sceneStack.isEmpty()) {
             Scene previousScene = sceneStack.pop();
             primaryStage.setScene(previousScene);
+            
+            // Set to fullscreen for non-login pages (check current scene)
+            setFullscreenMode();
+            
             primaryStage.show();
-            
-            // Preserve maximized state immediately after setting scene
-            if (isMaximized) {
-                primaryStage.setMaximized(true);
-            }
-            
-            preserveWindowState();
         } else {
             System.out.println("Không có scene trước để quay lại.");
         }
@@ -246,5 +254,153 @@ public class SceneManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }    /**
+     * Switch to login scene with specific window size and reset maximized state
+     */
+    public static void switchToLoginScene(String sceneName, String fxmlPath) {
+        try {
+            // Clear maximized state when going to login
+            isMaximized = false;
+            
+            // First, reset the window state before loading new scene
+            primaryStage.setMaximized(false);
+            primaryStage.setResizable(true);
+            
+            // Clear any size constraints
+            primaryStage.setMinWidth(0);
+            primaryStage.setMinHeight(0);
+            primaryStage.setMaxWidth(Double.MAX_VALUE);
+            primaryStage.setMaxHeight(Double.MAX_VALUE);
+            
+            // Always reload login scene to ensure fresh state
+            sceneCache.remove(sceneName);
+            
+            FXMLLoader loader = new FXMLLoader(SceneManager.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            
+            // Create scene with explicit size
+            Scene scene = new Scene(root, 800, 500);
+            
+            primaryStage.setTitle(sceneName);
+            
+            // Set window dimensions before setting scene
+            primaryStage.setWidth(800);
+            primaryStage.setHeight(540); // Add extra height to account for title bar and system decorations
+            
+            // Set the scene
+            primaryStage.setScene(scene);
+            
+            // Use multiple passes to ensure proper sizing
+            Platform.runLater(() -> {
+                // First pass: Set basic dimensions
+                primaryStage.setMaximized(false);
+                primaryStage.setWidth(800);
+                primaryStage.setHeight(540);
+                
+                Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                double centerX = (screenBounds.getWidth() - 800) / 2;
+                double centerY = (screenBounds.getHeight() - 540) / 2;
+                
+                primaryStage.setX(centerX);
+                primaryStage.setY(centerY);
+                
+                // Second pass: Verify and adjust positioning
+                Platform.runLater(() -> {
+                    // Ensure the window is not maximized and has correct size
+                    primaryStage.setMaximized(false);
+                    primaryStage.setWidth(800);
+                    primaryStage.setHeight(540);
+                    
+                    // Ensure window is fully visible within screen bounds
+                    double windowX = primaryStage.getX();
+                    double windowY = primaryStage.getY();
+                    double windowWidth = primaryStage.getWidth();
+                    double windowHeight = primaryStage.getHeight();
+                    
+                    // Adjust X position if needed
+                    if (windowX + windowWidth > screenBounds.getMaxX()) {
+                        windowX = screenBounds.getMaxX() - windowWidth;
+                    }
+                    if (windowX < screenBounds.getMinX()) {
+                        windowX = screenBounds.getMinX();
+                    }
+                    
+                    // Adjust Y position if needed
+                    if (windowY + windowHeight > screenBounds.getMaxY()) {
+                        windowY = screenBounds.getMaxY() - windowHeight;
+                    }
+                    if (windowY < screenBounds.getMinY()) {
+                        windowY = screenBounds.getMinY();
+                    }
+                    
+                    primaryStage.setX(windowX);
+                    primaryStage.setY(windowY);
+                    
+                    // Final verification after a short delay
+                    Platform.runLater(() -> {
+                        if (primaryStage.isMaximized() || 
+                            Math.abs(primaryStage.getWidth() - 800) > 10 || 
+                            Math.abs(primaryStage.getHeight() - 540) > 10) {
+                            
+                            primaryStage.setMaximized(false);
+                            primaryStage.setWidth(800);
+                            primaryStage.setHeight(540);
+                            
+                            // Re-center if size was adjusted
+                            double finalCenterX = (screenBounds.getWidth() - 800) / 2;
+                            double finalCenterY = (screenBounds.getHeight() - 540) / 2;
+                            primaryStage.setX(finalCenterX);
+                            primaryStage.setY(finalCenterY);
+                        }
+                    });
+                });
+            });
+            
+            primaryStage.show();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }    /**
+     * Check if the scene is a login page (register page should be fullscreen)
+     */
+    private static boolean isLoginPage(String sceneName, String fxmlPath) {
+        if (sceneName == null || fxmlPath == null) {
+            return false;
+        }
+        
+        String lowerSceneName = sceneName.toLowerCase();
+        String lowerFxmlPath = fxmlPath.toLowerCase();
+        
+        // Only login pages should use fixed size, register should be fullscreen
+        return lowerSceneName.contains("login") ||
+               lowerFxmlPath.contains("login");
+    }
+    
+    /**
+     * Set window to fullscreen mode
+     */
+    private static void setFullscreenMode() {
+        isMaximized = true;
+        primaryStage.setMaximized(true);
+        
+        Platform.runLater(() -> {
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            primaryStage.setX(screenBounds.getMinX());
+            primaryStage.setY(screenBounds.getMinY());
+            primaryStage.setWidth(screenBounds.getWidth());
+            primaryStage.setHeight(screenBounds.getHeight());
+            primaryStage.setMaximized(true);
+        });
+    }
+
+    public static void setPendingCategoryFilter(String category) {
+        pendingCategoryFilter = category;
+    }
+
+    public static String getPendingCategoryFilter() {
+        String filter = pendingCategoryFilter;
+        pendingCategoryFilter = null; // Clear after retrieval
+        return filter;
     }
 }

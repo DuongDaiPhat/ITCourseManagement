@@ -3,6 +3,7 @@ package backend.controller.studentMainPage;
 import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
+import backend.service.course.CourseReviewService;
 import backend.service.state.StudentStateManager;
 import backend.util.ImageCache;
 import javafx.fxml.FXML;
@@ -11,7 +12,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.course.Courses;
@@ -39,16 +39,22 @@ public class StudentMainPageController implements Initializable {    @FXML priva
     @FXML private ImageView profileIcon;
     
     @FXML private Label welcomeLabel;    @FXML private ScrollPane mainScrollPane;
+      // Course containers
+    @FXML private HBox aiCoursesContainer;
+    @FXML private HBox gameCoursesContainer;
     
-    // Course containers
-    @FXML private FlowPane aiCoursesContainer;    @FXML private FlowPane gameCoursesContainer;      private ContextMenu profileMenu;
+    // View All links  
+    @FXML private Label aiViewAllLink;
+    @FXML private Label gameViewAllLink;private ContextMenu profileMenu;
     private CourseService courseService;
     private UserService userService;
+    private CourseReviewService courseReviewService;
     private backend.service.user.MyLearningService myLearningService;
     
     // Cart badge feature disabled    @Override
     public void initialize(URL location, ResourceBundle resources) {        courseService = new CourseService();
         userService = new UserService();
+        courseReviewService = new CourseReviewService();
         myLearningService = new backend.service.user.MyLearningService();
         
         setupProfileMenu();
@@ -104,7 +110,7 @@ public class StudentMainPageController implements Initializable {    @FXML priva
     
     /**
      * Update course states for a specific container
-     */    private void updateContainerCourseStates(FlowPane container, java.util.Set<Integer> cartIds, java.util.Set<Integer> wishlistIds) {
+     */    private void updateContainerCourseStates(HBox container, java.util.Set<Integer> cartIds, java.util.Set<Integer> wishlistIds) {
         if (container == null) return;
         
         System.out.println("Updating container course states - Cart IDs: " + cartIds + ", Wishlist IDs: " + wishlistIds);
@@ -254,6 +260,52 @@ public class StudentMainPageController implements Initializable {    @FXML priva
                 alert.showAndWait();
             }
         });
+          // Add View All link navigation
+        if (aiViewAllLink != null) {
+            aiViewAllLink.setOnMouseClicked(event -> {
+                try {
+                    System.out.println("Navigating to Student Explore Page with AI filter...");
+                    // Set category filter for AI & Machine Learning
+                    SceneManager.setPendingCategoryFilter("AI_ML");
+                    SceneManager.switchSceneWithRefresh(
+                        "Student Explore Page",
+                        "/frontend/view/studentExplorePage/StudentExplorePage.fxml"
+                    );
+                } catch (Exception e) {
+                    System.err.println("Error navigating to Student Explore Page: " + e.getMessage());
+                    e.printStackTrace();
+                    
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Navigation Error");
+                    alert.setHeaderText("Failed to open Explore Page");
+                    alert.setContentText("Could not navigate to the explore page. Please try again.");
+                    alert.showAndWait();
+                }
+            });
+        }
+        
+        if (gameViewAllLink != null) {
+            gameViewAllLink.setOnMouseClicked(event -> {
+                try {
+                    System.out.println("Navigating to Student Explore Page with Game Development filter...");
+                    // Set category filter for Game Development
+                    SceneManager.setPendingCategoryFilter("Game_Development");
+                    SceneManager.switchSceneWithRefresh(
+                        "Student Explore Page",
+                        "/frontend/view/studentExplorePage/StudentExplorePage.fxml"
+                    );
+                } catch (Exception e) {
+                    System.err.println("Error navigating to Student Explore Page: " + e.getMessage());
+                    e.printStackTrace();
+                    
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Navigation Error");
+                    alert.setHeaderText("Failed to open Explore Page");
+                    alert.setContentText("Could not navigate to the explore page. Please try again.");
+                    alert.showAndWait();
+                }
+            });
+        }
     }
     
     private void setupProfileMenu() {
@@ -409,13 +461,21 @@ public class StudentMainPageController implements Initializable {    @FXML priva
                 "Computer Vision Basics"
             };
             
+            model.course.Technology[] aiTechnologies = {
+                model.course.Technology.Python,
+                model.course.Technology.Python,
+                model.course.Technology.Python,
+                model.course.Technology.Python
+            };
+            
             for (int i = 0; i < aiCourseNames.length; i++) {
                 Courses course = new Courses();
                 course.setCourseName(aiCourseNames[i]);
                 course.setPrice(99.99f);
                 course.setThumbnailURL("/images/default_image.png");
-                // Set sample language and level
+                // Set sample language, technology and level
                 course.setLanguage(model.course.Language.English);
+                course.setTechnology(aiTechnologies[i]);
                 course.setLevel(i % 2 == 0 ? model.course.Level.BEGINNER : model.course.Level.INTERMEDIATE);
                 courses.add(course);
             }
@@ -427,13 +487,21 @@ public class StudentMainPageController implements Initializable {    @FXML priva
                 "Mobile Game Development"
             };
             
+            model.course.Technology[] gameTechnologies = {
+                model.course.Technology.CSharp,
+                model.course.Technology.Cpp,
+                model.course.Technology.JavaScript,
+                model.course.Technology.Java
+            };
+            
             for (int i = 0; i < gamesCourseNames.length; i++) {
                 Courses course = new Courses();
                 course.setCourseName(gamesCourseNames[i]);
                 course.setPrice(79.99f);
                 course.setThumbnailURL("/images/default_image.png");
-                // Set sample language and level
+                // Set sample language, technology and level
                 course.setLanguage(model.course.Language.English);
+                course.setTechnology(gameTechnologies[i]);
                 course.setLevel(i % 3 == 0 ? model.course.Level.BEGINNER : 
                                i % 3 == 1 ? model.course.Level.INTERMEDIATE : model.course.Level.ADVANCED);
                 courses.add(course);
@@ -441,38 +509,54 @@ public class StudentMainPageController implements Initializable {    @FXML priva
         }
         
         return courses;
-    }
-      private void populateCoursesContainer(FlowPane container, List<Courses> courses) {
+    }private void populateCoursesContainer(HBox container, List<Courses> courses) {
         container.getChildren().clear();
-          // Set FlowPane to horizontal orientation
-        container.setOrientation(javafx.geometry.Orientation.HORIZONTAL);
         
-        for (Courses course : courses) {
+        // Limit to 4 courses and sort by creation date (newest first)
+        List<Courses> topCourses = courses.stream()
+            .sorted((c1, c2) -> {
+                // Sort by creation date (newest first)
+                if (c1.getCreatedAt() != null && c2.getCreatedAt() != null) {
+                    return c2.getCreatedAt().compareTo(c1.getCreatedAt());
+                }
+                // Fallback to course ID
+                return Integer.compare(c2.getCourseID(), c1.getCourseID());
+            })
+            .limit(4)  // Show only 4 courses per category
+            .collect(Collectors.toList());
+        
+        for (Courses course : topCourses) {
             VBox courseCard = createCourseCard(course);
             container.getChildren().add(courseCard);
         }
     }    private VBox createCourseCard(Courses course) {
         VBox card = new VBox();
         card.getStyleClass().add("course-card");
-        card.setSpacing(8);  // Reduced spacing between elements
+        card.setSpacing(0);  // No spacing between elements
         card.setAlignment(Pos.TOP_LEFT);
-        card.setPrefWidth(300);  // Slightly wider cards
-        card.setMaxWidth(320);
-        card.setMinWidth(280);
-        card.setPrefHeight(360);  // Reduced height
-        card.setMaxHeight(380);
+        card.setPrefWidth(230);  // Fixed width for consistency
+        card.setMaxWidth(230);
+        card.setMinWidth(230);
+        card.setPrefHeight(360);  // Increased height to accommodate all attributes
+        card.setMaxHeight(360);
+        card.setMinHeight(360);  // Fixed height for consistency
         
         // Set course ID as user data for state synchronization
         card.setUserData(course.getCourseID());
         
-        // Add internal padding to the card
-        card.setStyle("-fx-padding: 15px;");  // Reduced padding
-
-        // Course image
+        // Course image container - aligned to top edge with fixed dimensions
+        VBox imageContainer = new VBox();
+        imageContainer.setAlignment(Pos.CENTER);
+        imageContainer.setStyle("-fx-padding: 10 10 0 10; -fx-background-radius: 12 12 0 0;");
+        imageContainer.setPrefHeight(150); // Fixed height for image section
+        imageContainer.setMaxHeight(150);
+        imageContainer.setMinHeight(150);
+        
         ImageView imageView = new ImageView();
-        imageView.setFitWidth(260);  // Adjusted for padding
-        imageView.setFitHeight(160);
-        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(210);  // Fixed width
+        imageView.setFitHeight(130); // Fixed height
+        imageView.setPreserveRatio(false); // Allow stretching to maintain thumbnail aspect ratio
+        imageView.setSmooth(true);
         imageView.getStyleClass().add("course-image");try {
             if (course.getThumbnailURL() != null && !course.getThumbnailURL().isEmpty()) {
                 // Try to load course image from thumbnailURL first with file: protocol
@@ -504,44 +588,103 @@ public class StudentMainPageController implements Initializable {    @FXML priva
             }
         } catch (Exception e) {
             System.err.println("Error loading course image: " + e.getMessage());
-            setDefaultCourseImage(imageView);
-        }
-          // Course title
+            setDefaultCourseImage(imageView);        }        
+        imageContainer.getChildren().add(imageView);
+        
+        // Course content container with fixed spacing and layout
+        VBox contentContainer = new VBox();
+        contentContainer.setSpacing(8);  // Consistent spacing between content elements
+        contentContainer.setAlignment(Pos.TOP_LEFT);
+        contentContainer.setStyle("-fx-padding: 8 12 12 12;");
+        contentContainer.setPrefHeight(210); // Fixed height for content section
+        contentContainer.setMaxHeight(210);
+        contentContainer.setMinHeight(210);
+        
+        // Course title - fixed height with ellipsis for long text
         Label titleLabel = new Label(course.getCourseName());
         titleLabel.getStyleClass().add("course-title");
-        titleLabel.setWrapText(true);
-        titleLabel.setMaxWidth(260);  // Adjusted for card padding
-        titleLabel.setPrefHeight(40);  // Fixed height for consistent layout        // Course instructor (get from database using UserService)
+        titleLabel.setWrapText(false);  // Disable wrapping to use ellipsis
+        titleLabel.setMaxWidth(206);
+        titleLabel.setPrefHeight(20);  // Fixed height
+        titleLabel.setMaxHeight(20);
+        titleLabel.setMinHeight(20);
+        titleLabel.setStyle("-fx-text-overrun: ellipsis;"); // Show ellipsis for long text
+
+        // Course instructor - fixed height
         String instructorName = getInstructorName(course.getUserID());
         Label instructorLabel = new Label("By " + instructorName);
         instructorLabel.getStyleClass().add("course-instructor");
-          // Course language and level as separate badges
-        HBox languageLevelBox = new HBox(5); // Reduced spacing between badges
-        languageLevelBox.setAlignment(Pos.CENTER_LEFT);
-        languageLevelBox.setPrefHeight(25); // Fixed height for consistent layout
+        instructorLabel.setPrefHeight(18);  // Fixed height
+        instructorLabel.setMaxHeight(18);
+        instructorLabel.setMinHeight(18);
+        instructorLabel.setMaxWidth(206);
+        instructorLabel.setStyle("-fx-text-overrun: ellipsis;");
+          
+        // Language, Technology, Level badges in one row - fixed height
+        HBox badgesBox = new HBox(5);
+        badgesBox.setAlignment(Pos.CENTER_LEFT);
+        badgesBox.setPrefHeight(25); // Fixed height
+        badgesBox.setMaxHeight(25);
+        badgesBox.setMinHeight(25);
         
         // Language badge
         String languageText = (course.getLanguage() != null) ? course.getLanguage().toString() : "N/A";
         Label languageLabel = new Label(languageText);
         languageLabel.getStyleClass().add("course-language");
+        languageLabel.setMaxWidth(50); // Fixed width to prevent overflow
+        languageLabel.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
+        
+        // Technology badge
+        String technologyText = (course.getTechnology() != null) ? course.getTechnology().toString() : "N/A";
+        Label technologyLabel = new Label(technologyText);
+        technologyLabel.getStyleClass().add("course-technology");
+        technologyLabel.setMaxWidth(65); // Fixed width to prevent overflow
+        technologyLabel.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
         
         // Level badge  
         String levelText = (course.getLevel() != null) ? course.getLevel().toString() : "N/A";
         Label levelLabel = new Label(levelText);
         levelLabel.getStyleClass().add("course-level");
+        levelLabel.setMaxWidth(55); // Fixed width to prevent overflow
+        levelLabel.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
         
-        languageLevelBox.getChildren().addAll(languageLabel, levelLabel);
+        badgesBox.getChildren().addAll(languageLabel, technologyLabel, levelLabel);
         
-        // Course rating (default since getRating may not be available)
-        Label ratingLabel = new Label("★★★★☆ 4.5 (" + getRandomReviewCount() + " reviews)");
-        ratingLabel.getStyleClass().add("course-rating");        // Course price
+        // Course rating - fixed height
+        double avgRating = courseReviewService.getCourseAverageRating(course.getCourseID());
+        int reviewCount = courseReviewService.getCourseReviewCount(course.getCourseID());
+        
+        String starDisplay = getStarDisplay(avgRating);
+        String ratingDisplay = reviewCount > 0 ? 
+            String.format("%s %.1f (%d)", starDisplay, avgRating, reviewCount) :
+            "☆☆☆☆☆ No reviews";
+            
+        Label ratingLabel = new Label(ratingDisplay);
+        ratingLabel.getStyleClass().add("course-rating");
+        ratingLabel.setPrefHeight(20);  // Fixed height
+        ratingLabel.setMaxHeight(20);
+        ratingLabel.setMinHeight(20);
+        ratingLabel.setMaxWidth(206);
+        ratingLabel.setStyle("-fx-text-overrun: ellipsis;");
+
+        // Course price - fixed height and position
         Label priceLabel = new Label(String.format("$%.2f", course.getPrice()));
         priceLabel.getStyleClass().add("course-price");
+        priceLabel.setPrefHeight(22);  // Fixed height
+        priceLabel.setMaxHeight(22);
+        priceLabel.setMinHeight(22);
         
-        // Create action icons container (cart and wishlist)
+        // Create action icons container (cart and wishlist) - fixed height
         HBox actionsContainer = createCourseCardActions(course);
+        actionsContainer.setPrefHeight(40);  // Fixed height for action buttons
+        actionsContainer.setMaxHeight(40);
+        actionsContainer.setMinHeight(40);
         
-        card.getChildren().addAll(imageView, titleLabel, instructorLabel, languageLevelBox, ratingLabel, priceLabel, actionsContainer);
+        // Add all content to the content container with fixed positioning
+        contentContainer.getChildren().addAll(titleLabel, instructorLabel, badgesBox, ratingLabel, priceLabel, actionsContainer);
+        
+        // Add image container and content container to the main card
+        card.getChildren().addAll(imageContainer, contentContainer);
           card.setOnMouseClicked(event -> {
             System.out.println("Clicked course: " + course.getCourseName());
             navigateToStudentCourseDetail(course);
@@ -567,11 +710,7 @@ public class StudentMainPageController implements Initializable {    @FXML priva
         } catch (Exception ex) {
             System.err.println("Error loading default course image: " + ex.getMessage());
             imageView.setImage(null);
-        }
-    }
-      private int getRandomReviewCount() {
-        return new Random().nextInt(500) + 50; // Random between 50-550 reviews
-    }
+        }    }
       private String getInstructorName(int userId) {
         try {
             Users instructor = userService.GetUserByID(userId);
@@ -721,15 +860,14 @@ public class StudentMainPageController implements Initializable {    @FXML priva
             confirmAlert.setHeaderText("Are you sure you want to logout?");
             confirmAlert.setContentText("You will be redirected to the login page.");
             
-            Optional<ButtonType> result = confirmAlert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
+            Optional<ButtonType> result = confirmAlert.showAndWait();            if (result.isPresent() && result.get() == ButtonType.OK) {
                 System.out.println("User logging out...");
                 
                 // Clear session if there's a session management system
                 // Session.clearSession(); // Uncomment if you have session management
                 
-                // Navigate to login page
-                SceneManager.switchScene(
+                // Navigate to login page with proper window size reset
+                SceneManager.switchToLoginScene(
                     "Login",
                     "/frontend/view/login/Login.fxml"
                 );
@@ -938,4 +1076,32 @@ public class StudentMainPageController implements Initializable {    @FXML priva
             System.err.println("Error navigating to StudentCourseDetailPage: " + e.getMessage());
             e.printStackTrace();
         }
-    }}
+    }
+    
+    /**
+     * Convert numeric rating to star display
+     */
+    private String getStarDisplay(double rating) {
+        StringBuilder stars = new StringBuilder();
+        int fullStars = (int) rating;
+        boolean hasHalfStar = (rating - fullStars) >= 0.5;
+        
+        // Add full stars
+        for (int i = 0; i < fullStars; i++) {
+            stars.append("★");
+        }
+        
+        // Add half star if applicable
+        if (hasHalfStar && fullStars < 5) {
+            stars.append("☆");
+            fullStars++;
+        }
+        
+        // Add empty stars to reach 5 total
+        for (int i = fullStars; i < 5; i++) {
+            stars.append("☆");
+        }
+        
+        return stars.toString();
+    }
+}
