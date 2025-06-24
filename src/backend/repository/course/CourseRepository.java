@@ -23,9 +23,10 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public int Insert(Courses t) throws SQLException {
 		int result = 0;
-		String sql = "INSERT INTO COURSES(COURSENAME, LANGUAGE, TECHNOLOGY, LEVEL, CATEGORY, USERID, THUMBNAILURL, PRICE, COURSEDESCRIPTION, CREATEDAT, UPDATEDAT, ISAPPROVED) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO COURSES(COURSENAME, LANGUAGE, TECHNOLOGY, LEVEL, CATEGORY, USERID, THUMBNAILURL, PRICE, COURSEDESCRIPTION, CREATEDAT, UPDATEDAT, ISAPPROVED, ISPUBLISHED, is_rejected) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
 			ps.setString(1, t.getCourseName());
 			ps.setString(2, t.getLanguage() + "");
 			ps.setString(3, t.getTechnology() + "");
@@ -38,7 +39,9 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 			ps.setString(10, t.getCreatedAt() + "");
 			ps.setString(11, t.getUpdatedAt() + "");
 			ps.setBoolean(12, t.isApproved());
-			
+			ps.setBoolean(13, t.isPublished());
+			ps.setBoolean(14, t.isRejected());
+
 			result = ps.executeUpdate();
 			System.out.println("Insert executed. " + result + " row(s) affected");
 		} catch (SQLException e) {
@@ -52,8 +55,9 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public int Update(Courses t) throws SQLException {
 		int result = 0;
-		String sql = "UPDATE COURSES SET COURSENAME = ?, LANGUAGE = ?, TECHNOLOGY = ?, LEVEL = ?, CATEGORY = ?, USERID = ?, THUMBNAILURL = ?, PRICE = ?, COURSEDESCRIPTION = ?, UPDATEDAT = ?, ISAPPROVED = ?, is_rejected = ? WHERE COURSEID = ?";
+		String sql = "UPDATE COURSES SET COURSENAME = ?, LANGUAGE = ?, TECHNOLOGY = ?, LEVEL = ?, CATEGORY = ?, USERID = ?, THUMBNAILURL = ?, PRICE = ?, COURSEDESCRIPTION = ?, UPDATEDAT = ?, ISAPPROVED = ?, ISPUBLISHED = ?, is_rejected = ? WHERE COURSEID = ?";
 		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
 			ps.setString(1, t.getCourseName());
 			ps.setString(2, t.getLanguage().toString());
 			ps.setString(3, t.getTechnology().toString());
@@ -65,8 +69,9 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 			ps.setString(9, t.getCourseDescription());
 			ps.setString(10, t.getUpdatedAt().toString());
 			ps.setBoolean(11, t.isApproved());
-			ps.setBoolean(12, t.isRejected()); 
-			ps.setInt(13, t.getCourseID()); 
+			ps.setBoolean(12, t.isPublished());
+			ps.setBoolean(13, t.isRejected());
+			ps.setInt(14, t.getCourseID());
 
 			result = ps.executeUpdate();
 			System.out.println("Update executed. " + result + " row(s) affected");
@@ -118,6 +123,7 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 		try (Connection con = DatabaseConnection.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);
 				ResultSet rs = ps.executeQuery();) {
+
 			while (rs.next()) {
 				Courses course = new Courses();
 				course.setCourseID(rs.getInt("COURSEID"));
@@ -133,7 +139,8 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
 				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
 				course.setApproved(rs.getBoolean("ISAPPROVED"));
-				course.setPublish(rs.getBoolean("ISPUBLISHED"));
+				course.setPublished(rs.getBoolean("ISPUBLISHED"));
+				course.setRejected(rs.getBoolean("is_rejected"));
 				courseList.add(course);
 			}
 			System.out.println(courseList.size() + " row(s) found");
@@ -148,10 +155,12 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	@Override
 	public Courses SelectByID(int id) throws SQLException {
 		Courses course = new Courses();
-		String sql = "SELECT * FROM COURSES WHERE COURSEID = " + String.valueOf(id);
-		try (Connection con = DatabaseConnection.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery()) {
+		String sql = "SELECT * FROM COURSES WHERE COURSEID = ?";
+		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
 				course.setCourseID(rs.getInt("COURSEID"));
 				course.setCourseName(rs.getString("COURSENAME"));
@@ -166,24 +175,25 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
 				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
 				course.setApproved(rs.getBoolean("ISAPPROVED"));
-				course.setPublish(rs.getBoolean("ISPUBLISHED"));
+				course.setPublished(rs.getBoolean("ISPUBLISHED"));
+				course.setRejected(rs.getBoolean("is_rejected"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			DatabaseConnection.closeConnection();
 		}
-
 		return course;
 	}
 
 	@Override
 	public ArrayList<Courses> SelectByCondition(String condition) throws SQLException {
 		ArrayList<Courses> courseList = new ArrayList<Courses>();
-		String sql = "SELECT * FROM COURSES WHERE WHERE ISAPPROVED = TRUE" + condition;
+		String sql = "SELECT * FROM COURSES WHERE " + condition;
 		try (Connection con = DatabaseConnection.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);
 				ResultSet rs = ps.executeQuery();) {
+
 			while (rs.next()) {
 				Courses course = new Courses();
 				course.setCourseID(rs.getInt("COURSEID"));
@@ -199,7 +209,8 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
 				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
 				course.setApproved(rs.getBoolean("ISAPPROVED"));
-				course.setPublish(rs.getBoolean("ISPUBLISHED"));
+				course.setPublished(rs.getBoolean("ISPUBLISHED"));
+				course.setRejected(rs.getBoolean("is_rejected"));
 				courseList.add(course);
 			}
 			System.out.println(courseList.size() + " row(s) found");
@@ -215,9 +226,11 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	public ArrayList<Courses> GetCoursesByUserID(int id) throws SQLException {
 		ArrayList<Courses> courseList = new ArrayList<Courses>();
 		String sql = "SELECT * FROM COURSES WHERE USERID = ?";
-		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql);) {
+		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
 				Courses course = new Courses();
 				course.setCourseID(rs.getInt("COURSEID"));
@@ -233,7 +246,8 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 				course.setCreatedAt(rs.getTimestamp("CREATEDAT").toLocalDateTime());
 				course.setUpdatedAt(rs.getTimestamp("UPDATEDAT").toLocalDateTime());
 				course.setApproved(rs.getBoolean("ISAPPROVED"));
-				course.setPublish(rs.getBoolean("ISPUBLISHED"));
+				course.setPublished(rs.getBoolean("ISPUBLISHED"));
+				course.setRejected(rs.getBoolean("is_rejected"));
 				courseList.add(course);
 			}
 			System.out.println(courseList.size() + " row(s) found");
@@ -249,11 +263,12 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	public void ApproveByCourseId(int id, boolean status) throws SQLException {
 		String sql;
 		if (status == true) {
-			sql = "UPDATE COURSES SET ISAPPROVED = TRUE WHERE COURSEID = ?";
+			sql = "UPDATE COURSES SET ISAPPROVED = TRUE, is_rejected = FALSE WHERE COURSEID = ?";
 		} else {
 			sql = "UPDATE COURSES SET ISAPPROVED = FALSE WHERE COURSEID = ?";
 		}
 		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
 			ps.setInt(1, id);
 			int result = ps.executeUpdate();
 			System.out.println("Update executed. " + result + " row(s) affected");
@@ -268,11 +283,12 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 	public void PublishByCourseId(int id, boolean status) throws SQLException {
 		String sql;
 		if (status == true) {
-			sql = "UPDATE COURSES SET ISPUBLISHED = TRUE WHERE COURSEID = ?";
+			sql = "UPDATE COURSES SET ISPUBLISHED = TRUE, is_rejected = FALSE WHERE COURSEID = ?";
 		} else {
 			sql = "UPDATE COURSES SET ISPUBLISHED = FALSE WHERE COURSEID = ?";
 		}
 		try (Connection con = DatabaseConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
 			ps.setInt(1, id);
 			int result = ps.executeUpdate();
 			System.out.println("Update executed. " + result + " row(s) affected");
@@ -282,5 +298,4 @@ public class CourseRepository implements RepositoryInterface<Courses>, ICourseRe
 			DatabaseConnection.closeConnection();
 		}
 	}
-
 }

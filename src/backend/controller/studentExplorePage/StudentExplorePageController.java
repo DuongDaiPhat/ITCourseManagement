@@ -7,6 +7,7 @@ import backend.service.sample.SampleDataService;
 import backend.service.course.CourseReviewService;
 import backend.service.state.StudentStateManager;
 import backend.util.ImageCache;
+import backend.repository.notification.NotificationRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,13 +20,20 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
+import javafx.scene.layout.StackPane;
 import model.course.Category;
 import model.course.Courses;
 import model.user.Users;
 import model.user.Session;
+import model.notification.UserNotification;
 
 import java.net.URL;
 import java.util.*;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 
 public class StudentExplorePageController implements Initializable {
 
@@ -57,6 +65,12 @@ public class StudentExplorePageController implements Initializable {
     private CourseReviewService courseReviewService;
     private backend.service.user.MyLearningService myLearningService;
     private ContextMenu profileMenu;private StudentStateManager stateManager;
+    
+    // Notification system fields (merged from UpdateNotification)
+    private Circle notificationBadge;
+    private Popup notificationPopup;
+    private VBox notificationPopupContent;
+    private NotificationRepository notificationRepository = new NotificationRepository();
     
     // Cart badge feature disabled    @Override
     public void initialize(URL location, ResourceBundle resources) {        courseService = new CourseService();

@@ -1,5 +1,6 @@
 package backend.controller.admin;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,7 +21,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -47,8 +53,7 @@ public class PendingCoursesController implements Initializable {
 		coursesContainer.getChildren().clear();
 		try {
 			List<Courses> pendingCourses = courseService.getAllCourses().stream()
-					.filter(course -> !course.isApproved() && !course.isRejected()) // Thêm điều kiện
-																					// !course.isRejected()
+					.filter(course -> !course.isApproved() && !course.isRejected() && course.isPublished())
 					.sorted((c1, c2) -> c2.getCreatedAt().compareTo(c1.getCreatedAt())).collect(Collectors.toList());
 
 			if (pendingCourses.isEmpty()) {
@@ -77,18 +82,10 @@ public class PendingCoursesController implements Initializable {
 			return courseCard;
 		} catch (IOException e) {
 			e.printStackTrace();
-			// Fallback to old implementation if error occurs
 			HBox fallbackCard = new HBox(new Label("Error loading course card"));
 			fallbackCard.getStyleClass().add("course-card");
 			return fallbackCard;
 		}
-	}
-
-	private Label createMetaLabel(String text, String color) {
-		Label label = new Label(text);
-		label.setStyle("-fx-font-size: 13px; " + "-fx-text-fill: white; " + "-fx-padding: 5px 10px; "
-				+ "-fx-background-color: " + color + "; " + "-fx-background-radius: 4px;");
-		return label;
 	}
 
 	@FXML
@@ -113,13 +110,12 @@ public class PendingCoursesController implements Initializable {
 	private void handleDeclineCourse() {
 		if (selectedCourse != null) {
 			try {
-				// Đánh dấu khóa học đã bị từ chối
 				selectedCourse.setRejected(true);
-				courseService.updateCourse(selectedCourse); // Lưu vào database
-
+				selectedCourse.setPublished(false);
+				courseService.updateCourse(selectedCourse);
 				showAlert("Info", "Course has been declined. Instructor has been notified.",
 						Alert.AlertType.INFORMATION);
-				loadPendingCourses(); // Load lại danh sách
+				loadPendingCourses();
 				approveButton.setDisable(true);
 				declineButton.setDisable(true);
 			} catch (SQLException e) {
@@ -152,6 +148,11 @@ public class PendingCoursesController implements Initializable {
 	@FXML
 	private void handleViewRevenue(ActionEvent event) throws IOException {
 		switchToScene("/frontend/view/admin/Revenue.fxml", event);
+	}
+
+	@FXML
+	private void handleNotificationButton(ActionEvent event) throws IOException {
+		switchToScene("/frontend/view/admin/Notification.fxml", event);
 	}
 
 	private void switchToScene(String fxmlPath, ActionEvent event) throws IOException {

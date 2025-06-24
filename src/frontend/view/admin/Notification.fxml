@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="backend.controller.admin.NotificationController"
+	style="-fx-background-color: white;">
+	<VBox spacing="20.0" alignment="TOP_CENTER"
+		AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+		AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+		style="-fx-background-color: white;">
+		<Label text="Create Notification"
+			style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #00363D;">
+			<padding>
+				<Insets top="20.0" />
+			</padding>
+		</Label>
+
+		<VBox spacing="15.0" alignment="TOP_LEFT"
+			style="-fx-padding: 0 30; -fx-background-color: white;">
+			<!-- Template Selection -->
+			<HBox spacing="10" alignment="CENTER_LEFT">
+				<Label text="Select Template:"
+					style="-fx-font-weight: bold; -fx-text-fill: #00363D;" />
+				<ComboBox fx:id="templateComboBox"
+					style="-fx-pref-width: 300px; -fx-background-color: white; -fx-border-color: #25b6aa; -fx-border-radius: 5;" />
+				<Button fx:id="saveTemplateButton" text="Save Template"
+					onAction="#handleSaveTemplate"
+					style="-fx-background-color: #25b6aa; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
+				<Button fx:id="deleteTemplateButton" text="Delete Template"
+					onAction="#handleDeleteTemplate"
+					style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
+				<Button fx:id="historyButton" text="View History"
+					onAction="#handleViewHistory"
+					style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
+			</HBox>
+
+			<Label text="Notification Type:"
+				style="-fx-font-weight: bold; -fx-text-fill: #00363D;" />
+			<ComboBox fx:id="notificationTypeComboBox"
+				style="-fx-pref-width: 400px; -fx-background-color: white; -fx-border-color: #25b6aa; -fx-border-radius: 5;" />
+
+			<Label text="Target Role:"
+				style="-fx-font-weight: bold; -fx-text-fill: #00363D;" />
+			<ComboBox fx:id="targetRoleComboBox"
+				style="-fx-pref-width: 400px; -fx-background-color: white; -fx-border-color: #25b6aa; -fx-border-radius: 5;" />
+
+			<Label text="Notification Category:"
+				style="-fx-font-weight: bold; -fx-text-fill: #00363D;" />
+			<ComboBox fx:id="notificationCategoryComboBox"
+				style="-fx-pref-width: 400px; -fx-background-color: white; -fx-border-color: #25b6aa; -fx-border-radius: 5;" />
+
+			<Label text="Send to User ID (optional):"
+				style="-fx-font-weight: bold; -fx-text-fill: #00363D;" />
+			<TextField fx:id="userIdField"
+				promptText="Leave empty to send to all"
+				style="-fx-pref-width: 400px; -fx-background-color: white; -fx-border-color: #25b6aa; -fx-border-radius: 5;" />
+
+			<Label text="Notification Title:"
+				style="-fx-font-weight: bold; -fx-text-fill: #00363D;" />
+			<TextField fx:id="notificationTitleField"
+				promptText="Enter notification title"
+				style="-fx-pref-width: 400px; -fx-background-color: white; -fx-border-color: #25b6aa; -fx-border-radius: 5;" />
+
+			<Label text="Notification Content:"
+				style="-fx-font-weight: bold; -fx-text-fill: #00363D;" />
+			<TextArea fx:id="notificationContentArea"
+				promptText="Enter notification content"
+				style="-fx-pref-width: 400px; -fx-pref-height: 200px; -fx-background-color: white; -fx-border-color: #25b6aa; -fx-border-radius: 5;"
+				wrapText="true" />
+
+			<HBox spacing="20.0" alignment="CENTER_RIGHT"
+				style="-fx-padding: 20 0;">
+				<Button fx:id="backButton" text="Back" onAction="#handleBack"
+					style="-fx-pref-width: 120px; -fx-background-color: #25b6aa; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
+				<Button fx:id="sendButton" text="Send"
+					onAction="#handleSendNotification"
+					style="-fx-pref-width: 120px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
+			</HBox>
+		</VBox>
+	</VBox>
+</AnchorPane>

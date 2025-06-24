@@ -1,20 +1,26 @@
 package backend.controller.course;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+import backend.controller.admin.NotificationController;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import model.course.Courses;
 import model.user.Users;
 
@@ -49,6 +55,7 @@ public class CoursePendingItemController implements Initializable {
 	private CourseService courseService = new CourseService();
 	private UserService userService = new UserService();
 	private Runnable refreshCallback;
+	private Users instructor;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -66,6 +73,7 @@ public class CoursePendingItemController implements Initializable {
 		this.course = course;
 		this.refreshCallback = refreshCallback;
 		updateUI();
+		loadInstructor();
 	}
 
 	private void updateUI() {
@@ -80,7 +88,6 @@ public class CoursePendingItemController implements Initializable {
 		priceLabel.setText(String.format("$%.2f", course.getPrice()));
 		createdDateLabel.setText(course.getCreatedAt().toString());
 
-		// Get lecture count
 		try {
 			int lectureCount = courseService.getLectureByCourseID(course.getCourseID()).size();
 			lectureCountLabel.setText(lectureCount + " lectures");
@@ -89,20 +96,6 @@ public class CoursePendingItemController implements Initializable {
 			e.printStackTrace();
 		}
 
-		// Get instructor info
-		try {
-			Users instructor = userService.GetUserByID(course.getUserID());
-			if (instructor != null) {
-				instructorNameLabel.setText(instructor.getUserFirstName() + " " + instructor.getUserLastName());
-			} else {
-				instructorNameLabel.setText("Unknown Instructor");
-			}
-		} catch (Exception e) {
-			instructorNameLabel.setText("Unknown Instructor");
-			e.printStackTrace();
-		}
-
-		// Handle image
 		try {
 			if (course.getThumbnailURL() != null && !course.getThumbnailURL().isEmpty()) {
 				Image image = new Image(new File(course.getThumbnailURL()).toURI().toString());
@@ -112,6 +105,20 @@ public class CoursePendingItemController implements Initializable {
 			}
 		} catch (Exception e) {
 			courseThumbnail.setImage(new Image(getClass().getResourceAsStream("/images/default_image.png")));
+		}
+	}
+
+	private void loadInstructor() {
+		try {
+			instructor = userService.GetUserByID(course.getUserID());
+			if (instructor != null) {
+				instructorNameLabel.setText(instructor.getUserFirstName() + " " + instructor.getUserLastName());
+			} else {
+				instructorNameLabel.setText("Unknown Instructor");
+			}
+		} catch (Exception e) {
+			instructorNameLabel.setText("Unknown Instructor");
+			e.printStackTrace();
 		}
 	}
 
@@ -130,16 +137,32 @@ public class CoursePendingItemController implements Initializable {
 
 	private void handleDeclineCourse() {
 		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontend/view/admin/Notification.fxml"));
+			Parent root = loader.load();
+
+			NotificationController notificationController = loader.getController();
+			notificationController.setTargetUserId(instructor.getUserID());
+			notificationController.setNotificationCategory("Course Rejected");
+			notificationController.setNotificationTitle("Course Rejection Notification");
+
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Create Notification");
+			stage.centerOnScreen();
+			stage.showAndWait(); // Wait for notification to be sent before proceeding
+
+			// After notification is sent, update course status
 			course.setRejected(true);
 			course.setUpdatedAt(LocalDateTime.now());
 			courseService.updateCourse(course);
 
-			showAlert("Info", "Course has been declined.", Alert.AlertType.INFORMATION);
+			showAlert("Info", "Course has been declined and notification sent.", Alert.AlertType.INFORMATION);
 			if (refreshCallback != null) {
 				refreshCallback.run();
 			}
-		} catch (Exception e) {
+		} catch (IOException | SQLException e) {
 			showAlert("Error", "Failed to decline course: " + e.getMessage(), Alert.AlertType.ERROR);
+			e.printStackTrace();
 		}
 	}
 

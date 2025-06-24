@@ -15,7 +15,8 @@ public class Users {
 	private String description;
 	private UserStatus status;
 	private LocalDate createdAt;
-	private int courseCount; // BỔ SUNG DÒNG NÀY
+	private int courseCount;
+	private int warningCount;
 
 	public Users() {
 		super();
@@ -37,28 +38,21 @@ public class Users {
 		this.createdAt = createdAt;
 	}
 
+	// Getters and Setters
 	public int getUserID() {
 		return userID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
 	public int getRoleID() {
 		return roleID;
 	}
-	
-	public String getSalt() {
-		return salt;
-	}
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
 
 	public void setRoleID(int roleID) {
 		this.roleID = roleID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
 	}
 
 	public String getUserFirstName() {
@@ -109,6 +103,14 @@ public class Users {
 		this.email = email;
 	}
 
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -141,12 +143,20 @@ public class Users {
 		this.courseCount = courseCount;
 	}
 
+	public int getWarningCount() {
+		return warningCount;
+	}
+
+	public void setWarningCount(int warningCount) {
+		this.warningCount = warningCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Users [userID=" + userID + ", roleID=" + roleID + ", userFirstName=" + userFirstName + ", userLastName="
 				+ userLastName + ", userName=" + userName + ", password=" + password + ", phoneNumber=" + phoneNumber
-				+ ", email=" + email + ", description=" + description + ", status=" + status + ", createdAt="
-				+ createdAt + ", courseCount=" + courseCount + "]";
+				+ ", email=" + email + ", salt=" + salt + ", description=" + description + ", status=" + status
+				+ ", createdAt=" + createdAt + ", courseCount=" + courseCount + ", warningCount=" + warningCount + "]";
 	}
 
 	public void print() {

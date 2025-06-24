@@ -14,11 +14,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
+import javafx.application.Platform;
 import model.course.Courses;
 import model.user.Users;
 import model.user.Session;
+import model.notification.UserNotification;
+import backend.repository.notification.NotificationRepository;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,7 +59,15 @@ public class StudentMainPageController implements Initializable {    @FXML priva
     private CourseReviewService courseReviewService;
     private backend.service.user.MyLearningService myLearningService;
     
-    // Cart badge feature disabled    @Override
+    // Cart badge feature disabled
+    // Notification system fields (merged from UpdateNotification branch)
+    private ImageView notificationIcon;
+    private Circle notificationBadge;
+    private Popup notificationPopup;
+    private VBox notificationPopupContent;
+    private NotificationRepository notificationRepository = new NotificationRepository();
+    
+    @Override
     public void initialize(URL location, ResourceBundle resources) {        courseService = new CourseService();
         userService = new UserService();
         courseReviewService = new CourseReviewService();
