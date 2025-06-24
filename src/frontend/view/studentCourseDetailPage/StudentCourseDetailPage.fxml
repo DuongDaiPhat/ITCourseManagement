@@ -146,9 +146,7 @@
                                     <VBox spacing="10" styleClass="student-actions">
                                         <Button fx:id="addToCartBtn" styleClass="cart-action-btn" text="Add to Cart" onAction="#handleAddToCart" />
                                         <Button fx:id="addToWishlistBtn" styleClass="wishlist-action-btn" text="Add to Wishlist" onAction="#handleAddToWishlist" />
-                                        <Button fx:id="payNowBtn" styleClass="pay-now-btn" text="Pay Now - 0.00" onAction="#handlePayNow" />
-                                    </VBox>
-                                </VBox>
+                                        <Button fx:id="payNowBtn" styleClass="pay-now-btn" text="Pay Now - 0.00" onAction="#handlePayNow" />                                    </VBox>                                </VBox>
                                 
                                 <!-- Instructor Info Section -->
                                 <VBox spacing="15" styleClass="instructor-info-section">
@@ -156,6 +154,48 @@
                                     <Separator styleClass="section-separator" />
                                     <VBox fx:id="instructorDetails" spacing="10" styleClass="instructor-details">
                                         <!-- Instructor info will be populated by controller -->
+                                    </VBox>
+                                </VBox>
+                                
+                                <!-- Course Rating and Reviews Section -->
+                                <VBox spacing="15" styleClass="rating-reviews-section">
+                                    <Label styleClass="section-title" text="Course Rating &amp; Reviews" />
+                                    <Separator styleClass="section-separator" />
+                                    
+                                    <!-- Average Rating Display -->
+                                    <VBox spacing="10" styleClass="average-rating-container">
+                                        <HBox alignment="CENTER_LEFT" spacing="15">
+                                            <VBox spacing="5" alignment="CENTER_LEFT">
+                                                <Label fx:id="averageRatingLabel" styleClass="average-rating-text" text="0.0" />
+                                                <HBox fx:id="averageRatingStars" spacing="2" alignment="CENTER_LEFT">
+                                                    <!-- Stars will be added dynamically -->
+                                                </HBox>
+                                                <Label fx:id="totalReviewsLabel" styleClass="total-reviews-text" text="(0 reviews)" />
+                                            </VBox>
+                                        </HBox>
+                                    </VBox>
+                                    
+                                    <!-- Rating Filter -->
+                                    <VBox spacing="10" styleClass="rating-filter-container">
+                                        <Label styleClass="filter-title" text="Filter by Rating:" />
+                                        <HBox spacing="10" styleClass="rating-filter-buttons">
+                                            <Button fx:id="filterAllBtn" styleClass="rating-filter-btn active" text="All" />
+                                            <Button fx:id="filter5StarBtn" styleClass="rating-filter-btn" text="5 ★" />
+                                            <Button fx:id="filter4StarBtn" styleClass="rating-filter-btn" text="4 ★" />
+                                            <Button fx:id="filter3StarBtn" styleClass="rating-filter-btn" text="3 ★" />
+                                            <Button fx:id="filter2StarBtn" styleClass="rating-filter-btn" text="2 ★" />
+                                            <Button fx:id="filter1StarBtn" styleClass="rating-filter-btn" text="1 ★" />
+                                        </HBox>
+                                    </VBox>
+                                    
+                                    <!-- Reviews List -->
+                                    <VBox spacing="10" styleClass="reviews-container">
+                                        <ScrollPane fitToWidth="true" prefHeight="300" styleClass="reviews-scroll-pane">
+                                            <VBox fx:id="reviewsContainer" spacing="15" styleClass="reviews-list">
+                                                <!-- Reviews will be added here dynamically -->
+                                                <Label fx:id="noReviewsLabel" styleClass="no-reviews-text" text="No reviews yet for this course." />
+                                            </VBox>
+                                        </ScrollPane>
                                     </VBox>
                                 </VBox>
                             </VBox>

@@ -82,33 +82,24 @@
                         <Label fx:id="welcomeLabel" styleClass="welcome-title" text="Hello, Student" />
                         <Label styleClass="welcome-subtitle" text="Discover amazing courses and start your learning journey" />
                     </VBox>
-                    
-                    <!-- AI Courses Section -->
+                      <!-- AI Courses Section -->
                     <VBox spacing="20" styleClass="course-section">
                         <HBox alignment="CENTER_LEFT" spacing="15">
                             <Label styleClass="section-title" text="AI &amp; Machine Learning" />
-                            <Label styleClass="view-all-link" text="View All →" />
-                        </HBox>                        <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER" prefHeight="420.0" maxHeight="420.0" styleClass="content-scroll-pane">
-                            <content>
-                                <FlowPane fx:id="aiCoursesContainer" hgap="30" vgap="30" styleClass="courses-container" orientation="HORIZONTAL" prefWrapLength="980.0">
-                                    <!-- AI courses will be populated by controller -->
-                                </FlowPane>
-                            </content>
-                        </ScrollPane>
-                    </VBox>
-                      <!-- Game Development Courses Section -->
+                            <Label fx:id="aiViewAllLink" styleClass="view-all-link" text="View All →" />
+                        </HBox>
+                        <HBox fx:id="aiCoursesContainer" spacing="20" styleClass="courses-container">
+                            <!-- AI courses will be populated by controller -->
+                        </HBox>
+                    </VBox>                    <!-- Game Development Courses Section -->
                     <VBox spacing="20" styleClass="course-section">
                         <HBox alignment="CENTER_LEFT" spacing="15">
                             <Label styleClass="section-title" text="Game Development" />
-                            <Label styleClass="view-all-link" text="View All →" />
+                            <Label fx:id="gameViewAllLink" styleClass="view-all-link" text="View All →" />
                         </HBox>                        
-                        <ScrollPane fitToHeight="true" hbarPolicy="AS_NEEDED" vbarPolicy="NEVER" prefHeight="420.0" maxHeight="420.0" styleClass="content-scroll-pane">
-                            <content>
-                                <FlowPane fx:id="gameCoursesContainer" hgap="30" vgap="30" styleClass="courses-container" orientation="HORIZONTAL" prefWrapLength="980.0">
-                                    <!-- Game development courses will be populated by controller -->
-                                </FlowPane>
-                            </content>
-                        </ScrollPane>
+                        <HBox fx:id="gameCoursesContainer" spacing="20" styleClass="courses-container">
+                            <!-- Game development courses will be populated by controller -->
+                        </HBox>
                     </VBox>
                 </VBox>
             </content>

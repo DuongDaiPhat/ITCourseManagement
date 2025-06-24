@@ -104,20 +104,19 @@
                                     <HBox alignment="CENTER_LEFT" spacing="10">
                                         <Label styleClass="property-label" text="Language:" />
                                         <Label fx:id="courseLanguage" styleClass="property-value" text="English" />
-                                    </HBox>
-                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                    </HBox>                                    <HBox alignment="CENTER_LEFT" spacing="10">
                                         <Label styleClass="property-label" text="Technology:" />
                                         <Label fx:id="courseTechnology" styleClass="property-value" text="Java" />
-                                    </HBox>                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
                                         <Label styleClass="property-label" text="Price:" />
                                         <Label fx:id="coursePrice" styleClass="property-value price" text="99.99" />
                                     </HBox>
-                                </VBox>
-                            </VBox>
+                                </VBox>                            </VBox>
                         </VBox>
+                          <Separator styleClass="section-separator" />
                         
-                        <Separator styleClass="section-separator" />
-                          <!-- Instructor and Course Info Section -->
+                        <!-- Instructor and Course Info Section -->
                         <VBox spacing="15" styleClass="instructor-info-section">
                             <Label styleClass="section-title" text="Instructor &amp; Course Info" />
                             
@@ -137,9 +136,53 @@
                                 <HBox alignment="CENTER_LEFT" spacing="10">
                                     <Label styleClass="property-label" text="Total Lectures:" />
                                     <Label fx:id="totalLectures" styleClass="property-value" text="0" />
-                                </HBox>                            </VBox>
+                                </HBox>
+                            </VBox>
                         </VBox>
-                    </VBox>                    
+                        
+                        <Separator styleClass="section-separator" />
+                        
+                        <!-- Course Rating and Reviews Section -->
+                        <VBox spacing="15" styleClass="rating-reviews-section">
+                            <Label styleClass="section-title" text="Course Rating &amp; Reviews" />
+                            
+                            <!-- Average Rating Display -->
+                            <VBox spacing="10" styleClass="average-rating-container">
+                                <HBox alignment="CENTER_LEFT" spacing="15">
+                                    <VBox spacing="5" alignment="CENTER_LEFT">
+                                        <Label fx:id="averageRatingLabel" styleClass="average-rating-text" text="0.0" />
+                                        <HBox fx:id="averageRatingStars" spacing="2" alignment="CENTER_LEFT">
+                                            <!-- Stars will be added dynamically -->
+                                        </HBox>
+                                        <Label fx:id="totalReviewsLabel" styleClass="total-reviews-text" text="(0 reviews)" />
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+                            
+                            <!-- Rating Filter -->
+                            <VBox spacing="5" styleClass="rating-filter-container">
+                                <Label styleClass="filter-title" text="Filter by Rating:" />
+                                <HBox spacing="5" styleClass="rating-filter-buttons">
+                                    <Button fx:id="filterAllBtn" styleClass="rating-filter-btn active" text="All" />
+                                    <Button fx:id="filter5StarBtn" styleClass="rating-filter-btn" text="5★" />
+                                    <Button fx:id="filter4StarBtn" styleClass="rating-filter-btn" text="4★" />
+                                    <Button fx:id="filter3StarBtn" styleClass="rating-filter-btn" text="3★" />
+                                    <Button fx:id="filter2StarBtn" styleClass="rating-filter-btn" text="2★" />
+                                    <Button fx:id="filter1StarBtn" styleClass="rating-filter-btn" text="1★" />
+                                </HBox>
+                            </VBox>
+                            
+                            <!-- Reviews List -->
+                            <VBox spacing="10" styleClass="reviews-container">
+                                <ScrollPane fitToWidth="true" prefHeight="300" styleClass="reviews-scroll-pane">
+                                    <VBox fx:id="reviewsContainer" spacing="15" styleClass="reviews-list">
+                                        <!-- Reviews will be added here dynamically -->
+                                        <Label fx:id="noReviewsLabel" styleClass="no-reviews-text" text="No reviews yet for this course." />
+                                    </VBox>
+                                </ScrollPane>
+                            </VBox>
+                        </VBox>
+                    </VBox>
                     <!-- Right Side (Lectures) -->
                     <VBox spacing="20" styleClass="right-panel" HBox.hgrow="ALWAYS">
                         <Label styleClass="section-title" text="Course Lectures" />

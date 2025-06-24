@@ -17,6 +17,7 @@ import backend.controller.InstructorMainPage.InstructorMainPageController;
 import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
+import backend.service.course.CourseReviewService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,6 +46,13 @@ import model.course.Level;
 import model.course.Technology;
 import model.user.Session;
 import model.user.Users;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Priority;
+import javafx.geometry.Insets;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import model.course.CourseReview;
 
 public class InstructorCreatePageController implements IInstructorCreatePageController {
 	@FXML
@@ -74,6 +82,7 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 
 	private UserService userService;
 	private CourseService courseService;
+	private CourseReviewService courseReviewService;
 	private int userID;
 	private File selectedImageFile;
 
@@ -123,6 +132,7 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		level.setEditable(false);
 		userService = new UserService();
 		courseService = new CourseService();
+		courseReviewService = new CourseReviewService();
 		userID = Session.getCurrentUser().getUserID();
 		
 		setupProfileMenu();
@@ -209,33 +219,32 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 		String str_language;
 		String str_category;
 		String str_level;
-
 		if (str_courseName.isEmpty()) {
-			System.out.println("Course name is empty");
+			showAlert("Validation Error", "Course name cannot be empty.", Alert.AlertType.WARNING);
 			return;
 		} else if (!IsValidCourseName(str_courseName)) {
-			System.out.println("Invalid Course name");
+			showAlert("Validation Error", "Course name contains invalid characters. Only letters, numbers, spaces, and common symbols (+, #, ., -, _, (), [], :, &, /) are allowed.", Alert.AlertType.WARNING);
 			return;
 		} else if (technology.getValue() == null) {
-			System.out.println("You haven't chose programming language for your course yet");
+			showAlert("Validation Error", "Please select a programming language for your course.", Alert.AlertType.WARNING);
 			return;
 		} else if (language.getValue() == null) {
-			System.out.println("You haven't chose language for your course yet");
+			showAlert("Validation Error", "Please select a language for your course.", Alert.AlertType.WARNING);
 			return;
 		} else if (category.getValue() == null) {
-			System.out.println("You haven't chose category for your course yet");
+			showAlert("Validation Error", "Please select a category for your course.", Alert.AlertType.WARNING);
 			return;
 		} else if (level.getValue() == null) {
-			System.out.println("You haven't chose level for your course yet");
+			showAlert("Validation Error", "Please select a level for your course.", Alert.AlertType.WARNING);
 			return;
 		} else if (str_price.isEmpty()) {
-			System.out.println("Please enter the course's price");
+			showAlert("Validation Error", "Please enter the course's price.", Alert.AlertType.WARNING);
 			return;
 		} else if (str_description.isEmpty()) {
-			System.out.println("Please enter the course's description");
+			showAlert("Validation Error", "Please enter the course's description.", Alert.AlertType.WARNING);
 			return;
 		} else if (selectedImageFile == null) {
-			System.out.println("You haven't chosen the thumbnail image yet");
+			showAlert("Validation Error", "Please choose a thumbnail image for your course.", Alert.AlertType.WARNING);
 			return;
 		}
 
@@ -266,11 +275,12 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 	}
 
 	public void ReturnToMyCourse(ActionEvent e) throws IOException, SQLException {
-		SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);
-	}
+		SceneManager.switchSceneReloadWithData("My Course", "/frontend/view/instructorMainPage/instructorMainPage.fxml", null, null);	}
 
 	private static boolean IsValidCourseName(String name) {
-		return name.matches("[\\p{L}\\p{Zs}]+");
+		// Allow letters, numbers, spaces, and common programming-related special characters
+		// This includes: +, #, ., -, _, (), [], :, and other commonly used characters in course names
+		return name.matches("[\\p{L}\\p{N}\\p{Zs}+#.\\-_()\\[\\]:&/]+");
 	}
 
 	private String saveImageToLocalDir(File sourceFile) throws IOException {
@@ -317,5 +327,149 @@ public class InstructorCreatePageController implements IInstructorCreatePageCont
 	private void goToExplorePage() {
 		// Use reload to ensure fresh course data is displayed
 		SceneManager.switchSceneReloadWithData("Instructor Explore", "/frontend/view/instructorExplorePage/InstructorExplorePage.fxml", null, null);
+	}
+	
+	/**
+	 * Show rating dialog for a specific course
+	 */
+	public void showCourseRatingDialog(int courseId, String courseName) {
+		try {
+			// Get course reviews and rating data
+			ArrayList<CourseReview> reviews = courseReviewService.getCourseReviews(courseId);
+			double averageRating = courseReviewService.getCourseAverageRating(courseId);
+			int reviewCount = courseReviewService.getCourseReviewCount(courseId);
+			
+			// Create dialog
+			Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+			dialog.setTitle("Course Ratings & Reviews");
+			dialog.setHeaderText(courseName);
+			
+			// Create custom content
+			VBox content = new VBox(10);
+			content.setPadding(new Insets(10));
+			
+			// Rating summary
+			HBox ratingHeader = new HBox(10);
+			ratingHeader.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+			
+			Label avgRatingLabel = new Label(String.format("%.1f", averageRating));
+			avgRatingLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+			
+			VBox starContainer = new VBox(5);
+			HBox starsBox = createStarDisplay(averageRating);
+			Label reviewCountLabel = new Label(reviewCount + " review" + (reviewCount != 1 ? "s" : ""));
+			reviewCountLabel.setStyle("-fx-text-fill: #666; -fx-font-size: 12px;");
+			starContainer.getChildren().addAll(starsBox, reviewCountLabel);
+			
+			ratingHeader.getChildren().addAll(avgRatingLabel, starContainer);
+			content.getChildren().add(ratingHeader);
+			
+			// Separator
+			javafx.scene.control.Separator separator = new javafx.scene.control.Separator();
+			content.getChildren().add(separator);
+			
+			// Reviews list
+			if (reviews.isEmpty()) {
+				Label noReviewsLabel = new Label("No reviews yet for this course.");
+				noReviewsLabel.setStyle("-fx-text-fill: #666; -fx-font-style: italic;");
+				content.getChildren().add(noReviewsLabel);
+			} else {
+				// Create scrollable reviews container
+				VBox reviewsContainer = new VBox(10);
+				
+				for (CourseReview review : reviews) {
+					VBox reviewCard = createReviewCard(review);
+					reviewsContainer.getChildren().add(reviewCard);
+				}
+				
+				ScrollPane scrollPane = new ScrollPane(reviewsContainer);
+				scrollPane.setFitToWidth(true);
+				scrollPane.setPrefHeight(300);
+				scrollPane.setStyle("-fx-background-color: transparent;");
+				
+				content.getChildren().add(scrollPane);
+			}
+			
+			dialog.getDialogPane().setContent(content);
+			dialog.getDialogPane().setPrefWidth(500);
+			dialog.showAndWait();
+			
+		} catch (Exception e) {
+			System.err.println("Error showing course rating dialog: " + e.getMessage());
+			e.printStackTrace();
+			showAlert("Error", "Failed to load course ratings.", Alert.AlertType.ERROR);
+		}
+	}
+	
+	/**
+	 * Create star display for rating
+	 */
+	private HBox createStarDisplay(double rating) {
+		HBox starsBox = new HBox(2);
+		starsBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+		
+		for (int i = 1; i <= 5; i++) {
+			Label star = new Label();
+			star.setStyle("-fx-font-size: 16px;");
+			
+			if (i <= rating) {
+				star.setText("★"); // Filled star
+				star.setStyle("-fx-text-fill: #ffd700; -fx-font-size: 16px;");
+			} else if (i - 0.5 <= rating) {
+				star.setText("☆"); // Half star (simplified as empty star)
+				star.setStyle("-fx-text-fill: #ffd700; -fx-font-size: 16px;");
+			} else {
+				star.setText("☆"); // Empty star
+				star.setStyle("-fx-text-fill: #ddd; -fx-font-size: 16px;");
+			}
+			
+			starsBox.getChildren().add(star);
+		}
+		
+		return starsBox;
+	}
+	
+	/**
+	 * Create a review card for displaying individual reviews
+	 */
+	private VBox createReviewCard(CourseReview review) {
+		VBox reviewCard = new VBox(5);
+		reviewCard.setStyle("-fx-background-color: #f8f9fa; -fx-padding: 10; -fx-background-radius: 5;");
+		
+		// Header with user info and rating
+		HBox header = new HBox(10);
+		header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+		
+		// Get user name
+		String userName = "Anonymous";
+		try {
+			Users user = userService.GetUserByID(review.getUserId());
+			if (user != null) {
+				userName = user.getUserFirstName() + " " + user.getUserLastName();
+			}
+		} catch (Exception e) {
+			System.err.println("Error getting user name: " + e.getMessage());
+		}
+		
+		Label userNameLabel = new Label(userName);
+		userNameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+		
+		HBox userStars = createStarDisplay(review.getRating());
+		
+		Label dateLabel = new Label(review.getCreatedAt().toLocalDate().toString());
+		dateLabel.setStyle("-fx-text-fill: #666; -fx-font-size: 12px;");
+		
+		header.getChildren().addAll(userNameLabel, userStars, dateLabel);
+		reviewCard.getChildren().add(header);
+		
+		// Comment
+		if (review.getComment() != null && !review.getComment().trim().isEmpty()) {
+			Label commentLabel = new Label(review.getComment());
+			commentLabel.setWrapText(true);
+			commentLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #333;");
+			reviewCard.getChildren().add(commentLabel);
+		}
+		
+		return reviewCard;
 	}
 }

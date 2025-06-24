@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.rating.RatingDialogController" styleClass="rating-dialog-root" stylesheets="@RatingDialog.css" spacing="20" maxWidth="450" maxHeight="400">
+    <padding>
+        <Insets bottom="25" left="25" right="25" top="25" />
+    </padding>
+    
+    <!-- Course Title -->
+    <Label fx:id="courseTitleLabel" styleClass="rating-dialog-title" text="Course Title" wrapText="true" />
+    
+    <!-- Star Rating Container -->
+    <VBox spacing="10" alignment="CENTER">
+        <Label styleClass="rating-instruction-label" text="Please rate this course:" />
+        <HBox fx:id="starContainer" alignment="CENTER" spacing="5" styleClass="star-rating-container" />
+    </VBox>
+    
+    <!-- Comment Section -->
+    <VBox spacing="8">
+        <Label styleClass="comment-label" text="Your Review (Optional):" />
+        <TextArea fx:id="commentArea" styleClass="rating-comment-area" promptText="Share your thoughts about this course..." wrapText="true" prefRowCount="4" maxWidth="400" />
+    </VBox>
+    
+    <!-- Button Container -->
+    <HBox alignment="CENTER" spacing="15">
+        <Button fx:id="cancelButton" styleClass="cancel-rating-button" text="Cancel" onAction="#handleCancel" />
+        <Button fx:id="submitButton" styleClass="submit-rating-button" text="Submit Rating" onAction="#handleSubmit" />
+    </HBox>
+</VBox>

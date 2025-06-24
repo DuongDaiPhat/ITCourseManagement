@@ -447,11 +447,10 @@ public class MyWishListController implements Initializable {
         } catch (Exception e) {
             System.err.println("Error showing profile menu: " + e.getMessage());
         }
-    }
-      private void logout() {
+    }    private void logout() {
         try {
             Session.setCurrentUser(null);
-            SceneManager.switchScene("/frontend/view/startPage/startPage.fxml", "AiTeeCo - Learning Platform");
+            SceneManager.switchToLoginScene("Login", "/frontend/view/login/Login.fxml");
         } catch (Exception e) {
             System.err.println("Error during logout: " + e.getMessage());
         }

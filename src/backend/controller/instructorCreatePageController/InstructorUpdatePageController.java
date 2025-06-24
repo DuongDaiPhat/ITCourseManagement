@@ -297,9 +297,8 @@ public class InstructorUpdatePageController implements IInstructorUpdatePageCont
 	public void ReturnToMyCourse(ActionEvent e) throws IOException, SQLException {
 		this.ReturnToInstructorMainPage();
 	}
-
 	private static boolean IsValidCourseName(String name) {
-		return name.matches("[\\p{L}\\p{Zs}]+");
+		return name.matches("[\\p{L}\\p{N}\\p{Zs}+#.\\-_()\\[\\]:&/]+");
 	}
 
 	private String saveImageToLocalDir(File sourceFile) throws IOException {

@@ -4,6 +4,7 @@ import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
 import backend.service.sample.SampleDataService;
+import backend.service.course.CourseReviewService;
 import backend.service.state.StudentStateManager;
 import backend.util.ImageCache;
 import javafx.collections.FXCollections;
@@ -51,15 +52,16 @@ public class StudentExplorePageController implements Initializable {
     @FXML private Button clearFiltersButton;
     @FXML private VBox coursesContainer;
     @FXML private ScrollPane contentScrollPane;    // Image cache now handled by ImageCache utility class    
-    private ObservableList<Courses> allCourses;
-    private Map<Category, List<Courses>> coursesByCategory;    private CourseService courseService;
+    private ObservableList<Courses> allCourses;    private Map<Category, List<Courses>> coursesByCategory;    private CourseService courseService;
     private UserService userService;
+    private CourseReviewService courseReviewService;
     private backend.service.user.MyLearningService myLearningService;
     private ContextMenu profileMenu;private StudentStateManager stateManager;
     
     // Cart badge feature disabled    @Override
     public void initialize(URL location, ResourceBundle resources) {        courseService = new CourseService();
         userService = new UserService();
+        courseReviewService = new CourseReviewService();
         myLearningService = new backend.service.user.MyLearningService();
         stateManager = StudentStateManager.getInstance();
         
@@ -83,10 +85,15 @@ public class StudentExplorePageController implements Initializable {
         if (model.user.Session.getCurrentUser() != null) {
             stateManager.initializeState();
         }
-        
-        // Now display courses with correct initial state
+          // Now display courses with correct initial state
         displayAllCourses();
-    }    private void setupNavigationEvents() {
+        
+        // Check for pending category filter from main page
+        String pendingFilter = backend.controller.scene.SceneManager.getPendingCategoryFilter();
+        if (pendingFilter != null) {
+            applyCategoryFilter(pendingFilter);
+        }
+    }private void setupNavigationEvents() {
         homeLabel.setOnMouseClicked(event -> goToMainPage());
         categoryLabel.setOnMouseClicked(event -> {
             // Already on category page
@@ -342,12 +349,13 @@ public class StudentExplorePageController implements Initializable {
         categorySubtitle.getStyleClass().add("category-subtitle");
         
         header.getChildren().addAll(categoryTitle, categorySubtitle);
-        
-        // Course grid
+          // Course grid with proper layout for 4 courses per row
         FlowPane courseGrid = new FlowPane();
         courseGrid.getStyleClass().add("course-grid");
         courseGrid.setHgap(20);
         courseGrid.setVgap(20);
+        courseGrid.setPrefWrapLength(980); // Set wrap length to fit 4 cards (4 * 230 + 3 * 20 = 980)
+        courseGrid.setAlignment(javafx.geometry.Pos.TOP_LEFT);
         
         for (Courses course : courses) {
             VBox courseCard = createCourseCard(course);
@@ -361,15 +369,33 @@ public class StudentExplorePageController implements Initializable {
         courseCard.getStyleClass().add("course-card");
         courseCard.setOnMouseClicked(event -> handleCourseClick(course));
         
+        // Set consistent fixed dimensions for all cards
+        courseCard.setPrefWidth(230);
+        courseCard.setMaxWidth(230);
+        courseCard.setMinWidth(230);
+        courseCard.setPrefHeight(360);  // Increased height to accommodate all attributes
+        courseCard.setMaxHeight(360);
+        courseCard.setMinHeight(360);
+        courseCard.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+        courseCard.setSpacing(0);
+        
         // Set course ID as user data for state synchronization
         courseCard.setUserData(course.getCourseID());
         
-        // Course thumbnail
+        // Course image container - fixed dimensions
+        VBox imageContainer = new VBox();
+        imageContainer.setAlignment(javafx.geometry.Pos.CENTER);
+        imageContainer.setStyle("-fx-padding: 10 10 0 10; -fx-background-radius: 12 12 0 0;");
+        imageContainer.setPrefHeight(150);
+        imageContainer.setMaxHeight(150);
+        imageContainer.setMinHeight(150);
+        
         ImageView thumbnail = new ImageView();
         thumbnail.getStyleClass().add("course-thumbnail");
-        thumbnail.setFitWidth(280);
-        thumbnail.setFitHeight(160);
-        thumbnail.setPreserveRatio(false);
+        thumbnail.setFitWidth(210);  // Fixed width
+        thumbnail.setFitHeight(130); // Fixed height
+        thumbnail.setPreserveRatio(false); // Allow stretching for proper thumbnail ratio
+        thumbnail.setSmooth(true);
         
         try {
             String imagePath = course.getThumbnailURL();
@@ -392,14 +418,27 @@ public class StudentExplorePageController implements Initializable {
             setDefaultCourseImage(thumbnail);
         }
         
-        // Course info container
+        imageContainer.getChildren().add(thumbnail);
+        
+        // Course info container with fixed layout
         VBox courseInfo = new VBox();
         courseInfo.getStyleClass().add("course-info");
+        courseInfo.setSpacing(8);
+        courseInfo.setPrefHeight(210);
+        courseInfo.setMaxHeight(210);
+        courseInfo.setMinHeight(210);
+        courseInfo.setStyle("-fx-padding: 8 12 12 12;");
         
-        // Course title
+        // Course title - fixed height with ellipsis
         Label courseTitle = new Label(course.getCourseName());
         courseTitle.getStyleClass().add("course-title");
-          // Author name - get real instructor name from database
+        courseTitle.setWrapText(false);
+        courseTitle.setMaxWidth(206);
+        courseTitle.setPrefHeight(20);
+        courseTitle.setMaxHeight(20);
+        courseTitle.setMinHeight(20);
+        courseTitle.setStyle("-fx-text-overrun: ellipsis;");
+          // Author name - fixed height
         String authorName = "By Instructor";
         try {
             Users instructor = userService.GetUserByID(course.getUserID());
@@ -412,57 +451,82 @@ public class StudentExplorePageController implements Initializable {
         
         Label authorLabel = new Label(authorName);
         authorLabel.getStyleClass().add("course-author");
+        authorLabel.setPrefHeight(18);
+        authorLabel.setMaxHeight(18);
+        authorLabel.setMinHeight(18);
+        authorLabel.setMaxWidth(206);
+        authorLabel.setStyle("-fx-text-overrun: ellipsis;");
         
-        // Category and language/level tags
-        HBox tagsContainer = new HBox();
-        tagsContainer.setSpacing(5);
-        tagsContainer.setAlignment(Pos.CENTER_LEFT);
+        // Language, Technology, Level badges in one row - fixed height
+        HBox badgesContainer = new HBox(5);
+        badgesContainer.setAlignment(Pos.CENTER_LEFT);
+        badgesContainer.setPrefHeight(25);
+        badgesContainer.setMaxHeight(25);
+        badgesContainer.setMinHeight(25);
         
-        Label categoryTag = new Label(formatCategoryName(course.getCategory().name()));
-        categoryTag.getStyleClass().add("course-category-tag");
-        
-        // Language and Level tags (if available)
+        // Language badge
         if (course.getLanguage() != null) {
             Label languageTag = new Label(course.getLanguage().toString());
             languageTag.getStyleClass().add("course-language");
-            tagsContainer.getChildren().add(languageTag);
+            languageTag.setMaxWidth(50);
+            languageTag.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
+            badgesContainer.getChildren().add(languageTag);
         }
         
+        // Technology badge
+        if (course.getTechnology() != null) {
+            Label technologyTag = new Label(course.getTechnology().toString());
+            technologyTag.getStyleClass().add("course-technology");
+            technologyTag.setMaxWidth(65);
+            technologyTag.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
+            badgesContainer.getChildren().add(technologyTag);
+        }
+        
+        // Level badge
         if (course.getLevel() != null) {
             Label levelTag = new Label(course.getLevel().toString());
             levelTag.getStyleClass().add("course-level");
-            tagsContainer.getChildren().add(levelTag);
+            levelTag.setMaxWidth(55);
+            levelTag.setStyle("-fx-text-overrun: clip; -fx-font-size: 10px;");
+            badgesContainer.getChildren().add(levelTag);
         }
         
-        tagsContainer.getChildren().add(categoryTag);
-        
-        // Price and rating container
-        HBox priceRatingContainer = new HBox();
-        priceRatingContainer.setAlignment(Pos.CENTER_LEFT);
-        priceRatingContainer.setSpacing(10);
-        
-        Label price = new Label("$" + String.format("%.2f", course.getPrice()));
-        price.getStyleClass().add("course-price");
-        
-        // Rating (placeholder - you might need to calculate this from reviews)
+        // Rating - fixed height
         HBox ratingContainer = new HBox();
         ratingContainer.getStyleClass().add("course-rating");
         ratingContainer.setAlignment(Pos.CENTER_LEFT);
+        ratingContainer.setPrefHeight(20);
+        ratingContainer.setMaxHeight(20);
+        ratingContainer.setMinHeight(20);
         
-        Label ratingText = new Label("★ 4.5");
-        ratingText.getStyleClass().add("rating-text");
+        double avgRating = courseReviewService.getCourseAverageRating(course.getCourseID());
+        int reviewCount = courseReviewService.getCourseReviewCount(course.getCourseID());
         
-        Label ratingCount = new Label("(128)");
-        ratingCount.getStyleClass().add("rating-count");
+        String ratingText = reviewCount > 0 ? 
+            String.format("★ %.1f (%d)", avgRating, reviewCount) : 
+            "☆ No reviews";
+        Label ratingLabel = new Label(ratingText);
+        ratingLabel.getStyleClass().add("rating-text");
+        ratingLabel.setMaxWidth(206);
+        ratingLabel.setStyle("-fx-text-overrun: ellipsis;");
         
-        ratingContainer.getChildren().addAll(ratingText, ratingCount);
-        priceRatingContainer.getChildren().addAll(price, ratingContainer);
+        ratingContainer.getChildren().add(ratingLabel);
         
-        // Course card actions (Cart and Wishlist buttons)
+        // Price - fixed height
+        Label price = new Label("$" + String.format("%.2f", course.getPrice()));
+        price.getStyleClass().add("course-price");
+        price.setPrefHeight(22);
+        price.setMaxHeight(22);
+        price.setMinHeight(22);
+        
+        // Course card actions (Cart and Wishlist buttons) - fixed height
         HBox actionsContainer = createCourseCardActions(course);
+        actionsContainer.setPrefHeight(40);
+        actionsContainer.setMaxHeight(40);
+        actionsContainer.setMinHeight(40);
         
-        courseInfo.getChildren().addAll(courseTitle, authorLabel, tagsContainer, priceRatingContainer, actionsContainer);
-        courseCard.getChildren().addAll(thumbnail, courseInfo);
+        courseInfo.getChildren().addAll(courseTitle, authorLabel, badgesContainer, ratingContainer, price, actionsContainer);
+        courseCard.getChildren().addAll(imageContainer, courseInfo);
         
         return courseCard;
     }
@@ -821,9 +885,8 @@ public class StudentExplorePageController implements Initializable {
                 // Clear session if there's a session management system
                 // Session.clearSession(); // Uncomment if you have session management
                 System.out.println("Session cleared"); // Debugging line
-                
-                // Navigate to login page
-                SceneManager.switchScene(
+                  // Navigate to login page with proper window size reset
+                SceneManager.switchToLoginScene(
                     "Login",
                     "/frontend/view/login/Login.fxml"
                 );
@@ -889,6 +952,34 @@ public class StudentExplorePageController implements Initializable {
         try {
             displayAllCourses();
         } catch (Exception e) {            System.err.println("Error updating course card states in StudentExplorePage: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Apply category filter when coming from main page View All links
+     */
+    private void applyCategoryFilter(String filterValue) {
+        try {
+            // Map the filter value to display text for the combo box
+            String displayValue = null;
+            
+            if ("AI_ML".equals(filterValue)) {
+                // For AI & Machine Learning, we need to find the matching category
+                displayValue = "Artificial Intelligence"; // or find the best match
+            } else if ("Game_Development".equals(filterValue)) {
+                displayValue = "Game Development";
+            }
+            
+            if (displayValue != null && categoryFilter != null) {
+                // Set the combo box value
+                categoryFilter.setValue(displayValue);
+                // Trigger the filter action
+                handleCategoryFilter();
+                System.out.println("Applied category filter: " + displayValue);
+            }
+        } catch (Exception e) {
+            System.err.println("Error applying category filter: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

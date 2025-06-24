@@ -107,10 +107,9 @@ public class InstructorMainPageController implements IInstructorMainPageControll
     	SceneManager.switchScene("Payment", "/frontend/view/payment/paymentMethod.fxml");
     
     }
-    
-    private void logout() {
+      private void logout() {
         SceneManager.clearSceneCache();
-        SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
+        SceneManager.switchToLoginScene("Login", "/frontend/view/login/Login.fxml");
     }
 
 	public void CreateCoursePage(ActionEvent e) throws IOException {
