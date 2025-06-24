@@ -9,3 +9,4 @@ Thumbs.db
 *.class
 *.md
 *.bat
+/backend/

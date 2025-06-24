@@ -24,6 +24,12 @@ import model.user.MyLearning;
 import model.user.Session;
 import model.user.Users;
 import model.user.CourseStatus;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Popup;
+import backend.repository.notification.NotificationRepository;
+import model.notification.UserNotification;
+import java.sql.SQLException;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -64,6 +70,12 @@ public class MyLearningController implements Initializable {
       // Review Dialog Components
     private VBox reviewDialog;
     
+    // Notification system fields
+    private Circle notificationBadge;
+    private Popup notificationPopup;
+    private VBox notificationPopupContent;
+    private NotificationRepository notificationRepository = new NotificationRepository();
+    
     // Data
     private List<LearningCourseData> learningCourses;
     private Users currentUser;
@@ -100,6 +112,7 @@ public class MyLearningController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initializeServices();
         setupIcons();
+        setupNotificationButton();
         
         learningCourses = new ArrayList<>();
         currentUser = Session.getCurrentUser();
@@ -637,6 +650,127 @@ public class MyLearningController implements Initializable {
             ratingOverlay.setManaged(false);
         }
         reviewDialog = null;
+    }
+    
+    // Notification system setup
+    private void setupNotificationButton() {
+        // Create notification badge
+        notificationBadge = new Circle(5);
+        notificationBadge.setFill(Color.TRANSPARENT); // Hidden by default
+        notificationBadge.setStroke(Color.TRANSPARENT);
+        notificationBadge.setTranslateX(8);
+        notificationBadge.setTranslateY(-8);
+        notificationBadge.getStyleClass().add("notification-badge");
+
+        // Combine icon and badge
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(notificationIcon, notificationBadge);
+
+        // Assign to notification button
+        notificationButton.setGraphic(stackPane);
+        notificationButton.getStyleClass().add("notification-button");
+
+        // Create notification popup
+        notificationPopup = new Popup();
+        notificationPopup.setAutoHide(true); // Auto-hide when clicking outside
+
+        // Popup content
+        notificationPopupContent = new VBox();
+        notificationPopupContent.setStyle(
+                "-fx-background-color: white; -fx-border-color: #cccccc; -fx-border-width: 1px; -fx-padding: 10px;");
+        notificationPopupContent.setPrefWidth(300);
+        notificationPopupContent.setMaxHeight(400);
+
+        // Add scroll pane
+        ScrollPane scrollPane = new ScrollPane(notificationPopupContent);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background: white; -fx-background-color: white;");
+
+        // Popup title
+        Label titleLabel = new Label("Notifications");
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 0 0 10 0;");
+
+        // Main container
+        VBox popupContainer = new VBox(titleLabel, scrollPane);
+        popupContainer.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+        popupContainer.setPrefWidth(300);
+
+        notificationPopup.getContent().add(popupContainer);
+
+        // Set action handler for notification button
+        notificationButton.setOnAction(event -> toggleNotificationPopup());
+    }
+
+    private void toggleNotificationPopup() {
+        if (notificationPopup.isShowing()) {
+            notificationPopup.hide();
+        } else {
+            notificationPopup.show(notificationButton.getScene().getWindow());
+        }
+    }
+
+    private void loadNotifications() {
+        try {
+            List<UserNotification> notifications = notificationRepository.getUserNotifications(currentUser.getUserID());
+            notificationPopupContent.getChildren().clear();
+            if (notifications == null || notifications.isEmpty()) {
+                Label emptyLabel = new Label("No new notifications.");
+                emptyLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #999999;");
+                notificationPopupContent.getChildren().add(emptyLabel);
+            } else {
+                for (UserNotification notification : notifications) {
+                    VBox notificationItem = createNotificationItem(notification);
+                    notificationPopupContent.getChildren().add(notificationItem);
+                }
+            }
+            int unreadCount = (int) notifications.stream().filter(n -> !n.isRead()).count();
+            updateNotificationBadge(unreadCount);
+        } catch (SQLException e) {
+            Platform.runLater(() -> showAlert("Database Error", "Failed to load notifications: " + e.getMessage()));
+        } catch (Exception e) {
+            // handle error
+        }
+    }
+
+    private VBox createNotificationItem(UserNotification notification) {
+        VBox container = new VBox();
+        container.setStyle(
+                "-fx-background-color: #f9f9f9; -fx-border-color: #eeeeee; -fx-border-width: 0 0 1 0; -fx-padding: 10px;");
+        container.setSpacing(5);
+        HBox header = new HBox();
+        header.setAlignment(Pos.CENTER_LEFT);
+        header.setSpacing(5);
+        Label iconLabel = new Label(notification.getIcon());
+        iconLabel.setStyle("-fx-font-size: 16px;");
+        Label titleLabel = new Label(notification.getNotificationName());
+        titleLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 13px;");
+        Label categoryLabel = new Label("(" + notification.getCategory() + ")");
+        categoryLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #666666;");
+        header.getChildren().addAll(iconLabel, titleLabel, categoryLabel);
+        Label contentLabel = new Label(notification.getContent());
+        contentLabel.setStyle("-fx-font-size: 12px; -fx-wrap-text: true;");
+        contentLabel.setMaxWidth(280);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+        String timeText = notification.getNotifiedAt() != null ? notification.getNotifiedAt().format(formatter)
+                : "Unknown time";
+        Label timeLabel = new Label(timeText);
+        timeLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: #999999; -fx-padding: 5 0 0 0;");
+        container.getChildren().addAll(header, contentLabel, timeLabel);
+        container.setOnMouseClicked(e -> {
+            // TODO: Navigate to notification detail
+        });
+        return container;
+    }
+
+    private void updateNotificationBadge(int count) {
+        if (count > 0) {
+            notificationBadge.setFill(Color.RED);
+            notificationBadge.setStroke(Color.WHITE);
+            notificationBadge.setRadius(10);
+            notificationBadge.setVisible(true);
+        } else {
+            notificationBadge.setVisible(false);
+        }
     }
     
     // Navigation methods

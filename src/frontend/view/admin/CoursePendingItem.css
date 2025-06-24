@@ -68,7 +68,7 @@
 	-fx-cursor: hand;
 	-fx-min-width: 150.0px;
 	-fx-text-fill: white;
-	-fx-translate-x: -2px;
+	-fx-translate-x: -2.0px;
 }
 
 .approve {

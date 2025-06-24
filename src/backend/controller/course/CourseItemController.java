@@ -12,6 +12,10 @@ import backend.service.course.CourseReviewService;
 import backend.service.user.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -20,16 +24,19 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+
+import javafx.stage.Screen;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ScrollPane;
 import javafx.geometry.Insets;
+
 import javafx.stage.Stage;
 import model.course.CourseSession;
 import model.course.Courses;
 import model.course.CourseReview;
 import model.user.Users;
 
-public class CourseItemController implements ICourseItemController{
+public class CourseItemController implements ICourseItemController {
 	@FXML
 	private HBox courseItemContainer;
 	@FXML
@@ -66,9 +73,10 @@ public class CourseItemController implements ICourseItemController{
 	private Scene scene;
 	@FXML
 	public void initialize() {
+
 		courseReviewService = new CourseReviewService();
 		
-		courseNameLabel.setOnMouseClicked(event->{
+		courseNameLabel.setOnMouseClicked(event->{0
 			CourseSession.setCurrentCourse(course);
 			try {
 				this.ToAddLecturePage();
@@ -128,11 +136,14 @@ public class CourseItemController implements ICourseItemController{
 			}
 		}
 		if (course.isApproved()) {
-		    publishButton.setText("Approved");
-		    publishButton.setDisable(true);
+			publishButton.setText("Approved");
+			publishButton.setDisable(true);
+		} else if (course.isRejected()) {
+			publishButton.setText("Rejected");
+			publishButton.setDisable(false);
 		} else {
-		    publishButton.setDisable(false);
-		    publishButton.setText(course.isPublished() ? "Publishing" : "Publish");
+			publishButton.setDisable(false);
+			publishButton.setText(course.isPublished() ? "Unpublish" : "Publish");
 		}
 	}
 
@@ -143,12 +154,9 @@ public class CourseItemController implements ICourseItemController{
 			return;
 		}
 
-		SceneManager.switchSceneWithData(
-			    "Update Course",
-			    "/frontend/view/instructorCreatePage/instructorUpdatePage.fxml",
-			    (controller, data) -> ((InstructorUpdatePageController) controller).setCourseData(data),
-			    course
-		);
+		SceneManager.switchSceneWithData("Update Course",
+				"/frontend/view/instructorCreatePage/instructorUpdatePage.fxml",
+				(controller, data) -> ((InstructorUpdatePageController) controller).setCourseData(data), course);
 	}
 
 	@FXML
@@ -172,32 +180,40 @@ public class CourseItemController implements ICourseItemController{
 			System.err.println("Error deleting course: " + e.getMessage());
 		}
 	}
+
 	@FXML
 	public void AddLecture(ActionEvent event) throws IOException {
 		if (course == null) {
 			System.err.println("No course data available to remove");
 			return;
 		}
-		CourseSession.setCurrentCourse(course);	
+		CourseSession.setCurrentCourse(course);
 		this.ToAddLecturePage();
 	}
+
 	private void ToAddLecturePage() throws IOException {
-		SceneManager.switchSceneReloadWithData("Add Lecture to Course", "/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml", null, null);
+		SceneManager.switchSceneReloadWithData("Add Lecture to Course",
+				"/frontend/view/instructorCreatePage/instructorAddLecturePage.fxml", null, null);
 	}
-	
+
 	public void PublishCourse(ActionEvent event) throws SQLException {
 		if (courseService == null) {
 			courseService = new CourseService();
 		}
 
-		boolean newPublishStatus = !course.isPublished(); // toggle
-		courseService.PublishByID(course.getCourseID(), newPublishStatus);
-		refreshCourse(); 
+		boolean newPublishStatus = !course.isPublished();
+		course.setPublished(newPublishStatus);
+		if (newPublishStatus) {
+			course.setRejected(false);
+		}
+		courseService.updateCourse(course);
+		refreshCourse();
 	}
+
 	private void refreshCourse() {
 		try {
 			this.course = courseService.GetCourseByID(course.getCourseID());
-			updateUI(); 
+			updateUI();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

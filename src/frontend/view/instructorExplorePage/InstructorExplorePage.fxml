@@ -27,7 +27,7 @@
                 
                 <!-- Navigation Links -->
                 <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
-                    <Label styleClass="nav-link" text="Explore" />
+                    <Label styleClass="nav-link nav-link-active" text="Explore" />
                     <Label fx:id="myCoursesLabel" styleClass="nav-link" text="MyCourse" />
                     <Label fx:id="createCourseLabel" styleClass="nav-link" text="Create Course" />
                 </HBox>
@@ -44,8 +44,8 @@
                     </Button>
                 </HBox>
                 
-                <!-- Icons -->
-                <Button styleClass="icon-button">
+                <!-- Notification Button (merged, với fx:id để controller truy cập) -->
+                <Button fx:id="notificationButton" styleClass="icon-button">
                     <graphic>
                         <ImageView fitHeight="20" fitWidth="20">
                             <Image url="@/images/main_page/icon/Notification.png" />

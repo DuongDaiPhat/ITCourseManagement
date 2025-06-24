@@ -9,104 +9,96 @@ import model.notification.UserNotification;
 import model.notification.NotificationStatus;
 
 public class UserNotificationRepository implements RepositoryInterface<UserNotification> {
-    
-    private Connection connection;
 
-    public UserNotificationRepository() {
-        this.connection = DatabaseConnection.getConnection();
-    }
+	private Connection connection;
 
-    @Override
-    public int Insert(UserNotification notificationDetail) throws SQLException {
-        String sql = "INSERT INTO notificationdetail (notificationID, userID, status) VALUES (?, ?, ?)";
-        PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        statement.setInt(1, notificationDetail.getNotificationID());
-        statement.setInt(2, notificationDetail.getUserID());
-        statement.setString(3, notificationDetail.getStatus().name());
+	public UserNotificationRepository() {
+		this.connection = DatabaseConnection.getConnection();
+	}
 
-        int rowsInserted = statement.executeUpdate();
+	@Override
+	public int Insert(UserNotification notificationDetail) throws SQLException {
+		String sql = "INSERT INTO notificationdetail (notificationID, userID, status) VALUES (?, ?, ?)";
+		PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		statement.setInt(1, notificationDetail.getNotificationID());
+		statement.setInt(2, notificationDetail.getUserID());
+		statement.setString(3, notificationDetail.getStatus().name());
 
-        // Lấy ID vừa được tạo ra (nếu có)
-        if (rowsInserted > 0) {
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                return generatedKeys.getInt(1);
-            }
-        }
-        return -1;
-    }
+		int rowsInserted = statement.executeUpdate();
 
-    @Override
-    public int Update(UserNotification notificationDetail) throws SQLException {
-        String sql = "UPDATE notificationdetail SET status = ? WHERE notificationID = ? AND userID = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, notificationDetail.getStatus().name());
-        statement.setInt(2, notificationDetail.getNotificationID());
-        statement.setInt(3, notificationDetail.getUserID());
+		// Lấy ID vừa được tạo ra (nếu có)
+		if (rowsInserted > 0) {
+			ResultSet generatedKeys = statement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				return generatedKeys.getInt(1);
+			}
+		}
+		return -1;
+	}
 
-        return statement.executeUpdate();
-    }
+	@Override
+	public int Update(UserNotification notificationDetail) throws SQLException {
+		String sql = "UPDATE notificationdetail SET status = ? WHERE notificationID = ? AND userID = ?";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, notificationDetail.getStatus().name());
+		statement.setInt(2, notificationDetail.getNotificationID());
+		statement.setInt(3, notificationDetail.getUserID());
 
-    @Override
-    public int Delete(UserNotification notificationDetail) throws SQLException {
-        String sql = "DELETE FROM notificationdetail WHERE notificationID = ? AND userID = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, notificationDetail.getNotificationID());
-        statement.setInt(2, notificationDetail.getUserID());
+		return statement.executeUpdate();
+	}
 
-        return statement.executeUpdate();
-    }
+	@Override
+	public int Delete(UserNotification notificationDetail) throws SQLException {
+		String sql = "DELETE FROM notificationdetail WHERE notificationID = ? AND userID = ?";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, notificationDetail.getNotificationID());
+		statement.setInt(2, notificationDetail.getUserID());
 
-    @Override
-    public ArrayList<UserNotification> SelectAll() throws SQLException {
-        ArrayList<UserNotification> notificationDetails = new ArrayList<>();
-        String sql = "SELECT * FROM notificationdetail";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+		return statement.executeUpdate();
+	}
 
-        while (resultSet.next()) {
-            UserNotification notificationDetail = new UserNotification(
-                resultSet.getInt("notificationID"),
-                resultSet.getInt("userID"),
-                NotificationStatus.valueOf(resultSet.getString("status").toUpperCase())
-            );
-            notificationDetails.add(notificationDetail);
-        }
-        return notificationDetails;
-    }
+	@Override
+	public ArrayList<UserNotification> SelectAll() throws SQLException {
+		ArrayList<UserNotification> notificationDetails = new ArrayList<>();
+		String sql = "SELECT * FROM notificationdetail";
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
 
-    @Override
-    public UserNotification SelectByID(int id) throws SQLException {
-        String sql = "SELECT * FROM notificationdetail WHERE notificationID = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, id);
-        ResultSet resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			UserNotification notificationDetail = new UserNotification(resultSet.getInt("notificationID"),
+					resultSet.getInt("userID"),
+					NotificationStatus.valueOf(resultSet.getString("status").toUpperCase()));
+			notificationDetails.add(notificationDetail);
+		}
+		return notificationDetails;
+	}
 
-        if (resultSet.next()) {
-            return new UserNotification(
-                resultSet.getInt("notificationID"),
-                resultSet.getInt("userID"),
-                NotificationStatus.valueOf(resultSet.getString("status"))
-            );
-        }
-        return null;
-    }
+	@Override
+	public UserNotification SelectByID(int id) throws SQLException {
+		String sql = "SELECT * FROM notificationdetail WHERE notificationID = ?";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, id);
+		ResultSet resultSet = statement.executeQuery();
 
-    @Override
-    public ArrayList<UserNotification> SelectByCondition(String condition) throws SQLException {
-        ArrayList<UserNotification> notificationDetails = new ArrayList<>();
-        String sql = "SELECT * FROM notificationdetail WHERE " + condition;
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+		if (resultSet.next()) {
+			return new UserNotification(resultSet.getInt("notificationID"), resultSet.getInt("userID"),
+					NotificationStatus.valueOf(resultSet.getString("status")));
+		}
+		return null;
+	}
 
-        while (resultSet.next()) {
-            UserNotification notificationDetail = new UserNotification(
-                resultSet.getInt("notificationID"),
-                resultSet.getInt("userID"),
-                NotificationStatus.valueOf(resultSet.getString("status"))
-            );
-            notificationDetails.add(notificationDetail);
-        }
-        return notificationDetails;
-    }
+	@Override
+	public ArrayList<UserNotification> SelectByCondition(String condition) throws SQLException {
+		ArrayList<UserNotification> notificationDetails = new ArrayList<>();
+		String sql = "SELECT * FROM notificationdetail WHERE " + condition;
+		Statement statement = connection.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+
+		while (resultSet.next()) {
+			UserNotification notificationDetail = new UserNotification(resultSet.getInt("notificationID"),
+					resultSet.getInt("userID"), NotificationStatus.valueOf(resultSet.getString("status")));
+			notificationDetails.add(notificationDetail);
+		}
+		return notificationDetails;
+	}
 }

@@ -10,11 +10,12 @@ import backend.repository.lecture.LectureRepository;
 import model.course.Courses;
 import model.lecture.Lecture;
 
-public class CourseService implements ICourseService{
+public class CourseService implements ICourseService {
 	@Override
 	public Courses GetCourseByID(int id) throws SQLException {
 		return CourseRepository.getInstance().SelectByID(id);
 	}
+
 	public ArrayList<Courses> GetCourseByUserID(int id) throws SQLException {
 		return CourseRepository.getInstance().GetCoursesByUserID(id);
 	}
@@ -30,15 +31,15 @@ public class CourseService implements ICourseService{
 	public void updateCourse(Courses course) throws SQLException {
 		CourseRepository.getInstance().Update(course);
 	}
-	
+
 	public void addLecture(Lecture lecture) throws SQLException {
 		LectureRepository.getInstance().Insert(lecture);
 	}
-	
+
 	public ArrayList<Lecture> getLectureByCourseID(int CourseID) throws SQLException {
 		return LectureRepository.getInstance().SelectByCondition("COURSEID = " + String.valueOf(CourseID));
 	}
-	
+
 	public void DeleteLectureByID(int id) throws SQLException {
 		LectureRepository.getInstance().DeleteByCondition("LECTUREID = " + String.valueOf(id));
 	}
@@ -52,11 +53,13 @@ public class CourseService implements ICourseService{
 	public void PublishByID(int id, boolean status) throws SQLException {
 		CourseRepository.getInstance().PublishByCourseId(id, status);
 	}
+
 	@Override
 	public void UpdateLecture(Lecture lecture) throws SQLException {
 		LectureRepository.getInstance().Update(lecture);
-		
+
 	}
+
 	@Override
 	public void DeleteLecture(Lecture lecture) throws SQLException {
 		LectureRepository.getInstance().Delete(lecture);
@@ -66,10 +69,9 @@ public class CourseService implements ICourseService{
 		ArrayList<Courses> allCourses = CourseRepository.getInstance().SelectAll();
 		return allCourses.stream().filter(course -> !course.isApproved()).collect(Collectors.toList());
 	}
-	
+
 	public ArrayList<Courses> getAllCourses() throws SQLException {
 		return CourseRepository.getInstance().SelectAll();
 	}
-	
-	
+
 }

@@ -17,6 +17,7 @@ CREATE TABLE USERS(
     EMAIL CHAR(50) NOT NULL UNIQUE,
     DESCRIPTION NVARCHAR(512),
     STATUS ENUM('online', 'offline', 'banned'),
+    WARNING_COUNT INT DEFAULT 0,
     CREATEDAT DATE NOT NULL
 );
 
@@ -192,7 +193,11 @@ CREATE TABLE Notification (
     NotificationID INT PRIMARY KEY AUTO_INCREMENT,
     NotificationName VARCHAR(255) CHARACTER SET utf8mb4 NOT NULL,
     Content VARCHAR(512) CHARACTER SET utf8mb4 NOT NULL,
-    NotifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    NotifiedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    NotificationType ENUM('SYSTEM', 'STUDENT', 'INSTRUCTOR') NOT NULL,
+    TargetRole INT,
+    Icon VARCHAR(10),
+    Category VARCHAR(50)
 );
 
 -- Bảng NotificationDetail
@@ -201,7 +206,17 @@ CREATE TABLE NotificationDetail (
     UserID INT,
     Status ENUM('read', 'unread') NOT NULL DEFAULT 'unread',
     PRIMARY KEY (NotificationID, UserID),
-    FOREIGN KEY (NotificationID) REFERENCES Notification(NotificationID)
+    FOREIGN KEY (NotificationID) REFERENCES Notification(NotificationID),
+    FOREIGN KEY (UserID) REFERENCES USERS(UserID)
+);
+
+-- Bảng NotificationTemplate table
+CREATE TABLE NotificationTemplate (
+    TemplateID INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(255) NOT NULL,
+    Content VARCHAR(512) NOT NULL,
+    NotificationType ENUM('SYSTEM', 'STUDENT', 'INSTRUCTOR') NOT NULL,
+    Category VARCHAR(50)
 );
 
 INSERT INTO ROLES(ROLEID, ROLENAME) VALUES

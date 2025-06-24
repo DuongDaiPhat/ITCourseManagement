@@ -32,16 +32,19 @@
 
 				<!-- Navigation Links -->
 				<HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
-					<Label styleClass="nav-link" text="Explore" />
+					<Label fx:id="exploreLabel" styleClass="nav-link"
+						text="Explore" />
 					<Label fx:id="myCourse" styleClass="nav-link" text="MyCourse" />
-					<Label styleClass="nav-link" text="Create Course" />
+					<Label fx:id="createCourse" styleClass="nav-link"
+						text="Create Course" />
 				</HBox>
 
 				<!-- Search Bar -->
 				<HBox styleClass="search-container">
-					<TextField promptText="Search..."
+					<TextField fx:id="searchField" promptText="Search..."
 						styleClass="search-input" />
-					<Button styleClass="search-button">
+					<Button fx:id="searchButton" onAction="#handleSearch"
+						styleClass="search-button">
 						<graphic>
 							<ImageView fitHeight="16" fitWidth="16">
 								<Image url="@/images/main_page/icon/WhiteMagnifier.png" />
@@ -51,16 +54,16 @@
 				</HBox>
 
 				<!-- Icons -->
-				<Button styleClass="icon-button">
+				<Button fx:id="notificationButton" styleClass="icon-button">
 					<graphic>
 						<ImageView fitHeight="20" fitWidth="20">
 							<Image url="@/images/main_page/icon/Notification.png" />
-
 						</ImageView>
 					</graphic>
 				</Button>
 
-				<Button styleClass="icon-button" fx:id = "profileButton">
+				<Button styleClass="icon-button" fx:id="profileButton"
+					onAction="#showProfileMenu">
 					<graphic>
 						<ImageView fitHeight="20" fitWidth="20">
 							<Image url="@/images/main_page/icon/MyProfile.png" />
