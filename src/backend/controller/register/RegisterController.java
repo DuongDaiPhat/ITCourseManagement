@@ -56,10 +56,9 @@ public class RegisterController{
     private Label confirmPasswordError;
     @FXML
     private Label termsError;
-    
-    public void BackToLogin(ActionEvent e) throws IOException {
+      public void BackToLogin(ActionEvent e) throws IOException {
     	this.resetErrors();
-    	SceneManager.goBack();
+    	SceneManager.switchToLoginScene("Login", "/frontend/view/login/Login.fxml");
     }
     
     public void SignIn(ActionEvent e) throws IOException, SQLException {

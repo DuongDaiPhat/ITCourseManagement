@@ -2,10 +2,12 @@ package backend.controller.studentCourseDetailPage;
 
 import backend.controller.scene.SceneManager;
 import backend.controller.payment.PaymentDialogController;
+import backend.repository.course.CourseReviewRepository;
 import backend.service.lecture.LectureService;
 import backend.service.user.UserService;
 import backend.service.payment.PaymentService;
 import backend.service.state.StudentStateManager;
+import backend.service.course.CourseReviewService;
 import backend.util.ImageCache;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +32,7 @@ import model.course.Courses;
 import model.lecture.Lecture;
 import model.user.Session;
 import model.user.Users;
+import model.course.CourseReview;
 
 import java.io.File;
 import java.net.URL;
@@ -92,9 +95,22 @@ public class StudentCourseDetailPageController implements Initializable {
     @FXML private Slider volumeSlider;
     @FXML private Button volumeDownBtn;
     @FXML private Button volumeUpBtn;
-    @FXML private Button fullscreenBtn;    // Services and Data
+    @FXML private Button fullscreenBtn;    // Rating and Review Elements
+    @FXML private Label averageRatingLabel;
+    @FXML private Label totalReviewsLabel;
+    @FXML private Button filterAllBtn;
+    @FXML private Button filter5StarBtn;
+    @FXML private Button filter4StarBtn;
+    @FXML private Button filter3StarBtn;
+    @FXML private Button filter2StarBtn;
+    @FXML private Button filter1StarBtn;
+    @FXML private VBox reviewsContainer;
+    @FXML private Label noReviewsLabel;
+    
+    // Services and Data
     private UserService userService;
     private LectureService lectureService;
+    private CourseReviewService courseReviewService;
     private ContextMenu profileMenu;
     private Courses currentCourse;
     private boolean isCoursePurchased = false;
@@ -109,11 +125,12 @@ public class StudentCourseDetailPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         userService = new UserService();
         lectureService = new LectureService();
-        
-        setupProfileMenu();
+        courseReviewService = new CourseReviewService();
+          setupProfileMenu();
         setupNavigationEvents();
         setupIcons();
         setupStateManager();
+        setupReviewFilterButtons();
         
         // Check if we have course data from Session
         Courses sessionCourse = Session.getCurrentCourse();
@@ -123,6 +140,7 @@ public class StudentCourseDetailPageController implements Initializable {
             
             loadCourseDetails();
             loadLectures();
+            loadCourseReviews();
             
             // Wait a moment for UI to be ready, then update action buttons
             javafx.application.Platform.runLater(() -> {
@@ -186,6 +204,7 @@ public class StudentCourseDetailPageController implements Initializable {
         
         loadCourseDetails();
         loadLectures();
+        loadCourseReviews();
         
         // Wait a moment for UI to be ready, then update action buttons
         javafx.application.Platform.runLater(() -> {
@@ -745,11 +764,10 @@ public class StudentCourseDetailPageController implements Initializable {
             alert.showAndWait();
         } catch (Exception e) {
             System.err.println("Error showing payment methods: " + e.getMessage());
-        }
-    }    private void logout() {
+        }    }    private void logout() {
         try {
             Session.setCurrentUser(null);
-            SceneManager.switchScene("login", "/frontend/view/login/Login.fxml");
+            SceneManager.switchToLoginScene("login", "/frontend/view/login/Login.fxml");
         } catch (Exception e) {
             System.err.println("Error during logout: " + e.getMessage());
         }
@@ -1126,6 +1144,113 @@ public class StudentCourseDetailPageController implements Initializable {
             // Update button text
             fullscreenBtn.setText("⧉");
             isVideoFullscreen = true;
+        }
+    }    private void loadCourseReviews() {
+        if (currentCourse == null) return;
+        
+        // Null check for FXML elements
+        if (averageRatingLabel == null || totalReviewsLabel == null || reviewsContainer == null) {
+            System.err.println("Rating/Review FXML elements not initialized properly");
+            return;
+        }
+        
+        try {
+            int courseId = currentCourse.getCourseID();
+            double avgRating = courseReviewService.getCourseAverageRating(courseId);
+            int reviewCount = courseReviewService.getCourseReviewCount(courseId);
+            ArrayList<CourseReviewRepository.CourseReviewWithName> reviewsWithNames = courseReviewService.getCourseReviewsWithNames(courseId);
+              averageRatingLabel.setText(String.format("%.1f", avgRating));
+            totalReviewsLabel.setText("(" + reviewCount + " reviews)");
+            displayReviewsWithNames(reviewsWithNames);
+            
+            // Set "All" filter button as active by default
+            setActiveFilterButton(0);
+        } catch (Exception e) {
+            System.err.println("Error loading course reviews: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void displayReviewsWithNames(ArrayList<CourseReviewRepository.CourseReviewWithName> reviewsWithNames) {
+        if (reviewsContainer == null) return;
+        
+        reviewsContainer.getChildren().clear();
+        if (reviewsWithNames == null || reviewsWithNames.isEmpty()) {
+            if (noReviewsLabel != null) {
+                noReviewsLabel.setVisible(true);
+            }
+            return;
+        }
+        if (noReviewsLabel != null) {
+            noReviewsLabel.setVisible(false);
+        }
+          for (CourseReviewRepository.CourseReviewWithName reviewWithName : reviewsWithNames) {
+            CourseReview review = reviewWithName.getReview();
+            String reviewerName = reviewWithName.getReviewerName();
+            
+            VBox reviewBox = new VBox();
+            reviewBox.getStyleClass().add("review-item");
+            
+            // Reviewer name (first line)
+            Label reviewerLabel = new Label(reviewerName);
+            reviewerLabel.getStyleClass().add("reviewer-name");
+            
+            // Date (second line)
+            Label dateLabel = new Label(review.getCreatedAt().toLocalDate().toString());
+            dateLabel.getStyleClass().add("review-date");
+            
+            // Rating stars (third line)
+            HBox ratingStars = new HBox();
+            ratingStars.getStyleClass().add("review-rating-stars");
+            String starsText = "★".repeat(review.getRating()) + "☆".repeat(5 - review.getRating());
+            Label starsLabel = new Label(starsText);
+            starsLabel.getStyleClass().add("review-star");
+            ratingStars.getChildren().add(starsLabel);
+            
+            // Review comment (fourth line)
+            Label commentLabel = new Label(review.getComment());
+            commentLabel.getStyleClass().add("review-comment");
+              reviewBox.getChildren().addAll(reviewerLabel, dateLabel, ratingStars, commentLabel);
+            reviewsContainer.getChildren().add(reviewBox);
+        }
+    }
+    
+    private void setupReviewFilterButtons() {
+        if (filterAllBtn != null) filterAllBtn.setOnAction(e -> filterReviews(0));
+        if (filter5StarBtn != null) filter5StarBtn.setOnAction(e -> filterReviews(5));
+        if (filter4StarBtn != null) filter4StarBtn.setOnAction(e -> filterReviews(4));
+        if (filter3StarBtn != null) filter3StarBtn.setOnAction(e -> filterReviews(3));
+        if (filter2StarBtn != null) filter2StarBtn.setOnAction(e -> filterReviews(2));
+        if (filter1StarBtn != null) filter1StarBtn.setOnAction(e -> filterReviews(1));
+    }    private void filterReviews(int star) {
+        if (currentCourse == null) return;
+        int courseId = currentCourse.getCourseID();
+        ArrayList<CourseReviewRepository.CourseReviewWithName> allReviewsWithNames = courseReviewService.getCourseReviewsWithNames(courseId);
+        ArrayList<CourseReviewRepository.CourseReviewWithName> filtered = new ArrayList<>();
+        if (star == 0) {
+            filtered = allReviewsWithNames;
+        } else {
+            for (CourseReviewRepository.CourseReviewWithName rWithName : allReviewsWithNames) {
+                if (rWithName.getReview().getRating() == star) filtered.add(rWithName);
+            }
+        }
+        displayReviewsWithNames(filtered);        setActiveFilterButton(star);
+    }
+    
+    private void setActiveFilterButton(int star) {
+        if (filterAllBtn != null) filterAllBtn.getStyleClass().remove("active");
+        if (filter5StarBtn != null) filter5StarBtn.getStyleClass().remove("active");
+        if (filter4StarBtn != null) filter4StarBtn.getStyleClass().remove("active");
+        if (filter3StarBtn != null) filter3StarBtn.getStyleClass().remove("active");
+        if (filter2StarBtn != null) filter2StarBtn.getStyleClass().remove("active");
+        if (filter1StarBtn != null) filter1StarBtn.getStyleClass().remove("active");
+        switch (star) {
+            case 5: if (filter5StarBtn != null) filter5StarBtn.getStyleClass().add("active"); break;
+            case 4: if (filter4StarBtn != null) filter4StarBtn.getStyleClass().add("active"); break;
+            case 3: if (filter3StarBtn != null) filter3StarBtn.getStyleClass().add("active"); break;
+            case 2: if (filter2StarBtn != null) filter2StarBtn.getStyleClass().add("active"); break;
+            case 1: if (filter1StarBtn != null) filter1StarBtn.getStyleClass().add("active"); break;
+            default: if (filterAllBtn != null) filterAllBtn.getStyleClass().add("active");
         }
     }
 }

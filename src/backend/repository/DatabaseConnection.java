@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import utils.ConfigReader;
 
 public class DatabaseConnection {
+
 	private static Connection connection = null;
 
 	// Dùng biến tĩnh đọc từ ConfigReader 1 lần

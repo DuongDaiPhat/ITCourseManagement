@@ -1,0 +1,138 @@
+/* Rating Dialog Specific Styles */
+
+.rating-dialog-root {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 20, 0, 0, 5);
+}
+
+.rating-dialog-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0a557a;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-max-width: 400px;
+    -fx-alignment: center;
+}
+
+.rating-instruction-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: 500;
+}
+
+.comment-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: 500;
+}
+
+.star-rating-container {
+    -fx-padding: 10px 0;
+}
+
+.star-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 28px;
+    -fx-text-fill: #cccccc;
+    -fx-cursor: hand;
+    -fx-padding: 8px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-background-radius: 50%;
+}
+
+.star-button:hover {
+    -fx-scale-x: 1.15;
+    -fx-scale-y: 1.15;
+    -fx-background-color: rgba(255, 193, 7, 0.1);
+}
+
+.star-button:pressed {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.star-button-filled {
+    -fx-text-fill: #ffc107;
+}
+
+.star-button-empty {
+    -fx-text-fill: #cccccc;
+}
+
+.star-button-preview {
+    -fx-text-fill: #ffeb3b;
+}
+
+.rating-comment-area {
+    -fx-font-size: 14px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px;
+    -fx-background-color: #fafafa;
+}
+
+.rating-comment-area:focused {
+    -fx-border-color: #0a557a;
+    -fx-border-width: 2px;
+    -fx-background-color: white;
+}
+
+.submit-rating-button {
+    -fx-background-color: #0a557a;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 24px;
+    -fx-font-size: 14px;
+    -fx-min-width: 120px;
+}
+
+.submit-rating-button:hover {
+    -fx-background-color: #1ca3b6;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.submit-rating-button:pressed {
+    -fx-background-color: #094651;
+}
+
+.cancel-rating-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 24px;
+    -fx-font-size: 14px;
+    -fx-min-width: 120px;
+}
+
+.cancel-rating-button:hover {
+    -fx-background-color: #545b62;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.cancel-rating-button:pressed {
+    -fx-background-color: #454d55;
+}
+
+/* Animation effects */
+.star-button {
+    -fx-transition: -fx-scale-x 0.1s ease, -fx-scale-y 0.1s ease, -fx-background-color 0.1s ease;
+}
+
+.submit-rating-button, .cancel-rating-button {
+    -fx-transition: -fx-scale-x 0.1s ease, -fx-scale-y 0.1s ease, -fx-background-color 0.1s ease;
+}

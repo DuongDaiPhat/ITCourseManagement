@@ -362,6 +362,127 @@
     -fx-font-size: 14.0px;
 }
 
+/* Course Rating Dialog Styles */
+#ratingOverlay {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.review-dialog {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 5);
+}
+
+.review-dialog-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0a557a;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-max-width: 400px;
+}
+
+.star-rating-container {
+    -fx-padding: 10px 0;
+}
+
+.star-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 24px;
+    -fx-text-fill: #cccccc;
+    -fx-cursor: hand;
+    -fx-padding: 5px;
+    -fx-min-width: 35px;
+    -fx-min-height: 35px;
+}
+
+.star-button:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.star-button-filled {
+    -fx-text-fill: #ffc107;
+}
+
+.star-button-empty {
+    -fx-text-fill: #cccccc;
+}
+
+.star-button-preview {
+    -fx-text-fill: #ffeb3b;
+}
+
+.review-comment-area {
+    -fx-font-size: 14px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px;
+}
+
+.review-comment-area:focused {
+    -fx-border-color: #0a557a;
+    -fx-border-width: 2px;
+}
+
+.submit-rating-button {
+    -fx-background-color: #0a557a;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+}
+
+.submit-rating-button:hover {
+    -fx-background-color: #1ca3b6;
+}
+
+.cancel-rating-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 20px;
+    -fx-font-size: 14px;
+}
+
+.cancel-rating-button:hover {
+    -fx-background-color: #545b62;
+}
+
+.rate-course-button {
+    -fx-background-color: #ffc107;
+    -fx-text-fill: #212529;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 6px;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 12px;
+    -fx-margin: 5px 0 0 0;
+}
+
+.rate-course-button:hover {
+    -fx-background-color: #e0a800;
+}
+
+.update-rating-button {
+    -fx-background-color: #17a2b8;
+    -fx-text-fill: white;
+}
+
+.update-rating-button:hover {
+    -fx-background-color: #138496;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .learning-course-item {

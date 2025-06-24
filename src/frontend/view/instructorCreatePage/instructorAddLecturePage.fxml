@@ -14,157 +14,131 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000"
-	stylesheets="@instructorAddLecturePage.css"
-	xmlns="http://javafx.com/javafx/21.0.6"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="backend.controller.instructorCreatePageController.InstructorAddLectureController">
-	<top>
-		<!-- Navigation Bar -->
-		<VBox styleClass="navigation">
-			<!-- Top Navigation Bar -->
-			<HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav">
-				<padding>
-					<Insets bottom="10" left="20" right="20" top="10" />
-				</padding>
-
-				<!-- Company Logo and Name -->
-				<Label styleClass="company-name" text="AiTeeCo" />
-
-				<!-- Navigation Links -->
-				<HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
-					<Label styleClass="nav-link" text="Explore" />
-					<Label fx:id="myCourse" styleClass="nav-link" text="MyCourse" />
-					<Label fx:id="createCourse" styleClass="nav-link"
-						text="Create Course" />
-				</HBox>
-
-				<!-- Search Bar -->
-				<HBox styleClass="search-container">
-					<TextField promptText="Search..."
-						styleClass="search-input" />
-					<Button styleClass="search-button">
-						<graphic>
-							<ImageView fitHeight="16" fitWidth="16">
-								<Image url="@/images/main_page/icon/WhiteMagnifier.png" />
-							</ImageView>
-						</graphic>
-					</Button>
-				</HBox>
-
-				<!-- Icons -->
-				<Button fx:id="notificationButton" styleClass="icon-button">
-					<graphic>
-						<ImageView fitHeight="20" fitWidth="20">
-							<Image url="@/images/main_page/icon/Notification.png" />
-						</ImageView>
-					</graphic>
-				</Button>
-
-				<Button styleClass="icon-button" fx:id="profileButton">
-					<graphic>
-						<ImageView fitHeight="20" fitWidth="20">
-							<Image url="@/images/main_page/icon/MyProfile.png" />
-						</ImageView>
-					</graphic>
-				</Button>
-			</HBox>
-
-			<!-- Bottom Decoration Bar -->
-			<HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0"
-				styleClass="bottom-nav" />
-		</VBox>
-	</top>
-	<center>
-		<!--Main -->
-		<VBox styleClass="main-card">
-			<Label fx:id="goBack" styleClass="go-back-label" text="⬅" />
-			<HBox styleClass="title-card">
-				<Label fx:id="courseLabel" prefHeight="43.0" prefWidth="960.0"
-					styleClass="course-label" text="null" />
-			</HBox>
-			<ScrollPane id="myScrollPane" fx:id="mainScrollPane"
-				fitToWidth="true">
-				<content>
-					<VBox fx:id="mainContainer" spacing="10"
-						styleClass="main-container">
-						<!-- Add Lecture Bar -->
-						<VBox styleClass="lecture-bar-container">
-							<HBox fx:id="addLectureBar"
-								onMouseClicked="#toggleAddLectureForm"
-								styleClass="add-lecture-bar">
-								<Label styleClass="bar-title" text="Add Lecture" />
-								<Region HBox.hgrow="ALWAYS" />
-								<Label fx:id="addLectureArrow" styleClass="arrow" text="▲" />
-								<padding>
-									<Insets bottom="10" left="15" right="15" top="10" />
-								</padding>
-							</HBox>
-
-							<!-- Create Lecture Form (Hidden by default) -->
-							<VBox fx:id="createLectureForm" managed="false"
-								styleClass="lecture-form" visible="false">
-								<padding>
-									<Insets bottom="15" left="15" right="15" top="15" />
-								</padding>
-
-								<Label styleClass="form-label" text="Lecture Name:" />
-								<TextField fx:id="lectureName"
-									promptText="Enter lecture name" styleClass="form-field" />
-
-								<Label styleClass="form-label" text="Video URL:" />
-								<HBox spacing="10">
-									<TextField fx:id="videoUrl"
-										promptText="Enter video URL" styleClass="form-field"
-										HBox.hgrow="ALWAYS" />
-									<Button onAction="#browseVideo"
-										styleClass="browse-button" text="Browse" />
-								</HBox>
-								<MediaView fx:id="mediaView" fitWidth="600"
-									preserveRatio="true" />
-								<Label styleClass="form-label" text="Duration (minutes):" />
-								<TextField fx:id="duration" disable="true"
-									promptText="Duration will be calculated automatically"
-									styleClass="form-field" />
-
-								<Label styleClass="form-label" text="Lecture Description:" />
-								<TextArea fx:id="lectureDescription" prefRowCount="4"
-									promptText="Enter lecture description"
-									styleClass="description-field" wrapText="true" />
-
-								<HBox alignment="CENTER_RIGHT" spacing="10">
-									<Button onAction="#cancelAddLecture"
-										styleClass="cancel-button" text="Cancel" />
-									<Button onAction="#addLecture" styleClass="add-button"
-										text="Add Lecture" />
-								</HBox>
-							</VBox>
-						</VBox>
-
-						<!-- Existing Lectures Container -->
-						<VBox fx:id="lecturesContainer" spacing="10">
-							<!-- Lecture cards will be added here dynamically -->
-						</VBox>
-					</VBox>
-				</content>
+<BorderPane prefHeight="700.0" prefWidth="1000" stylesheets="@instructorAddLecturePage.css" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.controller.instructorCreatePageController.InstructorAddLectureController">
+    <top>
+        <!-- Navigation Bar -->
+        <VBox styleClass="navigation">
+            <!-- Top Navigation Bar -->
+            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav">
+                <padding>
+                    <Insets bottom="10" left="20" right="20" top="10" />
+                </padding>
+                
+                <!-- Company Logo and Name -->
+                <Label styleClass="company-name" text="AiTeeCo" />
+                
+                <!-- Navigation Links -->
+                <HBox alignment="CENTER_LEFT" spacing="15" HBox.hgrow="ALWAYS">
+                    <Label styleClass="nav-link" text="Explore" />
+                    <Label fx:id="myCourse" styleClass="nav-link" text="MyCourse" />
+                    <Label fx:id="createCourse" styleClass="nav-link" text="Create Course" />
+                </HBox>
+                
+                <!-- Search Bar -->
+                <HBox styleClass="search-container">
+                    <TextField promptText="Search..." styleClass="search-input" />
+                    <Button styleClass="search-button">
+                        <graphic>
+                            <ImageView fitHeight="16" fitWidth="16">
+                                <Image url="@/images/main_page/icon/WhiteMagnifier.png" />
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </HBox>
+                
+                <!-- Notification Button (merged, với fx:id để controller truy cập) -->
+                <Button fx:id="notificationButton" styleClass="icon-button">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <Image url="@/images/main_page/icon/Notification.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+                
+                <Button styleClass="icon-button" fx:id="profileButton">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <Image url="@/images/main_page/icon/MyProfile.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </HBox>
+            
+            <!-- Bottom Decoration Bar -->
+            <HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0" styleClass="bottom-nav" />
+        </VBox>
+       </top>
+       <center>       <!--Main-->
+       <VBox styleClass="main-card">
+	       <HBox styleClass="title-card" alignment="CENTER_LEFT">
+	       		<Label fx:id="goBack" styleClass="go-back-label" text="⬅"/>
+	       		<Label fx:id="courseLabel" prefHeight="43.0" styleClass="course-label" text="null" HBox.hgrow="ALWAYS"/>
+	       </HBox>
+	       <ScrollPane id="myScrollPane" fx:id="mainScrollPane" fitToWidth="true">
+		    <content>
+		        <VBox fx:id="mainContainer" spacing="10" styleClass="main-container">
+		            <!-- Add Lecture Bar -->
+		            <VBox styleClass="lecture-bar-container">
+		                <HBox fx:id="addLectureBar" onMouseClicked="#toggleAddLectureForm" styleClass="add-lecture-bar">
+		                    <Label styleClass="bar-title" text="Add Lecture" />
+		                    <Region HBox.hgrow="ALWAYS" />
+		                    <Label fx:id="addLectureArrow" styleClass="arrow" text="▲" />
+		                    <padding>
+		                        <Insets bottom="10" left="15" right="15" top="10" />
+		                    </padding>
+		                </HBox>
+		                
+		                <!-- Create Lecture Form (Hidden by default) -->
+		                <VBox fx:id="createLectureForm" managed="false" styleClass="lecture-form" visible="false">
+		                    <padding>
+		                        <Insets bottom="15" left="15" right="15" top="15" />
+		                    </padding>
+		                    
+		                    <Label styleClass="form-label" text="Lecture Name:" />
+		                    <TextField fx:id="lectureName" promptText="Enter lecture name" styleClass="form-field" />
+		                    
+		                    <Label styleClass="form-label" text="Video URL:" />
+		                    <HBox spacing="10">
+		                        <TextField fx:id="videoUrl" promptText="Enter video URL" styleClass="form-field" HBox.hgrow="ALWAYS" />
+		                        <Button onAction="#browseVideo" styleClass="browse-button" text="Browse" />
+		                    </HBox>
+		                    <MediaView fx:id="mediaView" fitWidth="600" preserveRatio="true" />
+		                    <Label styleClass="form-label" text="Duration (minutes):" />
+		                    <TextField fx:id="duration" disable="true" promptText="Duration will be calculated automatically" styleClass="form-field" />
+		                    
+		                    <Label styleClass="form-label" text="Lecture Description:" />
+		                    <TextArea fx:id="lectureDescription" prefRowCount="4" promptText="Enter lecture description" styleClass="description-field" wrapText="true" />
+		                    
+		                    <HBox alignment="CENTER_RIGHT" spacing="10">
+		                        <Button onAction="#cancelAddLecture" styleClass="cancel-button" text="Cancel" />
+		                        <Button onAction="#addLecture" styleClass="add-button" text="Add Lecture" />
+		                    </HBox>
+		                </VBox>
+		            </VBox>
+		            
+			            <!-- Existing Lectures Container -->
+			            <VBox fx:id="lecturesContainer" spacing="10">
+			                <!-- Lecture cards will be added here dynamically -->
+			            </VBox>
+		       		</VBox>
+		   		 </content>
 			</ScrollPane>
 		</VBox>
-	</center>
+	</center> 
 	<bottom>
-		<!-- Footer -->
-		<HBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0"
-			styleClass="footer">
-			<padding>
-				<Insets bottom="20" left="30" right="30" top="20" />
-			</padding>
-
-			<HBox alignment="CENTER" spacing="15">
-
-				<VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-					<Label styleClass="footer-text" text="AiTeeCo © 2025" />
-					<Label styleClass="footer-text" text="All rights reserved" />
-				</VBox>
-			</HBox>
-		</HBox>
-	</bottom>
+        <!-- Footer -->
+        <HBox alignment="CENTER" prefHeight="86.0" prefWidth="1000.0" styleClass="footer">
+            <padding>
+                <Insets bottom="20" left="30" right="30" top="20" />
+            </padding>
+            
+            <HBox alignment="CENTER" spacing="15">
+               
+               <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                   <Label styleClass="footer-text" text="AiTeeCo © 2025" />
+                   <Label styleClass="footer-text" text="All rights reserved" />
+               </VBox>
+            </HBox>
+        </HBox>
+   </bottom>
 </BorderPane>

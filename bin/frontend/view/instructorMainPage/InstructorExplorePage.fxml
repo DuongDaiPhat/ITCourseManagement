@@ -18,14 +18,14 @@
         <!-- Navigation Bar -->
         <VBox styleClass="navigation">
             <!-- Top Navigation -->
-            <HBox alignment="CENTER_LEFT" styleClass="top-nav">
+            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-nav">
                 <padding>
                     <Insets bottom="10" left="20" right="20" top="10" />
                 </padding>
 
                 <!-- Company Logo and Name -->
                 <Label styleClass="company-name" text="AiTeecCo" />
-
+				
                 <!-- Search Bar -->
                 <HBox alignment="CENTER" styleClass="search-container" HBox.hgrow="ALWAYS">
                     <TextField fx:id="searchField" promptText="Search courses..." styleClass="search-input" />

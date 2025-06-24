@@ -74,10 +74,9 @@
 
 			<!-- Bottom Decoration Bar -->
 			<HBox minHeight="6.0" prefHeight="6.0" prefWidth="1000.0"
-				styleClass="bottom-nav" />
-		</VBox>
+				styleClass="bottom-nav" />		</VBox>
 		<!-- Content -->
-		<VBox styleClass="content-card">
+		<VBox styleClass="content-card" VBox.vgrow="ALWAYS">
 			<children>
 				<!-- Title -->
 				<HBox styleClass="title-card">

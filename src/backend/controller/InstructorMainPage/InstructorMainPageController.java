@@ -335,6 +335,25 @@ public class InstructorMainPageController implements IInstructorMainPageControll
 		SceneManager.clearSceneCache();
 		SceneManager.switchScene("Login", "/frontend/view/login/Login.fxml");
 	}
+    
+    private void showProfileMenu() {
+        profileMenu.show(profileButton, profileButton.localToScreen(0, profileButton.getHeight()).getX(), 
+                     profileButton.localToScreen(0, profileButton.getHeight()).getY());
+    }
+    
+    // Methods to handle menu item actions
+    private void showProfileInfo() {
+        SceneManager.switchScene("My Information", "/frontend/view/UserProfile/UserProfile.fxml");
+    }
+    
+    private void showPaymentMethods() {
+    	SceneManager.switchScene("Payment", "/frontend/view/payment/paymentMethod.fxml");
+    
+    }
+      private void logout() {
+        SceneManager.clearSceneCache();
+        SceneManager.switchToLoginScene("Login", "/frontend/view/login/Login.fxml");
+    }
 
 	public void CreateCoursePage(ActionEvent e) throws IOException {
 		this.ToCreateCoursePage();

@@ -16,6 +16,7 @@ public enum Category {
 	Game_Development,
 	Machine_Learning,
 	Mobile_Development,
+	Programming_Language,
 	Project_Management,
 	Testing_and_QA,
 	UI_UX,

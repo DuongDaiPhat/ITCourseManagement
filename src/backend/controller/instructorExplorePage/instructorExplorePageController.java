@@ -3,6 +3,7 @@ package backend.controller.instructorExplorePage;
 import backend.controller.scene.SceneManager;
 import backend.service.course.CourseService;
 import backend.service.user.UserService;
+import backend.service.course.CourseReviewService;
 import backend.service.sample.SampleDataService;
 import backend.repository.notification.NotificationRepository;
 import model.notification.UserNotification;
@@ -23,6 +24,9 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Popup;
 import model.course.Category;
 import model.course.Courses;
+import model.course.Language;
+import model.course.Technology;
+import model.course.Level;
 import model.user.Users;
 import model.user.Session;
 import backend.util.ImageCache;
@@ -35,6 +39,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class instructorExplorePageController implements Initializable {
+
 
 	@FXML
 	private TextField searchField;
@@ -315,9 +320,58 @@ public class instructorExplorePageController implements Initializable {
 		categoryFilter.setValue("All Categories");
 	}
 
-	private String formatCategoryName(String categoryName) {
-		return categoryName.replace("_", " ");
-	}
+	 private String formatCategoryName(String categoryName) {
+        return categoryName.replace("_", " ");
+    }    private void loadCoursesFromDatabase() {
+        try {
+            // Load courses from database using CourseService
+            List<Courses> coursesFromDB = courseService.getAllCourses();
+            
+            // Filter only approved and published courses
+            allCourses = FXCollections.observableArrayList();
+            coursesByCategory = new HashMap<>();
+            
+            // Initialize category map
+            for (Category category : Category.values()) {
+                coursesByCategory.put(category, new ArrayList<>());
+            }            // Add courses to appropriate categories
+            for (Courses course : coursesFromDB) {
+                if (course.isApproved() && course.isPublished()) {
+                    // Only set default if thumbnailURL is truly null or empty
+                    // Don't override existing URLs (which might be absolute paths)
+                    if (course.getThumbnailURL() == null || course.getThumbnailURL().trim().isEmpty()) {
+                        course.setThumbnailURL("/images/default_image.png");
+                        System.out.println("Course " + course.getCourseName() + " has no thumbnail, using default");
+                    }
+                    
+                    allCourses.add(course);
+                    coursesByCategory.get(course.getCategory()).add(course);
+                }
+            }
+            
+            // If no courses found, create sample data for demonstration
+            if (allCourses.isEmpty()) {
+                System.out.println("No courses found in database, using sample data...");
+                createSampleCourses();
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Error loading courses from database: " + e.getMessage());
+            e.printStackTrace();
+            
+            // Fallback to sample data
+            allCourses = FXCollections.observableArrayList();
+            coursesByCategory = new HashMap<>();
+            
+            // Initialize category map
+            for (Category category : Category.values()) {
+                coursesByCategory.put(category, new ArrayList<>());
+            }
+            
+            createSampleCourses();
+        }
+    }    
+
 
 	private void loadCoursesFromDatabase() {
 		try {
@@ -370,40 +424,54 @@ public class instructorExplorePageController implements Initializable {
 	}
 
 	private void createSampleCourses() {
-		// Sample data - replace with actual database data
-		String[] courseNames = { "Introduction to Machine Learning", "Web Development Bootcamp", "Python for Beginners",
-				"Advanced Java Programming", "Data Science Fundamentals", "Mobile App Development",
-				"Cybersecurity Essentials", "Cloud Computing Basics", "AI and Deep Learning",
-				"Game Development with Unity", "UI/UX Design Principles", "DevOps Fundamentals" };
-
-		// Use real thumbnail images from user_data
-		String[] thumbnails = { "/user_data/images/602e4edc-f79f-45f9-a1b2-2f164b864f43_Python.png",
-				"/user_data/images/aaf67bfb-2256-4cdc-b9ca-165f71624d3a_Acer_Wallpaper_01_5000x2814.jpg",
-				"/user_data/images/3d11874b-0732-4796-b72a-58def05b4035_Python.png",
-				"/user_data/images/befe3d55-a143-4fb2-bbc0-31af817ae751_Java.jpg",
-				"/user_data/images/9cc4ca8d-8ac2-45f8-8ce1-fccb6f8feccb_SDL2.png",
-				"/user_data/images/d34c8ae1-3555-477b-aa1f-c038a2b11246_SDL2.png", "/images/default_image.png",
-				"/images/default_image.png", "/user_data/images/602e4edc-f79f-45f9-a1b2-2f164b864f43_Python.png",
-				"/user_data/images/befe3d55-a143-4fb2-bbc0-31af817ae751_Java.jpg", "/images/default_image.png",
-				"/images/default_image.png" };
-
-		Category[] categories = Category.values();
-
-		for (int i = 0; i < courseNames.length; i++) {
-			Courses course = new Courses();
-			course.setCourseID(i + 1);
-			course.setCourseName(courseNames[i]);
-			course.setCategory(categories[i % categories.length]);
-			course.setPrice(49.99f + (i * 10));
-			course.setThumbnailURL(thumbnails[i]);
-			course.setCourseDescription("A comprehensive course covering " + courseNames[i].toLowerCase());
-			course.setApproved(true);
-			course.setPublished(true);
-
-			allCourses.add(course);
-			coursesByCategory.get(course.getCategory()).add(course);
-		}
-	}
+        // Sample data - replace with actual database data
+        String[] courseNames = {
+            "Introduction to Machine Learning", "Web Development Bootcamp", "Python for Beginners",
+            "Advanced Java Programming", "Data Science Fundamentals", "Mobile App Development",
+            "Cybersecurity Essentials", "Cloud Computing Basics", "AI and Deep Learning",
+            "Game Development with Unity", "UI/UX Design Principles", "DevOps Fundamentals"
+        };
+        
+        // Use real thumbnail images from user_data
+        String[] thumbnails = {
+            "/user_data/images/602e4edc-f79f-45f9-a1b2-2f164b864f43_Python.png",
+            "/user_data/images/aaf67bfb-2256-4cdc-b9ca-165f71624d3a_Acer_Wallpaper_01_5000x2814.jpg",
+            "/user_data/images/3d11874b-0732-4796-b72a-58def05b4035_Python.png",
+            "/user_data/images/befe3d55-a143-4fb2-bbc0-31af817ae751_Java.jpg",
+            "/user_data/images/9cc4ca8d-8ac2-45f8-8ce1-fccb6f8feccb_SDL2.png",
+            "/user_data/images/d34c8ae1-3555-477b-aa1f-c038a2b11246_SDL2.png",
+            "/images/default_image.png",
+            "/images/default_image.png",
+            "/user_data/images/602e4edc-f79f-45f9-a1b2-2f164b864f43_Python.png",
+            "/user_data/images/befe3d55-a143-4fb2-bbc0-31af817ae751_Java.jpg",
+            "/images/default_image.png",
+            "/images/default_image.png"
+        };
+          Category[] categories = Category.values();
+        Language[] languages = {Language.English, Language.Vietnamese, Language.Japanese, Language.English, Language.Vietnamese, Language.English, Language.Japanese, Language.English, Language.Vietnamese, Language.English, Language.Japanese, Language.Vietnamese};
+        Technology[] technologies = {Technology.Python, Technology.JavaScript, Technology.Python, Technology.Java, Technology.Python, Technology.Kotlin, Technology.CSharp, Technology.GoLang, Technology.Python, Technology.CSharp, Technology.JavaScript, Technology.Java};
+        Level[] levels = {Level.BEGINNER, Level.INTERMEDIATE, Level.BEGINNER, Level.ADVANCED, Level.INTERMEDIATE, Level.INTERMEDIATE, Level.BEGINNER, Level.BEGINNER, Level.ADVANCED, Level.INTERMEDIATE, Level.BEGINNER, Level.INTERMEDIATE};
+        
+        for (int i = 0; i < courseNames.length; i++) {
+            Courses course = new Courses();
+            course.setCourseID(i + 1);
+            course.setCourseName(courseNames[i]);
+            course.setCategory(categories[i % categories.length]);
+            course.setPrice(49.99f + (i * 10));
+            course.setThumbnailURL(thumbnails[i]);
+            course.setCourseDescription("A comprehensive course covering " + courseNames[i].toLowerCase());
+            course.setApproved(true);
+            course.setPublish(true);
+            
+            // Set language, technology, and level attributes
+            course.setLanguage(languages[i]);
+            course.setTechnology(technologies[i]);
+            course.setLevel(levels[i]);
+            
+            allCourses.add(course);
+            coursesByCategory.get(course.getCategory()).add(course);
+        }
+    }
 
 	private void displayAllCourses() {
 		coursesContainer.getChildren().clear();
@@ -772,14 +840,4 @@ public class instructorExplorePageController implements Initializable {
 			}
 		}
 
-		// Test a sample image path
-		String samplePath = "/user_data/images/602e4edc-f79f-45f9-a1b2-2f164b864f43_Python.png";
-		String relativePath = samplePath.substring(1); // Remove leading slash
-		File testFile = new File(projectRoot, relativePath);
 
-		System.out.println("Sample image path: " + samplePath);
-		System.out.println("Resolved file path: " + testFile.getAbsolutePath());
-		System.out.println("File exists: " + testFile.exists());
-		System.out.println("=========================");
-	}
-}
